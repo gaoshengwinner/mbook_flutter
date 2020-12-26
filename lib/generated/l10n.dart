@@ -35,31 +35,41 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `点餐DIY`
-  String get title {
+  /// `Food BooK`
+  String get common_all_title {
     return Intl.message(
-      '点餐DIY',
-      name: 'title',
+      'Food BooK',
+      name: 'common_all_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `app_name`
-  String get app_name {
+  /// `Join`
+  String get home_login_button_title {
     return Intl.message(
-      'app_name',
-      name: 'app_name',
+      'Join',
+      name: 'home_login_button_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `英文`
-  String get app_test {
+  /// `Scan`
+  String get home_scan_button_title {
     return Intl.message(
-      '英文',
-      name: 'app_test',
+      'Scan',
+      name: 'home_scan_button_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in`
+  String get login_title {
+    return Intl.message(
+      'Sign in',
+      name: 'login_title',
       desc: '',
       args: [],
     );

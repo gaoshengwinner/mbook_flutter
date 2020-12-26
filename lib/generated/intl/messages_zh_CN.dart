@@ -21,8 +21,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "app_name" : MessageLookupByLibrary.simpleMessage("app_name"),
-    "app_test" : MessageLookupByLibrary.simpleMessage("中文"),
-    "title" : MessageLookupByLibrary.simpleMessage("my title")
+    "common_all_title" : MessageLookupByLibrary.simpleMessage("Food BooK"),
+    "home_login_button_title" : MessageLookupByLibrary.simpleMessage("Join"),
+    "home_scan_button_title" : MessageLookupByLibrary.simpleMessage("Scan"),
+    "login_title" : MessageLookupByLibrary.simpleMessage("Sign in")
   };
 }

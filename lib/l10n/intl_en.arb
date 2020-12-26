@@ -1,5 +1,7 @@
 {
-  "title": "点餐DIY",
-  "app_name": "app_name",
-  "app_test": "英文"
+  "common_all_title": "Food BooK",
+  "home_login_button_title": "Join",
+  "home_scan_button_title": "Scan",
+
+  "login_title": "Sign in"
 }
