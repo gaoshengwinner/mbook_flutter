@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class G{
   // APP基本色
-  static Color appBaseColor = Colors.red;
+  static List<Color> appBaseColor = [Colors.deepOrange, Colors.orangeAccent];
 
 
 
@@ -22,6 +22,7 @@ class G{
 
 // routes
  static final String ROUTES_LOGIN = "/login_page";
+  static final String ROUTES_HOME = "/home";
 
 
 }

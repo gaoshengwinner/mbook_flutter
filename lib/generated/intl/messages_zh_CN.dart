@@ -24,6 +24,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "common_all_title" : MessageLookupByLibrary.simpleMessage("Food BooK"),
     "home_login_button_title" : MessageLookupByLibrary.simpleMessage("Join"),
     "home_scan_button_title" : MessageLookupByLibrary.simpleMessage("Scan"),
-    "login_title" : MessageLookupByLibrary.simpleMessage("Sign in")
+    "login_login_title" : MessageLookupByLibrary.simpleMessage("Sign in"),
+    "login_title" : MessageLookupByLibrary.simpleMessage("Sign in"),
+    "menu_login_title" : MessageLookupByLibrary.simpleMessage("Sign in"),
+    "menu_logout_title" : MessageLookupByLibrary.simpleMessage("Sign out")
   };
 }

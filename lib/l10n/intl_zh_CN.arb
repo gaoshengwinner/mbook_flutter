@@ -3,5 +3,9 @@
   "home_login_button_title": "Join",
   "home_scan_button_title": "Scan",
 
-  "login_title": "Sign in"
+  "login_title": "Sign in",
+  "menu_logout_title": "Sign out",
+  "menu_login_title": "Sign in",
+  "login_login_title": "Sign in"
+
 }

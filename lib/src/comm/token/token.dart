@@ -12,7 +12,7 @@ class TokenUtil{
   static Future<String> getRefreshToken() async {
     final storage = new FlutterSecureStorage();
     final tokenString =  await storage.read(key: G.KEY_CHAIN_TOKEN);
-    if (tokenString.isEmpty) {
+    if (tokenString == null || tokenString.isEmpty) {
       return null;
     }
     final token = Token.fromJson(jsonDecode(tokenString));
@@ -54,7 +54,7 @@ class TokenUtil{
   static Future<bool> checkRefreshToken() async{
     final result = await getRefreshToken();
     print("test");
-    return !result.isEmpty;
+    return result != null && !result.isEmpty;
   }
   
   static saveToken(Token toke) async{
@@ -62,6 +62,11 @@ class TokenUtil{
     toke.accessTokenDate = DateTime.now();
     toke.refressBeginDate = DateTime.now();
     storage.write(key: G.KEY_CHAIN_TOKEN, value: toke.getJsonString());
+  }
+
+  static clearToken() async{
+    final storage = new FlutterSecureStorage();
+    storage.deleteAll();
   }
 
 

@@ -74,6 +74,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Sign out`
+  String get menu_logout_title {
+    return Intl.message(
+      'Sign out',
+      name: 'menu_logout_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in`
+  String get menu_login_title {
+    return Intl.message(
+      'Sign in',
+      name: 'menu_login_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in`
+  String get login_login_title {
+    return Intl.message(
+      'Sign in',
+      name: 'login_login_title',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

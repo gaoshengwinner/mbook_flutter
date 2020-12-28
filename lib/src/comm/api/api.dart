@@ -10,7 +10,7 @@ import 'package:mbook_flutter/src/comm/model/Token.dart';
 import 'package:mbook_flutter/src/comm/token/token.dart';
 
 class Api {
-  static String _BASE_API_URL = "http://a318f3cf2380.ngrok.io";
+  static String _BASE_API_URL = "https://1938d4f6ffd2.ngrok.io";
   static String _LOGIN_URL = _BASE_API_URL + "/v1/api/member/login";
 
   static String _CONTENT_TYPE = "application/json; charset=utf-8";
@@ -18,7 +18,7 @@ class Api {
   static String _AUTHON_REFRESH_HEADER = "AUTHON_REFRESH_HEADER";
   static String _AUTHON_ACCESS_HEADER = "AUTHON_ACCESS_HEADER";
 
-  static Future<Object> login(String mail, String pws) async{
+  static Future<List<Object>> login(String mail, String pws) async{
 
     String body = jsonEncode(<String, String>{
       'memberEmail': mail,
@@ -27,7 +27,7 @@ class Api {
     return await doPostNoNeedLoginApi(_LOGIN_URL, body);
   }
 
-  static Future<Object> doPostNoNeedLoginApi(String url, String body) async {
+  static Future<List<Object>> doPostNoNeedLoginApi(String url, String body) async {
     final deviceInfo = await DeviceHelper.getDeviceInfo();
     final response = await http.post(
       url,
@@ -39,16 +39,18 @@ class Api {
     );
 
     print(response.body);
+    List<Object> resultList = [response.statusCode, ""];
+    String responsebody = utf8.decode(response.bodyBytes);
     if (response.statusCode == 200) {
-      final result = LoginResult.fromJson(jsonDecode(response.body));
-      await TokenUtil.saveToken(Token.fromJson(jsonDecode(response.body)));
-      return result;
+      resultList[1] = LoginResult.fromJson(jsonDecode(responsebody));
+      await TokenUtil.saveToken(Token.fromJson(jsonDecode(responsebody)));
+      return resultList;
     } else {
       if (response.statusCode == 400) {
-        final result = LoginResult.fromJson(jsonDecode(response.body));
-        return result;
+        resultList[1] = LoginResult.fromJson(jsonDecode(responsebody));
+        return resultList;
       }
-      throw Exception(response.body);
+      throw Exception(responsebody);
     }
   }
 }

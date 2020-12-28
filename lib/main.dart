@@ -46,6 +46,8 @@ class MyApp extends StatelessWidget {
 
             routes:{
               G.ROUTES_LOGIN: (context) => LoginPage(),
+              G.ROUTES_HOME: (context) => HomePage(),
+
             }
             // 手动切换语言Start
             // new Builder(builder: (context) {
