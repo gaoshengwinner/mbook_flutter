@@ -4,8 +4,14 @@
   "home_scan_button_title": "Scan",
 
   "login_title": "Sign in",
+  "menu_mystore_title": "My store",
   "menu_logout_title": "Sign out",
   "menu_login_title": "Sign in",
-  "login_login_title": "Sign in"
-
+  "login_login_title": "Sign in",
+  "login_mail_hintText": "Mail",
+  "login_password_hintText": "Password",
+  "login_email_validator_empty_msg": "Please enter Your email address.",
+  "login_email_validator_not_valid_msg": "Please enter a valid email address. ",
+  "login_password_validator_empty_msg": "Please enter your password. ",
+  "mystore_title": "My store"
 }

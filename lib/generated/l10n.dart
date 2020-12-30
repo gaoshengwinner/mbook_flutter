@@ -75,6 +75,16 @@ class S {
     );
   }
 
+  /// `My store`
+  String get menu_mystore_title {
+    return Intl.message(
+      'My store',
+      name: 'menu_mystore_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Sign out`
   String get menu_logout_title {
     return Intl.message(
@@ -100,6 +110,66 @@ class S {
     return Intl.message(
       'Sign in',
       name: 'login_login_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mail`
+  String get login_mail_hintText {
+    return Intl.message(
+      'Mail',
+      name: 'login_mail_hintText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get login_password_hintText {
+    return Intl.message(
+      'Password',
+      name: 'login_password_hintText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter Your email address.`
+  String get login_email_validator_empty_msg {
+    return Intl.message(
+      'Please enter Your email address.',
+      name: 'login_email_validator_empty_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid email address. `
+  String get login_email_validator_not_valid_msg {
+    return Intl.message(
+      'Please enter a valid email address. ',
+      name: 'login_email_validator_not_valid_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your password. `
+  String get login_password_validator_empty_msg {
+    return Intl.message(
+      'Please enter your password. ',
+      name: 'login_password_validator_empty_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My store`
+  String get mystore_title {
+    return Intl.message(
+      'My store',
+      name: 'mystore_title',
       desc: '',
       args: [],
     );

@@ -17,9 +17,9 @@ class AppBarView {
                 end: Alignment.topCenter),
           ),
         ),
-        title: Image.asset('assets/graphics/logo_heng_white.png', fit: BoxFit.cover,
+        title: title == null ? Image.asset('assets/graphics/logo_heng_white.png', fit: BoxFit.cover,
         width: 0.4.sw,
-        )
+        ) : Text(title)
 
     );
   }

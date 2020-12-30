@@ -4,11 +4,12 @@ import 'package:mbook_flutter/generated/l10n.dart';
 import 'package:mbook_flutter/src/comm/token/token.dart';
 import 'package:mbook_flutter/src/home/home.dart';
 import 'package:mbook_flutter/src/login/login.dart';
+import 'package:mbook_flutter/src/mystore/my_store.dart';
 
 import 'consts.dart';
 
 class MenuBar {
-  static Drawer menu(bool isLogin, BuildContext _context, Function doReturn) {
+  static Drawer menu(bool isLogin, bool notDispMystore, BuildContext _context, Function doReturn) {
     return Drawer(
       child: ListView(
         children: <Widget>[
@@ -31,9 +32,12 @@ class MenuBar {
               ],
             ),
           ),
+          if (isLogin && !notDispMystore)
+            CustomListTitle(Icons.store, S.of(_context).menu_mystore_title,
+                () => {gotoMyStore(_context)}),
           if (isLogin)
             CustomListTitle(Icons.logout, S.of(_context).menu_logout_title,
-                () => {logout(_context, doReturn)}),
+                    () => {logout(_context, doReturn)}),
           if (!isLogin)
             CustomListTitle(Icons.logout, S.of(_context).menu_login_title,
                 () => {login(_context, doReturn)}),
@@ -52,6 +56,10 @@ class MenuBar {
           return LoginPage();
         });
     //Navigator.pushNamed(_context, G.ROUTES_HOME);
+  }
+  static gotoMyStore(BuildContext _context) async{
+    await Navigator.pop(_context);
+    await Navigator.push(_context, MaterialPageRoute(builder: (context) => MyStorePage()));
   }
 
   static logout(BuildContext _context, Function doReturn) async {

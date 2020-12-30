@@ -24,9 +24,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "common_all_title" : MessageLookupByLibrary.simpleMessage("Food BooK"),
     "home_login_button_title" : MessageLookupByLibrary.simpleMessage("Join"),
     "home_scan_button_title" : MessageLookupByLibrary.simpleMessage("Scan"),
+    "login_email_validator_empty_msg" : MessageLookupByLibrary.simpleMessage("Please enter Your email address."),
+    "login_email_validator_not_valid_msg" : MessageLookupByLibrary.simpleMessage("Please enter a valid email address. "),
     "login_login_title" : MessageLookupByLibrary.simpleMessage("Sign in"),
+    "login_mail_hintText" : MessageLookupByLibrary.simpleMessage("Mail"),
+    "login_password_hintText" : MessageLookupByLibrary.simpleMessage("Password"),
+    "login_password_validator_empty_msg" : MessageLookupByLibrary.simpleMessage("Please enter your password. "),
     "login_title" : MessageLookupByLibrary.simpleMessage("Sign in"),
     "menu_login_title" : MessageLookupByLibrary.simpleMessage("Sign in"),
-    "menu_logout_title" : MessageLookupByLibrary.simpleMessage("Sign out")
+    "menu_logout_title" : MessageLookupByLibrary.simpleMessage("Sign out"),
+    "menu_mystore_title" : MessageLookupByLibrary.simpleMessage("My store"),
+    "mystore_title" : MessageLookupByLibrary.simpleMessage("My store")
   };
 }

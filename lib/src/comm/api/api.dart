@@ -10,7 +10,7 @@ import 'package:mbook_flutter/src/comm/model/Token.dart';
 import 'package:mbook_flutter/src/comm/token/token.dart';
 
 class Api {
-  static String _BASE_API_URL = "https://1938d4f6ffd2.ngrok.io";
+  static String _BASE_API_URL = "http://5d9ec767708b.ngrok.io";
   static String _LOGIN_URL = _BASE_API_URL + "/v1/api/member/login";
 
   static String _CONTENT_TYPE = "application/json; charset=utf-8";

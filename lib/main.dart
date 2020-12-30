@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
         designSize: Size(750, 1334),
         allowFontScaling: false,
         child: MaterialApp(
+            debugShowCheckedModeBanner: false,
             // 多语言Start
             localizationsDelegates: const [
               S.delegate,

@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                       focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: G.appBaseColor[0])),
                       prefixIcon: Icon(Icons.email, color: G.appBaseColor[0]),
-                        hintText:"Mail"
+                        hintText:S.of(context).login_mail_hintText
                     ),
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) {
@@ -70,9 +70,9 @@ class _LoginPageState extends State<LoginPage> {
                       });
 
                       if (email.isEmpty) {
-                        return 'Please enter some text';
+                        return S.of(context).login_email_validator_empty_msg;
                       } else if (!EmailValidator.validate(email)) {
-                        return 'Email is not valid';
+                        return S.of(context).login_email_validator_not_valid_msg;
                       }
                       return null;
                     }),
@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                       focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: G.appBaseColor[0])),
                       prefixIcon: Icon(Icons.lock, color: G.appBaseColor[0]),
-                        hintText:"Password"
+                        hintText:S.of(context).login_password_hintText
                     ),
                     keyboardType: TextInputType.visiblePassword,
                     onChanged: (value) {
@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     validator: (password) {
                       if (password.isEmpty) {
-                        return 'Please enter some text';
+                        return S.of(context).login_password_validator_empty_msg;
                       }
                       return null;
                     }),

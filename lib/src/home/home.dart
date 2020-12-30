@@ -29,9 +29,9 @@ class _HomePageState extends State<HomePage> {
     printScreenInformation();
 
     return Scaffold(
-      appBar: AppBarView.appbar(S.of(context).common_all_title, false),
+      appBar: AppBarView.appbar(null, false),
       endDrawer: MenuBar.menu(
-          isLogin,
+          isLogin, false,
           context,
           () => {
                 setState(() {
