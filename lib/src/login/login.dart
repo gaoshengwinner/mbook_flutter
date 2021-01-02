@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mbook_flutter/generated/l10n.dart';
 import 'package:mbook_flutter/src/comm/api/api.dart';
-import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/LoginResult.dart';
 import 'package:mbook_flutter/src/home/home.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,6 +23,8 @@ class _LoginPageState extends State<LoginPage> {
   // 响应空白处的焦点的Node
   FocusNode _blankNode = FocusNode();
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
         color: Colors.greenAccent,
         child: Center(
             child: Scaffold(
+              key: _scaffoldKey,
                 //resizeToAvoidBottomInset: true,
                 //appBar: AppBarView.appbar(S.of(context).login_title, true),
                 body: GestureDetector(
@@ -54,16 +57,14 @@ class _LoginPageState extends State<LoginPage> {
                     )),
                 TextFormField(
                     decoration: InputDecoration(
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: G.appBaseColor[0])),
-                      prefixIcon: Icon(Icons.email, color: G.appBaseColor[0]),
-                        hintText:S.of(context).login_mail_hintText
-                    ),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: G.appBaseColor[0])),
+                        prefixIcon: Icon(Icons.email, color: G.appBaseColor[0]),
+                        hintText: S.of(context).login_mail_hintText),
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) {
                       _mail = value;
                     },
-
                     validator: (email) {
                       setState(() {
                         _errmsg = "";
@@ -72,18 +73,19 @@ class _LoginPageState extends State<LoginPage> {
                       if (email.isEmpty) {
                         return S.of(context).login_email_validator_empty_msg;
                       } else if (!EmailValidator.validate(email)) {
-                        return S.of(context).login_email_validator_not_valid_msg;
+                        return S
+                            .of(context)
+                            .login_email_validator_not_valid_msg;
                       }
                       return null;
                     }),
                 TextFormField(
                     obscureText: true,
                     decoration: InputDecoration(
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: G.appBaseColor[0])),
-                      prefixIcon: Icon(Icons.lock, color: G.appBaseColor[0]),
-                        hintText:S.of(context).login_password_hintText
-                    ),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: G.appBaseColor[0])),
+                        prefixIcon: Icon(Icons.lock, color: G.appBaseColor[0]),
+                        hintText: S.of(context).login_password_hintText),
                     keyboardType: TextInputType.visiblePassword,
                     onChanged: (value) {
                       _pws = value;
@@ -95,9 +97,11 @@ class _LoginPageState extends State<LoginPage> {
                       return null;
                     }),
                 Container(
-                  margin: EdgeInsets.only(top:5),
-                child: Text(_errmsg, style: TextStyle(fontSize: 13, color: Colors.red),)
-                ),
+                    margin: EdgeInsets.only(top: 5),
+                    child: Text(
+                      _errmsg,
+                      style: TextStyle(fontSize: 13, color: Colors.red),
+                    )),
                 Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: FBButton.build(
@@ -105,10 +109,11 @@ class _LoginPageState extends State<LoginPage> {
                         0.6.sw,
                         S.of(context).login_login_title,
                         Icons.login,
-                        () => {
+                        () {
                               if (_formKey.currentState.validate())
                                 {
-                                   Api.login(_mail, _pws).then((value) => {
+                                  GlobalFun.showSnackBar(_scaffoldKey, "  Signing-In...");
+                                  Api.login(_mail, _pws).then((value) => {
                                         if (value[0] == 200)
                                           {
                                             Navigator.push(
@@ -120,45 +125,15 @@ class _LoginPageState extends State<LoginPage> {
                                         else
                                           {
                                             setState(() {
-                                              this._errmsg = (value[1] as LoginResult).errs[0].msg;
+                                              this._errmsg =
+                                                  (value[1] as LoginResult)
+                                                      .errs[0]
+                                                      .msg;
                                             })
                                           }
-                                      })
+                                      });
                                 }
-                            })
-                    // RaisedButton.icon(
-                    //     onPressed: () async {
-                    //           // Validate returns true if the form is valid, or false
-                    //           // otherwise.
-                    //           if (_formKey.currentState.validate()) {
-                    //             Api.login(_mail, _pws).then((value) => {
-                    //                   if (value[0] == 200)
-                    //                     {
-                    //                       Navigator.push(
-                    //                           context,
-                    //                           MaterialPageRoute(
-                    //                               builder: (context) => HomePage()))
-                    //                     }
-                    //                 });
-                    //           }
-                    //     },
-                    //     shape: RoundedRectangleBorder(
-                    //         borderRadius:
-                    //         BorderRadius.all(Radius.circular(10.0))),
-                    //     label: Text(
-                    //       S.of(context).home_login_button_title,
-                    //       style: TextStyle(color: Colors.white),
-                    //     ),
-                    //     icon: Icon(
-                    //       Icons.login,
-                    //       color: Colors.black,
-                    //     ),
-                    //     textColor: Colors.blue,
-                    //     splashColor: G.appBaseColor[0],
-                    //     color: G.appBaseColor[0],
-                    //   )
-
-                    ),
+                            })),
               ]),
             ),
           ),
