@@ -13,14 +13,20 @@ class MyMenuInfoPage extends StatefulWidget {
 class _MyMenuInfoState extends State<MyMenuInfoPage> {
   // 响应空白处的焦点的Node
   FocusNode _blankNode = FocusNode();
-  List<ItemDetail> _itemList;
+  List<ItemDetail> _AllitemList;
+  List<ItemDetail> _itemList = List<ItemDetail>();
 
-  _MyMenuInfoState(this._itemList);
+
+
+  String serchString = "";
+
+  _MyMenuInfoState(this._AllitemList);
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
+    _itemList.addAll(_AllitemList);
     super.initState();
   }
 
@@ -28,8 +34,33 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-        appBar: AppBarView.appbar("My Menu", true),
-        endDrawer:Icon(Icons.search_rounded),
+        appBar: AppBarView.appbar("Item List", true, true,context, (query){
+          serchString = query;
+          //setState(() {
+            List<ItemDetail> dummySearchList = List<ItemDetail>();
+            dummySearchList.addAll(_AllitemList);
+            if(query.isNotEmpty) {
+              List<ItemDetail> dummyListData = List<ItemDetail>();
+              dummySearchList.forEach((item) {
+                if(item.id.toString().contains(query) || item.itemName.contains(query) || item.itemDescr.contains(query)) {
+                  dummyListData.add(item);
+                }
+              });
+              setState(() {
+
+                _itemList.clear();
+                _itemList.addAll(dummyListData);
+              });
+              return;
+            } else {
+              setState(() {
+                _itemList.clear();
+                _itemList.addAll(dummySearchList);
+              });
+            }
+         // }
+         // );
+        },serchString),
         body: GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () {
