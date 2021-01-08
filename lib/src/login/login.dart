@@ -131,7 +131,9 @@ class _LoginPageState extends State<LoginPage> {
                                                       .msg;
                                             })
                                           }
-                                      });
+                                      }).catchError((e){
+                                    GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+                                  });
                                 }
                             })),
               ]),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mbook_flutter/src/comm/device/device.dart';
 import 'package:mbook_flutter/src/login/login.dart';
@@ -35,6 +36,8 @@ class MyApp extends StatelessWidget {
             localizationsDelegates: const [
               S.delegate,
               //如果你在使用 material library，需要添加下面两个delegate
+              GlobalCupertinoLocalizations.delegate,
+              DefaultCupertinoLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
             ],

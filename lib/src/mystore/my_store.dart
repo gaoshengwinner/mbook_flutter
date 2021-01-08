@@ -5,6 +5,7 @@ import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/menu.dart';
+import 'package:mbook_flutter/src/mystore/my_menu_info.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 import 'my_store_info.dart';
@@ -38,24 +39,34 @@ class _MyStorePageState extends State<MyStorePage> {
                   onPressed: (BuildContext context) async {
                     GlobalFun.showSnackBar(_scaffoldKey, "  Loading...");
                     Api.getMyShopInfo(context).then((result) {
-                      GlobalFun();
+                      GlobalFun.removeCurrentSnackBar(_scaffoldKey);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
                                   MyStoreInfoPage(result[1])));
+                    }).catchError((e){
+                      GlobalFun.showSnackBar(_scaffoldKey, e.toString());
                     });
                   },
                 ),
-                SettingsTile.switchTile(
+                SettingsTile(
                   switchActiveColor: G.appBaseColor[0],
-                  title: 'Use fingerprint',
-                  leading: Icon(Icons.fingerprint),
-                  switchValue: _value,
-                  onToggle: (bool value) {
-                    setState(() {
-                      this._value = value;
-                    });
+                  title: 'Menu Info',
+                  leading: Icon(Icons.menu),
+                  onPressed: (BuildContext context) async {
+                    GlobalFun.showSnackBar(_scaffoldKey, "  Loading...");
+                    Api.getMyShopItemInfo(context).then((result) {
+                    GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  MyMenuInfoPage(result[1])));
+                     }).catchError((e){
+                       GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+                     });
+
                   },
                 ),
               ],

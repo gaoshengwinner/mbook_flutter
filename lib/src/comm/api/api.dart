@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mbook_flutter/src/comm/device/device.dart';
 import 'package:mbook_flutter/src/comm/menu.dart';
+import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
 import 'package:mbook_flutter/src/comm/model/RefreshTokenResult.dart';
 import 'package:mbook_flutter/src/comm/model/ShopInfo.dart';
 import 'package:mbook_flutter/src/comm/model/Token.dart';
@@ -14,9 +15,13 @@ import 'package:mbook_flutter/src/comm/token/token.dart';
 class Api {
   static String _BASE_API_URL = "http://663eb064875e.ngrok.io";
   static String _LOGIN_URL = _BASE_API_URL + "/v1/api/member/login";
-  static String _REFRESH_TOKEN_URL = _BASE_API_URL + "/v1/api/manag/refreshToken";
+  static String _REFRESH_TOKEN_URL =
+      _BASE_API_URL + "/v1/api/manag/refreshToken";
   static String _MY_SHOPINFO_URL = _BASE_API_URL + "/v1/api/manag/shopInfo";
-  static String _SAVE_MY_SHOPINFO_URL = _BASE_API_URL + "/v1/api/manag/save_shopInfo";
+  static String _SAVE_MY_SHOPINFO_URL =
+      _BASE_API_URL + "/v1/api/manag/save_shopInfo";
+  static String _GET_MY_ITEMINFO_URL =
+      _BASE_API_URL + "/v1/api/manag/shopItemInfo";
 
   static String _CONTENT_TYPE = "application/json; charset=utf-8";
   static String _MB_DEVICE_INFOR_HEADER = "MB_DEVICE_INFOR_HEADER";
@@ -53,24 +58,14 @@ class Api {
     print(response.body);
     List<Object> resultList = [response.statusCode, ""];
     final String responsebody = utf8.decode(response.bodyBytes);
-    if (response.statusCode == 200 || response.statusCode == 400) {
+    if (response.statusCode == 200 ||
+        response.statusCode == 400 ||
+        response.statusCode == 401) {
       resultList[1] = responsebody;
       return resultList;
     } else {
-      throw Exception(responsebody);
+      throw Exception('${response.statusCode}${responsebody}');
     }
-
-    // if (response.statusCode == 200) {
-    //   resultList[1] = LoginResult.fromJson(jsonDecode(responsebody));
-    //   await TokenUtil.saveToken(Token.fromJson(jsonDecode(responsebody)));
-    //   return resultList;
-    // } else {
-    //   if (response.statusCode == 400) {
-    //     resultList[1] = LoginResult.fromJson(jsonDecode(responsebody));
-    //     return resultList;
-    //   }
-    //   throw Exception(responsebody);
-    // }
   }
 
   static Future<List<Object>> doPostNeedLoginApi(
@@ -103,13 +98,19 @@ class Api {
 
     Map<String, String> header = Map();
     header[_AUTHON_ACCESS_HEADER] = accessToken;
-    return await doPostNoNeedLoginApi(url, body, header);
+    List<Object> result = await doPostNoNeedLoginApi(url, body, header);
+    if (result[0] == 401) {
+      MenuBar.logout(_context, null);
+      return null;
+    }
+
+    return result;
   }
 
   static Future<List<Object>> getMyShopInfo(BuildContext _context) async {
-    List<Object> shopInfo = await doPostNeedLoginApi(
-        _context, _MY_SHOPINFO_URL, null);
-    if (shopInfo[0] == 200){
+    List<Object> shopInfo =
+        await doPostNeedLoginApi(_context, _MY_SHOPINFO_URL, null);
+    if (shopInfo[0] == 200) {
       shopInfo[1] = ShopInfo.fromJson(jsonDecode(shopInfo[1]));
     } else {
       throw Exception(shopInfo[1]);
@@ -117,15 +118,31 @@ class Api {
     return shopInfo;
   }
 
-  static Future<void> saveMyShopInfo(BuildContext _context, ShopInfo _shopInfo) async {
+  static Future<void> saveMyShopInfo(
+      BuildContext _context, ShopInfo _shopInfo) async {
     //
-    List<Object> shopInfo =  await doPostNeedLoginApi(
+    List<Object> shopInfo = await doPostNeedLoginApi(
         _context, _SAVE_MY_SHOPINFO_URL, _shopInfo.getJsonString());
-    if (shopInfo[0] == 200){
+    if (shopInfo[0] == 200) {
       return;
     }
-    throw Exception(shopInfo[1]);
+    throw Exception('${shopInfo[0]}${shopInfo[1]}');
+  }
 
+  static Future<List<Object>> getMyShopItemInfo(BuildContext _context) async {
+    List<Object> itemInfo =
+        await doPostNeedLoginApi(_context, _GET_MY_ITEMINFO_URL, null);
+    if (itemInfo[0] == 200) {
+      List<ItemDetail> myModels = (json.decode(itemInfo[1]) as List)
+          .map((i) => ItemDetail.fromJson(i))
+          .toList();
+      itemInfo[1] = myModels;
+      print(myModels.length);
+    } else {
+      throw Exception(itemInfo[1]);
+    }
+
+    return itemInfo;
   }
 }
 

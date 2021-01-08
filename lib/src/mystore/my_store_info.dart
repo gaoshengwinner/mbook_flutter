@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mbook_flutter/generated/l10n.dart';
 import 'package:mbook_flutter/src/comm/api/api.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
@@ -48,7 +47,7 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-        appBar: AppBarView.appbar("My Store", true),
+        appBar: AppBarView.appbar("Store base info", true),
         body: GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () {
@@ -102,7 +101,7 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
                         },
                       ),
                       TextFormField(
-                        maxLines: 2,
+                        maxLines: 1,
                         maxLength: 526,
                         inputFormatters: [
                           // 不能输入回车符
@@ -123,7 +122,7 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
                       ),
                       // Row(children: [
                       TextFormField(
-                        maxLines: 2,
+                        maxLines: 1,
                         maxLength: 255,
                         inputFormatters: [
                           // 不能输入回车符
@@ -158,6 +157,8 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
                             Api.saveMyShopInfo(context, _shopInfo)
                                 .whenComplete(() {
                               GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+                            }).catchError((e){
+                              GlobalFun.showSnackBar(_scaffoldKey, e.toString());
                             });
                           })),
                     ])))));
