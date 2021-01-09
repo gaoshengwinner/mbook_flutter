@@ -4,8 +4,9 @@ import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/menu.dart';
 import 'package:mbook_flutter/src/comm/token/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mbook_flutter/src/login/login.dart';
 import 'package:mbook_flutter/src/widgets/raised_button.dart';
+
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
@@ -24,6 +25,14 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  List<Color> currentColors = [Colors.limeAccent, Colors.green];
+  Color currentColor = Colors.limeAccent;
+
+  void changeColor(Color color) => setState(() => currentColor = color);
+
+  void changeColors(List<Color> colors) =>
+      setState(() => currentColors = colors);
+
   @override
   Widget build(BuildContext context) {
     printScreenInformation();
@@ -31,7 +40,8 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBarView.appbar(null, false),
       endDrawer: MenuBar.menu(
-          isLogin, false,
+          isLogin,
+          false,
           context,
           () => {
                 setState(() {
@@ -111,9 +121,40 @@ class _HomePageState extends State<HomePage> {
                       "https://cdn-web.qr-code-generator.com/wp-content/themes/qr/new_structure/assets/media/images/api_page/qrcodes/bw/Api_page_-_QR-Code-Generator_com-1.png"),
                 ),
               ),
-            FBButton.build(context, 0.6.sw, S.of(context).home_scan_button_title, Icons.qr_code_scanner, ()=>{
-
-            })
+              FBButton.build(
+                  context,
+                  0.6.sw,
+                  S.of(context).home_scan_button_title,
+                  Icons.qr_code_scanner,
+                  () => {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          titlePadding: const EdgeInsets.all(0.0),
+                          contentPadding: const EdgeInsets.all(0.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          content: SingleChildScrollView(
+                            child: SlidePicker(
+                              paletteType:PaletteType.rgb,
+                              pickerColor: currentColor,
+                              onColorChanged: changeColor,
+                              enableAlpha: true,
+                              displayThumbColor: true,
+                              showLabel: true,
+                              showIndicator: true,
+                              indicatorBorderRadius:
+                              const BorderRadius.vertical(
+                                top: const Radius.circular(25.0),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                      })
 
               // Container(
               //     alignment: Alignment.center,

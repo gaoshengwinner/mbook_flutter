@@ -54,7 +54,8 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
               // 点击空白页面关闭键盘
               FocusScope.of(context).requestFocus(_blankNode);
             },
-            child: Container(
+            child:
+            Container(
                 margin: EdgeInsets.only(left: 20, right: 20),
                 child: Form(
                     child: Column(

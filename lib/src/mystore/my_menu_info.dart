@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
 
+import 'my_menu_edit.dart';
+
 class MyMenuInfoPage extends StatefulWidget {
   List<ItemDetail> _itemList;
 
@@ -15,8 +17,6 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
   FocusNode _blankNode = FocusNode();
   List<ItemDetail> _AllitemList;
   List<ItemDetail> _itemList = List<ItemDetail>();
-
-
 
   String serchString = "";
 
@@ -34,33 +34,34 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-        appBar: AppBarView.appbar("Item List", true, true,context, (query){
+        appBar: AppBarView.appbar("Item List", true, true, context, (query) {
           serchString = query;
           //setState(() {
-            List<ItemDetail> dummySearchList = List<ItemDetail>();
-            dummySearchList.addAll(_AllitemList);
-            if(query.isNotEmpty) {
-              List<ItemDetail> dummyListData = List<ItemDetail>();
-              dummySearchList.forEach((item) {
-                if(item.id.toString().contains(query) || item.itemName.contains(query) || item.itemDescr.contains(query)) {
-                  dummyListData.add(item);
-                }
-              });
-              setState(() {
-
-                _itemList.clear();
-                _itemList.addAll(dummyListData);
-              });
-              return;
-            } else {
-              setState(() {
-                _itemList.clear();
-                _itemList.addAll(dummySearchList);
-              });
-            }
-         // }
-         // );
-        },serchString),
+          List<ItemDetail> dummySearchList = List<ItemDetail>();
+          dummySearchList.addAll(_AllitemList);
+          if (query.isNotEmpty) {
+            List<ItemDetail> dummyListData = List<ItemDetail>();
+            dummySearchList.forEach((item) {
+              if (item.id.toString().contains(query) ||
+                  item.itemName.contains(query) ||
+                  item.itemDescr.contains(query)) {
+                dummyListData.add(item);
+              }
+            });
+            setState(() {
+              _itemList.clear();
+              _itemList.addAll(dummyListData);
+            });
+            return;
+          } else {
+            setState(() {
+              _itemList.clear();
+              _itemList.addAll(dummySearchList);
+            });
+          }
+          // }
+          // );
+        }, serchString),
         body: GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () {
@@ -87,9 +88,19 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
                                       fit: BoxFit.fitWidth,
                                     )),
                             trailing: Icon(Icons.arrow_forward_ios),
-                            title: Row(
-                                children: [Text("${item.id}:${item.itemName}", maxLines: 2), Spacer(), Text(item.itemPrice, maxLines: 2)]),
+                            title: Row(children: [
+                              Text("${item.id}:${item.itemName}", maxLines: 2),
+                              Spacer(),
+                              Text(item.itemPrice, maxLines: 2)
+                            ]),
                             subtitle: Text(item.itemDescr, maxLines: 2),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          MyMenuEditPage(item)));
+                            },
                           ),
                           decoration: BoxDecoration(
                               border: Border(
