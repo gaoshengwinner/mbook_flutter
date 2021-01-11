@@ -8,6 +8,7 @@ part 'ItemDetail.g.dart';
 @JsonSerializable()
 class ItemDetail {
   int id;
+  int shopId;
   String itemPrice;
   String itemName;
   String itemDescr;

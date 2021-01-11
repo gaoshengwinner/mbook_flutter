@@ -14,12 +14,13 @@ ItemDetail _$ItemDetailFromJson(Map<String, dynamic> json) {
     json['itemDescr'] as String,
     json['itemMainPicUrl'] as String,
     json['itemDispDetail'] as String,
-  );
+  )..shopId = json['shopId'] as int;
 }
 
 Map<String, dynamic> _$ItemDetailToJson(ItemDetail instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'shopId': instance.shopId,
       'itemPrice': instance.itemPrice,
       'itemName': instance.itemName,
       'itemDescr': instance.itemDescr,

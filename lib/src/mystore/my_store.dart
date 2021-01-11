@@ -6,9 +6,11 @@ import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/menu.dart';
 import 'package:mbook_flutter/src/mystore/my_menu_info.dart';
+import 'package:mbook_flutter/src/samples/color_picker.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 import 'my_store_info.dart';
+import 'my_tags.dart';
 
 class MyStorePage extends StatefulWidget {
   //_MyStorePageState createState() => _MyStorePageState();
@@ -66,6 +68,44 @@ class _MyStorePageState extends State<MyStorePage> {
                      }).catchError((e){
                        GlobalFun.showSnackBar(_scaffoldKey, e.toString());
                      });
+
+                  },
+                ),
+                SettingsTile(
+                  switchActiveColor: G.appBaseColor[0],
+                  title: 'Tags',
+                  leading: Icon(Icons.tag),
+                  onPressed: (BuildContext context) async {
+                    GlobalFun.showSnackBar(_scaffoldKey, "  Loading...");
+                    //Api.getMyShopItemInfo(context).then((result) {
+                     // GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  MyTagsPage()));
+                    //}).catchError((e){
+                    //  GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+                    //});
+
+                  },
+                ),
+                SettingsTile(
+                  switchActiveColor: G.appBaseColor[0],
+                  title: 'Color Picker',
+                  leading: Icon(Icons.tag),
+                  onPressed: (BuildContext context) async {
+                    GlobalFun.showSnackBar(_scaffoldKey, "  Loading...");
+                    //Api.getMyShopItemInfo(context).then((result) {
+                    // GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ColorPickerPage()));
+                    //}).catchError((e){
+                    //  GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+                    //});
 
                   },
                 ),

@@ -13,7 +13,7 @@ import 'package:mbook_flutter/src/comm/model/Token.dart';
 import 'package:mbook_flutter/src/comm/token/token.dart';
 
 class Api {
-  static String _BASE_API_URL = "http://663eb064875e.ngrok.io";
+  static String _BASE_API_URL = "http://98d3e8ab2d0a.ngrok.io";
   static String _LOGIN_URL = _BASE_API_URL + "/v1/api/member/login";
   static String _REFRESH_TOKEN_URL =
       _BASE_API_URL + "/v1/api/manag/refreshToken";
@@ -22,11 +22,18 @@ class Api {
       _BASE_API_URL + "/v1/api/manag/save_shopInfo";
   static String _GET_MY_ITEMINFO_URL =
       _BASE_API_URL + "/v1/api/manag/shopItemInfo";
+  static String _MY_SAVE_ITEM_BASE_INFO_URL =
+      _BASE_API_URL + "/v1/api/manag/shopItemInfoRow";
+
+  static String _MY_DELETE_ITEM_URL =
+      _BASE_API_URL + "/v1/api/manag/deleteShopItemRow";
 
   static String _CONTENT_TYPE = "application/json; charset=utf-8";
   static String _MB_DEVICE_INFOR_HEADER = "MB_DEVICE_INFOR_HEADER";
   static String _AUTHON_REFRESH_HEADER = "AUTHON_REFRESH_HEADER";
   static String _AUTHON_ACCESS_HEADER = "AUTHON_ACCESS_HEADER";
+
+
 
   static Future<List<Object>> login(String mail, String pws) async {
     String body = jsonEncode(<String, String>{
@@ -127,6 +134,26 @@ class Api {
       return;
     }
     throw Exception('${shopInfo[0]}${shopInfo[1]}');
+  }
+
+  static Future<void> deleteMyShopItem(BuildContext _context, ItemDetail _itemDetail) async {
+    //
+    List<Object> result = await doPostNeedLoginApi(
+        _context, _MY_DELETE_ITEM_URL, _itemDetail.getJsonString());
+    if (result[0] == 200) {
+      return;
+    }
+    throw Exception('${result[0]}${result[1]}');
+
+  }
+
+  static Future<void> saveMyItemInfo(BuildContext _context, ItemDetail _itemDetail) async{
+    List<Object> result = await doPostNeedLoginApi(
+        _context, _MY_SAVE_ITEM_BASE_INFO_URL, _itemDetail.getJsonString());
+    if (result[0] == 200) {
+      return;
+    }
+    throw Exception('${result[0]}${result[1]}');
   }
 
   static Future<List<Object>> getMyShopItemInfo(BuildContext _context) async {

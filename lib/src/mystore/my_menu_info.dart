@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mbook_flutter/src/comm/api/api.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
+import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'my_menu_edit.dart';
 
 class MyMenuInfoPage extends StatefulWidget {
@@ -77,29 +79,47 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
                       return Container(
                           child: ListTile(
                             contentPadding: EdgeInsets.all(10.0),
-                            leading: item.itemMainPicUrl == null ||
+                            leading:
+                            // CircleAvatar(
+                            //   backgroundImage: NetworkImage(item.itemMainPicUrl,),
+                            // ),
+                            item.itemMainPicUrl == null ||
                                     item.itemMainPicUrl.isEmpty
                                 ? null
                                 : Container(
+                              //width: 0.3.sw,
                                     constraints:
                                         BoxConstraints.tightFor(width: 100.0),
                                     child: Image.network(
                                       item.itemMainPicUrl,
                                       fit: BoxFit.fitWidth,
                                     )),
+
+
                             trailing: Icon(Icons.arrow_forward_ios),
-                            title: Row(children: [
-                              Text("${item.id}:${item.itemName}", maxLines: 2),
-                              Spacer(),
-                              Text(item.itemPrice, maxLines: 2)
-                            ]),
-                            subtitle: Text(item.itemDescr, maxLines: 2),
+                            title: Text("${item.id}:${item.itemName}"),
+                            subtitle: Text(item.itemPrice, maxLines: 2 , style: TextStyle(color: Colors.red),),
+
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          MyMenuEditPage(item)));
+                                          MyMenuEditPage(item))).then((value) {
+                                GlobalFun.showSnackBar(
+                                    _scaffoldKey, "  Loading...");
+                                Api.getMyShopItemInfo(context).then((result) {
+                                  GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+                                  setState(() {
+                                    this._AllitemList = result[1];
+                                    _itemList.clear();
+                                    _itemList.addAll(_AllitemList);
+                                  });
+                                }).catchError((e) {
+                                  GlobalFun.showSnackBar(
+                                      _scaffoldKey, e.toString());
+                                });
+                              });
                             },
                           ),
                           decoration: BoxDecoration(
