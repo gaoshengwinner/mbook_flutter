@@ -43,7 +43,7 @@ extension FBTextAlign on TextAlign {
 }
 
 class FBAlignment {
-  static String DEFALUT_ALIGM = _TOP_LEFT;
+  static String DEFALUT_ALIGM = _NO;
   static String _NO = "-";
   static String _TOP_LEFT = "Top Left";
   static String _TOP_CENTER = "Top Center";
