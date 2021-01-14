@@ -2,29 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mbook_flutter/src/comm/extension/extension.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 
-class WidgetTextPage extends StatefulWidget {
-  TextWidgetProperty property;
-  String data;
 
-  WidgetTextPage(this.data, this.property);
-
-  _WidgetTextPagetate createState() =>
-      _WidgetTextPagetate(this.data, this.property);
-}
-
-class _WidgetTextPagetate extends State<WidgetTextPage> {
-  TextWidgetProperty property;
-  String data;
-
-  _WidgetTextPagetate(this.data, this.property);
+class WidgetTextPage  {
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  static Widget build(BuildContext context, TextWidgetProperty property, String data) {
     return Container(
       alignment: FBAlignment.map()[property.alignment],
       padding: EdgeInsets.only(

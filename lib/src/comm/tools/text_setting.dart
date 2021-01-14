@@ -106,7 +106,7 @@ class _TextSettingWidget extends State<TextSettingWidget>
               // height: 150,
               //child: //Align(
               //alignment: Alignment.center,
-              child: WidgetTextPage(data, property),
+              child: WidgetTextPage.build(context,property, data),
               // ),
             ),
           ),

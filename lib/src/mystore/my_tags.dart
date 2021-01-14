@@ -55,37 +55,64 @@ class _MyTagsPageState extends State<MyTagsPage> {
                   itemCount: _AllTagInfos.length,
                   itemBuilder: (context, index) {
                     return new ListTile(
-                      //title: Text(_AllTagInfos[index].data),
+                        //title: Text(_AllTagInfos[index].data),
 
-                      title:WidgetTextPage(
-                        _AllTagInfos[index].data,
-                        _AllTagInfos[index].property,
-                      ),
-                      trailing: IconButton(
-                        icon: Icon(Icons.edit),
-                        onPressed: () {
-                          // GlobalFun.openEditPage(
-                          //     context,
-                          //     "Tag name",
-                          //     _AllTagInfos[index].data,
-                          //     TextInputAction.newline,
-                          //     TextInputType.multiline, (value) {
-                          //   setState(() {
-                          //     _AllTagInfos[index].data = value;
-                          //   });
-                          // });
+                        title: WidgetTextPage.build(
+                          context,
+                          _AllTagInfos[index].property,
+                          _AllTagInfos[index].data,
+                        ),
+                        trailing: Column(
+                          children: [
+                            // IconButton(
+                            //   icon: Icon(Icons.edit),
+                            //   onPressed: () {
+                            //     GlobalFun.openEditPage(
+                            //         context,
+                            //         "Tag name",
+                            //         _AllTagInfos[index].data,
+                            //         TextInputAction.newline,
+                            //         TextInputType.multiline, (value) {
+                            //       setState(() {
+                            //         _AllTagInfos[index].data = value;
+                            //       });
+                            //     });
+                            //
+                            //   },
+                            // ),
+                            IconButton(
+                              icon: Icon(Icons.edit_attributes),
+                              onPressed: () {
+                                // GlobalFun.openEditPage(
+                                //     context,
+                                //     "Tag name",
+                                //     _AllTagInfos[index].data,
+                                //     TextInputAction.newline,
+                                //     TextInputType.multiline, (value) {
+                                //   setState(() {
+                                //     _AllTagInfos[index].data = value;
+                                //   });
+                                // });
 
-                          GlobalFun.showBottomSheet(context, [
-                            TextSettingWidget(property: _AllTagInfos[index].property,data:_AllTagInfos[index].data, onChange:(value){
-                              setState(() {
-                                _AllTagInfos[index].property = value;
-                              });
-
-                            }),
-                          ], null);
-                        },
-                      ),
-                    );
+                                GlobalFun.showBottomSheet(
+                                    context,
+                                    [
+                                      TextSettingWidget(
+                                          property:
+                                              _AllTagInfos[index].property,
+                                          data: _AllTagInfos[index].data,
+                                          onChange: (value) {
+                                            setState(() {
+                                              _AllTagInfos[index].property =
+                                                  value;
+                                            });
+                                          }),
+                                    ],
+                                    null);
+                              },
+                            ),
+                          ],
+                        ));
                   })),
         ));
   }
