@@ -178,41 +178,41 @@ class _TextSettingWidget extends State<TextSettingWidget>
           },
           value: Text("${property.minHeight.toInt()}"),
         ),
-        SettingsItem(
-          label: "Max width",
-          type: SettingsItemType.modal,
-          hasDetails: true,
-          onPress: () {
-            GlobalFun.showPicker(
-                context,
-                _list_min.getIndexByValue(property.maxWidth.toInt()),
-                _list_min.list(), (value) {
-              setState(() {
-                property.maxWidth = _list_min
-                    .values()[value.toInt()]
-                    .toDouble(); //value.toDouble();
-              });
-            });
-          },
-          value: Text("${property.maxWidth.toInt()}"),
-        ),
-        SettingsItem(
-          label: "Max height",
-          type: SettingsItemType.modal,
-          hasDetails: true,
-          onPress: () {
-            GlobalFun.showPicker(
-                context,
-                _list_min.getIndexByValue(property.maxHeight.toInt()),
-                _list_min.list(), (value) {
-              setState(() {
-                property.maxHeight =
-                    _list_min.values()[value.toInt()].toDouble();
-              });
-            });
-          },
-          value: Text("${property.maxHeight.toInt()}"),
-        ),
+        // SettingsItem(
+        //   label: "Max width",
+        //   type: SettingsItemType.modal,
+        //   hasDetails: true,
+        //   onPress: () {
+        //     GlobalFun.showPicker(
+        //         context,
+        //         _list_min.getIndexByValue(property.maxWidth.toInt()),
+        //         _list_min.list(), (value) {
+        //       setState(() {
+        //         property.maxWidth = _list_min
+        //             .values()[value.toInt()]
+        //             .toDouble(); //value.toDouble();
+        //       });
+        //     });
+        //   },
+        //   value: Text("${property.maxWidth.toInt()}"),
+        // ),
+        // SettingsItem(
+        //   label: "Max height",
+        //   type: SettingsItemType.modal,
+        //   hasDetails: true,
+        //   onPress: () {
+        //     GlobalFun.showPicker(
+        //         context,
+        //         _list_min.getIndexByValue(property.maxHeight.toInt()),
+        //         _list_min.list(), (value) {
+        //       setState(() {
+        //         property.maxHeight =
+        //             _list_min.values()[value.toInt()].toDouble();
+        //       });
+        //     });
+        //   },
+        //   value: Text("${property.maxHeight.toInt()}"),
+        // ),
       ]),
       SettingsGroup(<Widget>[
         SettingsItem(

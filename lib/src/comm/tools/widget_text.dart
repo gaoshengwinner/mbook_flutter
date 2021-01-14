@@ -44,7 +44,7 @@ class WidgetTextPage  {
       child: Text(
         data,
         softWrap: true,
-        //textAlign: FBTextAlign.getByString(property.textTextAlign),
+        textAlign: FBTextAlign.getByString(property.textTextAlign),
         style: TextStyle(
           color: property.textColor,
           fontSize: property.fontSize,
