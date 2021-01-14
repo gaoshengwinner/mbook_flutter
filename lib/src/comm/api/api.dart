@@ -13,7 +13,7 @@ import 'package:mbook_flutter/src/comm/model/Token.dart';
 import 'package:mbook_flutter/src/comm/token/token.dart';
 
 class Api {
-  static String _BASE_API_URL = "http://98d3e8ab2d0a.ngrok.io";
+  static String _BASE_API_URL = "https://7a7711f95ce1.ngrok.io";
   static String _LOGIN_URL = _BASE_API_URL + "/v1/api/member/login";
   static String _REFRESH_TOKEN_URL =
       _BASE_API_URL + "/v1/api/manag/refreshToken";
@@ -65,6 +65,7 @@ class Api {
     print(response.body);
     List<Object> resultList = [response.statusCode, ""];
     final String responsebody = utf8.decode(response.bodyBytes);
+    print(responsebody);
     if (response.statusCode == 200 ||
         response.statusCode == 400 ||
         response.statusCode == 401) {

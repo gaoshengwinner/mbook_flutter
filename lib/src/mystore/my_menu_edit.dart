@@ -193,7 +193,7 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
                   color: G.appBaseColor[0],
                 ),
                 onPressed: () {
-                  _editValue(context, title, value, TextInputAction.newline,
+                  GlobalFun.openEditPage(context, title, value, TextInputAction.newline,
                       TextInputType.multiline, (value) {
                     onChange(value);
                   });
@@ -219,24 +219,5 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
         ]));
   }
 
-  void _editValue(
-      BuildContext context,
-      String hintTextValue,
-      String initVlueValue,
-      TextInputAction textInputAction,
-      TextInputType keyboardType,
-      Function onEditingCompleteText) {
-    Navigator.push(
-        context,
-        PopRoute(
-            child: InputButtomWidget(
-          onEditingCompleteText: (text) {
-            onEditingCompleteText(text);
-          },
-          hintTextValue: hintTextValue,
-          initVlueValue: initVlueValue,
-          textInputAction: textInputAction,
-          keyboardType: keyboardType,
-        )));
-  }
+
 }

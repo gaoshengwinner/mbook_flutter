@@ -61,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                             borderSide: BorderSide(color: G.appBaseColor[0])),
                         prefixIcon: Icon(Icons.email, color: G.appBaseColor[0]),
                         hintText: S.of(context).login_mail_hintText),
+                    initialValue: "gaoshengwinner@hotmail.com",
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) {
                       _mail = value;
@@ -81,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                     }),
                 TextFormField(
                     obscureText: true,
+                    initialValue: "Gsh@home01",
                     decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: G.appBaseColor[0])),

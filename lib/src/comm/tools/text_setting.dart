@@ -1,193 +1,596 @@
+import 'dart:core';
+
+import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mbook_flutter/src/comm/consts.dart';
+import 'package:mbook_flutter/src/comm/global.dart';
+import 'package:mbook_flutter/src/comm/model/ListHelper.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
+import 'package:mbook_flutter/src/comm/tools/MyCupertinoRadioChoice.dart';
 import 'package:mbook_flutter/src/comm/tools/color_picker.dart';
+import 'package:mbook_flutter/src/comm/tools/group.dart';
+import 'package:mbook_flutter/src/comm/tools/header.dart';
+import 'package:mbook_flutter/src/comm/tools/item.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 class TextSettingWidget extends StatefulWidget {
+  TextSettingWidget({this.property, this.onChange, this.data});
+
+  TextWidgetProperty property;
+  Function onChange;
+  String data;
+
   @override
-  _TextSettingWidget createState() => _TextSettingWidget();
+  _TextSettingWidget createState() => _TextSettingWidget(
+      property: this.property, onChange: this.onChange, data: this.data);
 }
 
 class _TextSettingWidget extends State<TextSettingWidget>
     with SingleTickerProviderStateMixin {
-  TabController _tabController;
-  TextWidgetProperty _property = TextWidgetProperty(Colors.white);
-  final tabList = [
-    '背景色',
-  ];
+  _TextSettingWidget({this.property, this.onChange, this.data}) {
+    if (property == null || !(property is TextWidgetProperty)) {
+      this.property = TextWidgetProperty();
+    }
+    if (data == null || !(data is String)) {
+      this.data = "Hello word";
+    }
+  }
+
+  Function onChange;
+  String data;
+  TextWidgetProperty property =
+      TextWidgetProperty(backColor: Colors.white, fullLineDisp: false);
+
+  static ListHelper _list_size = ListHelper(10, 128, b: 2);
+  static ListHelper _list_font_Weight = ListHelper(100, 900, b: 100);
+  static ListHelper _list_Letter_space = ListHelper(0, 30);
+  static ListHelper _list_Padding_left = ListHelper(0, 256);
+  static ListHelper _list_Padding_top = _list_Padding_left;
+  static ListHelper _list_Padding_right = _list_Padding_left;
+  static ListHelper _list_Padding_bottom = _list_Padding_left;
+  static ListHelper _list_Border_Width = ListHelper(0, 256);
+  static ListHelper _list_Border_Radius = ListHelper(0, 256);
+
+  static ListHelper _list_Shadow_Offset = ListHelper(-256, 256);
+  static ListHelper _list_Shadow_blurRadius = ListHelper(0, 256);
+  static ListHelper _list_Shadow_spreadRadius = _list_Shadow_blurRadius;
 
   @override
   void initState() {
-    _tabController = TabController(vsync: this, length: tabList.length);
     super.initState();
   }
+
+  @override
+  void setState(VoidCallback fn) {
+    super.setState(() {
+      fn();
+    });
+    if (onChange != null) {
+      onChange(property);
+    }
+  }
+
+  String selected = _TAB_Base;
 
 // create some values
   Color pickerColor = Color(0xff443a49);
   Color currentColor = Color(0xff443a49);
 
+  static const String _TAB_Base = "Base info";
+  static const String _TAB_Padding = "Padding";
+  static const String _TAB_Border = "Border";
+  static const String _TAB_Shadow = "Shadow";
+
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      backgroundColor: Colors.transparent,
-      body: new Column(
-        children: <Widget>[
-          Expanded(
-              child: new GestureDetector(
-            child: new Container(
-              color: Colors.transparent,
+    return Container(
+        height: 0.8.sh,
+        child: new Column(children: [
+          Container(
+            width: 1.sw - 5,
+            height: 100,
+            child: Center(
+              // margin: EdgeInsets.only(top: 5),
+              //width: 1.sw - 5,
+              // height: 150,
+              //child: //Align(
+              //alignment: Alignment.center,
+              child: WidgetTextPage(data, property),
+              // ),
             ),
-            onTap: () {
-              Navigator.pop(context);
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 5),
+            child: MyCupertinoRadioChoice(
+                //selectedColor: G.appBaseColor[0].withOpacity(0.7),
+                //notSelectedColor: Colors.grey.withOpacity(0.5),
+                choices: {
+                  _TAB_Base: _TAB_Base,
+                  _TAB_Padding: _TAB_Padding,
+                  _TAB_Border: _TAB_Border,
+                  _TAB_Shadow: _TAB_Shadow
+                },
+                onChange: (selectedGender) {
+                  setState(() {
+                    selected = selectedGender;
+                  });
+                  //print(selected);
+                },
+                initialKeyValue: _TAB_Base),
+          ),
+          if (selected == _TAB_Base) _baseSetting(context),
+          if (selected == _TAB_Padding) _paddingSetting(context),
+          if (selected == _TAB_Border) _borderSetting(context),
+          if (selected == _TAB_Shadow) _sgadowSetting(context),
+        ]));
+  }
+
+  Widget _sgadowSetting(BuildContext context) {
+    return new Container(
+        child: Column(children: [
+      SettingsGroup(
+        <Widget>[
+          SettingsItem(
+            label: "X",
+            type: SettingsItemType.modal,
+            hasDetails: true,
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_Shadow_Offset
+                      .getIndexByValue(property.shadowOffsetX.toInt()),
+                  _list_Shadow_Offset.list(), (value) {
+                setState(() {
+                  property.shadowOffsetX = _list_Shadow_Offset
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
+                });
+              });
             },
-          )),
-          new Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              decoration: new BoxDecoration(
-                //border: new Border.all( width: 0.5), // 边色与边宽度
-                color: Color(0xFFEFEFF4),
-                // 底色
-                //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
-                borderRadius:
-                    new BorderRadius.vertical(top: Radius.elliptical(10, 10)),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(5.0, 5.0),
-                      blurRadius: 10.0,
-                      spreadRadius: 2.0)
+            value: Text("${property.shadowOffsetX.toInt()}"),
+          ),
+          SettingsItem(
+            label: "Y",
+            type: SettingsItemType.modal,
+            hasDetails: true,
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_Shadow_Offset
+                      .getIndexByValue(property.shadowOffsetY.toInt()),
+                  _list_Shadow_Offset.list(), (value) {
+                setState(() {
+                  property.shadowOffsetY = _list_Shadow_Offset
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
+                });
+              });
+            },
+            value: Text("${property.shadowOffsetY.toInt()}"),
+          ),
+        ],
+        header: Text("Offset"),
+      ),
+      SettingsGroup(<Widget>[
+        SettingsItem(
+          label: 'Color',
+          icon: Icon(Icons.color_lens_outlined, color: property.shadowColor),
+          hasDetails: true,
+          type: SettingsItemType.modal,
+          onPress: () {
+            GlobalFun.showBottomSheet(
+                context,
+                [
+                  ColorPickerPage(
+                      currentColor: property.shadowColor,
+                      onColorChange: (value) {
+                        setState(() {
+                          property.shadowColor = value;
+                        });
+                      })
                 ],
-              ),
+                property.shadowColor);
+          },
+        ),
+        SettingsItem(
+          label: "Blur radius",
+          type: SettingsItemType.modal,
+          hasDetails: true,
+          onPress: () {
+            GlobalFun.showPicker(
+                context,
+                _list_Shadow_blurRadius
+                    .getIndexByValue(property.shadowBlurRadius.toInt()),
+                _list_Shadow_blurRadius.list(), (value) {
+              setState(() {
+                property.shadowBlurRadius = _list_Shadow_blurRadius
+                    .values()[value.toInt()]
+                    .toDouble(); //value.toDouble();
+              });
+            });
+          },
+          value: Text("${property.shadowBlurRadius.toInt()}"),
+        ),
+        SettingsItem(
+          label: "Spread radius",
+          type: SettingsItemType.modal,
+          hasDetails: true,
+          onPress: () {
+            GlobalFun.showPicker(
+                context,
+                _list_Shadow_spreadRadius
+                    .getIndexByValue(property.shadowSpreadRadius.toInt()),
+                _list_Shadow_spreadRadius.list(), (value) {
+              setState(() {
+                property.shadowSpreadRadius = _list_Shadow_spreadRadius
+                    .values()[value.toInt()]
+                    .toDouble(); //value.toDouble();
+              });
+            });
+          },
+          value: Text("${property.shadowSpreadRadius.toInt()}"),
+        ),
+      ])
+    ]));
+  }
 
-              height: 0.6.sh,
-              //color: Color(0xFFEFEFF4),
-              child: new Column(
-                children: <Widget>[
-                  new Container(
-                    // decoration:
-                    //     new BoxDecoration(color: Theme.of(context).primaryColor),
-                    child: new TabBar(
-                      indicatorColor: Colors.black,
-                      labelColor: Colors.black,
-                      controller: _tabController,
-                      isScrollable: true,
-                      tabs: [
-                        new Tab(
-                          text: "${tabList[0]}",
-                        )
-                      ],
-                    ),
-                  ),
-                  new Container(
-                    height: 200,
-                    child: new TabBarView(
-                      controller: _tabController,
-                      children: <Widget>[
-                        SettingsList(
-                          sections: [
-                            SettingsSection(
-                              title: '',
-                              tiles: [
-                                SettingsTile(
-                                  title: 'Background color',
-                                  subtitle: '',
-                                  leading: Icon(Icons.color_lens_outlined, color: _property.backColor,),
-                                  trailing: Icon(Icons.open_in_browser_sharp),
-                                  onPressed: (BuildContext context) {
-                                    openColor(context, _property.backColor,
-                                        (value) {
-                                      setState(() {
-                                        _property.backColor = value;
-                                      });
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                          ],
-                        )
-
-                        // SingleChildScrollView(
-                        //     child: ColorPicker(
-                        //       pickerColor: pickerColor,
-                        //       //onColorChanged: changeColor,
-                        //       showLabel: true,
-                        //       pickerAreaHeightPercent: 0.8,
-                        //     ),
-                        // )
-                        // for (var i = 0; i < tabList.length; i++)
-                        //   new Card(
-                        //     child: new ListTile(
-                        //       //leading: const Icon(Icons.home),
-                        //       title: new TextField(
-                        //         decoration: const InputDecoration(
-                        //             hintText: 'Search for address...'),
-                        //       ),
-                        //     ),
-                        //   ),
-                      ],
-                    ),
-                  ),
-                  new Container(
-                    margin: EdgeInsets.only(top: 10),
-                    alignment: Alignment.center,
-                    color: Colors.white,
-                    child: WidgetTextPage(
-                      "Hello",
-                      _property,
-                    ),
-                  )
-                ],
+  Widget _borderSetting(BuildContext context) {
+    return new Container(
+      child: Column(
+        children: [
+          SettingsGroup(
+            <Widget>[
+              SettingsItem(
+                label: "Border Width",
+                type: SettingsItemType.modal,
+                hasDetails: true,
+                onPress: () {
+                  GlobalFun.showPicker(
+                      context,
+                      _list_Border_Width
+                          .getIndexByValue(property.borderWidth.toInt()),
+                      _list_Border_Width.list(), (value) {
+                    setState(() {
+                      property.borderWidth = _list_Border_Width
+                          .values()[value.toInt()]
+                          .toDouble(); //value.toDouble();
+                    });
+                  });
+                },
+                value: Text("${property.borderWidth.toInt()}"),
               ),
+              SettingsItem(
+                label: 'Background',
+                icon: Icon(Icons.color_lens_outlined,
+                    color: property.borderColor),
+                hasDetails: true,
+                type: SettingsItemType.modal,
+                onPress: () {
+                  GlobalFun.showBottomSheet(
+                      context,
+                      [
+                        ColorPickerPage(
+                            currentColor: property.borderColor,
+                            onColorChange: (value) {
+                              setState(() {
+                                property.borderColor = value;
+                              });
+                            })
+                      ],
+                      property.borderColor);
+                },
+              ),
+            ],
+            header: Text("Border"),
+          ),
+          SettingsGroup(
+            <Widget>[
+              SettingsItem(
+                label: "Top left",
+                type: SettingsItemType.modal,
+                hasDetails: true,
+                onPress: () {
+                  GlobalFun.showPicker(
+                      context,
+                      _list_Border_Radius.getIndexByValue(
+                          property.borderRadiusTopLeft.toInt()),
+                      _list_Border_Radius.list(), (value) {
+                    setState(() {
+                      property.borderRadiusTopLeft = _list_Border_Radius
+                          .values()[value.toInt()]
+                          .toDouble(); //value.toDouble();
+                    });
+                  });
+                },
+                value: Text("${property.borderRadiusTopLeft.toInt()}"),
+              ),
+              SettingsItem(
+                label: "Top right",
+                type: SettingsItemType.modal,
+                hasDetails: true,
+                onPress: () {
+                  GlobalFun.showPicker(
+                      context,
+                      _list_Border_Radius.getIndexByValue(
+                          property.borderRadiusTopRight.toInt()),
+                      _list_Border_Radius.list(), (value) {
+                    setState(() {
+                      property.borderRadiusTopRight = _list_Border_Radius
+                          .values()[value.toInt()]
+                          .toDouble(); //value.toDouble();
+                    });
+                  });
+                },
+                value: Text("${property.borderRadiusTopRight.toInt()}"),
+              ),
+              SettingsItem(
+                label: "Bottom left",
+                type: SettingsItemType.modal,
+                hasDetails: true,
+                onPress: () {
+                  GlobalFun.showPicker(
+                      context,
+                      _list_Border_Radius.getIndexByValue(
+                          property.borderRadiusBottomLeft.toInt()),
+                      _list_Border_Radius.list(), (value) {
+                    setState(() {
+                      property.borderRadiusBottomLeft = _list_Border_Radius
+                          .values()[value.toInt()]
+                          .toDouble(); //value.toDouble();
+                    });
+                  });
+                },
+                value: Text("${property.borderRadiusBottomLeft.toInt()}"),
+              ),
+              SettingsItem(
+                label: "Bottom right",
+                type: SettingsItemType.modal,
+                hasDetails: true,
+                onPress: () {
+                  GlobalFun.showPicker(
+                      context,
+                      _list_Border_Radius.getIndexByValue(
+                          property.borderRadiusBottomRight.toInt()),
+                      _list_Border_Radius.list(), (value) {
+                    setState(() {
+                      property.borderRadiusBottomRight = _list_Border_Radius
+                          .values()[value.toInt()]
+                          .toDouble(); //value.toDouble();
+                    });
+                  });
+                },
+                value: Text("${property.borderRadiusBottomRight.toInt()}"),
+              ),
+            ],
+            header: Text("Radius"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _paddingSetting(BuildContext context) {
+    return new Container(
+      child: Column(
+        children: [
+          SettingsGroup(<Widget>[
+            SettingsItem(
+              label: "Letter space",
+              type: SettingsItemType.modal,
+              onPress: () {
+                GlobalFun.showPicker(
+                    context,
+                    _list_Letter_space
+                        .getIndexByValue(property.letterSpacing.toInt()),
+                    _list_Letter_space.list(), (value) {
+                  setState(() {
+                    property.letterSpacing = _list_Letter_space
+                        .values()[value.toInt()]
+                        .toDouble(); //value.toDouble();
+                  });
+                });
+              },
+              value: Text("${property.letterSpacing.toInt()}"),
             ),
+          ]),
+          SettingsGroup(
+            <Widget>[
+              SettingsItem(
+                label: "Left",
+                type: SettingsItemType.modal,
+                value: Text("${property.paddingLeft.toInt()}"),
+                onPress: () {
+                  GlobalFun.showPicker(
+                      context,
+                      _list_Padding_left
+                          .getIndexByValue(property.paddingLeft.toInt()),
+                      _list_Padding_left.list(), (value) {
+                    setState(() {
+                      property.paddingLeft = _list_Padding_left
+                          .values()[value.toInt()]
+                          .toDouble(); //value.toDouble();
+                    });
+                  });
+                },
+              ),
+              SettingsItem(
+                label: "Top",
+                type: SettingsItemType.modal,
+                value: Text("${property.paddingTop.toInt()}"),
+                onPress: () {
+                  GlobalFun.showPicker(
+                      context,
+                      _list_Padding_top
+                          .getIndexByValue(property.paddingTop.toInt()),
+                      _list_Padding_top.list(), (value) {
+                    setState(() {
+                      property.paddingTop = _list_Padding_top
+                          .values()[value.toInt()]
+                          .toDouble(); //value.toDouble();
+                    });
+                  });
+                },
+              ),
+              SettingsItem(
+                label: "Right",
+                type: SettingsItemType.modal,
+                value: Text("${property.paddingRight.toInt()}"),
+                onPress: () {
+                  GlobalFun.showPicker(
+                      context,
+                      _list_Padding_right
+                          .getIndexByValue(property.paddingRight.toInt()),
+                      _list_Padding_right.list(), (value) {
+                    setState(() {
+                      property.paddingRight = _list_Padding_right
+                          .values()[value.toInt()]
+                          .toDouble(); //value.toDouble();
+                    });
+                  });
+                },
+              ),
+              SettingsItem(
+                label: "Bottem",
+                type: SettingsItemType.modal,
+                value: Text("${property.paddingBottom.toInt()}"),
+                onPress: () {
+                  GlobalFun.showPicker(
+                      context,
+                      _list_Padding_bottom
+                          .getIndexByValue(property.paddingBottom.toInt()),
+                      _list_Padding_bottom.list(), (value) {
+                    setState(() {
+                      property.paddingBottom = _list_Padding_bottom
+                          .values()[value.toInt()]
+                          .toDouble(); //value.toDouble();
+                    });
+                  });
+                },
+              ),
+            ],
+            header: Text("Padding"),
           )
         ],
       ),
     );
   }
 
-//
-// @override
-// Widget build(BuildContext context) {
-//   return new MaterialApp(
-//     title: 'msc',
-//     home:
-//     new DefaultTabController(
-//       length: 2,
-//       child: new Scaffold(
-//         appBar: new PreferredSize(
-//           preferredSize: Size.fromHeight(kToolbarHeight),
-//           child: new Container(
-//             color: Colors.green,
-//             child: new SafeArea(
-//               child: Column(
-//                 children: <Widget>[
-//                   new Expanded(child: new Container()),
-//                   new TabBar(
-//                     tabs: [new Text("Lunches"), new Text("Cart")],
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ),
-//         body: new TabBarView(
-//           children: <Widget>[
-//             new Column(
-//               children: <Widget>[new Text("Lunches Page")],
-//             ),
-//             new Column(
-//               children: <Widget>[new Text("Cart Page")],
-//             )
-//           ],
-//         ),
-//       ),
-//     ),
-//   );
-// }
+  Widget _baseSetting(BuildContext context) {
+    return new Container(
+      child: Column(
+        children: [
+          SettingsGroup(
+            <Widget>[
+              SettingsItem(
+                label: 'Background',
+                icon:
+                    Icon(Icons.color_lens_outlined, color: property.backColor),
+                hasDetails: true,
+                type: SettingsItemType.modal,
+                onPress: () {
+                  GlobalFun.showBottomSheet(
+                      context,
+                      [
+                        ColorPickerPage(
+                            currentColor: property.backColor,
+                            onColorChange: (value) {
+                              setState(() {
+                                property.backColor = value;
+                              });
+                            })
+                      ],
+                      property.backColor);
+                },
+              ),
+              SettingsItem(
+                label: 'Text',
+                icon:
+                    Icon(Icons.color_lens_outlined, color: property.textColor),
+                hasDetails: true,
+                type: SettingsItemType.modal,
+                onPress: () {
+                  GlobalFun.showBottomSheet(
+                      context,
+                      [
+                        ColorPickerPage(
+                            currentColor: property.textColor,
+                            onColorChange: (value) {
+                              setState(() {
+                                property.textColor = value;
+                              });
+                            })
+                      ],
+                      property.backColor);
+                },
+              ),
+            ],
+            header: Text('Color'),
+          ),
+          SettingsGroup(
+            <Widget>[
+              SettingsItem(
+                label: "Size",
+                type: SettingsItemType.modal,
+                hasDetails: true,
+                onPress: () {
+                  GlobalFun.showPicker(
+                      context,
+                      _list_size.getIndexByValue(property.fontSize.toInt()),
+                      _list_size.list(), (value) {
+                    setState(() {
+                      property.fontSize = _list_size
+                          .values()[value.toInt()]
+                          .toDouble(); //value.toDouble();
+                    });
+                  });
+                },
+                value: Text("${property.fontSize.toInt()}"),
+              ),
+              SettingsItem(
+                label: "Weight",
+                type: SettingsItemType.modal,
+                hasDetails: true,
+                value: Text("${property.fontWeight.toInt()}"),
+                onPress: () {
+                  GlobalFun.showPicker(
+                      context,
+                      _list_font_Weight
+                          .getIndexByValue(property.fontWeight.toInt()),
+                      _list_font_Weight.list(), (value) {
+                    setState(() {
+                      property.fontWeight = _list_font_Weight
+                          .values()[value.toInt()]; //value.toDouble();
+                    });
+                  });
+                },
+              ),
+              SettingsItem(
+                label: "Italic",
+                type: SettingsItemType.toggle,
+                value: CupertinoSwitch(
+                  activeColor: G.appBaseColor[0],
+                  value: property.italic,
+                  onChanged: (bool value) {
+                    setState(() {
+                      property.italic = value;
+                    });
+                  },
+                ),
+              )
+            ],
+            header: Text('Font'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _fontSetting(BuildContext context) {
+    return new Container();
+  }
 }

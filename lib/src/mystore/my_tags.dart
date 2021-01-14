@@ -5,11 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
+import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/input_bottom.dart';
 import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 import 'package:mbook_flutter/src/comm/tools/text_setting.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
+
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class MyTagsPage extends StatefulWidget {
   _MyTagsPageState createState() => _MyTagsPageState();
@@ -22,7 +25,13 @@ class _MyTagsPageState extends State<MyTagsPage> {
   FocusNode _blankNode = FocusNode();
 
   List<TagInfo> _AllTagInfos = new List<TagInfo>.generate(
-      5, (i) => TagInfo(id: i, data: "test", property: TextWidgetProperty(Colors.white)));
+      1,
+      (i) => TagInfo(
+          id: i,
+          data: "test test test test test test test test test test test test test test test test test test test test test test test test ",
+          property: TextWidgetProperty(backColor: Colors.white)));
+
+  //new TextWidgetProperty(backColor: Colors.white)
 
   @override
   void initState() {
@@ -46,16 +55,34 @@ class _MyTagsPageState extends State<MyTagsPage> {
                   itemCount: _AllTagInfos.length,
                   itemBuilder: (context, index) {
                     return new ListTile(
-                      title: WidgetTextPage( _AllTagInfos[index].data,new TextWidgetProperty(Colors.white),
+                      //title: Text(_AllTagInfos[index].data),
+
+                      title:WidgetTextPage(
+                        _AllTagInfos[index].data,
+                        _AllTagInfos[index].property,
                       ),
                       trailing: IconButton(
                         icon: Icon(Icons.edit),
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              PopRoute(
-                                  child: TextSettingWidget(
-                                  )));
+                          // GlobalFun.openEditPage(
+                          //     context,
+                          //     "Tag name",
+                          //     _AllTagInfos[index].data,
+                          //     TextInputAction.newline,
+                          //     TextInputType.multiline, (value) {
+                          //   setState(() {
+                          //     _AllTagInfos[index].data = value;
+                          //   });
+                          // });
+
+                          GlobalFun.showBottomSheet(context, [
+                            TextSettingWidget(property: _AllTagInfos[index].property,data:_AllTagInfos[index].data, onChange:(value){
+                              setState(() {
+                                _AllTagInfos[index].property = value;
+                              });
+
+                            }),
+                          ], null);
                         },
                       ),
                     );

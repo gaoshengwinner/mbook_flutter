@@ -1,9 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mbook_flutter/src/comm/input_bottom.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import 'consts.dart';
 
 class GlobalFun {
-  static void showSnackBar(GlobalKey<ScaffoldState> _scaffoldKey, String title) {
+  static void showSnackBar(
+      GlobalKey<ScaffoldState> _scaffoldKey, String title) {
     //_scaffoldKey.currentContext.
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
       backgroundColor: G.appBaseColor[0],
@@ -11,7 +15,10 @@ class GlobalFun {
       content: new Row(
         children: <Widget>[
           new CircularProgressIndicator(),
-          new Text(title)
+          new Text(
+            title,
+            maxLines: 5,
+          )
         ],
       ),
     ));
@@ -22,6 +29,118 @@ class GlobalFun {
     _scaffoldKey.currentState.removeCurrentSnackBar();
   }
 
+  static Future<T> showBottomSheet<T>(
+      BuildContext context, List<Widget> widget, Color bkgColor) {
+    return showMaterialModalBottomSheet(
+      //expand: false,
+      context: context,
+      backgroundColor: bkgColor == null ? Colors.blue.withOpacity(0) : bkgColor,
+      builder: (context) => Container(
+          decoration: new BoxDecoration(
+            //border: new Border.all( width: 0.5), // 边色与边宽度
+            color: Color(0xFFEFEFF4),
+            // 底色
+            //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
+            borderRadius:
+                new BorderRadius.vertical(top: Radius.elliptical(5, 5)),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black,
+                  offset: Offset(5.0, 5.0),
+                  blurRadius: 20.0,
+                  spreadRadius: 2.0)
+            ],
+          ),
+          child: SafeArea(
+            top: false,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: widget,
+            ),
+          )),
+    );
+  }
 
+  static showPicker(BuildContext context, int initialItem, List<Widget> children,
+      Function onSelectedItemChanged) {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                color: Color(0xffffffff),
+                border: Border(
+                  bottom: BorderSide(
+                    color: Color(0xff999999),
+                    width: 0.0,
+                  ),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  CupertinoButton(
+                    child: Text('Cancel', style: TextStyle(color: Colors.grey),),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 5.0,
+                    ),
+                  ),
+                  CupertinoButton(
+                    child: Text('Confirm', style: TextStyle(color: G.appBaseColor[0])),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 5.0,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              height: 320.0,
+              color: Color(0xfff7f7f7),
+              child: CupertinoPicker(
+                itemExtent: 32.6,
+                children: children,
+                onSelectedItemChanged: (value) {
+                  onSelectedItemChanged(value);
+                },
+                  scrollController: FixedExtentScrollController(initialItem: initialItem)
+              ),
+            )
+          ],
+        );
+      },
+    );
+  }
 
+  static void openEditPage(
+      BuildContext context,
+      String hintTextValue,
+      String initVlueValue,
+      TextInputAction textInputAction,
+      TextInputType keyboardType,
+      Function onEditingCompleteText) {
+    Navigator.push(
+        context,
+        PopRoute(
+            child: InputButtomWidget(
+              onEditingCompleteText: (text) {
+                onEditingCompleteText(text);
+              },
+              hintTextValue: hintTextValue,
+              initVlueValue: initVlueValue,
+              textInputAction: textInputAction,
+              keyboardType: keyboardType,
+            )));
+  }
 }
