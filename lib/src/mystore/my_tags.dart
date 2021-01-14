@@ -28,7 +28,7 @@ class _MyTagsPageState extends State<MyTagsPage> {
       1,
       (i) => TagInfo(
           id: i,
-          data: "test test test test test test test test test test test test test test test test test test test test test test test test ",
+          data: "test ",
           property: TextWidgetProperty(backColor: Colors.white)));
 
   //new TextWidgetProperty(backColor: Colors.white)

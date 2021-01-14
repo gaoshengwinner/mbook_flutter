@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mbook_flutter/src/comm/extension/extension.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 
 class WidgetTextPage extends StatefulWidget {
@@ -25,7 +26,7 @@ class _WidgetTextPagetate extends State<WidgetTextPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
+      alignment: FBAlignment.map()[property.alignment],
       padding: EdgeInsets.only(
           left: property.paddingLeft,
           top: property.paddingTop,
@@ -34,44 +35,42 @@ class _WidgetTextPagetate extends State<WidgetTextPage> {
       //margin: EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: property.backColor,
-        border:
-        property.borderWidth == null || property.borderWidth < 1 ? null :
-         Border.all(color: property.borderColor, width: property.borderWidth),
-
+        border: property.borderWidth == null || property.borderWidth < 1
+            ? null
+            : Border.all(
+                color: property.borderColor, width: property.borderWidth),
         boxShadow: [
           BoxShadow(
               color: property.shadowColor,
               offset: Offset(property.shadowOffsetX, property.shadowOffsetY),
               blurRadius: property.shadowBlurRadius,
-              spreadRadius: property.shadowSpreadRadius
-          )
+              spreadRadius: property.shadowSpreadRadius)
         ],
-
         borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(property.borderRadiusTopLeft),
+            topLeft: Radius.circular(property.borderRadiusTopLeft),
             topRight: Radius.circular(property.borderRadiusTopRight),
             bottomLeft: Radius.circular(property.borderRadiusBottomLeft),
             bottomRight: Radius.circular(property.borderRadiusBottomRight)),
       ),
-      child: Row(
-          mainAxisSize: property.fullLineDisp != null && property.fullLineDisp
-              ? MainAxisSize.max
-              : MainAxisSize.min,
-          children: [
-
-            Text(
-              data,
-              softWrap:true,
-              style: TextStyle(
-                color: property.textColor,
-                fontSize: property.fontSize,
-                fontWeight: _getFontWeightByInt(property.fontWeight),
-                fontStyle: property.italic ? FontStyle.italic : null,
-                letterSpacing: property.letterSpacing,
-
-              ),
-            ),
-          ]),
+      constraints: BoxConstraints(
+        minHeight: property.minHeight,
+        minWidth: property.minWidth,
+        maxWidth: property.maxWidth < 10 ? double.infinity : property.maxWidth,
+        maxHeight:
+            property.maxHeight < 10 ? double.infinity : property.maxHeight,
+      ),
+      child: Text(
+        data,
+        softWrap: true,
+        //textAlign: FBTextAlign.getByString(property.textTextAlign),
+        style: TextStyle(
+          color: property.textColor,
+          fontSize: property.fontSize,
+          fontWeight: _getFontWeightByInt(property.fontWeight),
+          fontStyle: property.italic ? FontStyle.italic : null,
+          letterSpacing: property.letterSpacing,
+        ),
+      ),
     );
   }
 

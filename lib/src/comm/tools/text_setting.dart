@@ -7,6 +7,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
+import 'package:mbook_flutter/src/comm/extension/extension.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ListHelper.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
@@ -60,6 +61,10 @@ class _TextSettingWidget extends State<TextSettingWidget>
   static ListHelper _list_Shadow_blurRadius = ListHelper(0, 256);
   static ListHelper _list_Shadow_spreadRadius = _list_Shadow_blurRadius;
 
+  static ListHelper _list_min = ListHelper(0, 1024);
+
+  static List<Text> _list_TextAlign = FBTextAlign.toTextList();
+
   @override
   void initState() {
     super.initState();
@@ -85,11 +90,12 @@ class _TextSettingWidget extends State<TextSettingWidget>
   static const String _TAB_Padding = "Padding";
   static const String _TAB_Border = "Border";
   static const String _TAB_Shadow = "Shadow";
+  static const String _TAB_Other = "Other";
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 0.8.sh,
+        height: 0.85.sh,
         child: new Column(children: [
           Container(
             width: 1.sw - 5,
@@ -113,7 +119,8 @@ class _TextSettingWidget extends State<TextSettingWidget>
                   _TAB_Base: _TAB_Base,
                   _TAB_Padding: _TAB_Padding,
                   _TAB_Border: _TAB_Border,
-                  _TAB_Shadow: _TAB_Shadow
+                  _TAB_Shadow: _TAB_Shadow,
+                  _TAB_Other: _TAB_Other
                 },
                 onChange: (selectedGender) {
                   setState(() {
@@ -127,9 +134,109 @@ class _TextSettingWidget extends State<TextSettingWidget>
           if (selected == _TAB_Padding) _paddingSetting(context),
           if (selected == _TAB_Border) _borderSetting(context),
           if (selected == _TAB_Shadow) _sgadowSetting(context),
+          if (selected == _TAB_Other) _otherSetting(context),
         ]));
   }
 
+  Widget _otherSetting(BuildContext context) {
+    return new Container(
+        child: Column(children: [
+      SettingsGroup(<Widget>[
+        SettingsItem(
+          label: "Min Width",
+          type: SettingsItemType.modal,
+          hasDetails: true,
+          onPress: () {
+            GlobalFun.showPicker(
+                context,
+                _list_min.getIndexByValue(property.minWidth.toInt()),
+                _list_min.list(), (value) {
+              setState(() {
+                property.minWidth = _list_min
+                    .values()[value.toInt()]
+                    .toDouble(); //value.toDouble();
+              });
+            });
+          },
+          value: Text("${property.minWidth.toInt()}"),
+        ),
+        SettingsItem(
+          label: "Min Height",
+          type: SettingsItemType.modal,
+          hasDetails: true,
+          onPress: () {
+            GlobalFun.showPicker(
+                context,
+                _list_min.getIndexByValue(property.minHeight.toInt()),
+                _list_min.list(), (value) {
+              setState(() {
+                property.minHeight = _list_min
+                    .values()[value.toInt()]
+                    .toDouble(); //value.toDouble();
+              });
+            });
+          },
+          value: Text("${property.minHeight.toInt()}"),
+        ),
+        SettingsItem(
+          label: "Max width",
+          type: SettingsItemType.modal,
+          hasDetails: true,
+          onPress: () {
+            GlobalFun.showPicker(
+                context,
+                _list_min.getIndexByValue(property.maxWidth.toInt()),
+                _list_min.list(), (value) {
+              setState(() {
+                property.maxWidth = _list_min
+                    .values()[value.toInt()]
+                    .toDouble(); //value.toDouble();
+              });
+            });
+          },
+          value: Text("${property.maxWidth.toInt()}"),
+        ),
+        SettingsItem(
+          label: "Max height",
+          type: SettingsItemType.modal,
+          hasDetails: true,
+          onPress: () {
+            GlobalFun.showPicker(
+                context,
+                _list_min.getIndexByValue(property.maxHeight.toInt()),
+                _list_min.list(), (value) {
+              setState(() {
+                property.maxHeight =
+                    _list_min.values()[value.toInt()].toDouble();
+              });
+            });
+          },
+          value: Text("${property.maxHeight.toInt()}"),
+        ),
+      ]),
+      SettingsGroup(<Widget>[
+        SettingsItem(
+          label: "Alignment",
+          type: SettingsItemType.modal,
+          hasDetails: true,
+          onPress: () {
+            GlobalFun.showPicker(
+                context,
+                FBAlignment.getIndexByString(property.alignment),
+                FBAlignment.getAligmentList(), (value) {
+              setState(() {
+                property.alignment =
+                    FBAlignment.getAligmentList()[value.toInt()].data;
+              });
+            });
+          },
+          value: Text("${property.alignment}"),
+        ),
+      ],header: Text(""),)
+    ]));
+  }
+
+//maxHeight
   Widget _sgadowSetting(BuildContext context) {
     return new Container(
         child: Column(children: [
@@ -584,6 +691,28 @@ class _TextSettingWidget extends State<TextSettingWidget>
               )
             ],
             header: Text('Font'),
+          ),
+          SettingsGroup(
+            <Widget>[
+              SettingsItem(
+                label: "Text align",
+                type: SettingsItemType.modal,
+                hasDetails: true,
+                onPress: () {
+                  GlobalFun.showPicker(
+                      context,
+                      FBTextAlign.getIndexByValue(property.textTextAlign),
+                      _list_TextAlign, (value) {
+                    setState(() {
+                      property.textTextAlign =
+                          _list_TextAlign[value.toInt()].data;
+                    });
+                  });
+                },
+                value: Text("${property.textTextAlign}"),
+              ),
+            ],
+            header: Text(''),
           ),
         ],
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mbook_flutter/src/comm/extension/extension.dart';
 
 class TextWidgetProperty {
   bool fullLineDisp = false;
@@ -13,6 +14,8 @@ class TextWidgetProperty {
   double paddingRight = 0;
   double paddingBottom = 0;
 
+  String textTextAlign = TextAlign.left.toShortString();
+
   double borderWidth = 0;
   Color borderColor = const Color(0xFF000000);
   double borderRadiusTopLeft = 0;
@@ -25,6 +28,14 @@ class TextWidgetProperty {
   double shadowOffsetY = 0.0;
   double shadowBlurRadius = 0.0;
   double shadowSpreadRadius = 0.0;
+
+  double minWidth = 0;
+  double minHeight = 0;
+  double maxWidth = 0;
+  double maxHeight = 0;
+
+  String alignment = FBAlignment.DEFALUT_ALIGM;
+
 
 
   TextWidgetProperty({
