@@ -45,6 +45,7 @@ dependencies:
   flutter_tags: ^0.4.9+1
   cupertino_radio_choice: ^1.0.1+1
   modal_bottom_sheet: ^1.0.0+1
+  flutter_slidable:
   #flutter_material_pickers: ^1.9.1
 
   font_awesome_flutter:

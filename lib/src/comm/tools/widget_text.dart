@@ -8,6 +8,7 @@ class WidgetTextPage  {
   @override
   static Widget build(BuildContext context, TextWidgetProperty property, String data) {
     return Container(
+      //width: property.minWidth,
       alignment: FBAlignment.map()[property.alignment],
       padding: EdgeInsets.only(
           left: property.paddingLeft,
