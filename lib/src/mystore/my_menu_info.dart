@@ -97,7 +97,8 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
 
 
                             trailing: Icon(Icons.arrow_forward_ios),
-                            title: Text("${item.id}:${item.itemName}"),
+                            title: Text("${item.id}:${item.itemName}", softWrap: true, overflow: TextOverflow.ellipsis,),
+                            //Text("${item.id}:${item.itemName}", softWrap: true, overflow: TextOverflow.ellipsis,),
                             subtitle: Text(item.itemPrice, maxLines: 2 , style: TextStyle(color: Colors.red),),
 
                             onTap: () {

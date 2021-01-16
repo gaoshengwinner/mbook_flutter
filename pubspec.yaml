@@ -46,6 +46,7 @@ dependencies:
   cupertino_radio_choice: ^1.0.1+1
   modal_bottom_sheet: ^1.0.0+1
   flutter_slidable:
+  implicitly_animated_reorderable_list: ^0.3.2
   #flutter_material_pickers: ^1.9.1
 
   font_awesome_flutter:

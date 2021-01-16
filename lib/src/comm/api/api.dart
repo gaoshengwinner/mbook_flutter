@@ -13,7 +13,7 @@ import 'package:mbook_flutter/src/comm/model/Token.dart';
 import 'package:mbook_flutter/src/comm/token/token.dart';
 
 class Api {
-  static String _BASE_API_URL = "https://7a7711f95ce1.ngrok.io";
+  static String _BASE_API_URL = "https://cc8024fa8ed2.ngrok.io";
   static String _LOGIN_URL = _BASE_API_URL + "/v1/api/member/login";
   static String _REFRESH_TOKEN_URL =
       _BASE_API_URL + "/v1/api/manag/refreshToken";
