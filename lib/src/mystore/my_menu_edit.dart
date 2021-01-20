@@ -54,22 +54,22 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
           child: Container(
               color: Color(0xFFEFEFF4),
               child: ListView(children: [
-                getEditCont("商品名", _item.itemName, false, (value) {
+                GlobalFun.getEditCont(context, "商品名", _item.itemName, false, (value) {
                   setState(() {
                     _item.itemName = value;
                   });
                 }),
-                getEditCont("商品価格", _item.itemPrice, false, (value) {
+                GlobalFun.getEditCont(context, "商品価格", _item.itemPrice, false, (value) {
                   setState(() {
                     _item.itemPrice = value;
                   });
                 }),
-                getEditCont("商品説明", _item.itemDescr, false, (value) {
+                GlobalFun.getEditCont(context, "商品説明", _item.itemDescr, false, (value) {
                   setState(() {
                     _item.itemDescr = value;
                   });
                 }),
-                getEditCont("商品代表写真", _item.itemMainPicUrl, true, (value) {
+                GlobalFun.getEditCont(context, "商品代表写真", _item.itemMainPicUrl, true, (value) {
                   setState(() {
                     _item.itemMainPicUrl = value;
                   });
@@ -165,58 +165,6 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
         ),
       ],
     );
-  }
-
-  Widget getEditCont(
-      String title, String value, bool isImage, Function onChange) {
-    return Container(
-        margin: EdgeInsets.only(left: 5, right: 5, top: 10),
-        padding: EdgeInsets.only(left: 5, right: 5, bottom: 5),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.grey,
-          ),
-          borderRadius: BorderRadius.circular(3.0),
-        ),
-        child: Column(children: [
-          Row(
-            children: [
-              Text(
-                title,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Spacer(),
-              IconButton(
-                icon: Icon(
-                  Icons.edit,
-                  color: G.appBaseColor[0],
-                ),
-                onPressed: () {
-                  GlobalFun.openEditPage(context, title, value, TextInputAction.newline,
-                      TextInputType.multiline, (value) {
-                    onChange(value);
-                  });
-                },
-              )
-            ],
-          ),
-          Container(
-              margin: EdgeInsets.only(top: 2, bottom: 5),
-              child: Divider(
-                color: Colors.grey,
-                height: 1.0,
-              )),
-          if (!isImage)
-            Row(children: [
-              Flexible(
-                  child: Text(
-                value,
-                maxLines: 100,
-              ))
-            ]),
-          if (isImage) Row(children: [Flexible(child: Image.network(value))]),
-        ]));
   }
 
 

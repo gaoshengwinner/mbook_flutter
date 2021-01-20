@@ -39,20 +39,20 @@ class InputButtomWidget extends StatelessWidget {
               Navigator.pop(context);
             },
           )),
+          // new Container(
+          //   color: G.appBaseColor[0],
+          //     child:
+          //     Center( child:
+          //     IconButton(icon: Icon(Icons.add_link, size: 40,), onPressed: () async {
+          //
+          //       ClipboardData data = await Clipboard.getData(Clipboard.kTextPlain);
+          //       if (data != null)
+          //       _controller.text = '${data.text}';
+          //     },)
+          //
+          //     )),
           new Container(
-            color: G.appBaseColor[0],
-              child:
-              Center( child:
-              IconButton(icon: Icon(Icons.add_link, size: 40,), onPressed: () async {
-
-                ClipboardData data = await Clipboard.getData(Clipboard.kTextPlain);
-                if (data != null)
-                _controller.text = '${data.text}';
-              },)
-
-              )),
-          new Container(
-              color: G.appBaseColor[0],
+              color:Color(0xFFEFEFF4),
               padding: EdgeInsets.only(left: 16, top: 8, bottom: 8, right: 16),
               child: Container(
                   decoration: BoxDecoration(color: Colors.white),

@@ -149,6 +149,8 @@ class _MyTagsPageState extends State<MyTagsPage>
     });
   }
 
+  final FocusNode _descriptionNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -165,68 +167,215 @@ class _MyTagsPageState extends State<MyTagsPage>
           },
           child: new FBListViewWidget<Language>(
             selectedLanguages,
-            actions: [ActionOption.Delete],
-            seActions: [ActionOption.Delete],
+            setActions: (c, r, index) {
+              return [
+                FBListViewWidget.getSlideActionDelete(c, () {
+                  setState(() {
+                    selectedLanguages.remove(r);
+                  });
+                })
+              ];
+            },
+            //seActions: [ActionOption.Delete],
             canBeMove: true,
-            createLeading: (c, r, index) {
-              return SizedBox(
-                width: 36,
-                height: 36,
-                child: Center(
-                  child: Text(
-                    '${index + 1}',
-                    style: textTheme.bodyText2.copyWith(
-                      color: theme.accentColor,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              );
-            },
-            createTitle: (c, r, index) {
-              return GestureDetector(
-                child: Text(r.englishName),
-                onTap: () {
-                  GlobalFun.openEditPage(
-                      context,
-                      "Tag name",
-                      selectedLanguages[index].englishName,
-                      TextInputAction.newline,
-                      TextInputType.multiline, (value) {
-                    setState(() {
-                      selectedLanguages[index].englishName = value;
-                    });
-                  });
-                },
-              );
-            },
-            createSubTitle: (c, r, index) {
-              return GestureDetector(
-                  child: Wrap(
+            setSubWidget: (c, r, index) {
+              return Container(
+                color: Color(0xEDE7F6),
+                padding: EdgeInsets.all(10),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      WidgetTextPage.build(
-                        context,
-                        selectedLanguages[index].property,
-                        selectedLanguages[index].englishName,
-                      )
-                    ],
-                  ),
-                  onTap: () {
-                    return GlobalFun.showBottomSheet(
-                        context,
-                        [
-                          TextSettingWidget(
-                              property: selectedLanguages[index].property,
-                              data: selectedLanguages[index].englishName,
-                              onChange: (value) {
+                      Row(children: [
+                      Container(
+                        width: 0.8.sw,
+                        child: Row(
+                          children: [
+                            Text(
+                              "Description",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Spacer(),
+                            GlobalFun.ClipOvalIcon(Icons.edit, () {
+                              GlobalFun.openEditPage(
+                                  context,
+                                  "Description",
+                                  selectedLanguages[index].englishName,
+                                  TextInputAction.newline,
+                                  TextInputType.multiline, (value) {
                                 setState(() {
-                                  selectedLanguages[index].property = value;
+                                  selectedLanguages[index].englishName = value;
                                 });
-                              }),
-                        ],
-                        null);
-                  });
+                              });
+                              ;
+                            }),
+                          ],
+                        ),
+                      ),
+                        Spacer(),
+                        FBListViewWidget.getMoveListWidget()
+                      ],),
+
+
+                      Container(
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey, width: 1),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        width: 0.8.sw,
+
+                        ///color: Colors.white,
+                        child: Text(selectedLanguages[index].englishName),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Container(
+                        width: 0.8.sw,
+                        child: Row(
+                          children: [
+                            Text(
+                              "Tag",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Spacer(),
+                            GlobalFun.ClipOvalIcon(Icons.edit, () {
+                              GlobalFun.openEditPage(
+                                  context,
+                                  "Tag",
+                                  selectedLanguages[index].nativeName,
+                                  TextInputAction.newline,
+                                  TextInputType.multiline, (value) {
+                                setState(() {
+                                  selectedLanguages[index].nativeName = value;
+                                });
+                              });
+                            }),
+                          ],
+                        ),
+                      ),
+                      Row(children: [
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.grey, width: 1),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          width: 0.8.sw,
+
+                          ///color: Colors.white,
+                          child: GestureDetector(
+                            child: Wrap(
+                              children: [
+                                WidgetTextPage.build(
+                                  context,
+                                  selectedLanguages[index].property,
+                                  selectedLanguages[index].nativeName,
+                                )
+                              ],
+                            ),
+                          ),
+                          //Text(selectedLanguages[index].nativeName),
+                        ),
+                        GlobalFun.ClipOvalIcon(Icons.settings, () {
+                          return GlobalFun.showBottomSheet(
+                              context,
+                              [
+                                TextSettingWidget(
+                                    property: selectedLanguages[index].property,
+                                    data: selectedLanguages[index].nativeName,
+                                    onChange: (value) {
+                                      setState(() {
+                                        selectedLanguages[index].property =
+                                            value;
+                                      });
+                                    }),
+                              ],
+                              null);
+                        }),
+                      ])
+                    ]),
+              );
             },
+
+            // (c, r, index){return FBListViewWidget.getMoveListWidget();},
+            // createLeading: (c, r, index) {
+            //   return SizedBox(
+            //     //width: 36,
+            //     //height: 36,
+            //     child: Center(
+            //       child: Text(
+            //         '${index + 1}',
+            //         style: textTheme.bodyText2.copyWith(
+            //           color: theme.accentColor,
+            //           fontSize: 16,
+            //         ),
+            //       ),
+            //     ),
+            //   );
+            // },
+            // createTitle: (c, r, index) {
+            //   return GestureDetector(
+            //       child: Container(
+            //         alignment: Alignment.topLeft,
+            //         child: Wrap(
+            //           // alignment: WrapAlignment.start,
+            //           children: [
+            //             GlobalFun.getEditCont(context, selectedLanguages[index].englishName, selectedLanguages[index].englishName, false, (value) {
+            //               setState(() {
+            //                 selectedLanguages[index].englishName = value;
+            //               });
+            //             }),
+            //             //Icon(Icons.edit),
+            //             //Text(selectedLanguages[index].englishName)
+            //           ],
+            //         ),
+            //       ),
+            //       onTap: () {
+            //         GlobalFun.openEditPage(
+            //             context,
+            //             "Tag name",
+            //             selectedLanguages[index].englishName,
+            //             TextInputAction.newline,
+            //             TextInputType.multiline, (value) {
+            //           setState(() {
+            //             selectedLanguages[index].englishName = value;
+            //           });
+            //         });
+            //       });
+            // },
+            // createSubTitle: (c, r, index) {
+            //   return GestureDetector(
+            //       child: Container(
+            //         alignment: Alignment.topLeft,
+            //         child: Wrap(
+            //           // alignment: WrapAlignment.start,
+            //           children: [
+            //             GlobalFun.getEditCont(context, selectedLanguages[index].englishName, selectedLanguages[index].englishName, false, (value) {
+            //               setState(() {
+            //                 selectedLanguages[index].englishName = value;
+            //               });
+            //             }),
+            //             //Icon(Icons.edit),
+            //             //Text(selectedLanguages[index].englishName)
+            //           ],
+            //         ),
+            //       ),
+            //       onTap: () {
+            //         GlobalFun.openEditPage(
+            //             context,
+            //             "Tag name",
+            //             selectedLanguages[index].englishName,
+            //             TextInputAction.newline,
+            //             TextInputType.multiline, (value) {
+            //           setState(() {
+            //             selectedLanguages[index].englishName = value;
+            //           });
+            //         });
+            //       });
+            // },
           ),
         ));
   }

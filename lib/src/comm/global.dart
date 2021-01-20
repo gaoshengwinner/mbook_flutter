@@ -61,8 +61,8 @@ class GlobalFun {
     );
   }
 
-  static showPicker(BuildContext context, int initialItem, List<Widget> children,
-      Function onSelectedItemChanged) {
+  static showPicker(BuildContext context, int initialItem,
+      List<Widget> children, Function onSelectedItemChanged) {
     showCupertinoModalPopup(
       context: context,
       builder: (context) {
@@ -83,7 +83,10 @@ class GlobalFun {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   CupertinoButton(
-                    child: Text('Cancel', style: TextStyle(color: Colors.grey),),
+                    child: Text(
+                      'Cancel',
+                      style: TextStyle(color: Colors.grey),
+                    ),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -93,7 +96,8 @@ class GlobalFun {
                     ),
                   ),
                   CupertinoButton(
-                    child: Text('Confirm', style: TextStyle(color: G.appBaseColor[0])),
+                    child: Text('Confirm',
+                        style: TextStyle(color: G.appBaseColor[0])),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -109,13 +113,13 @@ class GlobalFun {
               height: 320.0,
               color: Color(0xfff7f7f7),
               child: CupertinoPicker(
-                itemExtent: 32.6,
-                children: children,
-                onSelectedItemChanged: (value) {
-                  onSelectedItemChanged(value);
-                },
-                  scrollController: FixedExtentScrollController(initialItem: initialItem)
-              ),
+                  itemExtent: 32.6,
+                  children: children,
+                  onSelectedItemChanged: (value) {
+                    onSelectedItemChanged(value);
+                  },
+                  scrollController:
+                      FixedExtentScrollController(initialItem: initialItem)),
             )
           ],
         );
@@ -134,13 +138,102 @@ class GlobalFun {
         context,
         PopRoute(
             child: InputButtomWidget(
-              onEditingCompleteText: (text) {
-                onEditingCompleteText(text);
-              },
-              hintTextValue: hintTextValue,
-              initVlueValue: initVlueValue,
-              textInputAction: textInputAction,
-              keyboardType: keyboardType,
-            )));
+          onEditingCompleteText: (text) {
+            onEditingCompleteText(text);
+          },
+          hintTextValue: hintTextValue,
+          initVlueValue: initVlueValue,
+          textInputAction: textInputAction,
+          keyboardType: keyboardType,
+        )));
+  }
+
+  static Widget getEditCont(BuildContext context, String title, String value,
+      bool isImage, Function onChange) {
+    return Container(
+        margin: EdgeInsets.only(left: 5, right: 5, top: 10),
+        padding: EdgeInsets.only(left: 5, right: 5, bottom: 5),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            color: Colors.grey,
+          ),
+          borderRadius: BorderRadius.circular(3.0),
+        ),
+        child: Column(children: [
+          Row(
+            children: [
+              Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Spacer(),
+              ClipOval(
+                child: Material(
+                  color: G.appBaseColor[1], // button color
+                  child: InkWell(
+                    splashColor: Colors.purpleAccent, // inkwell color
+                    child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                          size: 18,
+                        )),
+                    onTap: () {
+                      GlobalFun.openEditPage(
+                          context,
+                          title,
+                          value,
+                          TextInputAction.newline,
+                          TextInputType.multiline, (value) {
+                        onChange(value);
+                      });
+                    },
+                  ),
+                ),
+              )
+            ],
+          ),
+          Container(
+              margin: EdgeInsets.only(top: 2, bottom: 5),
+              child: Divider(
+                color: Colors.grey,
+                height: 1.0,
+              )),
+          if (!isImage)
+            Row(children: [
+              Flexible(
+                  child: Text(
+                value,
+                maxLines: 100,
+              ))
+            ]),
+          if (isImage) Row(children: [Flexible(child: Image.network(value))]),
+        ]));
+  }
+
+  static Widget ClipOvalIcon(IconData icon, Function onTap) {
+    return ClipOval(
+      child: Material(
+        color: G.appBaseColor[1], // button color
+        child: InkWell(
+          splashColor: Colors.purpleAccent,
+          // inkwell color
+          child: SizedBox(
+              width: 20,
+              height: 20,
+              child: Icon(
+                icon,
+                color: Colors.white,
+                size: 18,
+              )),
+          onTap: () {
+            onTap();
+          },
+        ),
+      ),
+    );
   }
 }
