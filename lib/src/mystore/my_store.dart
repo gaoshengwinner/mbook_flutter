@@ -26,8 +26,8 @@ class _MyStorePageState extends State<MyStorePage> {
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBarView.appbar(S.of(context).mystore_title, true),
-        //backgroundColor:Color(0xf5f5f5).withOpacity(1),
-        endDrawer: MenuBar.menu(true, true, context, null),
+       // backgroundColor:Color(0xf5f5f5).withOpacity(1),
+        //endDrawer: Text("test"),//MenuBar.menu(true, true, context, null),
         body: SettingsList(
           sections: [
             SettingsSection(
@@ -47,7 +47,7 @@ class _MyStorePageState extends State<MyStorePage> {
                           MaterialPageRoute(
                               builder: (context) =>
                                   MyStoreInfoPage(result[1])));
-                    }).catchError((e){
+                    }).catchError((e) {
                       GlobalFun.showSnackBar(_scaffoldKey, e.toString());
                     });
                   },
@@ -59,16 +59,14 @@ class _MyStorePageState extends State<MyStorePage> {
                   onPressed: (BuildContext context) async {
                     GlobalFun.showSnackBar(_scaffoldKey, "  Loading...");
                     Api.getMyShopItemInfo(context).then((result) {
-                    GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+                      GlobalFun.removeCurrentSnackBar(_scaffoldKey);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  MyMenuInfoPage(result[1])));
-                     }).catchError((e){
-                       GlobalFun.showSnackBar(_scaffoldKey, e.toString());
-                     });
-
+                              builder: (context) => MyMenuInfoPage(result[1])));
+                    }).catchError((e) {
+                      GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+                    });
                   },
                 ),
                 SettingsTile(
@@ -78,16 +76,12 @@ class _MyStorePageState extends State<MyStorePage> {
                   onPressed: (BuildContext context) async {
                     GlobalFun.showSnackBar(_scaffoldKey, "  Loading...");
                     //Api.getMyShopItemInfo(context).then((result) {
-                     // GlobalFun.removeCurrentSnackBar(_scaffoldKey);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  MyTagsPage()));
+                    // GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => MyTagsPage()));
                     //}).catchError((e){
                     //  GlobalFun.showSnackBar(_scaffoldKey, e.toString());
                     //});
-
                   },
                 ),
                 SettingsTile(
@@ -101,12 +95,10 @@ class _MyStorePageState extends State<MyStorePage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                ColorPickerPage()));
+                            builder: (context) => ColorPickerPage()));
                     //}).catchError((e){
                     //  GlobalFun.showSnackBar(_scaffoldKey, e.toString());
                     //});
-
                   },
                 ),
               ],
