@@ -22,76 +22,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-Language english = Language(
-  englishName: 'English',
-  nativeName: 'English',
-);
-
-Language french = Language(
-  englishName: 'French',
-  nativeName: 'Français',
-);
-
-Language german = Language(
-  englishName: 'German',
-  nativeName: 'Deutsch',
-);
-
-Language spanish = Language(
-  englishName: 'Spanish',
-  nativeName: 'Español',
-);
-
-Language chinese = Language(
-  englishName: 'Chinese',
-  nativeName: '中文',
-);
-
-Language danish = Language(
-  englishName: 'Danish',
-  nativeName: 'Dansk',
-);
-
-Language hindi = Language(
-  englishName: 'Hindi',
-  nativeName: 'हिंदी',
-);
-
-Language afrikaans = Language(
-  englishName: 'Afrikaans',
-  nativeName: 'Afrikaans',
-);
-
-Language portuguese0 = Language(
-  englishName: 'Portuguese0',
-  nativeName: 'Português',
-);
-
-Language portuguese1 = Language(
-  englishName: 'Portuguese1',
-  nativeName: 'Português',
-);
-Language portuguese2 = Language(
-  englishName: 'Portuguese2',
-  nativeName: 'Português',
-);
-
-Language portuguese3 = Language(
-  englishName: 'Portuguese3',
-  nativeName: 'Português',
-);
-Language portuguese4 = Language(
-  englishName: 'Portuguese4',
-  nativeName: 'Português',
-);
-Language portuguese5 = Language(
-  englishName: 'Portuguese5',
-  nativeName: 'Português',
-);
-Language portuguese6 = Language(
-  englishName: 'Portuguese6',
-  nativeName: 'Português',
-);
 
 class MyTagsPage extends StatefulWidget {
   _MyTagsPageState createState() => _MyTagsPageState();
@@ -115,22 +45,7 @@ class _MyTagsPageState extends State<MyTagsPage>
 
   //new TextWidgetProperty(backColor: Colors.white)
 
-  final List<Language> selectedLanguages = [
-    afrikaans,
-    english,
-    french,
-    german,
-    spanish,
-    chinese,
-    danish,
-    hindi,
-    portuguese0,
-    portuguese1,
-    portuguese2,
-    portuguese4,
-    portuguese5,
-    portuguese6
-  ];
+  final List<Language> selectedLanguages = [];
 
   @override
   void initState() {
@@ -185,120 +100,58 @@ class _MyTagsPageState extends State<MyTagsPage>
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(children: [
-                      Container(
-                        width: 0.8.sw,
-                        child: Row(
-                          children: [
-                            Text(
-                              "Description",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Spacer(),
-                            GlobalFun.ClipOvalIcon(Icons.edit, () {
-                              GlobalFun.openEditPage(
-                                  context,
-                                  "Description",
-                                  selectedLanguages[index].englishName,
-                                  TextInputAction.newline,
-                                  TextInputType.multiline, (value) {
-                                setState(() {
-                                  selectedLanguages[index].englishName = value;
-                                });
-                              });
-                              ;
-                            }),
-                          ],
-                        ),
+                      GlobalFun.FBInputBox(context, "Description",
+                          selectedLanguages[index].englishName, (value) {
+                        setState(() {
+                          selectedLanguages[index].englishName = value;
+                        });
+                      }),
+                      Row(
+                        children: [
+                          GlobalFun.FBInputBox(context, "Tag",
+                              selectedLanguages[index].nativeName, (value) {
+                            setState(() {
+                              selectedLanguages[index].nativeName = value;
+                            });
+                          },
+                              valueWidget: Wrap(
+                                children: [
+                                  WidgetTextPage.build(
+                                    context,
+                                    selectedLanguages[index].property,
+                                    selectedLanguages[index].nativeName,
+                                  )
+                                ],
+                              )),
+                          GlobalFun.ClipOvalIcon(Icons.settings, () {
+                            return GlobalFun.showBottomSheet(
+                                context,
+                                [
+                                  TextSettingWidget(
+                                      property:
+                                          selectedLanguages[index].property,
+                                      data: selectedLanguages[index].nativeName,
+                                      onChange: (value) {
+                                        setState(() {
+                                          selectedLanguages[index].property =
+                                              value;
+                                        });
+                                      }),
+                                ],
+                                null);
+                          }),
+                        ],
                       ),
-                        Spacer(),
-                        FBListViewWidget.getMoveListWidget()
-                      ],),
-
-
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.grey, width: 1),
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                        width: 0.8.sw,
-
-                        ///color: Colors.white,
-                        child: Text(selectedLanguages[index].englishName),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Container(
-                        width: 0.8.sw,
-                        child: Row(
-                          children: [
-                            Text(
-                              "Tag",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Spacer(),
-                            GlobalFun.ClipOvalIcon(Icons.edit, () {
-                              GlobalFun.openEditPage(
-                                  context,
-                                  "Tag",
-                                  selectedLanguages[index].nativeName,
-                                  TextInputAction.newline,
-                                  TextInputType.multiline, (value) {
-                                setState(() {
-                                  selectedLanguages[index].nativeName = value;
-                                });
-                              });
-                            }),
-                          ],
-                        ),
-                      ),
-                      Row(children: [
-                        Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: Colors.grey, width: 1),
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          width: 0.8.sw,
-
-                          ///color: Colors.white,
-                          child: GestureDetector(
-                            child: Wrap(
-                              children: [
-                                WidgetTextPage.build(
-                                  context,
-                                  selectedLanguages[index].property,
-                                  selectedLanguages[index].nativeName,
-                                )
-                              ],
-                            ),
-                          ),
-                          //Text(selectedLanguages[index].nativeName),
-                        ),
-                        GlobalFun.ClipOvalIcon(Icons.settings, () {
-                          return GlobalFun.showBottomSheet(
-                              context,
-                              [
-                                TextSettingWidget(
-                                    property: selectedLanguages[index].property,
-                                    data: selectedLanguages[index].nativeName,
-                                    onChange: (value) {
-                                      setState(() {
-                                        selectedLanguages[index].property =
-                                            value;
-                                      });
-                                    }),
-                              ],
-                              null);
-                        }),
-                      ])
                     ]),
               );
             },
+            footer: FBListViewWidget.buildFooter(context,
+                icon: Icons.add, title: "Add a tag", onTap: () {
+              setState(() {
+                selectedLanguages
+                    .add(Language(englishName: "", nativeName: ""));
+              });
+            }),
 
             // (c, r, index){return FBListViewWidget.getMoveListWidget();},
             // createLeading: (c, r, index) {

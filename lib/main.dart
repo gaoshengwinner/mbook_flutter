@@ -44,7 +44,11 @@ class MyApp extends StatelessWidget {
             supportedLocales: S.delegate.supportedLocales,
             // 多语言End
             theme: new ThemeData(
+              brightness: Brightness.light,
               primarySwatch: Colors.blue,
+            ),
+            darkTheme: ThemeData(
+              brightness: Brightness.dark,
             ),
             home: HomePage(),
 

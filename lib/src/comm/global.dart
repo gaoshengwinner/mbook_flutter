@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mbook_flutter/src/comm/input_bottom.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'consts.dart';
 
@@ -165,7 +166,8 @@ class GlobalFun {
             children: [
               Text(
                 title,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: G.appBaseColor[0]),
               ),
               Spacer(),
               ClipOval(
@@ -217,23 +219,65 @@ class GlobalFun {
   static Widget ClipOvalIcon(IconData icon, Function onTap) {
     return ClipOval(
       child: Material(
-        color: G.appBaseColor[1], // button color
+        //color: G.appBaseColor[1], // button color
         child: InkWell(
           splashColor: Colors.purpleAccent,
           // inkwell color
           child: SizedBox(
-              width: 20,
-              height: 20,
+              width: 40,
+              height: 40,
               child: Icon(
                 icon,
-                color: Colors.white,
-                size: 18,
+                //color: Colors.white,
+                size: 28,
               )),
           onTap: () {
             onTap();
           },
         ),
       ),
+    );
+  }
+
+  static Widget FBInputBox(
+      BuildContext context, String lableText, String value, Function serValue,
+      {Widget valueWidget = null, width = null}) {
+    width = width == null ? 0.8.sw : width;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: width,
+          child: Text(
+            lableText,
+            style: TextStyle(fontWeight: FontWeight.bold, color: G.appBaseColor[0]),
+          ),
+        ),
+        Container(
+          width: width,
+          child: GestureDetector(
+            child: Container(
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.grey, width: 1),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              width: 0.8.sw,
+              child: valueWidget == null ? Text(value) : valueWidget,
+            ),
+            onTap: () {
+              GlobalFun.openEditPage(context, lableText, value,
+                  TextInputAction.newline, TextInputType.multiline, (value) {
+                serValue(value);
+              });
+            },
+          ),
+        ),
+        SizedBox(
+          height: 5,
+        ),
+      ],
     );
   }
 }
