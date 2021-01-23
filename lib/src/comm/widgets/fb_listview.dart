@@ -79,6 +79,67 @@ class FBListViewWidget<E> extends StatefulWidget {
     );
   }
 
+  static Widget getSlideActionCopy(BuildContext context, Function onTap) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
+    return SlideAction(
+      closeOnTap: true,
+      color: Color.fromRGBO(255, 205, 210, 1),
+      onTap: () {
+        onTap();
+      },
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const Icon(
+              Icons.copy,
+              color: Colors.green,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Copy',
+              style: textTheme.bodyText2.copyWith(
+                color: Colors.green,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static Widget getSlideActionBrush(BuildContext context, Function onTap) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+
+    return SlideAction(
+      closeOnTap: true,
+      color: Color.fromRGBO(255, 205, 210, 1),
+      onTap: () {
+        onTap();
+      },
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const Icon(
+              Icons.brunch_dining,
+              color: Colors.green,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Paste',
+              style: textTheme.bodyText2.copyWith(
+                color: Colors.green,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   static Widget buildFooter(BuildContext context,
       {IconData icon = null, String title = "", Function onTap}) {
@@ -95,15 +156,15 @@ class FBListViewWidget<E> extends StatefulWidget {
                 leading: icon == null
                     ? null
                     : SizedBox(
-                  height: 36,
-                  width: 36,
-                  child: Center(
-                    child: Icon(
-                      icon,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
+                        height: 36,
+                        width: 36,
+                        child: Center(
+                          child: Icon(
+                            icon,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
                 title: Text(
                   title,
                 ),
@@ -258,5 +319,4 @@ class _FBListViewWidgetState<E> extends State<FBListViewWidget>
       ),
     );
   }
-
 }

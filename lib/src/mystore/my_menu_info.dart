@@ -39,10 +39,10 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
         appBar: AppBarView.appbar("Item List", true, true, context, (query) {
           serchString = query;
           //setState(() {
-          List<ItemDetail> dummySearchList = List<ItemDetail>();
+          List<ItemDetail> dummySearchList = [];
           dummySearchList.addAll(_AllitemList);
           if (query.isNotEmpty) {
-            List<ItemDetail> dummyListData = List<ItemDetail>();
+            List<ItemDetail> dummyListData = [];
             dummySearchList.forEach((item) {
               if (item.id.toString().contains(query) ||
                   item.itemName.contains(query) ||
@@ -80,26 +80,33 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
                           child: ListTile(
                             contentPadding: EdgeInsets.all(10.0),
                             leading:
-                            // CircleAvatar(
-                            //   backgroundImage: NetworkImage(item.itemMainPicUrl,),
-                            // ),
-                            item.itemMainPicUrl == null ||
-                                    item.itemMainPicUrl.isEmpty
-                                ? null
-                                : Container(
-                              //width: 0.3.sw,
-                                    constraints:
-                                        BoxConstraints.tightFor(width: 100.0),
-                                    child: Image.network(
-                                      item.itemMainPicUrl,
-                                      fit: BoxFit.fitWidth,
-                                    )),
-
+                                // CircleAvatar(
+                                //   backgroundImage: NetworkImage(item.itemMainPicUrl,),
+                                // ),
+                                item.itemMainPicUrl == null ||
+                                        item.itemMainPicUrl.isEmpty
+                                    ? null
+                                    : Container(
+                                        //width: 0.3.sw,
+                                        constraints: BoxConstraints.tightFor(
+                                            width: 100.0),
+                                        child: Image.network(
+                                          item.itemMainPicUrl,
+                                          fit: BoxFit.fitWidth,
+                                        )),
 
                             trailing: Icon(Icons.arrow_forward_ios),
-                            title: Text("${item.id}:${item.itemName}", softWrap: true, overflow: TextOverflow.ellipsis,),
+                            title: Text(
+                              "${item.id}:${item.itemName}",
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                             //Text("${item.id}:${item.itemName}", softWrap: true, overflow: TextOverflow.ellipsis,),
-                            subtitle: Text(item.itemPrice, maxLines: 2 , style: TextStyle(color: Colors.red),),
+                            subtitle: Text(
+                              item.itemPrice,
+                              maxLines: 2,
+                              style: TextStyle(color: Colors.red),
+                            ),
 
                             onTap: () {
                               Navigator.push(

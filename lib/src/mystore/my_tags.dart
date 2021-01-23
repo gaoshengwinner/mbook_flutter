@@ -22,7 +22,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-
 class MyTagsPage extends StatefulWidget {
   _MyTagsPageState createState() => _MyTagsPageState();
 }
@@ -35,6 +34,8 @@ class _MyTagsPageState extends State<MyTagsPage>
   FocusNode _blankNode = FocusNode();
   ScrollController scrollController;
   bool inReorder = true;
+
+  int copiedIndex = -1;
 
   List<TagInfo> _AllTagInfos = new List<TagInfo>.generate(
       5,
@@ -152,6 +153,24 @@ class _MyTagsPageState extends State<MyTagsPage>
                     .add(Language(englishName: "", nativeName: ""));
               });
             }),
+            setSeActions: (c, r, index) {
+              return [
+                FBListViewWidget.getSlideActionCopy(c, () {
+                  setState(() {
+                    copiedIndex = index;
+                    //selectedLanguages.remove(r);
+                  });
+                }),
+                FBListViewWidget.getSlideActionBrush(c, () {
+                  setState(() {
+                    if (copiedIndex >= 0)
+                      selectedLanguages[index].property =
+                          selectedLanguages[copiedIndex].property;
+                    //selectedLanguages.remove(r);
+                  });
+                })
+              ];
+            },
 
             // (c, r, index){return FBListViewWidget.getMoveListWidget();},
             // createLeading: (c, r, index) {
