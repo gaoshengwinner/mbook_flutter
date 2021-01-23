@@ -302,21 +302,33 @@ class _FBListViewWidgetState<E> extends State<FBListViewWidget>
     final elevation = lerpDouble(0, 8, t);
 
     return Slidable(
-      actionPane: const SlidableBehindActionPane(),
-      actions: this.setActions == null
-          ? null
-          : this.setActions(context, item, index),
-      secondaryActions: this.setSeActions == null
-          ? null
-          : this.setSeActions(context, item, index),
-      child: Card(
-        color: Color.fromRGBO(237, 231, 246, 1),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        ),
-        elevation: 20,
-        child: this.setSubWidget(context, item, index),
-      ),
-    );
+        actionPane: const SlidableBehindActionPane(),
+        actions: this.setActions == null
+            ? null
+            : this.setActions(context, item, index),
+        secondaryActions: this.setSeActions == null
+            ? null
+            : this.setSeActions(context, item, index),
+        child: Stack(children: <Widget>[
+          Card(
+            color: Color.fromRGBO(237, 231, 246, 1),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            ),
+            elevation: 20,
+            child: this.setSubWidget(context, item, index),
+          ),
+          new Positioned(
+            child: const Handle(
+              delay: Duration(milliseconds: 100),
+              child: Icon(
+                Icons.drag_handle,
+                color: Colors.grey,
+              ),
+            ),
+            left: MediaQuery.of(context).size.width - 40,
+            top: 0,
+          )
+        ]));
   }
 }

@@ -46,7 +46,7 @@ class _MyTagsPageState extends State<MyTagsPage>
 
   //new TextWidgetProperty(backColor: Colors.white)
 
-  final List<Language> selectedLanguages = [];
+  final List<Language> selectedLanguages = [Language(englishName:"dfds",nativeName:"dfsaf")];
 
   @override
   void initState() {
