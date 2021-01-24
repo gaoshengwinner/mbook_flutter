@@ -163,7 +163,7 @@ class _MyTagsPageState extends State<MyTagsPage>
                   setState(() {
                     if (copiedIndex >= 0)
                       selectedLanguages[index].property =
-                          selectedLanguages[copiedIndex].property;
+                          selectedLanguages[copiedIndex].property.copy();
                     //selectedLanguages.remove(r);
                   });
                 })
