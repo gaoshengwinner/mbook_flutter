@@ -94,56 +94,110 @@ class _TextSettingWidget extends State<TextSettingWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 0.85.sh,
-        child: new Column(children: [
-          Container(
+    List<Widget> prs = [];
+    prs.addAll(_baseSetting( context));
+    prs.addAll(_paddingSetting( context));
+    prs.addAll(_borderSetting( context));
+    prs.addAll(_sgadowSetting( context));
+    prs.addAll(_otherSetting( context));
+
+    //       if (selected == _TAB_Base) _baseSetting(context),
+    //       if (selected == _TAB_Padding) _paddingSetting(context),
+    //       if (selected == _TAB_Border) _borderSetting(context),
+    //       if (selected == _TAB_Shadow) _sgadowSetting(context),
+    //       if (selected == _TAB_Other) _otherSetting(context),
+    return Scaffold(
+        body: Column(
+      children: <Widget>[
+        Expanded(
+          flex: 1,
+          child: Container(
             width: 1.sw - 5,
             height: 100,
+            //color:Color.fromRGBO(243, 229, 245, 1),
             child: Center(
+
               // margin: EdgeInsets.only(top: 5),
               //width: 1.sw - 5,
               // height: 150,
               //child: //Align(
               //alignment: Alignment.center,
-              child: WidgetTextPage.build(context,property, data),
+              child: WidgetTextPage.build(context, property, data),
               // ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.only(top: 5),
-            child: MyCupertinoRadioChoice(
-                //selectedColor: G.appBaseColor[0].withOpacity(0.7),
-                //notSelectedColor: Colors.grey.withOpacity(0.5),
-                choices: {
-                  _TAB_Base: _TAB_Base,
-                  _TAB_Padding: _TAB_Padding,
-                  _TAB_Border: _TAB_Border,
-                  _TAB_Shadow: _TAB_Shadow,
-                  _TAB_Other: _TAB_Other
-                },
-                onChange: (selectedGender) {
-                  setState(() {
-                    selected = selectedGender;
-                  });
-                  //print(selected);
-                },
-                initialKeyValue: _TAB_Base),
+        ),
+        Expanded(
+          flex: 7,
+          child: Container(
+            color:Color(0xEDE7F6),
+            width: double.infinity,
+            child: SingleChildScrollView(
+              child: Column(children: prs),
+            ),
           ),
-          if (selected == _TAB_Base) _baseSetting(context),
-          if (selected == _TAB_Padding) _paddingSetting(context),
-          if (selected == _TAB_Border) _borderSetting(context),
-          if (selected == _TAB_Shadow) _sgadowSetting(context),
-          if (selected == _TAB_Other) _otherSetting(context),
-        ]));
+        )
+      ],
+    ));
+
+    //
+    //
+    // return Container(
+    //     height: 0.85.sh,
+    //     child: new Column(children: [
+    //       Container(
+    //         width: 1.sw - 5,
+    //         height: 100,
+    //         child: Center(
+    //           // margin: EdgeInsets.only(top: 5),
+    //           //width: 1.sw - 5,
+    //           // height: 150,
+    //           //child: //Align(
+    //           //alignment: Alignment.center,
+    //           child: WidgetTextPage.build(context,property, data),
+    //           // ),
+    //         ),
+    //       ),
+    //       Container(
+    //         padding: EdgeInsets.only(top: 5),
+    //         child: MyCupertinoRadioChoice(
+    //             //selectedColor: G.appBaseColor[0].withOpacity(0.7),
+    //             //notSelectedColor: Colors.grey.withOpacity(0.5),
+    //             choices: {
+    //               _TAB_Base: _TAB_Base,
+    //               _TAB_Padding: _TAB_Padding,
+    //               _TAB_Border: _TAB_Border,
+    //               _TAB_Shadow: _TAB_Shadow,
+    //               _TAB_Other: _TAB_Other
+    //             },
+    //             onChange: (selectedGender) {
+    //               setState(() {
+    //                 selected = selectedGender;
+    //               });
+    //               //print(selected);
+    //             },
+    //             initialKeyValue: _TAB_Base),
+    //       ),
+    //       if (selected == _TAB_Base) _baseSetting(context),
+    //       if (selected == _TAB_Padding) _paddingSetting(context),
+    //       if (selected == _TAB_Border) _borderSetting(context),
+    //       if (selected == _TAB_Shadow) _sgadowSetting(context),
+    //       if (selected == _TAB_Other) _otherSetting(context),
+    //     ]));
   }
 
-  Widget _otherSetting(BuildContext context) {
-    return new Container(
-        child: Column(children: [
+
+  List<Widget> _otherSetting(BuildContext context) {
+    return
+      // new Container(
+      //   child:
+      //   Column(children:
+      //
+
+        [
       SettingsGroup(<Widget>[
         SettingsItem(
-          label: "Min Width",
+          label: "Width",
           type: SettingsItemType.modal,
           hasDetails: true,
           onPress: () {
@@ -161,7 +215,7 @@ class _TextSettingWidget extends State<TextSettingWidget>
           value: Text("${property.minWidth.toInt()}"),
         ),
         SettingsItem(
-          label: "Min Height",
+          label: "Height",
           type: SettingsItemType.modal,
           hasDetails: true,
           onPress: () {
@@ -214,34 +268,43 @@ class _TextSettingWidget extends State<TextSettingWidget>
         //   value: Text("${property.maxHeight.toInt()}"),
         // ),
       ]),
-      SettingsGroup(<Widget>[
-        SettingsItem(
-          label: "Alignment",
-          type: SettingsItemType.modal,
-          hasDetails: true,
-          onPress: () {
-            GlobalFun.showPicker(
-                context,
-                FBAlignment.getIndexByString(property.alignment),
-                FBAlignment.getAligmentList(), (value) {
-              setState(() {
-                property.alignment =
-                    FBAlignment.getAligmentList()[value.toInt()].data;
+      SettingsGroup(
+        <Widget>[
+          SettingsItem(
+            label: "Alignment",
+            type: SettingsItemType.modal,
+            hasDetails: true,
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  FBAlignment.getIndexByString(property.alignment),
+                  FBAlignment.getAligmentList(), (value) {
+                setState(() {
+                  property.alignment =
+                      FBAlignment.getAligmentList()[value.toInt()].data;
+                });
               });
-            });
-          },
-          value: Text("${property.alignment}"),
-        ),
-      ],header: Text(""),)
-    ]));
+            },
+            value: Text("${property.alignment}"),
+          ),
+        ],
+        header: Text(""),
+      )
+    ];
+        //));
   }
 
 //maxHeight
-  Widget _sgadowSetting(BuildContext context) {
-    return new Container(
-        child: Column(children: [
+  List<Widget> _sgadowSetting(BuildContext context) {
+    return
+      // new Container(
+      //   child: Column(children:
+      //
+        [
       SettingsGroup(
-        <Widget>[
+        <Widget>
+
+        [
           SettingsItem(
             label: "X",
             type: SettingsItemType.modal,
@@ -281,11 +344,11 @@ class _TextSettingWidget extends State<TextSettingWidget>
             value: Text("${property.shadowOffsetY.toInt()}"),
           ),
         ],
-        header: Text("Offset"),
+        header: Text("Border Offset"),
       ),
       SettingsGroup(<Widget>[
         SettingsItem(
-          label: 'Color',
+          label: 'Border Color',
           icon: Icon(Icons.color_lens_outlined, color: property.shadowColor),
           hasDetails: true,
           type: SettingsItemType.modal,
@@ -305,7 +368,7 @@ class _TextSettingWidget extends State<TextSettingWidget>
           },
         ),
         SettingsItem(
-          label: "Blur radius",
+          label: "Border Blur radius",
           type: SettingsItemType.modal,
           hasDetails: true,
           onPress: () {
@@ -324,7 +387,7 @@ class _TextSettingWidget extends State<TextSettingWidget>
           value: Text("${property.shadowBlurRadius.toInt()}"),
         ),
         SettingsItem(
-          label: "Spread radius",
+          label: "Border Spread radius",
           type: SettingsItemType.modal,
           hasDetails: true,
           onPress: () {
@@ -343,13 +406,17 @@ class _TextSettingWidget extends State<TextSettingWidget>
           value: Text("${property.shadowSpreadRadius.toInt()}"),
         ),
       ])
-    ]));
+    ];
+        //
+        // ));
   }
 
-  Widget _borderSetting(BuildContext context) {
-    return new Container(
-      child: Column(
-        children: [
+  List<Widget> _borderSetting(BuildContext context) {
+    return
+      // new Container(
+      // child: Column(
+      //   children:
+        [
           SettingsGroup(
             <Widget>[
               SettingsItem(
@@ -476,15 +543,18 @@ class _TextSettingWidget extends State<TextSettingWidget>
             ],
             header: Text("Radius"),
           ),
-        ],
-      ),
-    );
+        ];
+    //     ,
+    //   ),
+    // );
   }
 
-  Widget _paddingSetting(BuildContext context) {
-    return new Container(
-      child: Column(
-        children: [
+  List<Widget> _paddingSetting(BuildContext context) {
+    return
+      // new Container(
+      // child: Column(
+      //   children:
+        [
           SettingsGroup(<Widget>[
             SettingsItem(
               label: "Letter space",
@@ -582,141 +652,142 @@ class _TextSettingWidget extends State<TextSettingWidget>
             ],
             header: Text("Padding"),
           )
-        ],
-      ),
-    );
+        ];
+    //     ,
+    //   ),
+    // );
   }
 
-  Widget _baseSetting(BuildContext context) {
-    return new Container(
-      child: Column(
-        children: [
-          SettingsGroup(
-            <Widget>[
-              SettingsItem(
-                label: 'Background',
-                icon:
-                    Icon(Icons.color_lens_outlined, color: property.backColor),
-                hasDetails: true,
-                type: SettingsItemType.modal,
-                onPress: () {
-                  GlobalFun.showBottomSheet(
-                      context,
-                      [
-                        ColorPickerPage(
-                            currentColor: property.backColor,
-                            onColorChange: (value) {
-                              setState(() {
-                                property.backColor = value;
-                              });
-                            })
-                      ],
-                      property.backColor);
-                },
-              ),
-              SettingsItem(
-                label: 'Text',
-                icon:
-                    Icon(Icons.color_lens_outlined, color: property.textColor),
-                hasDetails: true,
-                type: SettingsItemType.modal,
-                onPress: () {
-                  GlobalFun.showBottomSheet(
-                      context,
-                      [
-                        ColorPickerPage(
-                            currentColor: property.textColor,
-                            onColorChange: (value) {
-                              setState(() {
-                                property.textColor = value;
-                              });
-                            })
-                      ],
-                      property.backColor);
-                },
-              ),
-            ],
-            header: Text('Color'),
+  List<Widget> _baseSetting(BuildContext context) {
+    // return new Container(
+    //   child: Column(
+    //     children: [
+    return [
+      SettingsGroup(
+        <Widget>[
+          SettingsItem(
+            label: 'Background Color',
+            icon: Icon(Icons.color_lens_outlined, color: property.backColor),
+            hasDetails: true,
+            type: SettingsItemType.modal,
+            onPress: () {
+              GlobalFun.showBottomSheet(
+                  context,
+                  [
+                    ColorPickerPage(
+                        currentColor: property.backColor,
+                        onColorChange: (value) {
+                          setState(() {
+                            property.backColor = value;
+                          });
+                        })
+                  ],
+                  property.backColor);
+            },
           ),
-          SettingsGroup(
-            <Widget>[
-              SettingsItem(
-                label: "Size",
-                type: SettingsItemType.modal,
-                hasDetails: true,
-                onPress: () {
-                  GlobalFun.showPicker(
-                      context,
-                      _list_size.getIndexByValue(property.fontSize.toInt()),
-                      _list_size.list(), (value) {
-                    setState(() {
-                      property.fontSize = _list_size
-                          .values()[value.toInt()]
-                          .toDouble(); //value.toDouble();
-                    });
-                  });
-                },
-                value: Text("${property.fontSize.toInt()}"),
-              ),
-              SettingsItem(
-                label: "Weight",
-                type: SettingsItemType.modal,
-                hasDetails: true,
-                value: Text("${property.fontWeight.toInt()}"),
-                onPress: () {
-                  GlobalFun.showPicker(
-                      context,
-                      _list_font_Weight
-                          .getIndexByValue(property.fontWeight.toInt()),
-                      _list_font_Weight.list(), (value) {
-                    setState(() {
-                      property.fontWeight = _list_font_Weight
-                          .values()[value.toInt()]; //value.toDouble();
-                    });
-                  });
-                },
-              ),
-              SettingsItem(
-                label: "Italic",
-                type: SettingsItemType.toggle,
-                value: CupertinoSwitch(
-                  activeColor: G.appBaseColor[0],
-                  value: property.italic,
-                  onChanged: (bool value) {
-                    setState(() {
-                      property.italic = value;
-                    });
-                  },
-                ),
-              )
-            ],
-            header: Text('Font'),
-          ),
-          SettingsGroup(
-            <Widget>[
-              SettingsItem(
-                label: "Text align",
-                type: SettingsItemType.modal,
-                hasDetails: true,
-                onPress: () {
-                  GlobalFun.showPicker(
-                      context,
-                      FBTextAlign.getIndexByValue(property.textTextAlign),
-                      _list_TextAlign, (value) {
-                    setState(() {
-                      property.textTextAlign =
-                          _list_TextAlign[value.toInt()].data;
-                    });
-                  });
-                },
-                value: Text("${property.textTextAlign}"),
-              ),
-            ],
-            header: Text(''),
+          SettingsItem(
+            label: 'Text Color',
+            icon: Icon(Icons.color_lens_outlined, color: property.textColor),
+            hasDetails: true,
+            type: SettingsItemType.modal,
+            onPress: () {
+              GlobalFun.showBottomSheet(
+                  context,
+                  [
+                    ColorPickerPage(
+                        currentColor: property.textColor,
+                        onColorChange: (value) {
+                          setState(() {
+                            property.textColor = value;
+                          });
+                        })
+                  ],
+                  property.backColor);
+            },
           ),
         ],
+        //header: Text('Color'),
       ),
-    );
+      SettingsGroup(
+        <Widget>[
+          SettingsItem(
+            label: "Size",
+            type: SettingsItemType.modal,
+            hasDetails: true,
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_size.getIndexByValue(property.fontSize.toInt()),
+                  _list_size.list(), (value) {
+                setState(() {
+                  property.fontSize = _list_size
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
+                });
+              });
+            },
+            value: Text("${property.fontSize.toInt()}"),
+          ),
+          SettingsItem(
+            label: "Weight",
+            type: SettingsItemType.modal,
+            hasDetails: true,
+            value: Text("${property.fontWeight.toInt()}"),
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_font_Weight
+                      .getIndexByValue(property.fontWeight.toInt()),
+                  _list_font_Weight.list(), (value) {
+                setState(() {
+                  property.fontWeight = _list_font_Weight
+                      .values()[value.toInt()]; //value.toDouble();
+                });
+              });
+            },
+          ),
+          SettingsItem(
+            label: "Italic",
+            type: SettingsItemType.toggle,
+            value: CupertinoSwitch(
+              activeColor: G.appBaseColor[0],
+              value: property.italic,
+              onChanged: (bool value) {
+                setState(() {
+                  property.italic = value;
+                });
+              },
+            ),
+          )
+        ],
+        header: Text('Font'),
+      ),
+      SettingsGroup(
+        <Widget>[
+          SettingsItem(
+            label: "Text align",
+            type: SettingsItemType.modal,
+            hasDetails: true,
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  FBTextAlign.getIndexByValue(property.textTextAlign),
+                  _list_TextAlign, (value) {
+                setState(() {
+                  property.textTextAlign = _list_TextAlign[value.toInt()].data;
+                });
+              });
+            },
+            value: Text("${property.textTextAlign}"),
+          ),
+        ],
+        header: Text(''),
+      ),
+    ];
+
+    //     ,
+    //   ),
+    // );
   }
 
   Widget _fontSetting(BuildContext context) {

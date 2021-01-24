@@ -125,9 +125,8 @@ class _MyTagsPageState extends State<MyTagsPage>
                                 ],
                               )),
                           GlobalFun.ClipOvalIcon(Icons.settings, () {
-                            return GlobalFun.showBottomSheet(
+                            return GlobalFun.showBottomSheetForTextPrperty(
                                 context,
-                                [
                                   TextSettingWidget(
                                       property:
                                           selectedLanguages[index].property,
@@ -138,7 +137,6 @@ class _MyTagsPageState extends State<MyTagsPage>
                                               value;
                                         });
                                       }),
-                                ],
                                 null);
                           }),
                         ],

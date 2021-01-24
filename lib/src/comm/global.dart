@@ -62,6 +62,31 @@ class GlobalFun {
     );
   }
 
+  //
+  // Widget upWidget = null;
+  // List<Widget> downWidget = null;
+  // int downFlex = 5;
+  static Future<T> showBottomSheetForTextPrperty<T>(
+      BuildContext context, Widget widget, Color bkgColor) {
+    return showMaterialModalBottomSheet(
+      expand: true,
+      context: context,
+      backgroundColor: bkgColor == null ? Colors.blue.withOpacity(0) : bkgColor,
+      builder: (context) => Container(
+          child: Material(
+              child: CupertinoPageScaffold(
+                  navigationBar: CupertinoNavigationBar(
+                    // leading: Icon(Icons.clear),
+                    // middle: Container(),
+                    // trailing: Icon(Icons.done),
+                  ),
+                  child: SafeArea(
+                    bottom: false,
+                    child: (widget),
+                  )))),
+    );
+  }
+
   static showPicker(BuildContext context, int initialItem,
       List<Widget> children, Function onSelectedItemChanged) {
     showCupertinoModalPopup(
@@ -250,7 +275,8 @@ class GlobalFun {
           width: width,
           child: Text(
             lableText,
-            style: TextStyle(fontWeight: FontWeight.bold, color: G.appBaseColor[0]),
+            style: TextStyle(
+                fontWeight: FontWeight.bold, color: G.appBaseColor[0]),
           ),
         ),
         Container(
@@ -279,5 +305,52 @@ class GlobalFun {
         ),
       ],
     );
+  }
+}
+
+class FBCustomScrollView extends StatefulWidget {
+  Widget upWidget = null;
+  List<Widget> downWidget = null;
+  int downFlex = 5;
+
+  FBCustomScrollView({this.upWidget, this.downWidget, this.downFlex = 5});
+
+  @override
+  _FBCustomScrollViewState createState() => _FBCustomScrollViewState(
+      upWidget: this.upWidget,
+      downWidget: this.downWidget,
+      downFlex: this.downFlex);
+}
+
+class _FBCustomScrollViewState extends State<FBCustomScrollView> {
+  Widget upWidget = null;
+  List<Widget> downWidget = null;
+  int downFlex = 5;
+
+  _FBCustomScrollViewState({this.upWidget, this.downWidget, this.downFlex = 5});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Column(
+      children: <Widget>[
+        if (upWidget != null)
+          Expanded(
+            flex: 1,
+            child: upWidget,
+          ),
+        Expanded(
+          flex: 5,
+          child: Container(
+            width: double.infinity,
+            child: SingleChildScrollView(
+              child: Column(
+                children: downWidget == null ? [Text("")] : downWidget,
+              ),
+            ),
+          ),
+        )
+      ],
+    ));
   }
 }

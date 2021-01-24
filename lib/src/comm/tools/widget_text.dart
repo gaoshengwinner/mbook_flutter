@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:mbook_flutter/src/comm/extension/extension.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 
-
-class WidgetTextPage  {
-
+class WidgetTextPage {
   @override
-  static Widget build(BuildContext context, TextWidgetProperty property, String data) {
+  static Widget build(
+      BuildContext context, TextWidgetProperty property, String data) {
     return Container(
-      //width: property.minWidth,
+      width: property.minWidth < 5 ? null : property.minWidth,
+      height: property.minHeight < 5 ? null : property.minHeight,
+      //property.minHeight,
       alignment: FBAlignment.map()[property.alignment],
       padding: EdgeInsets.only(
           left: property.paddingLeft,
@@ -17,31 +18,32 @@ class WidgetTextPage  {
           bottom: property.paddingBottom),
       //margin: EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: property.backColor,
-        border: property.borderWidth == null || property.borderWidth < 1
-            ? null
-            : Border.all(
-                color: property.borderColor, width: property.borderWidth),
-        boxShadow: [
-          BoxShadow(
-              color: property.shadowColor,
-              offset: Offset(property.shadowOffsetX, property.shadowOffsetY),
-              blurRadius: property.shadowBlurRadius,
-              spreadRadius: property.shadowSpreadRadius)
-        ],
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(property.borderRadiusTopLeft),
-            topRight: Radius.circular(property.borderRadiusTopRight),
-            bottomLeft: Radius.circular(property.borderRadiusBottomLeft),
-            bottomRight: Radius.circular(property.borderRadiusBottomRight)),
-      ),
-      constraints: BoxConstraints(
-        minHeight: property.minHeight,
-        minWidth: property.minWidth,
-        maxWidth: property.maxWidth < 10 ? double.infinity : property.maxWidth,
-        maxHeight:
-            property.maxHeight < 10 ? double.infinity : property.maxHeight,
-      ),
+          color: property.backColor,
+          border: property.borderWidth == null || property.borderWidth < 1
+              ? null
+              : Border.all(
+                  color: property.borderColor, width: property.borderWidth),
+          boxShadow: [
+            BoxShadow(
+                color: property.shadowColor,
+                offset: Offset(property.shadowOffsetX, property.shadowOffsetY),
+                blurRadius: property.shadowBlurRadius,
+                spreadRadius: property.shadowSpreadRadius)
+          ],
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(property.borderRadiusTopLeft),
+              topRight: Radius.circular(property.borderRadiusTopRight),
+              bottomLeft: Radius.circular(property.borderRadiusBottomLeft),
+              bottomRight: Radius.circular(property.borderRadiusBottomRight)),
+          image: DecorationImage(
+              image: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTX0Qi5LAV2ORO5Z4u9NlEt4cE-An97-LVRZA&usqp=CAU"), fit: BoxFit.fitWidth)),
+      // constraints: BoxConstraints(
+      //   minHeight: property.minHeight,
+      //   minWidth: property.minWidth,
+      //   maxWidth: property.maxWidth < 10 ? double.infinity : property.maxWidth,
+      //   maxHeight:
+      //       property.maxHeight < 10 ? double.infinity : property.maxHeight,
+      // ),
       child: Text(
         data,
         softWrap: true,
