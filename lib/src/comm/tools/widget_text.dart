@@ -36,7 +36,7 @@ class WidgetTextPage {
               bottomLeft: Radius.circular(property.borderRadiusBottomLeft),
               bottomRight: Radius.circular(property.borderRadiusBottomRight)),
           image: DecorationImage(
-              image: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTX0Qi5LAV2ORO5Z4u9NlEt4cE-An97-LVRZA&usqp=CAU"), fit: BoxFit.fitWidth)),
+              image: NetworkImage("http://pic.qianye88.com/4kmeinv2989f765-5bdd-3cee-8482-574732cc2af2.jpg"), fit: BoxFit.fitWidth)),
       // constraints: BoxConstraints(
       //   minHeight: property.minHeight,
       //   minWidth: property.minWidth,
