@@ -68,18 +68,22 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
                   _shopInfo.shopTel = value;
                 });
               }, width: 0.9.sw),
-              GlobalFun.FBInputBox(context, "Locate", _shopInfo.shopAddr, (value) {
+              GlobalFun.FBInputBox(context, "Locate", _shopInfo.shopAddr,
+                  (value) {
                 setState(() {
                   _shopInfo.shopAddr = value;
                 });
               }, width: 0.9.sw),
-
-              GlobalFun.FBInputBox(context, "Image", _shopInfo.shopPicUrl, (value) {
+              GlobalFun.FBInputBox(context, "Image", _shopInfo.shopPicUrl,
+                  (value) {
                 setState(() {
                   _shopInfo.shopPicUrl = value;
                 });
-              }, width: 0.9.sw,valueWidget:  Row(children: [Flexible(child: Image.network(_shopInfo.shopPicUrl))]) ),
-
+              },
+                  width: 0.9.sw,
+                  valueWidget: Row(children: [
+                    Flexible(child: Image.network(_shopInfo.shopPicUrl))
+                  ])),
             ]),
 
             // Form(
@@ -190,20 +194,14 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
             //     ])
             // )
           )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          GlobalFun.showSnackBar(_scaffoldKey, "  Saving...");
-          Api.saveMyShopInfo(context, _shopInfo).whenComplete(() {
-            GlobalFun.removeCurrentSnackBar(_scaffoldKey);
-          }).catchError((e) {
-            GlobalFun.showSnackBar(_scaffoldKey, e.toString());
-          });
-        },
-        child: Icon(
-          Icons.save,
-        ),
-        backgroundColor: G.appBaseColor[0],
-      ),
+      floatingActionButton: GlobalFun.saveFloatingActionButton(() {
+        GlobalFun.showSnackBar(_scaffoldKey, "  Saving...");
+        Api.saveMyShopInfo(context, _shopInfo).whenComplete(() {
+          GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+        }).catchError((e) {
+          GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+        });
+      }),
     );
   }
 }

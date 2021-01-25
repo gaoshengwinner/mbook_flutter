@@ -193,25 +193,33 @@ class _MyTagsPageState extends State<MyTagsPage>
           },
         ),
       ),
-      floatingActionButton:
-          //!beCange ? null :
-          FloatingActionButton(
-        onPressed: () async {
-          GlobalFun.showSnackBar(_scaffoldKey, "  Saving...");
-          Api.saveMyTagInfo(context, TagResultList(tagLst: this.tagInfos))
-              .whenComplete(() {
-            GlobalFun.removeCurrentSnackBar(_scaffoldKey);
-          }).catchError((e) {
-            GlobalFun.showSnackBar(_scaffoldKey, e.toString());
-          });
-          ;
-        },
-        child: Icon(Icons.save),
-        foregroundColor: Colors.white,
-        backgroundColor: G.appBaseColor[0],
-//          mini: true,
-//            shape: CircleBorder()
-      ),
+      floatingActionButton: GlobalFun.saveFloatingActionButton(() {
+        GlobalFun.showSnackBar(_scaffoldKey, "  Saving...");
+        Api.saveMyTagInfo(context, TagResultList(tagLst: this.tagInfos))
+            .whenComplete(() {
+          GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+        }).catchError((e) {
+          GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+        });
+      }),
+      //!beCange ? null :
+//           FloatingActionButton(
+//         onPressed: () async {
+//           GlobalFun.showSnackBar(_scaffoldKey, "  Saving...");
+//           Api.saveMyTagInfo(context, TagResultList(tagLst: this.tagInfos))
+//               .whenComplete(() {
+//             GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+//           }).catchError((e) {
+//             GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+//           });
+//           ;
+//         },
+//         child: Icon(Icons.save),
+//         foregroundColor: Colors.white,
+//         backgroundColor: G.appBaseColor[0],
+// //          mini: true,
+// //            shape: CircleBorder()
+//       ),
     );
   }
 }

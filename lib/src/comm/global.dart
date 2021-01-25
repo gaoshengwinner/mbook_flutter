@@ -7,6 +7,28 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'consts.dart';
 
 class GlobalFun {
+  static Widget saveFloatingActionButton(Function onSave){
+    return FloatingActionButton(
+      onPressed: () async {
+        onSave();
+
+        // GlobalFun.showSnackBar(_scaffoldKey, "  Saving...");
+        // Api.saveMyTagInfo(context, TagResultList(tagLst: this.tagInfos))
+        //     .whenComplete(() {
+        //   GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+        // }).catchError((e) {
+        //   GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+        // });
+        //
+      },
+      child: Icon(Icons.save),
+      foregroundColor: Colors.white,
+      backgroundColor: G.appBaseColor[0],
+//          mini: true,
+//            shape: CircleBorder()
+    );
+  }
+
   static void showSnackBar(
       GlobalKey<ScaffoldState> _scaffoldKey, String title) {
     //_scaffoldKey.currentContext.
@@ -353,4 +375,5 @@ class _FBCustomScrollViewState extends State<FBCustomScrollView> {
       ],
     ));
   }
+
 }

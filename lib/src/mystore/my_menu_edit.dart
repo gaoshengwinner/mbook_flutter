@@ -51,6 +51,7 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
               FocusScope.of(context).requestFocus(_blankNode);
             },
             child: Container(
+                padding: EdgeInsets.all(10),
                 color: Color(0xFFEFEFF4),
                 child: ListView(children: [
                   GlobalFun.FBInputBox(context, "商品名", _item.itemName, (value) {
@@ -93,7 +94,18 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
                   //       });
                   //     })),
                 ]))),
-        floatingActionButton: buildSpeedDial()
+        floatingActionButton:
+
+        GlobalFun.saveFloatingActionButton(() {
+          GlobalFun.showSnackBar(_scaffoldKey, "  Saving...");
+          Api.saveMyItemInfo(context, this._item).whenComplete(() {
+            GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+          }).catchError((e) {
+            GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+          });
+        }),
+
+        //buildSpeedDial()
         // FloatingActionButton.extended(
         //   backgroundColor: G.appBaseColor[0],
         //   onPressed: () {
