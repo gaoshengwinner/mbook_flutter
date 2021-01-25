@@ -328,6 +328,14 @@ class _FBListViewWidgetState<E> extends State<FBListViewWidget>
             ),
             left: MediaQuery.of(context).size.width - 40,
             top: 0,
+          ),
+          new Positioned(
+            child:  Container(
+              child: Text("No.${index+1}",style: TextStyle(fontSize: 12),
+              ),
+            ),
+            left: 0,
+            top: 0,
           )
         ]));
   }

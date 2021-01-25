@@ -8,11 +8,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_tags/flutter_tags.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
+import 'package:mbook_flutter/src/comm/api/api.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/input_bottom.dart';
 import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
+import 'package:mbook_flutter/src/comm/model/TagResultList.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 import 'package:mbook_flutter/src/comm/tools/text_setting.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
@@ -21,14 +23,29 @@ import 'package:mbook_flutter/src/comm/widgets/fb_listview.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:uuid/uuid.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+
+Function deepEq = const DeepCollectionEquality().equals;
 
 class MyTagsPage extends StatefulWidget {
-  _MyTagsPageState createState() => _MyTagsPageState();
+  MyTagsPage(this.tagInfos);
+
+  List<TagInfo> tagInfos = [];
+
+  _MyTagsPageState createState() => _MyTagsPageState(this.tagInfos);
 }
 
 class _MyTagsPageState extends State<MyTagsPage>
     with SingleTickerProviderStateMixin {
-  final _bottomSheetScaffoldKey = GlobalKey<ScaffoldState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  _MyTagsPageState(this.tagInfos) {
+    if (tagInfos == null) {
+      this.tagInfos = [];
+    }
+  }
 
   // 响应空白处的焦点的Node
   FocusNode _blankNode = FocusNode();
@@ -37,16 +54,9 @@ class _MyTagsPageState extends State<MyTagsPage>
 
   int copiedIndex = -1;
 
-  List<TagInfo> _AllTagInfos = new List<TagInfo>.generate(
-      5,
-      (i) => TagInfo(
-          id: i,
-          data: "test${i}",
-          property: TextWidgetProperty(backColor: Colors.white)));
-
   //new TextWidgetProperty(backColor: Colors.white)
 
-  final List<Language> selectedLanguages = [Language(englishName:"dfds",nativeName:"dfsaf")];
+  List<TagInfo> tagInfos = [];
 
   @override
   void initState() {
@@ -54,12 +64,26 @@ class _MyTagsPageState extends State<MyTagsPage>
     scrollController = ScrollController();
   }
 
-  void onReorderFinished(List<Language> newItems) {
+  // @override
+  // void setState(VoidCallback fn) {
+  //   super.setState(() {
+  //     fn();
+  //     beCange = !listEquals(selectedLanguages, old);
+  //   });
+  // }
+
+  // @override
+  // void didUpdateWidget(MyTagsPage oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  //   print("didUpdateWidget");
+  // }
+
+  void onReorderFinished(List<TagInfo> newItems) {
     scrollController.jumpTo(scrollController.offset);
     setState(() {
       inReorder = false;
 
-      selectedLanguages
+      tagInfos
         ..clear()
         ..addAll(newItems);
     });
@@ -73,209 +97,156 @@ class _MyTagsPageState extends State<MyTagsPage>
     final textTheme = theme.textTheme;
 
     return Scaffold(
-        appBar: AppBarView.appbar("Tags", true),
-        key: _bottomSheetScaffoldKey,
-        body: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () {
-            // 点击空白页面关闭键盘
-            FocusScope.of(context).requestFocus(_blankNode);
+      appBar: AppBarView.appbar("Tags", true),
+      key: _scaffoldKey,
+      body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          // 点击空白页面关闭键盘
+          FocusScope.of(context).requestFocus(_blankNode);
+        },
+        child: new FBListViewWidget<TagInfo>(
+          tagInfos,
+          setActions: (c, r, index) {
+            return [
+              FBListViewWidget.getSlideActionDelete(c, () {
+                setState(() {
+                  tagInfos.remove(r);
+                });
+              })
+            ];
           },
-          child: new FBListViewWidget<Language>(
-            selectedLanguages,
-            setActions: (c, r, index) {
-              return [
-                FBListViewWidget.getSlideActionDelete(c, () {
-                  setState(() {
-                    selectedLanguages.remove(r);
-                  });
-                })
-              ];
-            },
-            //seActions: [ActionOption.Delete],
-            canBeMove: true,
-            setSubWidget: (c, r, index) {
-              return Container(
-                color: Color(0xEDE7F6),
-                padding: EdgeInsets.all(10),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      GlobalFun.FBInputBox(context, "Description",
-                          selectedLanguages[index].englishName, (value) {
-                        setState(() {
-                          selectedLanguages[index].englishName = value;
-                        });
-                      }),
-                      Row(
-                        children: [
-                          GlobalFun.FBInputBox(context, "Tag",
-                              selectedLanguages[index].nativeName, (value) {
-                            setState(() {
-                              selectedLanguages[index].nativeName = value;
-                            });
-                          },
-                              valueWidget: Wrap(
-                                children: [
-                                  WidgetTextPage.build(
-                                    context,
-                                    selectedLanguages[index].property,
-                                    selectedLanguages[index].nativeName,
-                                  )
-                                ],
-                              )),
-                          GlobalFun.ClipOvalIcon(Icons.settings, () {
-                            return GlobalFun.showBottomSheetForTextPrperty(
-                                context,
-                                  TextSettingWidget(
-                                      property:
-                                          selectedLanguages[index].property,
-                                      data: selectedLanguages[index].nativeName,
-                                      onChange: (value) {
-                                        setState(() {
-                                          selectedLanguages[index].property =
-                                              value;
-                                        });
-                                      }),
-                                null);
-                          }),
-                        ],
-                      ),
-                    ]),
-              );
-            },
-            footer: FBListViewWidget.buildFooter(context,
-                icon: Icons.add, title: "Add a tag", onTap: () {
-              setState(() {
-                selectedLanguages
-                    .add(Language(englishName: "", nativeName: ""));
-              });
-            }),
-            setSeActions: (c, r, index) {
-              return [
-                FBListViewWidget.getSlideActionCopy(c, () {
-                  setState(() {
-                    copiedIndex = index;
-                    //selectedLanguages.remove(r);
-                  });
-                }),
+          //seActions: [ActionOption.Delete],
+          canBeMove: true,
+          setSubWidget: (c, r, index) {
+            return Container(
+              color: Color(0xEDE7F6),
+              padding: EdgeInsets.all(10),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GlobalFun.FBInputBox(
+                        context, "Description", tagInfos[index].desc, (value) {
+                      setState(() {
+                        tagInfos[index].desc = value;
+                      });
+                    }),
+                    Row(
+                      children: [
+                        GlobalFun.FBInputBox(
+                            context, "Tag", tagInfos[index].data, (value) {
+                          setState(() {
+                            tagInfos[index].data = value;
+                          });
+                        },
+                            valueWidget: Wrap(
+                              children: [
+                                WidgetTextPage.build(
+                                  context,
+                                  tagInfos[index].property,
+                                  tagInfos[index].data,
+                                )
+                              ],
+                            )),
+                        GlobalFun.ClipOvalIcon(Icons.settings, () {
+                          return GlobalFun.showBottomSheetForTextPrperty(
+                              context,
+                              TextSettingWidget(
+                                  property: tagInfos[index].property,
+                                  data: tagInfos[index].data,
+                                  onChange: (value) {
+                                    setState(() {
+                                      tagInfos[index].property = value;
+                                    });
+                                  }),
+                              null);
+                        }),
+                      ],
+                    ),
+                  ]),
+            );
+          },
+          footer: FBListViewWidget.buildFooter(context,
+              icon: Icons.add, title: "Add a tag", onTap: () {
+            setState(() {
+              tagInfos.add(TagInfo(data: "", desc: ""));
+            });
+          }),
+          setSeActions: (c, r, index) {
+            return [
+              FBListViewWidget.getSlideActionCopy(c, () {
+                setState(() {
+                  copiedIndex = index;
+                  //selectedLanguages.remove(r);
+                });
+              }),
+              if (copiedIndex >= 0 && copiedIndex != index)
                 FBListViewWidget.getSlideActionBrush(c, () {
                   setState(() {
                     if (copiedIndex >= 0)
-                      selectedLanguages[index].property =
-                          selectedLanguages[copiedIndex].property.copy();
+                      tagInfos[index].property =
+                          tagInfos[copiedIndex].property.copy();
                     //selectedLanguages.remove(r);
                   });
                 })
-              ];
-            },
-
-            // (c, r, index){return FBListViewWidget.getMoveListWidget();},
-            // createLeading: (c, r, index) {
-            //   return SizedBox(
-            //     //width: 36,
-            //     //height: 36,
-            //     child: Center(
-            //       child: Text(
-            //         '${index + 1}',
-            //         style: textTheme.bodyText2.copyWith(
-            //           color: theme.accentColor,
-            //           fontSize: 16,
-            //         ),
-            //       ),
-            //     ),
-            //   );
-            // },
-            // createTitle: (c, r, index) {
-            //   return GestureDetector(
-            //       child: Container(
-            //         alignment: Alignment.topLeft,
-            //         child: Wrap(
-            //           // alignment: WrapAlignment.start,
-            //           children: [
-            //             GlobalFun.getEditCont(context, selectedLanguages[index].englishName, selectedLanguages[index].englishName, false, (value) {
-            //               setState(() {
-            //                 selectedLanguages[index].englishName = value;
-            //               });
-            //             }),
-            //             //Icon(Icons.edit),
-            //             //Text(selectedLanguages[index].englishName)
-            //           ],
-            //         ),
-            //       ),
-            //       onTap: () {
-            //         GlobalFun.openEditPage(
-            //             context,
-            //             "Tag name",
-            //             selectedLanguages[index].englishName,
-            //             TextInputAction.newline,
-            //             TextInputType.multiline, (value) {
-            //           setState(() {
-            //             selectedLanguages[index].englishName = value;
-            //           });
-            //         });
-            //       });
-            // },
-            // createSubTitle: (c, r, index) {
-            //   return GestureDetector(
-            //       child: Container(
-            //         alignment: Alignment.topLeft,
-            //         child: Wrap(
-            //           // alignment: WrapAlignment.start,
-            //           children: [
-            //             GlobalFun.getEditCont(context, selectedLanguages[index].englishName, selectedLanguages[index].englishName, false, (value) {
-            //               setState(() {
-            //                 selectedLanguages[index].englishName = value;
-            //               });
-            //             }),
-            //             //Icon(Icons.edit),
-            //             //Text(selectedLanguages[index].englishName)
-            //           ],
-            //         ),
-            //       ),
-            //       onTap: () {
-            //         GlobalFun.openEditPage(
-            //             context,
-            //             "Tag name",
-            //             selectedLanguages[index].englishName,
-            //             TextInputAction.newline,
-            //             TextInputType.multiline, (value) {
-            //           setState(() {
-            //             selectedLanguages[index].englishName = value;
-            //           });
-            //         });
-            //       });
-            // },
-          ),
-        ));
+            ];
+          },
+        ),
+      ),
+      floatingActionButton:
+          //!beCange ? null :
+          FloatingActionButton(
+        onPressed: () async {
+          GlobalFun.showSnackBar(_scaffoldKey, "  Saving...");
+          Api.saveMyTagInfo(context, TagResultList(tagLst: this.tagInfos))
+              .whenComplete(() {
+            GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+          }).catchError((e) {
+            GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+          });
+          ;
+        },
+        child: Icon(Icons.save),
+        foregroundColor: Colors.white,
+        backgroundColor: G.appBaseColor[0],
+//          mini: true,
+//            shape: CircleBorder()
+      ),
+    );
   }
 }
-
-class Language {
-  String englishName;
-
-  String nativeName;
-
-  TextWidgetProperty property = TextWidgetProperty(backColor: Colors.white);
-
-  Language({
-    @required this.englishName,
-    @required this.nativeName,
-  });
-
-  @override
-  String toString() =>
-      'Language englishName: $englishName, nativeName: $nativeName';
-
-  @override
-  bool operator ==(Object o) {
-    if (identical(this, o)) return true;
-
-    return o is Language &&
-        o.englishName == englishName &&
-        o.nativeName == nativeName;
-  }
-
-  @override
-  int get hashCode => englishName.hashCode ^ nativeName.hashCode;
-}
+//
+// class Language {
+//   String englishName;
+//
+//   String nativeName;
+//
+//   String uuid;
+//
+//   TextWidgetProperty property = TextWidgetProperty(backColor: Colors.white);
+//
+//   Language({
+//     @required this.englishName,
+//     @required this.nativeName,
+//   }) {
+//     //uuid = Uuid().v1();
+//   }
+//
+//   @override
+//   String toString() =>
+//       'Language englishName: $englishName, nativeName: $nativeName';
+//
+//   @override
+//   bool operator ==(Object o) {
+//     if (identical(this, o)) return true;
+//
+//     return o is Language &&
+//         o.englishName == englishName &&
+//         o.nativeName == nativeName
+//         //&& o.uuid == uuid
+//     ;
+//   }
+//
+//   @override
+//   int get hashCode => englishName.hashCode ^ nativeName.hashCode;
+// }

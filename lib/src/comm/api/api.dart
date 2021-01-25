@@ -9,6 +9,8 @@ import 'package:mbook_flutter/src/comm/menu.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
 import 'package:mbook_flutter/src/comm/model/RefreshTokenResult.dart';
 import 'package:mbook_flutter/src/comm/model/ShopInfo.dart';
+import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
+import 'package:mbook_flutter/src/comm/model/TagResultList.dart';
 import 'package:mbook_flutter/src/comm/model/Token.dart';
 import 'package:mbook_flutter/src/comm/token/token.dart';
 
@@ -28,10 +30,16 @@ class Api {
   static String _MY_DELETE_ITEM_URL =
       _BASE_API_URL + "/v1/api/manag/deleteShopItemRow";
 
+  static String _MY_GET_TAG_URL = _BASE_API_URL +  "/v1/api/manag/get_tags";
+
+  static String _MY_SAVE_TAG_URL = _BASE_API_URL +  "/v1/api/manag/save_tags";
+
   static String _CONTENT_TYPE = "application/json; charset=utf-8";
   static String _MB_DEVICE_INFOR_HEADER = "MB_DEVICE_INFOR_HEADER";
   static String _AUTHON_REFRESH_HEADER = "AUTHON_REFRESH_HEADER";
   static String _AUTHON_ACCESS_HEADER = "AUTHON_ACCESS_HEADER";
+
+
 
 
 
@@ -78,6 +86,7 @@ class Api {
 
   static Future<List<Object>> doPostNeedLoginApi(
       BuildContext _context, String url, String body) async {
+    print("${body}");
     final deviceInfo = await DeviceHelper.getDeviceInfo();
     String accessToken = await TokenUtil.getAccessToken();
     if (accessToken == null) {
@@ -172,6 +181,32 @@ class Api {
 
     return itemInfo;
   }
+
+  static Future<List<Object>> getMyTags(BuildContext _context) async {
+    List<Object> tagInfo =
+    await doPostNeedLoginApi(_context, _MY_GET_TAG_URL, null);
+    if (tagInfo[0] == 200) {
+      List<TagInfo> myModels = (json.decode(tagInfo[1]) as List)
+          .map((i) => TagInfo.fromJson(i))
+          .toList();
+      tagInfo[1] = myModels;
+      print(myModels.length);
+    } else {
+      throw Exception(tagInfo[1]);
+    }
+
+    return tagInfo;
+  }
+
+  static Future<void> saveMyTagInfo(BuildContext _context, TagResultList _tags) async{
+    List<Object> result = await doPostNeedLoginApi(
+        _context, _MY_SAVE_TAG_URL, jsonEncode(_tags));
+    if (result[0] == 200) {
+      return;
+    }
+    throw Exception('${result[0]}${result[1]}');
+  }
+
 }
 
 //　 return CircularProgressIndicator();

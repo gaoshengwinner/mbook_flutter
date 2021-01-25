@@ -75,13 +75,13 @@ class _MyStorePageState extends State<MyStorePage> {
                   leading: Icon(Icons.tag),
                   onPressed: (BuildContext context) async {
                     GlobalFun.showSnackBar(_scaffoldKey, "  Loading...");
-                    //Api.getMyShopItemInfo(context).then((result) {
-                    // GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+                    Api.getMyTags(context).then((result) {
+                     GlobalFun.removeCurrentSnackBar(_scaffoldKey);
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MyTagsPage()));
-                    //}).catchError((e){
-                    //  GlobalFun.showSnackBar(_scaffoldKey, e.toString());
-                    //});
+                        MaterialPageRoute(builder: (context) => MyTagsPage(result[1])));
+                    }).catchError((e){
+                      GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+                    });
                   },
                 ),
                 SettingsTile(

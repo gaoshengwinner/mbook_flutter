@@ -140,6 +140,7 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
           child: Icon(Icons.save, color: Colors.white),
           backgroundColor: Colors.green,
           onTap: () {
+            GlobalFun.showSnackBar(_scaffoldKey, "  Saving...");
             Api.saveMyItemInfo(context, this._item).whenComplete(() {
               GlobalFun.removeCurrentSnackBar(_scaffoldKey);
             }).catchError((e) {

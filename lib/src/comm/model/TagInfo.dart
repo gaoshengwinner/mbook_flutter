@@ -1,10 +1,62 @@
+import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
+import 'package:uuid/uuid.dart';
 
-class TagInfo{
+part 'TagInfo.g.dart';
+
+@JsonSerializable()
+class TagInfo {
   int id;
   String data;
+  String desc;
+  String propertyString;
+
+  @JsonKey(ignore: true)
   TextWidgetProperty property;
 
-  TagInfo({this.id, this.data, this.property});
+  @JsonKey(ignore: true)
+  String uuid;
+
+  TagInfo({this.id, this.data, this.desc, this.propertyString}) {
+    if (propertyString == null || propertyString.isEmpty) {
+      property = TextWidgetProperty();
+    } else {
+      property = TextWidgetProperty.fromJson(jsonDecode(propertyString));
+    }
+    uuid = Uuid().v1();
+  }
+
+  factory TagInfo.fromJson(Map<String, dynamic> json) =>
+      _$TagInfoFromJson(json);
+
+  Map<String, dynamic> toJson() {
+    beForToJson();
+    return _$TagInfoToJson(this);
+  }
+
+  @override
+  String toString() {
+    return getJsonString();
+  }
+
+  String getJsonString() {
+    return jsonEncode(this.toJson());
+  }
+
+  void beForToJson(){
+    this.propertyString = jsonEncode(property.toJson());
+  }
+
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+
+    return o is TagInfo &&
+        o.id == id &&
+        o.data == data &&
+        o.uuid == uuid &&
+        o.property.toJson() == property.toJson();
+  }
 }
