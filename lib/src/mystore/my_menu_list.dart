@@ -28,6 +28,7 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
 
   @override
   void initState() {
+    if (_AllitemList != null)
     _itemList.addAll(_AllitemList);
     super.initState();
   }

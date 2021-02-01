@@ -18,11 +18,13 @@ class MyGlobal {
     Api.getMyTags(context).then((result) {
       if (_scaffoldKey != null) GlobalFun.removeCurrentSnackBar(_scaffoldKey);
       tagInfos = result[1];
-    }).catchError((e) {
-      print(e.toString());
-      if (_scaffoldKey != null)
-        GlobalFun.showSnackBar(_scaffoldKey, e.toString());
-    });
+    })
+        //     .catchError((e) {
+        //   print(e.toString());
+        //   if (_scaffoldKey != null)
+        //     GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+        // })
+        ;
   }
 
   static Future getShopItemInfo(
@@ -48,10 +50,50 @@ class MyGlobal {
   }
 
   static Future init(
-      BuildContext context, GlobalKey<ScaffoldState> _scaffoldKey) async {
-    await getTagInfos(context, _scaffoldKey);
-    await getShopItemInfo(context, _scaffoldKey);
-    await getShopInfo(context, _scaffoldKey);
+      BuildContext context, GlobalKey<ScaffoldState> _scaffoldKey, Function onLoaded) async {
+    GlobalFun.showSnackBar(_scaffoldKey, "  Loading...");
+    int count = 0;
+    await Api.getMyTags(context).then((result) {
+      tagInfos = result[1];
+      count++;
+      if (count >= 3) {
+        onLoaded();
+      }
+    }).whenComplete(() {
+      if (count >= 3) {
+        GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+      }
+    }).catchError((e) {
+      GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+    });
+
+    await Api.getMyShopItemInfo(context).then((result) {
+      itemDetails = result[1];
+      count++;
+      if (count >= 3) {
+        onLoaded();
+      }
+    }).whenComplete(() {
+      if (count >= 3) {
+        GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+      }
+    }).catchError((e) {
+      GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+    });
+
+    await Api.getMyShopInfo(context).then((result) {
+      shopInfo = result[1];
+      count++;
+      if (count >= 3) {
+        onLoaded();
+      }
+    }).whenComplete(() {
+      if (count >= 3) {
+        GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+      }
+    }).catchError((e) {
+      GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+    });
   }
 
   static void release() {

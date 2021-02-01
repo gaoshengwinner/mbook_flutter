@@ -247,14 +247,16 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                                             Navigator.pop(context);
                                           });
                                         }),
-                                        title: Text(item.desc),
-                                        subtitle: Wrap(
+                                        //title: Text(item.desc),
+                                        title: Wrap(
+                                          spacing: 4,
                                           children: [
                                             WidgetTextPage.build(
                                               context,
                                               item.property,
                                               item.data,
                                             ),
+                                            Text(item.desc)
                                           ],
                                         ),
                                       ),

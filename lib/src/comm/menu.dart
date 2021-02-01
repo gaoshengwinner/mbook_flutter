@@ -60,8 +60,11 @@ class MenuBar {
   }
   static gotoMyStore(BuildContext _context, GlobalKey<ScaffoldState> _scaffoldKey) async{
     await Navigator.pop(_context);
-    await MyGlobal.init(_context, _scaffoldKey);
-    await Navigator.push(_context, MaterialPageRoute(builder: (context) => MyStorePage()));
+    await MyGlobal.init(_context, _scaffoldKey, (){
+      Navigator.push(_context, MaterialPageRoute(builder: (context) => MyStorePage()));
+    }).whenComplete(() {
+
+    });
   }
 
   static logout(BuildContext _context, Function doReturn) async {
