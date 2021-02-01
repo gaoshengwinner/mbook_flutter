@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mbook_flutter/src/comm/input_bottom.dart';
+import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
+import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_tags_selector.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'consts.dart';
 
 class GlobalFun {
-  static Widget saveFloatingActionButton(Function onSave){
+  static Widget saveFloatingActionButton(Function onSave) {
     return FloatingActionButton(
       onPressed: () async {
         onSave();
@@ -98,6 +101,25 @@ class GlobalFun {
           child: Material(
               child: CupertinoPageScaffold(
                   navigationBar: CupertinoNavigationBar(
+                      // leading: Icon(Icons.clear),
+                      // middle: Container(),
+                      // trailing: Icon(Icons.done),
+                      ),
+                  child: SafeArea(
+                    bottom: false,
+                    child: (widget),
+                  )))),
+    );
+  }
+
+  static Future<T> showBottomSheetCommon<T>(BuildContext context, Widget widget) {
+    return showMaterialModalBottomSheet(
+      expand: true,
+      context: context,
+      builder: (context) => Container(
+          child: Material(
+              child: CupertinoPageScaffold(
+                  navigationBar: CupertinoNavigationBar(
                     // leading: Icon(Icons.clear),
                     // middle: Container(),
                     // trailing: Icon(Icons.done),
@@ -173,6 +195,21 @@ class GlobalFun {
         );
       },
     );
+  }
+
+  static void openEditTagPage(BuildContext context, List<TagInfo> tags,
+      List<TagInfo> selectedTags, Function onSelected) {
+    showBottomSheetCommon(context, TagsSelectWidget(
+        tagInfos: tags,
+        selectedTagInfos: selectedTags,
+        onSelected: onSelected));
+    // Navigator.push(
+    //     context,
+    //     PopRoute(
+    //         child: TagsSelectWidget(
+    //             tagInfos: tags,
+    //             selectedTagInfos: selectedTags,
+    //             onSelected: onSelected)));
   }
 
   static void openEditPage(
@@ -286,6 +323,53 @@ class GlobalFun {
     );
   }
 
+  static Widget FBInputTagBox(
+      BuildContext context, String lableText, List<TagInfo> tags,
+      List<TagInfo> selectedTags, Function onSelected,{width = null}) {
+    width = width == null ? 0.8.sw : width;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: width,
+          child: Text(
+            lableText,
+            style: TextStyle(
+                fontWeight: FontWeight.bold, color: G.appBaseColor[0]),
+          ),
+        ),
+        Container(
+          width: width,
+          child: GestureDetector(
+            child: Container(
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.grey, width: 1),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              width: 0.8.sw,
+              child: Wrap(children: [
+                for(TagInfo tag in selectedTags)
+                  WidgetTextPage.build(
+                    context,
+                    tag.property,
+                    tag.data,
+                  )
+              ],)
+            ),
+            onTap: () {
+              GlobalFun.openEditTagPage(context, tags, selectedTags,onSelected);
+            },
+          ),
+        ),
+        SizedBox(
+          height: 5,
+        ),
+      ],
+    );
+  }
+
   static Widget FBInputBox(
       BuildContext context, String lableText, String value, Function serValue,
       {Widget valueWidget = null, width = null}) {
@@ -375,5 +459,30 @@ class _FBCustomScrollViewState extends State<FBCustomScrollView> {
       ],
     ));
   }
+}
 
+//过度路由
+class PopRoute extends PopupRoute {
+  final Duration _duration = Duration(milliseconds: 300);
+  Widget child;
+
+  PopRoute({@required this.child});
+
+  @override
+  Color get barrierColor => null;
+
+  @override
+  bool get barrierDismissible => true;
+
+  @override
+  String get barrierLabel => null;
+
+  @override
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
+    return child;
+  }
+
+  @override
+  Duration get transitionDuration => _duration;
 }

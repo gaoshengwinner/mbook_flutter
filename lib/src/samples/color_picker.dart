@@ -1,214 +1,123 @@
+import 'dart:convert';
+import 'dart:math';
+import 'dart:ui';
 import 'package:flutter/material.dart';
-// import 'package:flutter/foundation.dart'
-//     show debugDefaultTargetPlatformOverride;
+import 'package:flutter/services.dart';
 
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_tags/flutter_tags.dart';
+import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
+import 'package:implicitly_animated_reorderable_list/transitions.dart';
+import 'package:mbook_flutter/src/comm/api/api.dart';
+import 'package:mbook_flutter/src/comm/appbar.dart';
+import 'package:mbook_flutter/src/comm/consts.dart';
+import 'package:mbook_flutter/src/comm/global.dart';
+import 'package:mbook_flutter/src/comm/input_bottom.dart';
+import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
+import 'package:mbook_flutter/src/comm/model/TagResultList.dart';
+import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
+import 'package:mbook_flutter/src/comm/tools/text_setting.dart';
+import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_listview.dart';
 
-// void main() {
-//   // debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
-//   runApp(MaterialApp(home: MyApp()));
-// }
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:reorderables/reorderables.dart';
+import 'package:uuid/uuid.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+
+Function deepEq = const DeepCollectionEquality().equals;
 
 class ColorPickerPage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _ColorPickerPageState();
+  ColorPickerPage();
+
+  _ColorPickerPageState createState() => _ColorPickerPageState();
 }
-
 class _ColorPickerPageState extends State<ColorPickerPage> {
-  bool lightTheme = true;
-  Color currentColor = Colors.limeAccent;
-  List<Color> currentColors = [Colors.limeAccent, Colors.green];
+  final double _iconSize = 90;
+  List<Widget> _tiles;
 
-  void changeColor(Color color) => setState(() => currentColor = color);
-  void changeColors(List<Color> colors) => setState(() => currentColors = colors);
+  @override
+  void initState() {
+    super.initState();
+    _tiles = <Widget>[
+      Icon(Icons.filter_1, size: _iconSize),
+      Icon(Icons.filter_2, size: _iconSize),
+      Icon(Icons.filter_3, size: _iconSize),
+      Icon(Icons.filter_4, size: _iconSize),
+      Icon(Icons.filter_5, size: _iconSize),
+      Icon(Icons.filter_6, size: _iconSize),
+      Icon(Icons.filter_7, size: _iconSize),
+      Icon(Icons.filter_8, size: _iconSize),
+      Icon(Icons.filter_9, size: _iconSize),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: lightTheme ? ThemeData.light() : ThemeData.dark(),
-      child: DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          appBar: AppBar(
-            title: GestureDetector(
-              child: Text('Flutter Color Picker Example'),
-              onDoubleTap: () => setState(() => lightTheme = !lightTheme),
-            ),
-            bottom: TabBar(
-              tabs: <Widget>[
-                const Tab(text: 'HSV'),
-                const Tab(text: 'Material'),
-                const Tab(text: 'Block'),
-              ],
-            ),
-          ),
-          body: TabBarView(
-            physics: const NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  RaisedButton(
-                    elevation: 3.0,
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            titlePadding: const EdgeInsets.all(0.0),
-                            contentPadding: const EdgeInsets.all(0.0),
-                            content: SingleChildScrollView(
-                              child: ColorPicker(
-                                pickerColor: currentColor,
-                                onColorChanged: changeColor,
-                                colorPickerWidth: 300.0,
-                                pickerAreaHeightPercent: 0.7,
-                                enableAlpha: true,
-                                displayThumbColor: true,
-                                showLabel: true,
-                                paletteType: PaletteType.hsv,
-                                pickerAreaBorderRadius: const BorderRadius.only(
-                                  topLeft: const Radius.circular(2.0),
-                                  topRight: const Radius.circular(2.0),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    child: const Text('Change me'),
-                    color: currentColor,
-                    textColor: useWhiteForeground(currentColor)
-                        ? const Color(0xffffffff)
-                        : const Color(0xff000000),
-                  ),
-                  RaisedButton(
-                    elevation: 3.0,
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            titlePadding: const EdgeInsets.all(0.0),
-                            contentPadding: const EdgeInsets.all(0.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                            content: SingleChildScrollView(
-                              child: SlidePicker(
-                                pickerColor: currentColor,
-                                onColorChanged: changeColor,
-                                paletteType: PaletteType.rgb,
-                                enableAlpha: false,
-                                displayThumbColor: true,
-                                showLabel: false,
-                                showIndicator: true,
-                                indicatorBorderRadius:
-                                const BorderRadius.vertical(
-                                  top: const Radius.circular(25.0),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    child: const Text('Change me again'),
-                    color: currentColor,
-                    textColor: useWhiteForeground(currentColor)
-                        ? const Color(0xffffffff)
-                        : const Color(0xff000000),
-                  ),
-                ],
-              ),
-              Center(
-                child: RaisedButton(
-                  elevation: 3.0,
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          titlePadding: const EdgeInsets.all(0.0),
-                          contentPadding: const EdgeInsets.all(0.0),
-                          content: SingleChildScrollView(
-                            child: MaterialPicker(
-                              pickerColor: currentColor,
-                              onColorChanged: changeColor,
-                              enableLabel: true,
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  child: const Text('Change me'),
-                  color: currentColor,
-                  textColor: useWhiteForeground(currentColor)
-                      ? const Color(0xffffffff)
-                      : const Color(0xff000000),
-                ),
-              ),
-              Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      RaisedButton(
-                        elevation: 3.0,
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Select a color'),
-                                content: SingleChildScrollView(
-                                  child: BlockPicker(
-                                    pickerColor: currentColor,
-                                    onColorChanged: changeColor,
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        child: const Text('Change me'),
-                        color: currentColor,
-                        textColor: useWhiteForeground(currentColor)
-                            ? const Color(0xffffffff)
-                            : const Color(0xff000000),
-                      ),
-                      RaisedButton(
-                        elevation: 3.0,
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Select colors'),
-                                content: SingleChildScrollView(
-                                  child: MultipleChoiceBlockPicker(
-                                    pickerColors: currentColors,
-                                    onColorsChanged: changeColors,
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        child: const Text('Change me again'),
-                        color: currentColor,
-                        textColor: useWhiteForeground(currentColor)
-                            ? const Color(0xffffffff)
-                            : const Color(0xff000000),
-                      )
-                    ]
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+    void _onReorder(int oldIndex, int newIndex) {
+      setState(() {
+        Widget row = _tiles.removeAt(oldIndex);
+        _tiles.insert(newIndex, row);
+      });
+    }
+
+    var wrap = ReorderableWrap(
+        spacing: 8.0,
+        runSpacing: 4.0,
+        padding: const EdgeInsets.all(8),
+        children: _tiles,
+        onReorder: _onReorder,
+        onNoReorder: (int index) {
+          //this callback is optional
+          debugPrint('${DateTime.now().toString().substring(5, 22)} reorder cancelled. index:$index');
+        },
+        onReorderStarted: (int index) {
+          //this callback is optional
+          debugPrint('${DateTime.now().toString().substring(5, 22)} reorder started: index:$index');
+        }
     );
+
+    var column = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        wrap,
+        ButtonBar(
+          alignment: MainAxisAlignment.start,
+          children: <Widget>[
+            // IconButton(
+            //   iconSize: 50,
+            //   icon: Icon(Icons.add_circle),
+            //   color: Colors.deepOrange,
+            //   padding: const EdgeInsets.all(0.0),
+            //   onPressed: () {
+            //     var newTile = Icon(Icons.filter_9_plus, size: _iconSize);
+            //     setState(() {
+            //       _tiles.add(newTile);
+            //     });
+            //   },
+            // ),
+            // IconButton(
+            //   iconSize: 50,
+            //   icon: Icon(Icons.remove_circle),
+            //   color: Colors.teal,
+            //   padding: const EdgeInsets.all(0.0),
+            //   onPressed: () {
+            //     setState(() {
+            //       _tiles.removeAt(0);
+            //     });
+            //   },
+            // ),
+          ],
+        ),
+      ],
+    );
+
+    return SingleChildScrollView(
+      child: column,
+    );
+
   }
 }

@@ -15,6 +15,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isLogin = false;
 
+  final GlobalKey<ScaffoldState> _scaffoldKey =
+  new GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
@@ -38,11 +41,13 @@ class _HomePageState extends State<HomePage> {
     printScreenInformation();
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBarView.appbar(null, false),
       endDrawer: MenuBar.menu(
           isLogin,
           false,
           context,
+          _scaffoldKey,
           () => {
                 setState(() {
                   TokenUtil.checkRefreshToken().then((isOK) {

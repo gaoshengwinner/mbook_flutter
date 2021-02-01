@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
 
 part 'ItemDetail.g.dart';
 
@@ -14,10 +15,18 @@ class ItemDetail {
   String itemDescr;
   String itemMainPicUrl;
   String itemDispDetail;
+  List<TagInfo> tags;
 
-  ItemDetail(this.id, this.itemPrice, this.itemName, this.itemDescr,
-      this.itemMainPicUrl,this.itemDispDetail);
+  ItemDetail({this.id, this.itemPrice, this.itemName, this.itemDescr,
+      this.itemMainPicUrl,this.itemDispDetail, this.tags}){
+    if (this.tags == null){
+      this.tags = [];
+    }
+  }
 
+  factory ItemDetail.newItem(){
+    return ItemDetail(id:null, itemPrice: "", itemName: "", itemDescr:"",itemMainPicUrl:"", itemDispDetail:"");
+  }
   factory ItemDetail.fromJson(Map<String, dynamic> json) =>
       _$ItemDetailFromJson(json);
 

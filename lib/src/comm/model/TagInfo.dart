@@ -13,6 +13,11 @@ class TagInfo {
   String data;
   String desc;
   String propertyString;
+  int orders;
+
+  TagInfo copy(){
+    return TagInfo.fromJson(toJson());
+  }
 
   @JsonKey(ignore: true)
   TextWidgetProperty property;

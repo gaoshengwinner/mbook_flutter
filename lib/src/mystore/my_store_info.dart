@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mbook_flutter/src/comm/api/api.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
-import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ShopInfo.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

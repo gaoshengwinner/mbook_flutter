@@ -12,7 +12,7 @@ TagInfo _$TagInfoFromJson(Map<String, dynamic> json) {
     data: json['data'] as String,
     desc: json['desc'] as String,
     propertyString: json['propertyString'] as String,
-  );
+  )..orders = json['orders'] as int;
 }
 
 Map<String, dynamic> _$TagInfoToJson(TagInfo instance) => <String, dynamic>{
@@ -20,4 +20,5 @@ Map<String, dynamic> _$TagInfoToJson(TagInfo instance) => <String, dynamic>{
       'data': instance.data,
       'desc': instance.desc,
       'propertyString': instance.propertyString,
+      'orders': instance.orders,
     };

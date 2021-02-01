@@ -1,31 +1,13 @@
-import 'dart:convert';
-import 'dart:math';
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_tags/flutter_tags.dart';
-import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
-import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:mbook_flutter/src/comm/api/api.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
-import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
-import 'package:mbook_flutter/src/comm/input_bottom.dart';
 import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
 import 'package:mbook_flutter/src/comm/model/TagResultList.dart';
-import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 import 'package:mbook_flutter/src/comm/tools/text_setting.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_listview.dart';
-
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:uuid/uuid.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 
 Function deepEq = const DeepCollectionEquality().equals;
 
@@ -105,7 +87,8 @@ class _MyTagsPageState extends State<MyTagsPage>
           // 点击空白页面关闭键盘
           FocusScope.of(context).requestFocus(_blankNode);
         },
-        child: new FBListViewWidget<TagInfo>(
+        child:
+        new FBListViewWidget<TagInfo>(
           tagInfos,
           setActions: (c, r, index) {
             return [
@@ -120,7 +103,7 @@ class _MyTagsPageState extends State<MyTagsPage>
           canBeMove: true,
           setSubWidget: (c, r, index) {
             return Container(
-              color: Color(0xEDE7F6),
+              //color: Color(0xEDE7F6),
               padding: EdgeInsets.all(10),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,11 +150,11 @@ class _MyTagsPageState extends State<MyTagsPage>
             );
           },
           footer: FBListViewWidget.buildFooter(context,
-              icon: Icons.add, title: "Add a tag", onTap: () {
-            setState(() {
-              tagInfos.add(TagInfo(data: "", desc: ""));
-            });
-          }),
+            icon: Icons.add, title: "Add a tag", onTap: () {
+              setState(() {
+                tagInfos.add(TagInfo(data: "", desc: ""));
+              });
+            }),
           setSeActions: (c, r, index) {
             return [
               FBListViewWidget.getSlideActionCopy(c, () {

@@ -257,10 +257,10 @@ class _FBListViewWidgetState<E> extends State<FBListViewWidget>
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 tile,
-                Divider(
-                  height: 10,
-                  color: Color(0xFFEFEFF4).withOpacity(0),
-                ),
+                // Divider(
+                //   height: 10,
+                //   color: Color(0xFFEFEFF4).withOpacity(0),
+                // ),
               ],
             ),
           );
@@ -330,8 +330,10 @@ class _FBListViewWidgetState<E> extends State<FBListViewWidget>
             top: 0,
           ),
           new Positioned(
-            child:  Container(
-              child: Text("No.${index+1}",style: TextStyle(fontSize: 12),
+            child: Container(
+              child: Text(
+                "No.${index + 1}",
+                style: TextStyle(fontSize: 12),
               ),
             ),
             left: 0,

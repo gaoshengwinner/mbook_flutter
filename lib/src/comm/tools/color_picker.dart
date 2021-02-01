@@ -3,6 +3,7 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
+import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/input_bottom.dart';
 import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 import 'package:mbook_flutter/src/comm/tools/MyCupertinoRadioChoice.dart';

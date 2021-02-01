@@ -8,12 +8,16 @@ part of 'ItemDetail.dart';
 
 ItemDetail _$ItemDetailFromJson(Map<String, dynamic> json) {
   return ItemDetail(
-    json['id'] as int,
-    json['itemPrice'] as String,
-    json['itemName'] as String,
-    json['itemDescr'] as String,
-    json['itemMainPicUrl'] as String,
-    json['itemDispDetail'] as String,
+    id: json['id'] as int,
+    itemPrice: json['itemPrice'] as String,
+    itemName: json['itemName'] as String,
+    itemDescr: json['itemDescr'] as String,
+    itemMainPicUrl: json['itemMainPicUrl'] as String,
+    itemDispDetail: json['itemDispDetail'] as String,
+    tags: (json['tags'] as List)
+        ?.map((e) =>
+            e == null ? null : TagInfo.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   )..shopId = json['shopId'] as int;
 }
 
@@ -26,4 +30,5 @@ Map<String, dynamic> _$ItemDetailToJson(ItemDetail instance) =>
       'itemDescr': instance.itemDescr,
       'itemMainPicUrl': instance.itemMainPicUrl,
       'itemDispDetail': instance.itemDispDetail,
+      'tags': instance.tags,
     };

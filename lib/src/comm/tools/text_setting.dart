@@ -1,9 +1,7 @@
 import 'dart:core';
 
-import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
@@ -11,13 +9,10 @@ import 'package:mbook_flutter/src/comm/extension/extension.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ListHelper.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
-import 'package:mbook_flutter/src/comm/tools/MyCupertinoRadioChoice.dart';
 import 'package:mbook_flutter/src/comm/tools/color_picker.dart';
 import 'package:mbook_flutter/src/comm/tools/group.dart';
-import 'package:mbook_flutter/src/comm/tools/header.dart';
 import 'package:mbook_flutter/src/comm/tools/item.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
-import 'package:settings_ui/settings_ui.dart';
 
 class TextSettingWidget extends StatefulWidget {
   TextSettingWidget({this.property, this.onChange, this.data});
