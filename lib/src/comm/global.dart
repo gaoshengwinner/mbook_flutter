@@ -112,7 +112,8 @@ class GlobalFun {
     );
   }
 
-  static Future<T> showBottomSheetCommon<T>(BuildContext context, Widget widget) {
+  static Future<T> showBottomSheetCommon<T>(
+      BuildContext context, Widget widget) {
     return showMaterialModalBottomSheet(
       expand: true,
       context: context,
@@ -120,10 +121,10 @@ class GlobalFun {
           child: Material(
               child: CupertinoPageScaffold(
                   navigationBar: CupertinoNavigationBar(
-                    // leading: Icon(Icons.clear),
-                    // middle: Container(),
-                    // trailing: Icon(Icons.done),
-                  ),
+                      // leading: Icon(Icons.clear),
+                      // middle: Container(),
+                      // trailing: Icon(Icons.done),
+                      ),
                   child: SafeArea(
                     bottom: false,
                     child: (widget),
@@ -199,10 +200,12 @@ class GlobalFun {
 
   static void openEditTagPage(BuildContext context, List<TagInfo> tags,
       List<TagInfo> selectedTags, Function onSelected) {
-    showBottomSheetCommon(context, TagsSelectWidget(
-        tagInfos: tags,
-        selectedTagInfos: selectedTags,
-        onSelected: onSelected));
+    showBottomSheetCommon(
+        context,
+        TagsSelectWidget(
+            tagInfos: tags,
+            selectedTagInfos: selectedTags,
+            onSelected: onSelected));
     // Navigator.push(
     //     context,
     //     PopRoute(
@@ -323,9 +326,9 @@ class GlobalFun {
     );
   }
 
-  static Widget FBInputTagBox(
-      BuildContext context, String lableText, List<TagInfo> tags,
-      List<TagInfo> selectedTags, Function onSelected,{width = null}) {
+  static Widget FBInputTagBox(BuildContext context, String lableText,
+      List<TagInfo> tags, List<TagInfo> selectedTags, Function onSelected,
+      {width = null}) {
     width = width == null ? 0.8.sw : width;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -340,26 +343,31 @@ class GlobalFun {
         ),
         Container(
           width: width,
+          constraints: BoxConstraints(
+            minHeight: 30,
+          ),
           child: GestureDetector(
             child: Container(
-              padding: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.grey, width: 1),
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-              width: 0.8.sw,
-              child: Wrap(children: [
-                for(TagInfo tag in selectedTags)
-                  WidgetTextPage.build(
-                    context,
-                    tag.property,
-                    tag.data,
-                  )
-              ],)
-            ),
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                width: 0.8.sw,
+                child: Wrap(
+                  children: [
+                    for (TagInfo tag in selectedTags)
+                      WidgetTextPage.build(
+                        context,
+                        tag.property,
+                        tag.data,
+                      )
+                  ],
+                )),
             onTap: () {
-              GlobalFun.openEditTagPage(context, tags, selectedTags,onSelected);
+              GlobalFun.openEditTagPage(
+                  context, tags, selectedTags, onSelected);
             },
           ),
         ),
@@ -386,6 +394,9 @@ class GlobalFun {
           ),
         ),
         Container(
+          constraints: BoxConstraints(
+            minHeight: 30,
+          ),
           width: width,
           child: GestureDetector(
             child: Container(
