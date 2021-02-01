@@ -20,17 +20,37 @@ class TagsSelectWidget extends StatefulWidget {
   TagsSelectWidget({this.tagInfos, this.selectedTagInfos, this.onSelected});
 
   _TagsSelectWidget createState() => _TagsSelectWidget(
-      tagInfos: this.tagInfos, selectedTagInfos: selectedTagInfos);
+      oldTagInfos: this.tagInfos,
+      selectedTagInfos: selectedTagInfos,
+      onSelected: onSelected);
 }
 
 class _TagsSelectWidget extends State<TagsSelectWidget> {
-  _TagsSelectWidget({this.tagInfos, this.selectedTagInfos, this.onSelected}){
-   if ( this.selectedTagInfos == null){
-     this.selectedTagInfos = [];
-   }
+  _TagsSelectWidget(
+      {this.oldTagInfos, this.selectedTagInfos, this.onSelected}) {
+    if (this.selectedTagInfos == null) {
+      this.selectedTagInfos = [];
+    }
+
+    this.tagInfos = [];
+    if (this.oldTagInfos != null) {
+      for (TagInfo tag in this.oldTagInfos) {
+        bool have = false;
+        for (TagInfo added in this.selectedTagInfos) {
+          if (added.id == tag.id) {
+            have = true;
+            break;
+          }
+        }
+        if (!have) {
+          this.tagInfos.add(tag.copy());
+        }
+      }
+    }
   }
 
   List<TagInfo> tagInfos = [];
+  List<TagInfo> oldTagInfos = [];
   List<TagInfo> selectedTagInfos = [];
   Function onSelected;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -63,11 +83,11 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
   void setState(VoidCallback fn) {
     super.setState(() {
       fn();
-      onSelected(this.selectedTagInfos);
     });
+    if (onSelected != null) {
+      onSelected(this.selectedTagInfos);
+    }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +139,7 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
               areItemsTheSame: (oldItem, newItem) => oldItem.id == newItem.id,
               onReorderFinished: (item, from, to, newItems) {
                 setState(() {
-                  tagInfos
+                  selectedTagInfos
                     ..clear()
                     ..addAll(newItems);
                 });
@@ -146,10 +166,10 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                             child: ListTile(
                               leading: GlobalFun.ClipOvalIcon(Icons.clear, () {
                                 setState(() {
-                                  this.tagInfos.sort(
-                                      (a, b) => b.orders.compareTo(a.orders));
                                   this.tagInfos.add(item.copy());
                                   this.selectedTagInfos.remove(item);
+                                  this.tagInfos.sort(
+                                      (a, b) => a.orders.compareTo(b.orders));
                                 });
                               }),
                               //title: Text(item.desc),

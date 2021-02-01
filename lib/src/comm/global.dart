@@ -356,6 +356,7 @@ class GlobalFun {
                 ),
                 width: 0.8.sw,
                 child: Wrap(
+                  spacing: 4,
                   children: [
                     for (TagInfo tag in selectedTags)
                       WidgetTextPage.build(

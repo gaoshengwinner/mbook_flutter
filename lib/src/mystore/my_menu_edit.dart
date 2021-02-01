@@ -139,7 +139,11 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
       child: ListView(
         children: [
           GlobalFun.FBInputTagBox(
-              context, "Tags", MyGlobal.tagInfos, [], (value) {}),
+              context, "Tags", MyGlobal.tagInfos, _item.tags, (value) {
+            setState(() {
+              _item.tags = value;
+            });
+          }),
         ],
       ),
     );
