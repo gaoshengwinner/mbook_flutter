@@ -6,7 +6,6 @@ import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/input_bottom.dart';
 import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
-import 'package:mbook_flutter/src/comm/tools/MyCupertinoRadioChoice.dart';
 
 void openColor(
     BuildContext context, Color currentColor, Function onColorChange) {
@@ -64,7 +63,7 @@ class _ColorPickerPageState extends State<ColorPickerPage>
               color: currentColor,
             )
             ,
-            MyCupertinoRadioChoice(
+            CupertinoRadioChoice(
                 choices: {"0": 'Sliders', "1": 'Spectrum', "2": 'Grid'},
                 onChange: (selectedGender) {
                   setState(() {
