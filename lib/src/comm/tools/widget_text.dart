@@ -25,7 +25,8 @@ class WidgetTextPage {
                   color: property.borderColor, width: property.borderWidth),
           boxShadow: [
             BoxShadow(
-                color: property.shadowColor,
+                color:
+                property.shadowOffsetX==0 && property.shadowOffsetY==0 ? Colors.transparent :property.shadowColor,
                 offset: Offset(property.shadowOffsetX, property.shadowOffsetY),
                 blurRadius: property.shadowBlurRadius,
                 spreadRadius: property.shadowSpreadRadius)
