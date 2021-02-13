@@ -31,7 +31,7 @@ class TextWidgetProperty {
   double borderRadiusBottomLeft = 0;
   double borderRadiusBottomRight = 0;
 
-  Color shadowColor = Color(0xFF000000);
+  Color shadowColor = Colors.transparent;
   double shadowOffsetX = 0.0;
   double shadowOffsetY = 0.0;
   double shadowBlurRadius = 0.0;

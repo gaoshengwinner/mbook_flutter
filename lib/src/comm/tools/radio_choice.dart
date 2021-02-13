@@ -60,10 +60,6 @@ class _CupertinoRadioChoiceState extends State<CupertinoRadioChoice> {
               height: 50,
               decoration: BoxDecoration(
                   color: null,
-                  // selected
-                  //
-                  //     ? CupertinoColors.systemGreen
-                  //     : CupertinoColors.white,
                   border: Border.all(
                       color: selected
                           ? CupertinoColors.systemGreen
@@ -78,11 +74,6 @@ class _CupertinoRadioChoiceState extends State<CupertinoRadioChoice> {
                         ? CupertinoColors.systemGreen
                         : CupertinoColors.systemGrey),
               ),
-              // Icon(CupertinoIcons.check_mark,
-              //     size: 100,
-              //     color: selected
-              //         ? CupertinoColors.white
-              //         : CupertinoColors.systemGrey),
             ),
             onPressed: !widget.enabled || selected
                 ? null
@@ -93,23 +84,7 @@ class _CupertinoRadioChoiceState extends State<CupertinoRadioChoice> {
 
                     widget.onChange(_selectedKey);
                   })
-        //     CupertinoButton(
-        //         disabledColor:
-        //             selected ? widget.selectedColor : widget.notSelectedColor,
-        //         color: selected ? widget.selectedColor : widget.notSelectedColor,
-        //         padding: const EdgeInsets.all(10.0),
-        //         child:
-        //
-        //         Text(value),
-        //         onPressed: !widget.enabled || selected
-        //             ? null
-        //             : () {
-        //                 setState(() {
-        //                   _selectedKey = key;
-        //                 });
-        //
-        //                 widget.onChange(_selectedKey);
-        //               })
+
         );
   }
 

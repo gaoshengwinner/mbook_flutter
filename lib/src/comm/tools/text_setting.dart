@@ -75,17 +75,9 @@ class _TextSettingWidget extends State<TextSettingWidget>
     }
   }
 
-  String selected = _TAB_Base;
-
-// create some values
   Color pickerColor = Color(0xff443a49);
   Color currentColor = Color(0xff443a49);
 
-  static const String _TAB_Base = "Base info";
-  static const String _TAB_Padding = "Padding";
-  static const String _TAB_Border = "Border";
-  static const String _TAB_Shadow = "Shadow";
-  static const String _TAB_Other = "Other";
 
   @override
   Widget build(BuildContext context) {
@@ -96,11 +88,6 @@ class _TextSettingWidget extends State<TextSettingWidget>
     prs.addAll(_sgadowSetting( context));
     prs.addAll(_otherSetting( context));
 
-    //       if (selected == _TAB_Base) _baseSetting(context),
-    //       if (selected == _TAB_Padding) _paddingSetting(context),
-    //       if (selected == _TAB_Border) _borderSetting(context),
-    //       if (selected == _TAB_Shadow) _sgadowSetting(context),
-    //       if (selected == _TAB_Other) _otherSetting(context),
     return Scaffold(
         body: Column(
       children: <Widget>[
@@ -109,16 +96,8 @@ class _TextSettingWidget extends State<TextSettingWidget>
           child: Container(
             width: 1.sw - 5,
             height: 100,
-            //color:Color.fromRGBO(243, 229, 245, 1),
             child: Center(
-
-              // margin: EdgeInsets.only(top: 5),
-              //width: 1.sw - 5,
-              // height: 150,
-              //child: //Align(
-              //alignment: Alignment.center,
               child: WidgetTextPage.build(context, property, data),
-              // ),
             ),
           ),
         ),
@@ -134,61 +113,11 @@ class _TextSettingWidget extends State<TextSettingWidget>
         )
       ],
     ));
-
-    //
-    //
-    // return Container(
-    //     height: 0.85.sh,
-    //     child: new Column(children: [
-    //       Container(
-    //         width: 1.sw - 5,
-    //         height: 100,
-    //         child: Center(
-    //           // margin: EdgeInsets.only(top: 5),
-    //           //width: 1.sw - 5,
-    //           // height: 150,
-    //           //child: //Align(
-    //           //alignment: Alignment.center,
-    //           child: WidgetTextPage.build(context,property, data),
-    //           // ),
-    //         ),
-    //       ),
-    //       Container(
-    //         padding: EdgeInsets.only(top: 5),
-    //         child: MyCupertinoRadioChoice(
-    //             //selectedColor: G.appBaseColor[0].withOpacity(0.7),
-    //             //notSelectedColor: Colors.grey.withOpacity(0.5),
-    //             choices: {
-    //               _TAB_Base: _TAB_Base,
-    //               _TAB_Padding: _TAB_Padding,
-    //               _TAB_Border: _TAB_Border,
-    //               _TAB_Shadow: _TAB_Shadow,
-    //               _TAB_Other: _TAB_Other
-    //             },
-    //             onChange: (selectedGender) {
-    //               setState(() {
-    //                 selected = selectedGender;
-    //               });
-    //               //print(selected);
-    //             },
-    //             initialKeyValue: _TAB_Base),
-    //       ),
-    //       if (selected == _TAB_Base) _baseSetting(context),
-    //       if (selected == _TAB_Padding) _paddingSetting(context),
-    //       if (selected == _TAB_Border) _borderSetting(context),
-    //       if (selected == _TAB_Shadow) _sgadowSetting(context),
-    //       if (selected == _TAB_Other) _otherSetting(context),
-    //     ]));
   }
 
 
   List<Widget> _otherSetting(BuildContext context) {
     return
-      // new Container(
-      //   child:
-      //   Column(children:
-      //
-
         [
       SettingsGroup(<Widget>[
         SettingsItem(
@@ -227,41 +156,7 @@ class _TextSettingWidget extends State<TextSettingWidget>
           },
           value: Text("${property.minHeight.toInt()}"),
         ),
-        // SettingsItem(
-        //   label: "Max width",
-        //   type: SettingsItemType.modal,
-        //   hasDetails: true,
-        //   onPress: () {
-        //     GlobalFun.showPicker(
-        //         context,
-        //         _list_min.getIndexByValue(property.maxWidth.toInt()),
-        //         _list_min.list(), (value) {
-        //       setState(() {
-        //         property.maxWidth = _list_min
-        //             .values()[value.toInt()]
-        //             .toDouble(); //value.toDouble();
-        //       });
-        //     });
-        //   },
-        //   value: Text("${property.maxWidth.toInt()}"),
-        // ),
-        // SettingsItem(
-        //   label: "Max height",
-        //   type: SettingsItemType.modal,
-        //   hasDetails: true,
-        //   onPress: () {
-        //     GlobalFun.showPicker(
-        //         context,
-        //         _list_min.getIndexByValue(property.maxHeight.toInt()),
-        //         _list_min.list(), (value) {
-        //       setState(() {
-        //         property.maxHeight =
-        //             _list_min.values()[value.toInt()].toDouble();
-        //       });
-        //     });
-        //   },
-        //   value: Text("${property.maxHeight.toInt()}"),
-        // ),
+
       ]),
       SettingsGroup(
         <Widget>[
@@ -286,7 +181,6 @@ class _TextSettingWidget extends State<TextSettingWidget>
         header: Text(""),
       )
     ];
-        //));
   }
 
 //maxHeight
@@ -779,10 +673,6 @@ class _TextSettingWidget extends State<TextSettingWidget>
         header: Text(''),
       ),
     ];
-
-    //     ,
-    //   ),
-    // );
   }
 
   Widget _fontSetting(BuildContext context) {
