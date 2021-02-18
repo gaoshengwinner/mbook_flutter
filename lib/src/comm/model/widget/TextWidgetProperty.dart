@@ -56,6 +56,10 @@ class TextWidgetProperty {
 
   String backalignment = FBAlignment.DEFALUT_ALIGM;
 
+  Color spacingColor = Colors.white;
+  double spacingHWidth = 0;
+  double spacingVWidth = 0;
+
   TextWidgetProperty(
       {this.fullLineDisp = false,
       this.textColor = Colors.black,

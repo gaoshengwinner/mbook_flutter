@@ -176,10 +176,9 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                               title: Wrap(
                                 spacing: 3,
                                 children: [
-                                  WidgetTextPage.build(
-                                    context,
-                                    item.property,
-                                    item.data,
+                                  WidgetTextPage(
+                                    property: item.property,
+                                    data: item.data,
                                   ),
                                   Text(item.desc),
                                 ],
@@ -251,10 +250,9 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                                         title: Wrap(
                                           spacing: 4,
                                           children: [
-                                            WidgetTextPage.build(
-                                              context,
-                                              item.property,
-                                              item.data,
+                                            WidgetTextPage(
+                                              property: item.property,
+                                              data: item.data,
                                             ),
                                             Text(item.desc)
                                           ],

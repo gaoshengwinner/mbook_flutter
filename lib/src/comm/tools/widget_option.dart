@@ -14,80 +14,21 @@ class WidgetOptionPage {
       children: [
         Container(
           width: double.infinity,
-          child: WidgetTextPage.build(context, property.titlePr, data.title),
+          child: WidgetTextPage(property: property.titlePr, data: data.title),
         ),
-        _WidgetFramPage(
-          context: context,
-          optionWidgetProperty: property,
+        WidgetBasePage.build(
+          context,
+          property.framPr,
           child: _CupertinoRadioChoice(
             onChange: () {},
             initialKeyValue: data.options.first,
             optionWidgetProperty: property,
             data: data,
-            rowMaxcount: 1,
+            rowMaxcount: 3,
           ),
         ),
+
       ],
-    );
-  }
-}
-
-class _WidgetFramPage extends StatelessWidget {
-  BuildContext context;
-  OptionWidgetProperty optionWidgetProperty;
-  Widget child;
-
-  _WidgetFramPage({this.context, this.optionWidgetProperty, this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(
-          optionWidgetProperty.framPr.marginLeft,
-          optionWidgetProperty.framPr.marginTop,
-          optionWidgetProperty.framPr.marginRight,
-          optionWidgetProperty.framPr.marginBottom),
-      width: optionWidgetProperty.framPr.getRealMinWidth(),
-      height: optionWidgetProperty.framPr.getRealMinHeight(),
-      //property.minHeight,
-      alignment: FBAlignment.map()[optionWidgetProperty.framPr.alignment],
-      padding: EdgeInsets.only(
-          left: optionWidgetProperty.framPr.paddingLeft,
-          top: optionWidgetProperty.framPr.paddingTop,
-          right: optionWidgetProperty.framPr.paddingRight,
-          bottom: optionWidgetProperty.framPr.paddingBottom),
-      //margin: EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: optionWidgetProperty.framPr.backColor,
-        border: optionWidgetProperty.framPr.borderWidth == null ||
-                optionWidgetProperty.framPr.borderWidth < 1
-            ? null
-            : Border.all(
-                color: optionWidgetProperty.framPr.borderColor,
-                width: optionWidgetProperty.framPr.borderWidth),
-        boxShadow: [
-          BoxShadow(
-              color: optionWidgetProperty.framPr.shadowOffsetX == 0 &&
-                      optionWidgetProperty.framPr.shadowOffsetY == 0
-                  ? Colors.transparent
-                  : optionWidgetProperty.framPr.shadowColor,
-              offset: Offset(optionWidgetProperty.framPr.shadowOffsetX,
-                  optionWidgetProperty.framPr.shadowOffsetY),
-              blurRadius: optionWidgetProperty.framPr.shadowBlurRadius,
-              spreadRadius: optionWidgetProperty.framPr.shadowSpreadRadius)
-        ],
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(
-                optionWidgetProperty.framPr.borderRadiusTopLeft),
-            topRight: Radius.circular(
-                optionWidgetProperty.framPr.borderRadiusTopRight),
-            bottomLeft: Radius.circular(
-                optionWidgetProperty.framPr.borderRadiusBottomLeft),
-            bottomRight: Radius.circular(
-                optionWidgetProperty.framPr.borderRadiusBottomRight)),
-      ),
-
-      child: child == null ? Text("Todo") : child,
     );
   }
 }
@@ -166,42 +107,23 @@ class _CupertinoRadioChoiceState extends State<_CupertinoRadioChoice> {
               });
               widget.onChange(_selectedKey);
             },
-      child: WidgetTextPage.build(
-          context,
-          selected
+      child: WidgetTextPage(
+          property: selected
               ? widget.optionWidgetProperty.buttonSelectPr
               : widget.optionWidgetProperty.buttonPr,
-          key.title),
+          data: key.title),
     );
-    // return Container(
-    //   color: Colors.amber,
-    //   width: 100,
-    //     height: 100,
-    //     child: CupertinoButton(
-    //       color: Colors.red,
-    //         disabledColor:Colors.green,
-    //         child:
-    //         WidgetTextPage.build(context,
-    //             selected ? widget.property : widget.selectproperty, key.title),
-    //         onPressed: !widget.enabled || selected
-    //             ? null
-    //             : () {
-    //                 setState(() {
-    //                   _selectedKey = key;
-    //                 });
-    //                 widget.onChange(_selectedKey);
-    //               }));
   }
 
   @override
   Widget build(BuildContext context) {
-    double spacing = 10;
+
     double realWidth = (1.sw -
             widget.optionWidgetProperty.framPr.marginLeft -
             widget.optionWidgetProperty.framPr.marginRight -
             widget.optionWidgetProperty.framPr.paddingLeft -
             widget.optionWidgetProperty.framPr.paddingRight -
-            (widget.rowMaxcount - 1) * spacing) /
+            (widget.rowMaxcount - 1) * widget.optionWidgetProperty.framPr.spacingHWidth) /
         widget.rowMaxcount;
 
     final List<List<Widget>> buttonList = [];
@@ -211,10 +133,10 @@ class _CupertinoRadioChoiceState extends State<_CupertinoRadioChoice> {
     for (var key in widget.data.options) {
       if (row.length > 0) {
         row.add(new Expanded(
-          flex: spacing.toInt(),
+          flex: widget.optionWidgetProperty.framPr.spacingHWidth.toInt(),
           child: SizedBox(
-            width: spacing,
-            height: spacing,
+            width: widget.optionWidgetProperty.framPr.spacingHWidth,
+            height: widget.optionWidgetProperty.framPr.spacingVWidth,
           ),
         ));
       }
@@ -232,8 +154,8 @@ class _CupertinoRadioChoiceState extends State<_CupertinoRadioChoice> {
         if (i < widget.data.options.length) {
           buttonList.add([
             SizedBox(
-              height: spacing,
-              width: spacing,
+              height: widget.optionWidgetProperty.framPr.spacingVWidth,
+              width: widget.optionWidgetProperty.framPr.spacingHWidth,
             )
           ]);
         }
@@ -246,24 +168,24 @@ class _CupertinoRadioChoiceState extends State<_CupertinoRadioChoice> {
       i++;
     }
     if (j != 0)
-    for (int l = j; l < widget.rowMaxcount; l++) {
-      buttonList.last.add(new Expanded(
-        flex: spacing.toInt(),
-        child: SizedBox(
-          width: spacing,
-          height: spacing,
-        ),
-      ));
-      buttonList.last.add(new Expanded(
-        flex: realWidth.toInt(),
-        child: SizedBox(
-          width: realWidth,
-          height: spacing,
-          child: Text("                                                               "),
-        ),
-      ));
-
-    }
+      for (int l = j; l < widget.rowMaxcount; l++) {
+        buttonList.last.add(new Expanded(
+          flex: widget.optionWidgetProperty.framPr.spacingHWidth.toInt(),
+          child: SizedBox(
+            width: widget.optionWidgetProperty.framPr.spacingHWidth,
+            height: widget.optionWidgetProperty.framPr.spacingVWidth,
+          ),
+        ));
+        buttonList.last.add(new Expanded(
+          flex: realWidth.toInt(),
+          child: SizedBox(
+            width: realWidth,
+            height: widget.optionWidgetProperty.framPr.spacingVWidth,
+            child: Text(
+                "                                                               "),
+          ),
+        ));
+      }
 
     return Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,

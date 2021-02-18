@@ -87,8 +87,7 @@ class _MyTagsPageState extends State<MyTagsPage>
           // 点击空白页面关闭键盘
           FocusScope.of(context).requestFocus(_blankNode);
         },
-        child:
-        new FBListViewWidget<TagInfo>(
+        child: new FBListViewWidget<TagInfo>(
           tagInfos,
           setActions: (c, r, index) {
             return [
@@ -124,10 +123,9 @@ class _MyTagsPageState extends State<MyTagsPage>
                         },
                             valueWidget: Wrap(
                               children: [
-                                WidgetTextPage.build(
-                                  context,
-                                  tagInfos[index].property,
-                                  tagInfos[index].data,
+                                WidgetTextPage(
+                                  property: tagInfos[index].property,
+                                  data: tagInfos[index].data,
                                 )
                               ],
                             )),
@@ -150,11 +148,11 @@ class _MyTagsPageState extends State<MyTagsPage>
             );
           },
           footer: FBListViewWidget.buildFooter(context,
-            icon: Icons.add, title: "Add a tag", onTap: () {
-              setState(() {
-                tagInfos.add(TagInfo(data: "", desc: ""));
-              });
-            }),
+              icon: Icons.add, title: "Add a tag", onTap: () {
+            setState(() {
+              tagInfos.add(TagInfo(data: "", desc: ""));
+            });
+          }),
           setSeActions: (c, r, index) {
             return [
               FBListViewWidget.getSlideActionCopy(c, () {

@@ -212,18 +212,14 @@ class GlobalFun {
   }
 
   static ListHelper _list_min = ListHelper(0, 1024);
-  static showWHPicker(
-      BuildContext context,
-      double initValue,
-      List<String> utils,
-      String selectedUtil,
-      Function onSelectedItemChanged) {
+
+  static showWHPicker(BuildContext context, double initValue,
+      List<String> utils, String selectedUtil, Function onSelectedItemChanged) {
     int initialItem = _list_min.getIndexByValue(initValue.toInt());
     int oldInitialItem = initialItem;
     showCupertinoModalPopup(
       context: context,
       builder: (context) {
-
         return Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
@@ -273,8 +269,12 @@ class GlobalFun {
                 width: 1.sw,
                 color: Color(0xfff7f7f7),
                 child: CupertinoRadioChoice(
-                    selectedColor:G.appBaseColor[0],
-                    choices: {"px": 'Pixel', "sw": 'Screen Width', "sh": 'Screen Height'},
+                    selectedColor: G.appBaseColor[0],
+                    choices: {
+                      "px": 'Pixel',
+                      "sw": 'Screen Width',
+                      "sh": 'Screen Height'
+                    },
                     onChange: (selectedGender) {
                       // setState(() {
                       //   selected = selectedGender;
@@ -286,12 +286,10 @@ class GlobalFun {
               color: Color(0xfff7f7f7),
               child: CupertinoPicker(
                   itemExtent: 32.6,
-                  children:
-                  _list_min.list(),
+                  children: _list_min.list(),
                   onSelectedItemChanged: (value) {
-                    onSelectedItemChanged(_list_min
-                        .values()[value.toInt()]
-                        .toDouble());
+                    onSelectedItemChanged(
+                        _list_min.values()[value.toInt()].toDouble());
                   },
                   scrollController:
                       FixedExtentScrollController(initialItem: initialItem)),
@@ -497,10 +495,9 @@ class GlobalFun {
                   spacing: 4,
                   children: [
                     for (TagInfo tag in selectedTags)
-                      WidgetTextPage.build(
-                        context,
-                        tag.property,
-                        tag.data,
+                      WidgetTextPage(
+                        property: tag.property,
+                        data: tag.data,
                       )
                   ],
                 )),

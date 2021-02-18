@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:mbook_flutter/src/comm/extension/extension.dart';
-import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
-import 'package:mbook_flutter/src/comm/tools/wh_picker.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class WidgetTextPage {
-  @override
+class WidgetBasePage {
   static Widget build(
-      BuildContext context, TextWidgetProperty property, String data) {
+      BuildContext context, TextWidgetProperty property, {Widget child}) {
     return Container(
       alignment: FBAlignment.map()[property.backalignment],
       color: Colors.transparent,
       width: property.getRealMinWidth(),
       height: property.getRealMinHeight(),
       child: Container(
+        margin: EdgeInsets.only(
+            left: property.marginLeft,
+            right: property.marginRight,
+            top: property.marginTop,
+            bottom: property.marginBottom),
         width: property.getRealMinWidth(),
         height: property.getRealMinHeight(),
         //property.minHeight,
@@ -56,23 +57,12 @@ class WidgetTextPage {
         //   maxHeight:
         //       property.maxHeight < 10 ? double.infinity : property.maxHeight,
         // ),
-        child: Text(
-          data,
-          softWrap: true,
-          textAlign: FBTextAlign.getByString(property.textTextAlign),
-          style: TextStyle(
-            color: property.textColor,
-            fontSize: property.fontSize,
-            fontWeight: _getFontWeightByInt(property.fontWeight),
-            fontStyle: property.italic ? FontStyle.italic : null,
-            letterSpacing: property.letterSpacing,
-          ),
-        ),
+        child: child,
       ),
     );
   }
 
-  static FontWeight _getFontWeightByInt(int value) {
+  static FontWeight getFontWeightByInt(int value) {
     if (value == null || !(value is int)) {
       return FontWeight.w400;
     } else if (value < 150) {
@@ -94,5 +84,28 @@ class WidgetTextPage {
     } else {
       return FontWeight.w900;
     }
+  }
+}
+
+class WidgetTextPage extends StatelessWidget {
+  TextWidgetProperty property;
+  String data;
+
+  WidgetTextPage({this.property, this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return WidgetBasePage.build(context, property, child: Text(
+      data,
+      softWrap: true,
+      textAlign: FBTextAlign.getByString(property.textTextAlign),
+      style: TextStyle(
+        color: property.textColor,
+        fontSize: property.fontSize,
+        fontWeight: WidgetBasePage.getFontWeightByInt(property.fontWeight),
+        fontStyle: property.italic ? FontStyle.italic : null,
+        letterSpacing: property.letterSpacing,
+      ),
+    ));
   }
 }

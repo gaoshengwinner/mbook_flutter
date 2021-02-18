@@ -91,6 +91,7 @@ class _TextSettingWidget extends State<TextSettingWidget>
     prs.addAll(_borderSetting(context));
     prs.addAll(_sgadowSetting(context));
     prs.addAll(_otherSetting(context));
+    prs.addAll(_spacingSetting(context));
 
     return Scaffold(
         body: Column(
@@ -101,7 +102,7 @@ class _TextSettingWidget extends State<TextSettingWidget>
             width: 1.sw - 5,
             height: 100,
             child: Center(
-              child: WidgetTextPage.build(context, property, data),
+              child: WidgetTextPage(property: property, data: data),
             ),
           ),
         ),
@@ -157,25 +158,6 @@ class _TextSettingWidget extends State<TextSettingWidget>
           value: Text("${property.minHeight.toInt()}${getUnitTitle(property.minHeightUnit)}"),
         ),
 
-
-        // SettingsItem(
-        //   label: "Height",
-        //   type: SettingsItemType.modal,
-        //   hasDetails: true,
-        //   onPress: () {
-        //     GlobalFun.showPicker(
-        //         context,
-        //         _list_min.getIndexByValue(property.minHeight.toInt()),
-        //         _list_min.list(), (value) {
-        //       setState(() {
-        //         property.minHeight = _list_min
-        //             .values()[value.toInt()]
-        //             .toDouble(); //value.toDouble();
-        //       });
-        //     });
-        //   },
-        //   value: Text("${property.minHeight.toInt()}"),
-        // ),
       ]),
       SettingsGroup(
         <Widget>[
@@ -334,6 +316,75 @@ class _TextSettingWidget extends State<TextSettingWidget>
     // ));
   }
 
+  List<Widget> _spacingSetting(BuildContext context) {
+    return
+      [
+
+        SettingsGroup(<Widget>[
+          // SettingsItem(
+          //   label: 'Spacing Color',
+          //   icon: Icon(Icons.color_lens_outlined, color: property.spacingColor),
+          //   hasDetails: true,
+          //   type: SettingsItemType.modal,
+          //   onPress: () {
+          //     GlobalFun.showBottomSheet(
+          //         context,
+          //         [
+          //           ColorPickerPage(
+          //               currentColor: property.spacingColor,
+          //               onColorChange: (value) {
+          //                 setState(() {
+          //                   property.spacingColor = value;
+          //                 });
+          //               })
+          //         ],
+          //         property.spacingColor);
+          //   },
+          // ),
+          SettingsItem(
+            label: "Spacing H Width",
+            type: SettingsItemType.modal,
+            hasDetails: true,
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_Shadow_blurRadius
+                      .getIndexByValue(property.spacingHWidth.toInt()),
+                  _list_Shadow_blurRadius.list(), (value) {
+                setState(() {
+                  property.spacingHWidth = _list_Shadow_blurRadius
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
+                });
+              });
+            },
+            value: Text("${property.spacingHWidth.toInt()}"),
+          ),
+          SettingsItem(
+            label: "Spacing V Width",
+            type: SettingsItemType.modal,
+            hasDetails: true,
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_Shadow_spreadRadius
+                      .getIndexByValue(property.spacingVWidth.toInt()),
+                  _list_Shadow_spreadRadius.list(), (value) {
+                setState(() {
+                  property.spacingVWidth = _list_Shadow_spreadRadius
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
+                });
+              });
+            },
+            value: Text("${property.spacingVWidth.toInt()}"),
+          ),
+        ])
+      ];
+    //
+    // ));
+  }
+
   List<Widget> _borderSetting(BuildContext context) {
     return
         // new Container(
@@ -470,6 +521,8 @@ class _TextSettingWidget extends State<TextSettingWidget>
     //   ),
     // );
   }
+
+
 
   List<Widget> _paddingSetting(BuildContext context) {
     return
