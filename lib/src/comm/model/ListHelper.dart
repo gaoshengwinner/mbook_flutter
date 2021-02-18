@@ -19,7 +19,7 @@ class ListHelper {
 
   int getIndexBySValue(String dbValue) {
     for (int i = 0; i < _values.length; i++) {
-      if (_sValues[i] == dbValue) {
+      if (_sValues[i] == "${this.pre}${dbValue}${tral}") {
         return i;
       }
     }

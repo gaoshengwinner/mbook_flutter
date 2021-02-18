@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:mbook_flutter/src/comm/device/device.dart';
 import 'package:mbook_flutter/src/comm/menu.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
+import 'package:mbook_flutter/src/comm/model/OptionTempResultList.dart';
 import 'package:mbook_flutter/src/comm/model/RefreshTokenResult.dart';
 import 'package:mbook_flutter/src/comm/model/ShopInfo.dart';
 import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
@@ -205,6 +206,15 @@ class Api {
       return;
     }
     throw Exception('${result[0]}${result[1]}');
+  }
+
+  static Future<void> saveOptionTempInfo(BuildContext _context, OptionTempResultList _options) async{
+    // List<Object> result = await doPostNeedLoginApi(
+    //     _context, _MY_SAVE_TAG_URL, jsonEncode(_tags));
+    // if (result[0] == 200) {
+    //   return;
+    // }
+    // throw Exception('${result[0]}${result[1]}');
   }
 
 }

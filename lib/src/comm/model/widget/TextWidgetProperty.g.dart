@@ -41,6 +41,10 @@ TextWidgetProperty _$TextWidgetPropertyFromJson(Map<String, dynamic> json) {
     maxWidth: (json['maxWidth'] as num)?.toDouble(),
     maxHeight: (json['maxHeight'] as num)?.toDouble(),
     alignment: json['alignment'] as String,
+    marginLeft: (json['marginLeft'] as num)?.toDouble(),
+    marginTop: (json['marginTop'] as num)?.toDouble(),
+    marginRight: (json['marginRight'] as num)?.toDouble(),
+    marginBottom: (json['marginBottom'] as num)?.toDouble(),
   );
 }
 
@@ -73,5 +77,9 @@ Map<String, dynamic> _$TextWidgetPropertyToJson(TextWidgetProperty instance) =>
       'minHeight': instance.minHeight,
       'maxWidth': instance.maxWidth,
       'maxHeight': instance.maxHeight,
+      'marginLeft': instance.marginLeft,
+      'marginTop': instance.marginTop,
+      'marginRight': instance.marginRight,
+      'marginBottom': instance.marginBottom,
       'alignment': instance.alignment,
     };

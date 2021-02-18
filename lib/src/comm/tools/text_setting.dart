@@ -12,6 +12,7 @@ import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 import 'package:mbook_flutter/src/comm/tools/color_picker.dart';
 import 'package:mbook_flutter/src/comm/tools/group.dart';
 import 'package:mbook_flutter/src/comm/tools/item.dart';
+import 'package:mbook_flutter/src/comm/tools/wh_picker.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
 
 class TextSettingWidget extends StatefulWidget {
@@ -52,11 +53,14 @@ class _TextSettingWidget extends State<TextSettingWidget>
   static ListHelper _list_Border_Width = ListHelper(0, 256);
   static ListHelper _list_Border_Radius = ListHelper(0, 256);
 
+  static ListHelper _list_Margin_Left = ListHelper(0, 256);
+  static ListHelper _list_Margin_Top = _list_Margin_Left;
+  static ListHelper _list_Margin_right = _list_Margin_Left;
+  static ListHelper _list_Margin_bottom = _list_Margin_Left;
+
   static ListHelper _list_Shadow_Offset = ListHelper(-256, 256);
   static ListHelper _list_Shadow_blurRadius = ListHelper(0, 256);
   static ListHelper _list_Shadow_spreadRadius = _list_Shadow_blurRadius;
-
-  static ListHelper _list_min = ListHelper(0, 1024);
 
   static List<Text> _list_TextAlign = FBTextAlign.toTextList();
 
@@ -78,15 +82,15 @@ class _TextSettingWidget extends State<TextSettingWidget>
   Color pickerColor = Color(0xff443a49);
   Color currentColor = Color(0xff443a49);
 
-
   @override
   Widget build(BuildContext context) {
     List<Widget> prs = [];
-    prs.addAll(_baseSetting( context));
-    prs.addAll(_paddingSetting( context));
-    prs.addAll(_borderSetting( context));
-    prs.addAll(_sgadowSetting( context));
-    prs.addAll(_otherSetting( context));
+    prs.addAll(_baseSetting(context));
+    prs.addAll(_paddingSetting(context));
+    prs.addAll(_marginSetting(context));
+    prs.addAll(_borderSetting(context));
+    prs.addAll(_sgadowSetting(context));
+    prs.addAll(_otherSetting(context));
 
     return Scaffold(
         body: Column(
@@ -104,7 +108,7 @@ class _TextSettingWidget extends State<TextSettingWidget>
         Expanded(
           flex: 7,
           child: Container(
-            color:Color(0xEDE7F6),
+            color: Color(0xEDE7F6),
             width: double.infinity,
             child: SingleChildScrollView(
               child: Column(children: prs),
@@ -115,53 +119,68 @@ class _TextSettingWidget extends State<TextSettingWidget>
     ));
   }
 
-
   List<Widget> _otherSetting(BuildContext context) {
-    return
-        [
+    return [
       SettingsGroup(<Widget>[
         SettingsItem(
           label: "Width",
           type: SettingsItemType.modal,
           hasDetails: true,
           onPress: () {
-            GlobalFun.showPicker(
+            GlobalFun.showBottomSheet(
                 context,
-                _list_min.getIndexByValue(property.minWidth.toInt()),
-                _list_min.list(), (value) {
-              setState(() {
-                property.minWidth = _list_min
-                    .values()[value.toInt()]
-                    .toDouble(); //value.toDouble();
-              });
-            });
+                [WHPickerPage(property.minWidth, property.minWidthUnit, (value, util, utilTitle) {
+                    setState(() {
+                      property.minWidth = value;
+                      property.minWidthUnit = util;
+                    });
+                })],
+                property.shadowColor);
           },
-          value: Text("${property.minWidth.toInt()}"),
+          value: Text("${property.minWidth.toInt()}${getUnitTitle(property.minWidthUnit)}"),
         ),
         SettingsItem(
           label: "Height",
           type: SettingsItemType.modal,
           hasDetails: true,
           onPress: () {
-            GlobalFun.showPicker(
+            GlobalFun.showBottomSheet(
                 context,
-                _list_min.getIndexByValue(property.minHeight.toInt()),
-                _list_min.list(), (value) {
-              setState(() {
-                property.minHeight = _list_min
-                    .values()[value.toInt()]
-                    .toDouble(); //value.toDouble();
-              });
-            });
+                [WHPickerPage(property.minHeight, property.minHeightUnit, (value, util, utilTitle) {
+                  setState(() {
+                    property.minHeight = value;
+                    property.minHeightUnit = util;
+                  });
+                })],
+                property.shadowColor);
           },
-          value: Text("${property.minHeight.toInt()}"),
+          value: Text("${property.minHeight.toInt()}${getUnitTitle(property.minHeightUnit)}"),
         ),
 
+
+        // SettingsItem(
+        //   label: "Height",
+        //   type: SettingsItemType.modal,
+        //   hasDetails: true,
+        //   onPress: () {
+        //     GlobalFun.showPicker(
+        //         context,
+        //         _list_min.getIndexByValue(property.minHeight.toInt()),
+        //         _list_min.list(), (value) {
+        //       setState(() {
+        //         property.minHeight = _list_min
+        //             .values()[value.toInt()]
+        //             .toDouble(); //value.toDouble();
+        //       });
+        //     });
+        //   },
+        //   value: Text("${property.minHeight.toInt()}"),
+        // ),
       ]),
       SettingsGroup(
         <Widget>[
           SettingsItem(
-            label: "Alignment",
+            label: "Text alignment",
             type: SettingsItemType.modal,
             hasDetails: true,
             onPress: () {
@@ -177,6 +196,23 @@ class _TextSettingWidget extends State<TextSettingWidget>
             },
             value: Text("${property.alignment}"),
           ),
+          SettingsItem(
+            label: "Backgroup Alignment",
+            type: SettingsItemType.modal,
+            hasDetails: true,
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  FBAlignment.getIndexByString(property.backalignment),
+                  FBAlignment.getAligmentList(), (value) {
+                setState(() {
+                  property.backalignment =
+                      FBAlignment.getAligmentList()[value.toInt()].data;
+                });
+              });
+            },
+            value: Text("${property.backalignment}"),
+          ),
         ],
         header: Text(""),
       )
@@ -186,14 +222,12 @@ class _TextSettingWidget extends State<TextSettingWidget>
 //maxHeight
   List<Widget> _sgadowSetting(BuildContext context) {
     return
-      // new Container(
-      //   child: Column(children:
-      //
+        // new Container(
+        //   child: Column(children:
+        //
         [
       SettingsGroup(
-        <Widget>
-
-        [
+        <Widget>[
           SettingsItem(
             label: "X",
             type: SettingsItemType.modal,
@@ -296,143 +330,142 @@ class _TextSettingWidget extends State<TextSettingWidget>
         ),
       ])
     ];
-        //
-        // ));
+    //
+    // ));
   }
 
   List<Widget> _borderSetting(BuildContext context) {
     return
-      // new Container(
-      // child: Column(
-      //   children:
+        // new Container(
+        // child: Column(
+        //   children:
         [
-          SettingsGroup(
-            <Widget>[
-              SettingsItem(
-                label: "Border Width",
-                type: SettingsItemType.modal,
-                hasDetails: true,
-                onPress: () {
-                  GlobalFun.showPicker(
-                      context,
-                      _list_Border_Width
-                          .getIndexByValue(property.borderWidth.toInt()),
-                      _list_Border_Width.list(), (value) {
-                    setState(() {
-                      property.borderWidth = _list_Border_Width
-                          .values()[value.toInt()]
-                          .toDouble(); //value.toDouble();
-                    });
-                  });
-                },
-                value: Text("${property.borderWidth.toInt()}"),
-              ),
-              SettingsItem(
-                label: 'Background',
-                icon: Icon(Icons.color_lens_outlined,
-                    color: property.borderColor),
-                hasDetails: true,
-                type: SettingsItemType.modal,
-                onPress: () {
-                  GlobalFun.showBottomSheet(
-                      context,
-                      [
-                        ColorPickerPage(
-                            currentColor: property.borderColor,
-                            onColorChange: (value) {
-                              setState(() {
-                                property.borderColor = value;
-                              });
-                            })
-                      ],
-                      property.borderColor);
-                },
-              ),
-            ],
-            header: Text("Border"),
+      SettingsGroup(
+        <Widget>[
+          SettingsItem(
+            label: "Border Width",
+            type: SettingsItemType.modal,
+            hasDetails: true,
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_Border_Width
+                      .getIndexByValue(property.borderWidth.toInt()),
+                  _list_Border_Width.list(), (value) {
+                setState(() {
+                  property.borderWidth = _list_Border_Width
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
+                });
+              });
+            },
+            value: Text("${property.borderWidth.toInt()}"),
           ),
-          SettingsGroup(
-            <Widget>[
-              SettingsItem(
-                label: "Top left",
-                type: SettingsItemType.modal,
-                hasDetails: true,
-                onPress: () {
-                  GlobalFun.showPicker(
-                      context,
-                      _list_Border_Radius.getIndexByValue(
-                          property.borderRadiusTopLeft.toInt()),
-                      _list_Border_Radius.list(), (value) {
-                    setState(() {
-                      property.borderRadiusTopLeft = _list_Border_Radius
-                          .values()[value.toInt()]
-                          .toDouble(); //value.toDouble();
-                    });
-                  });
-                },
-                value: Text("${property.borderRadiusTopLeft.toInt()}"),
-              ),
-              SettingsItem(
-                label: "Top right",
-                type: SettingsItemType.modal,
-                hasDetails: true,
-                onPress: () {
-                  GlobalFun.showPicker(
-                      context,
-                      _list_Border_Radius.getIndexByValue(
-                          property.borderRadiusTopRight.toInt()),
-                      _list_Border_Radius.list(), (value) {
-                    setState(() {
-                      property.borderRadiusTopRight = _list_Border_Radius
-                          .values()[value.toInt()]
-                          .toDouble(); //value.toDouble();
-                    });
-                  });
-                },
-                value: Text("${property.borderRadiusTopRight.toInt()}"),
-              ),
-              SettingsItem(
-                label: "Bottom left",
-                type: SettingsItemType.modal,
-                hasDetails: true,
-                onPress: () {
-                  GlobalFun.showPicker(
-                      context,
-                      _list_Border_Radius.getIndexByValue(
-                          property.borderRadiusBottomLeft.toInt()),
-                      _list_Border_Radius.list(), (value) {
-                    setState(() {
-                      property.borderRadiusBottomLeft = _list_Border_Radius
-                          .values()[value.toInt()]
-                          .toDouble(); //value.toDouble();
-                    });
-                  });
-                },
-                value: Text("${property.borderRadiusBottomLeft.toInt()}"),
-              ),
-              SettingsItem(
-                label: "Bottom right",
-                type: SettingsItemType.modal,
-                hasDetails: true,
-                onPress: () {
-                  GlobalFun.showPicker(
-                      context,
-                      _list_Border_Radius.getIndexByValue(
-                          property.borderRadiusBottomRight.toInt()),
-                      _list_Border_Radius.list(), (value) {
-                    setState(() {
-                      property.borderRadiusBottomRight = _list_Border_Radius
-                          .values()[value.toInt()]
-                          .toDouble(); //value.toDouble();
-                    });
-                  });
-                },
-                value: Text("${property.borderRadiusBottomRight.toInt()}"),
-              ),
-            ],
-            header: Text("Radius"),
+          SettingsItem(
+            label: 'Background',
+            icon: Icon(Icons.color_lens_outlined, color: property.borderColor),
+            hasDetails: true,
+            type: SettingsItemType.modal,
+            onPress: () {
+              GlobalFun.showBottomSheet(
+                  context,
+                  [
+                    ColorPickerPage(
+                        currentColor: property.borderColor,
+                        onColorChange: (value) {
+                          setState(() {
+                            property.borderColor = value;
+                          });
+                        })
+                  ],
+                  property.borderColor);
+            },
           ),
-        ];
+        ],
+        header: Text("Border"),
+      ),
+      SettingsGroup(
+        <Widget>[
+          SettingsItem(
+            label: "Top left",
+            type: SettingsItemType.modal,
+            hasDetails: true,
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_Border_Radius
+                      .getIndexByValue(property.borderRadiusTopLeft.toInt()),
+                  _list_Border_Radius.list(), (value) {
+                setState(() {
+                  property.borderRadiusTopLeft = _list_Border_Radius
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
+                });
+              });
+            },
+            value: Text("${property.borderRadiusTopLeft.toInt()}"),
+          ),
+          SettingsItem(
+            label: "Top right",
+            type: SettingsItemType.modal,
+            hasDetails: true,
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_Border_Radius
+                      .getIndexByValue(property.borderRadiusTopRight.toInt()),
+                  _list_Border_Radius.list(), (value) {
+                setState(() {
+                  property.borderRadiusTopRight = _list_Border_Radius
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
+                });
+              });
+            },
+            value: Text("${property.borderRadiusTopRight.toInt()}"),
+          ),
+          SettingsItem(
+            label: "Bottom left",
+            type: SettingsItemType.modal,
+            hasDetails: true,
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_Border_Radius
+                      .getIndexByValue(property.borderRadiusBottomLeft.toInt()),
+                  _list_Border_Radius.list(), (value) {
+                setState(() {
+                  property.borderRadiusBottomLeft = _list_Border_Radius
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
+                });
+              });
+            },
+            value: Text("${property.borderRadiusBottomLeft.toInt()}"),
+          ),
+          SettingsItem(
+            label: "Bottom right",
+            type: SettingsItemType.modal,
+            hasDetails: true,
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_Border_Radius.getIndexByValue(
+                      property.borderRadiusBottomRight.toInt()),
+                  _list_Border_Radius.list(), (value) {
+                setState(() {
+                  property.borderRadiusBottomRight = _list_Border_Radius
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
+                });
+              });
+            },
+            value: Text("${property.borderRadiusBottomRight.toInt()}"),
+          ),
+        ],
+        header: Text("Radius"),
+      ),
+    ];
     //     ,
     //   ),
     // );
@@ -440,108 +473,196 @@ class _TextSettingWidget extends State<TextSettingWidget>
 
   List<Widget> _paddingSetting(BuildContext context) {
     return
-      // new Container(
-      // child: Column(
-      //   children:
+        // new Container(
+        // child: Column(
+        //   children:
         [
-          SettingsGroup(<Widget>[
-            SettingsItem(
-              label: "Letter space",
-              type: SettingsItemType.modal,
-              onPress: () {
-                GlobalFun.showPicker(
-                    context,
-                    _list_Letter_space
-                        .getIndexByValue(property.letterSpacing.toInt()),
-                    _list_Letter_space.list(), (value) {
-                  setState(() {
-                    property.letterSpacing = _list_Letter_space
-                        .values()[value.toInt()]
-                        .toDouble(); //value.toDouble();
-                  });
+      SettingsGroup(<Widget>[
+        SettingsItem(
+          label: "Letter space",
+          type: SettingsItemType.modal,
+          onPress: () {
+            GlobalFun.showPicker(
+                context,
+                _list_Letter_space
+                    .getIndexByValue(property.letterSpacing.toInt()),
+                _list_Letter_space.list(), (value) {
+              setState(() {
+                property.letterSpacing = _list_Letter_space
+                    .values()[value.toInt()]
+                    .toDouble(); //value.toDouble();
+              });
+            });
+          },
+          value: Text("${property.letterSpacing.toInt()}"),
+        ),
+      ]),
+      SettingsGroup(
+        <Widget>[
+          SettingsItem(
+            label: "Left",
+            type: SettingsItemType.modal,
+            value: Text("${property.paddingLeft.toInt()}"),
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_Padding_left
+                      .getIndexByValue(property.paddingLeft.toInt()),
+                  _list_Padding_left.list(), (value) {
+                setState(() {
+                  property.paddingLeft = _list_Padding_left
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
                 });
-              },
-              value: Text("${property.letterSpacing.toInt()}"),
-            ),
-          ]),
-          SettingsGroup(
-            <Widget>[
-              SettingsItem(
-                label: "Left",
-                type: SettingsItemType.modal,
-                value: Text("${property.paddingLeft.toInt()}"),
-                onPress: () {
-                  GlobalFun.showPicker(
-                      context,
-                      _list_Padding_left
-                          .getIndexByValue(property.paddingLeft.toInt()),
-                      _list_Padding_left.list(), (value) {
-                    setState(() {
-                      property.paddingLeft = _list_Padding_left
-                          .values()[value.toInt()]
-                          .toDouble(); //value.toDouble();
-                    });
-                  });
-                },
-              ),
-              SettingsItem(
-                label: "Top",
-                type: SettingsItemType.modal,
-                value: Text("${property.paddingTop.toInt()}"),
-                onPress: () {
-                  GlobalFun.showPicker(
-                      context,
-                      _list_Padding_top
-                          .getIndexByValue(property.paddingTop.toInt()),
-                      _list_Padding_top.list(), (value) {
-                    setState(() {
-                      property.paddingTop = _list_Padding_top
-                          .values()[value.toInt()]
-                          .toDouble(); //value.toDouble();
-                    });
-                  });
-                },
-              ),
-              SettingsItem(
-                label: "Right",
-                type: SettingsItemType.modal,
-                value: Text("${property.paddingRight.toInt()}"),
-                onPress: () {
-                  GlobalFun.showPicker(
-                      context,
-                      _list_Padding_right
-                          .getIndexByValue(property.paddingRight.toInt()),
-                      _list_Padding_right.list(), (value) {
-                    setState(() {
-                      property.paddingRight = _list_Padding_right
-                          .values()[value.toInt()]
-                          .toDouble(); //value.toDouble();
-                    });
-                  });
-                },
-              ),
-              SettingsItem(
-                label: "Bottem",
-                type: SettingsItemType.modal,
-                value: Text("${property.paddingBottom.toInt()}"),
-                onPress: () {
-                  GlobalFun.showPicker(
-                      context,
-                      _list_Padding_bottom
-                          .getIndexByValue(property.paddingBottom.toInt()),
-                      _list_Padding_bottom.list(), (value) {
-                    setState(() {
-                      property.paddingBottom = _list_Padding_bottom
-                          .values()[value.toInt()]
-                          .toDouble(); //value.toDouble();
-                    });
-                  });
-                },
-              ),
-            ],
-            header: Text("Padding"),
-          )
-        ];
+              });
+            },
+          ),
+          SettingsItem(
+            label: "Top",
+            type: SettingsItemType.modal,
+            value: Text("${property.paddingTop.toInt()}"),
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_Padding_top
+                      .getIndexByValue(property.paddingTop.toInt()),
+                  _list_Padding_top.list(), (value) {
+                setState(() {
+                  property.paddingTop = _list_Padding_top
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
+                });
+              });
+            },
+          ),
+          SettingsItem(
+            label: "Right",
+            type: SettingsItemType.modal,
+            value: Text("${property.paddingRight.toInt()}"),
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_Padding_right
+                      .getIndexByValue(property.paddingRight.toInt()),
+                  _list_Padding_right.list(), (value) {
+                setState(() {
+                  property.paddingRight = _list_Padding_right
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
+                });
+              });
+            },
+          ),
+          SettingsItem(
+            label: "Bottem",
+            type: SettingsItemType.modal,
+            value: Text("${property.paddingBottom.toInt()}"),
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_Padding_bottom
+                      .getIndexByValue(property.paddingBottom.toInt()),
+                  _list_Padding_bottom.list(), (value) {
+                setState(() {
+                  property.paddingBottom = _list_Padding_bottom
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
+                });
+              });
+            },
+          ),
+        ],
+        header: Text("Padding"),
+      )
+    ];
+    //     ,
+    //   ),
+    // );
+  }
+
+  List<Widget> _marginSetting(BuildContext context) {
+    return
+        // new Container(
+        // child: Column(
+        //   children:
+        [
+      SettingsGroup(
+        <Widget>[
+          SettingsItem(
+            label: "Left",
+            type: SettingsItemType.modal,
+            value: Text("${property.marginLeft.toInt()}"),
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_Margin_Left
+                      .getIndexByValue(property.marginLeft.toInt()),
+                  _list_Margin_Left.list(), (value) {
+                setState(() {
+                  property.marginLeft = _list_Margin_Left
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
+                });
+              });
+            },
+          ),
+          SettingsItem(
+            label: "Top",
+            type: SettingsItemType.modal,
+            value: Text("${property.marginTop.toInt()}"),
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_Margin_Top.getIndexByValue(property.marginTop.toInt()),
+                  _list_Margin_Top.list(), (value) {
+                setState(() {
+                  property.marginTop = _list_Margin_Top
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
+                });
+              });
+            },
+          ),
+          SettingsItem(
+            label: "Right",
+            type: SettingsItemType.modal,
+            value: Text("${property.marginRight.toInt()}"),
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_Margin_right
+                      .getIndexByValue(property.marginRight.toInt()),
+                  _list_Margin_right.list(), (value) {
+                setState(() {
+                  property.marginRight = _list_Margin_right
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
+                });
+              });
+            },
+          ),
+          SettingsItem(
+            label: "Bottem",
+            type: SettingsItemType.modal,
+            value: Text("${property.marginBottom.toInt()}"),
+            onPress: () {
+              GlobalFun.showPicker(
+                  context,
+                  _list_Margin_bottom
+                      .getIndexByValue(property.marginBottom.toInt()),
+                  _list_Margin_bottom.list(), (value) {
+                setState(() {
+                  property.marginBottom = _list_Margin_bottom
+                      .values()[value.toInt()]
+                      .toDouble(); //value.toDouble();
+                });
+              });
+            },
+          ),
+        ],
+        header: Text("Margin"),
+      )
+    ];
     //     ,
     //   ),
     // );

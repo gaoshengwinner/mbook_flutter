@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
@@ -28,25 +29,26 @@ class ColorPickerPage extends StatefulWidget {
   }
 
   @override
-  _ColorPickerPageState createState() => _ColorPickerPageState(
-      currentColor: currentColor, onColorChange: onColorChange);
+  _ColorPickerPageState createState() => _ColorPickerPageState();
 }
 
 class _ColorPickerPageState extends State<ColorPickerPage>
     with SingleTickerProviderStateMixin {
-  Function onColorChange;
+  //Function onColorChange;
 
+  Color oldColor;
   // create some values
   Color pickerColor = Color(0xff443a49);
-  Color currentColor = Color(0xff443a49);
+  //Color currentColor = Color(0xff443a49);
 
-  _ColorPickerPageState({this.currentColor, this.onColorChange});
+  _ColorPickerPageState();
 
   static const String initSelected = "0";
   String selected = initSelected;
 
   @override
   void initState() {
+    oldColor = this.widget.currentColor;
     super.initState();
   }
 
@@ -57,10 +59,51 @@ class _ColorPickerPageState extends State<ColorPickerPage>
         child: new Column(
           children: [
             Container(
+              decoration: BoxDecoration(
+                color: Color(0xffffffff),
+                border: Border(
+                  bottom: BorderSide(
+                    color: Color(0xff999999),
+                    width: 0.0,
+                  ),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  CupertinoButton(
+                    child: Text(
+                      'Revoke',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    onPressed: () {
+                      this.widget.onColorChange(oldColor);
+                      Navigator.pop(context);
+                    },
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 5.0,
+                    ),
+                  ),
+                  // CupertinoButton(
+                  //   child: Text('Confirm',
+                  //       style: TextStyle(color: G.appBaseColor[0])),
+                  //   onPressed: () {
+                  //     Navigator.pop(context);
+                  //   },
+                  //   padding: const EdgeInsets.symmetric(
+                  //     horizontal: 16.0,
+                  //     vertical: 5.0,
+                  //   ),
+                  // )
+                ],
+              ),
+            ),
+            Container(
               margin: EdgeInsets.only(top: 5),
               width: 1.sw - 5,
               height: 20,
-              color: currentColor,
+              color: this.widget.currentColor,
             )
             ,
             CupertinoRadioChoice(
@@ -73,12 +116,12 @@ class _ColorPickerPageState extends State<ColorPickerPage>
                 }),
             if (this.selected == "0")
               SlidePicker(
-                pickerColor: currentColor,
+                pickerColor: this.widget.currentColor,
                 onColorChanged: (value) {
                   setState(() {
-                    currentColor = value;
+                    this.widget.currentColor = value;
                   });
-                  onColorChange(value);
+                  this.widget.onColorChange(value);
                 },
                 paletteType: PaletteType.rgb,
                 enableAlpha: true,
@@ -91,12 +134,12 @@ class _ColorPickerPageState extends State<ColorPickerPage>
               ),
             if (this.selected == "1")
               ColorPicker(
-                pickerColor: currentColor,
+                pickerColor: this.widget.currentColor,
                 onColorChanged: (value) {
                   setState(() {
-                    currentColor = value;
+                    this.widget.currentColor = value;
                   });
-                  onColorChange(value);
+                  this.widget.onColorChange(value);
                 },
                 colorPickerWidth: 300.0,
                 pickerAreaHeightPercent: 0.7,
@@ -116,12 +159,12 @@ class _ColorPickerPageState extends State<ColorPickerPage>
                         maxHeight: 380,
                       ),
                       child: MaterialPicker(
-                        pickerColor: currentColor,
+                        pickerColor: this.widget.currentColor,
                         onColorChanged: (value) {
                           setState(() {
-                            currentColor = value;
+                            this.widget.currentColor = value;
                           });
-                          onColorChange(value);
+                          this.widget.onColorChange(value);
                         },
                         enableLabel: true,
                       )))

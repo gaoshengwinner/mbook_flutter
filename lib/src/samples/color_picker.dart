@@ -43,7 +43,8 @@ class _MyHomeState extends State<ColorPickerPage> {
     );
 
     return new Scaffold(
-      body: Padding(
+      body:
+      Padding(
           padding: const EdgeInsets.fromLTRB(20, 100, 20, 50),
           child: Column(children: <Widget>[genderSelectionTile])),
     );

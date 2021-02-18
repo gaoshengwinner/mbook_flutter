@@ -1,23 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:mbook_flutter/src/comm/extension/extension.dart';
+import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
+import 'package:mbook_flutter/src/comm/tools/wh_picker.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WidgetTextPage {
   @override
   static Widget build(
       BuildContext context, TextWidgetProperty property, String data) {
     return Container(
-      width: property.minWidth < 5 ? null : property.minWidth,
-      height: property.minHeight < 5 ? null : property.minHeight,
-      //property.minHeight,
-      alignment: FBAlignment.map()[property.alignment],
-      padding: EdgeInsets.only(
-          left: property.paddingLeft,
-          top: property.paddingTop,
-          right: property.paddingRight,
-          bottom: property.paddingBottom),
-      //margin: EdgeInsets.all(8),
-      decoration: BoxDecoration(
+      alignment: FBAlignment.map()[property.backalignment],
+      color: Colors.transparent,
+      width: property.getRealMinWidth(),
+      height: property.getRealMinHeight(),
+      child: Container(
+        width: property.getRealMinWidth(),
+        height: property.getRealMinHeight(),
+        //property.minHeight,
+        alignment: FBAlignment.map()[property.alignment],
+        padding: EdgeInsets.only(
+            left: property.paddingLeft,
+            top: property.paddingTop,
+            right: property.paddingRight,
+            bottom: property.paddingBottom),
+        //margin: EdgeInsets.all(8),
+        decoration: BoxDecoration(
           color: property.backColor,
           border: property.borderWidth == null || property.borderWidth < 1
               ? null
@@ -26,7 +34,9 @@ class WidgetTextPage {
           boxShadow: [
             BoxShadow(
                 color:
-                property.shadowOffsetX==0 && property.shadowOffsetY==0 ? Colors.transparent :property.shadowColor,
+                    property.shadowOffsetX == 0 && property.shadowOffsetY == 0
+                        ? Colors.transparent
+                        : property.shadowColor,
                 offset: Offset(property.shadowOffsetX, property.shadowOffsetY),
                 blurRadius: property.shadowBlurRadius,
                 spreadRadius: property.shadowSpreadRadius)
@@ -38,24 +48,25 @@ class WidgetTextPage {
               bottomRight: Radius.circular(property.borderRadiusBottomRight)),
           // image: DecorationImage(
           //     image: NetworkImage("http://pic.qianye88.com/4kmeinv2989f765-5bdd-3cee-8482-574732cc2af2.jpg"), fit: BoxFit.fitWidth),
-      ),
-      // constraints: BoxConstraints(
-      //   minHeight: property.minHeight,
-      //   minWidth: property.minWidth,
-      //   maxWidth: property.maxWidth < 10 ? double.infinity : property.maxWidth,
-      //   maxHeight:
-      //       property.maxHeight < 10 ? double.infinity : property.maxHeight,
-      // ),
-      child: Text(
-        data,
-        softWrap: true,
-        textAlign: FBTextAlign.getByString(property.textTextAlign),
-        style: TextStyle(
-          color: property.textColor,
-          fontSize: property.fontSize,
-          fontWeight: _getFontWeightByInt(property.fontWeight),
-          fontStyle: property.italic ? FontStyle.italic : null,
-          letterSpacing: property.letterSpacing,
+        ),
+        // constraints: BoxConstraints(
+        //   minHeight: property.minHeight,
+        //   minWidth: property.minWidth,
+        //   maxWidth: property.maxWidth < 10 ? double.infinity : property.maxWidth,
+        //   maxHeight:
+        //       property.maxHeight < 10 ? double.infinity : property.maxHeight,
+        // ),
+        child: Text(
+          data,
+          softWrap: true,
+          textAlign: FBTextAlign.getByString(property.textTextAlign),
+          style: TextStyle(
+            color: property.textColor,
+            fontSize: property.fontSize,
+            fontWeight: _getFontWeightByInt(property.fontWeight),
+            fontStyle: property.italic ? FontStyle.italic : null,
+            letterSpacing: property.letterSpacing,
+          ),
         ),
       ),
     );

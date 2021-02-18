@@ -1,6 +1,8 @@
+import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mbook_flutter/src/comm/input_bottom.dart';
+import 'package:mbook_flutter/src/comm/model/ListHelper.dart';
 import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_tags_selector.dart';
@@ -8,6 +10,15 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'consts.dart';
+
+///枚举类型转string
+String enumToString(o) => o.toString().split('.').last;
+
+///string转枚举类型
+T enumFromString<T>(List<T> values, String value) {
+  return values.firstWhere((v) => v.toString().split('.')[1] == value,
+      orElse: () => null);
+}
 
 class GlobalFun {
   static Widget saveFloatingActionButton(Function onSave) {
@@ -134,6 +145,7 @@ class GlobalFun {
 
   static showPicker(BuildContext context, int initialItem,
       List<Widget> children, Function onSelectedItemChanged) {
+    int oldInitialItem = initialItem;
     showCupertinoModalPopup(
       context: context,
       builder: (context) {
@@ -155,10 +167,11 @@ class GlobalFun {
                 children: <Widget>[
                   CupertinoButton(
                     child: Text(
-                      'Cancel',
+                      'Revoke',
                       style: TextStyle(color: Colors.grey),
                     ),
                     onPressed: () {
+                      onSelectedItemChanged(oldInitialItem);
                       Navigator.pop(context);
                     },
                     padding: const EdgeInsets.symmetric(
@@ -166,17 +179,17 @@ class GlobalFun {
                       vertical: 5.0,
                     ),
                   ),
-                  CupertinoButton(
-                    child: Text('Confirm',
-                        style: TextStyle(color: G.appBaseColor[0])),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 5.0,
-                    ),
-                  )
+                  // CupertinoButton(
+                  //   child: Text('Confirm',
+                  //       style: TextStyle(color: G.appBaseColor[0])),
+                  //   onPressed: () {
+                  //     Navigator.pop(context);
+                  //   },
+                  //   padding: const EdgeInsets.symmetric(
+                  //     horizontal: 16.0,
+                  //     vertical: 5.0,
+                  //   ),
+                  // )
                 ],
               ),
             ),
@@ -188,6 +201,97 @@ class GlobalFun {
                   children: children,
                   onSelectedItemChanged: (value) {
                     onSelectedItemChanged(value);
+                  },
+                  scrollController:
+                      FixedExtentScrollController(initialItem: initialItem)),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  static ListHelper _list_min = ListHelper(0, 1024);
+  static showWHPicker(
+      BuildContext context,
+      double initValue,
+      List<String> utils,
+      String selectedUtil,
+      Function onSelectedItemChanged) {
+    int initialItem = _list_min.getIndexByValue(initValue.toInt());
+    int oldInitialItem = initialItem;
+    showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                color: Color(0xffffffff),
+                border: Border(
+                  bottom: BorderSide(
+                    color: Color(0xff999999),
+                    width: 0.0,
+                  ),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  CupertinoButton(
+                    child: Text(
+                      'Revoke',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    onPressed: () {
+                      onSelectedItemChanged(oldInitialItem);
+                      Navigator.pop(context);
+                    },
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 5.0,
+                    ),
+                  ),
+                  // CupertinoButton(
+                  //   child: Text('Confirm',
+                  //       style: TextStyle(color: G.appBaseColor[0])),
+                  //   onPressed: () {
+                  //     Navigator.pop(context);
+                  //   },
+                  //   padding: const EdgeInsets.symmetric(
+                  //     horizontal: 16.0,
+                  //     vertical: 5.0,
+                  //   ),
+                  // )
+                ],
+              ),
+            ),
+            Container(
+                alignment: Alignment(0.0, 0.0),
+                width: 1.sw,
+                color: Color(0xfff7f7f7),
+                child: CupertinoRadioChoice(
+                    selectedColor:G.appBaseColor[0],
+                    choices: {"px": 'Pixel', "sw": 'Screen Width', "sh": 'Screen Height'},
+                    onChange: (selectedGender) {
+                      // setState(() {
+                      //   selected = selectedGender;
+                      // });
+                      // print(selected);
+                    })),
+            Container(
+              height: 320.0,
+              color: Color(0xfff7f7f7),
+              child: CupertinoPicker(
+                  itemExtent: 32.6,
+                  children:
+                  _list_min.list(),
+                  onSelectedItemChanged: (value) {
+                    onSelectedItemChanged(_list_min
+                        .values()[value.toInt()]
+                        .toDouble());
                   },
                   scrollController:
                       FixedExtentScrollController(initialItem: initialItem)),
@@ -303,27 +407,61 @@ class GlobalFun {
         ]));
   }
 
+  static Widget ClipOvalIconTitle(IconData icon, String title, Function onTap) {
+    return
+        // FittedBox(
+        // fit: BoxFit.fill,
+        // alignment: Alignment.topLeft,
+        //
+        // child:
+        Row(
+      children: [
+        ClipOval(
+            child: Material(
+          //color: G.appBaseColor[1], // button color
+          child: InkWell(
+            splashColor: Colors.purpleAccent,
+            // inkwell color
+            child: SizedBox(
+                width: 25,
+                height: 25,
+                child: Icon(
+                  icon,
+                  color: G.appBaseColor[0],
+                  size: 25,
+                )),
+            onTap: () {
+              onTap();
+            },
+          ),
+        )),
+        Text(title)
+      ],
+    );
+    //     ,
+    // );
+  }
+
   static Widget ClipOvalIcon(IconData icon, Function onTap) {
     return ClipOval(
-      child: Material(
-        //color: G.appBaseColor[1], // button color
-        child: InkWell(
-          splashColor: Colors.purpleAccent,
-          // inkwell color
-          child: SizedBox(
-              width: 40,
-              height: 40,
-              child: Icon(
-                icon,
-                //color: Colors.white,
-                size: 28,
-              )),
-          onTap: () {
-            onTap();
-          },
-        ),
+        child: Material(
+      //color: G.appBaseColor[1], // button color
+      child: InkWell(
+        splashColor: Colors.purpleAccent,
+        // inkwell color
+        child: SizedBox(
+            width: 40,
+            height: 40,
+            child: Icon(
+              icon,
+              //color: Colors.white,
+              size: 28,
+            )),
+        onTap: () {
+          onTap();
+        },
       ),
-    );
+    ));
   }
 
   static Widget FBInputTagBox(BuildContext context, String lableText,
@@ -379,6 +517,18 @@ class GlobalFun {
     );
   }
 
+  static Widget commonTitle(String lableText,
+      {Widget valueWidget = null, width = null}) {
+    width = width == null ? 0.8.sw : width;
+    return Container(
+      width: width,
+      child: Text(
+        lableText,
+        style: TextStyle(fontWeight: FontWeight.bold, color: G.appBaseColor[0]),
+      ),
+    );
+  }
+
   static Widget FBInputBox(
       BuildContext context, String lableText, String value, Function serValue,
       {Widget valueWidget = null, width = null}) {
@@ -386,14 +536,15 @@ class GlobalFun {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: width,
-          child: Text(
-            lableText,
-            style: TextStyle(
-                fontWeight: FontWeight.bold, color: G.appBaseColor[0]),
-          ),
-        ),
+        commonTitle(lableText),
+        // Container(
+        //   width: width,
+        //   child: Text(
+        //     lableText,
+        //     style: TextStyle(
+        //         fontWeight: FontWeight.bold, color: G.appBaseColor[0]),
+        //   ),
+        // ),
         Container(
           constraints: BoxConstraints(
             minHeight: 30,

@@ -5,6 +5,7 @@ import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
 import 'package:mbook_flutter/src/mystore/my_menu_list.dart';
+import 'package:mbook_flutter/src/mystore/my_options.dart';
 import 'package:mbook_flutter/src/samples/color_picker.dart';
 import 'package:settings_ui/settings_ui.dart';
 
@@ -85,6 +86,18 @@ class _MyStorePageState extends State<MyStorePage> {
                         MaterialPageRoute(
                             builder: (context) =>
                                 MyTagsPage(MyGlobal.tagInfos)));
+                  },
+                ),
+                SettingsTile(
+                  switchActiveColor: G.appBaseColor[0],
+                  title: 'Option templates',
+                  leading: Icon(Icons.tag),
+                  onPressed: (BuildContext context) async {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                MyOptionsPage([])));
                   },
                 ),
                 SettingsTile(
