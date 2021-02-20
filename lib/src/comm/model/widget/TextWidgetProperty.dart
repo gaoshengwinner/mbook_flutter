@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'dart:ui';
 
@@ -109,6 +110,10 @@ class TextWidgetProperty {
     if (this.spacingVWidth == null) {
       this.spacingVWidth = 0;
     }
+  }
+
+  String getJsonString() {
+    return jsonEncode(this.toJson());
   }
 
   double getRealMinWidth() {

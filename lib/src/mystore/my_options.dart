@@ -64,10 +64,10 @@ class _MyOptionsPageState extends State<MyOptionsPage>
 
   final FocusNode _descriptionNode = FocusNode();
 
-  OptionWidgetProperty _optionWidgetProperty = OptionWidgetProperty();
+  //OptionWidgetProperty _optionWidgetProperty = OptionWidgetProperty.init();
   ItemOptionList _ItemOptionList = ItemOptionList.forTemp();
 
-  double _currentSliderValue = 3;
+  int _currentSliderValue = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +115,124 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                           width: 0.95.sw,
                           rightWidget: GlobalFun.ClipOvalIconTitle(
                               Icons.settings, "", () {
+                            GlobalFun.showBottomSheet(
+                                context,
+                                [
+                                  GlobalFun.CustomListTitle(
+                                      Icons.settings, "Title style", () {
+                                    Navigator.pop(context);
+                                    GlobalFun.showBottomSheetForTextPrperty(
+                                        context,
+                                        TextSettingWidget(
+                                            property:
+                                            optionTemps[index].property.titlePr,
+                                            data: _ItemOptionList.title,
+                                            onChange: (value) {
+                                              setState(() {
+                                                optionTemps[index].property.titlePr =
+                                                    value;
+                                              });
+                                            }),
+                                        null);
+                                  }),
+                                  GlobalFun.CustomListTitle(
+                                      Icons.settings, "Frame style", () {
+                                    Navigator.pop(context);
+                                    return GlobalFun
+                                        .showBottomSheetForTextPrperty(
+                                            context,
+                                            TextSettingWidget(
+                                                property: optionTemps[index].property
+                                                    .framPr,
+                                                data: optionTemps[index].data,
+                                                onChange: (value) {
+                                                  setState(() {
+                                                    optionTemps[index].property
+                                                        .framPr = value;
+                                                  });
+                                                }),
+                                            null);
+                                  }),
+                                  GlobalFun.CustomListTitle(Icons.settings,
+                                      "Option style(not selected)", () {
+                                    Navigator.pop(context);
+                                    return GlobalFun
+                                        .showBottomSheetForTextPrperty(
+                                            context,
+                                            TextSettingWidget(
+                                                property: optionTemps[index].property
+                                                    .buttonPr,
+                                                data: _ItemOptionList
+                                                    .options.first.title,
+                                                onChange: (value) {
+                                                  setState(() {
+                                                    optionTemps[index].property
+                                                        .buttonPr = value;
+                                                  });
+                                                }),
+                                            null);
+                                  }),
+                                  GlobalFun.CustomListTitle(
+                                      Icons.settings, "Option style(selected)",
+                                      () {
+                                    Navigator.pop(context);
+                                    return GlobalFun
+                                        .showBottomSheetForTextPrperty(
+                                            context,
+                                            TextSettingWidget(
+                                                property: optionTemps[index].property
+                                                    .buttonSelectPr,
+                                                data: _ItemOptionList
+                                                    .options.first.title,
+                                                onChange: (value) {
+                                                  setState(() {
+                                                    optionTemps[index].property
+                                                        .buttonSelectPr = value;
+                                                  });
+                                                }),
+                                            null);
+                                  }),
+                                  GlobalFun.CustomListTitle(Icons.copy,
+                                      "Option style copy(not selected→selected",
+                                      () {
+                                        optionTemps[index].property.buttonSelectPr =
+                                            optionTemps[index].property.buttonPr.copy();
+                                    Navigator.pop(context);
+                                  }),
+                                  GlobalFun.CustomListTitle(Icons.copy,
+                                      "Option style copy(selected→not selected",
+                                      () {
+                                        optionTemps[index].property.buttonPr =
+                                            optionTemps[index].property.buttonSelectPr
+                                            .copy();
+                                    Navigator.pop(context);
+                                  }),
+                                  GlobalFun.CustomListTitle(Icons.copy,
+                                      "Print",
+                                          () {
+                                            print("titlePr");
+                                            print(optionTemps[index].property.titlePr.getJsonString());
+                                            print("framPr");
+                                            print(optionTemps[index].property.framPr.getJsonString());
+                                            print("buttonPr");
+                                            print(optionTemps[index].property.buttonPr.getJsonString());
+                                            print("buttonSelectPr");
+                                            print(optionTemps[index].property.buttonSelectPr.getJsonString());
+                                      }),
+                                  CupertinoSlider(
+                                    value: _currentSliderValue.toDouble(),
+                                    min: 1,
+                                    max: 10,
+                                    onChanged: (double value) {
+                                      setState(() {
+                                        _currentSliderValue = value.toInt();
+                                      });
+                                    },
+                                  )
+                                ],
+                                null);
+                            return;
+
                             showCupertinoModalPopup(
                               context: context,
                               builder: (BuildContext context) =>
@@ -131,11 +249,11 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                                           context,
                                           TextSettingWidget(
                                               property:
-                                                  _optionWidgetProperty.titlePr,
+                                              optionTemps[index].property.titlePr,
                                               data: _ItemOptionList.title,
                                               onChange: (value) {
                                                 setState(() {
-                                                  _optionWidgetProperty
+                                                  optionTemps[index].property
                                                       .titlePr = value;
                                                 });
                                               }),
@@ -152,12 +270,12 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                                               context,
                                               TextSettingWidget(
                                                   property:
-                                                      _optionWidgetProperty
+                                                  optionTemps[index].property
                                                           .framPr,
                                                   data: optionTemps[index].data,
                                                   onChange: (value) {
                                                     setState(() {
-                                                      _optionWidgetProperty
+                                                      optionTemps[index].property
                                                           .framPr = value;
                                                     });
                                                   }),
@@ -174,13 +292,13 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                                               context,
                                               TextSettingWidget(
                                                   property:
-                                                      _optionWidgetProperty
+                                                  optionTemps[index].property
                                                           .buttonPr,
                                                   data: _ItemOptionList
                                                       .options.first.title,
                                                   onChange: (value) {
                                                     setState(() {
-                                                      _optionWidgetProperty
+                                                      optionTemps[index].property
                                                           .buttonPr = value;
                                                     });
                                                   }),
@@ -197,13 +315,13 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                                               context,
                                               TextSettingWidget(
                                                   property:
-                                                      _optionWidgetProperty
+                                                  optionTemps[index].property
                                                           .buttonSelectPr,
                                                   data: _ItemOptionList
                                                       .options.first.title,
                                                   onChange: (value) {
                                                     setState(() {
-                                                      _optionWidgetProperty
+                                                      optionTemps[index].property
                                                               .buttonSelectPr =
                                                           value;
                                                     });
@@ -215,19 +333,19 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                                     child: GlobalFun.setingRow(null,
                                         "Option style copy(not selected→selected)"),
                                     onPressed: () {
-                                      _optionWidgetProperty.buttonSelectPr =
-                                          _optionWidgetProperty.buttonPr.copy();
+                                      optionTemps[index].property.buttonSelectPr =
+                                          optionTemps[index].property.buttonPr.copy();
                                       Navigator.pop(context);
                                     },
                                   ),
                                   Container(
                                     child: CupertinoSlider(
-                                      value: _currentSliderValue,
+                                      value: _currentSliderValue.toDouble(),
                                       min: 1,
                                       max: 10,
                                       onChanged: (double value) {
                                         setState(() {
-                                          _currentSliderValue = value;
+                                          _currentSliderValue = value.toInt();
                                         });
                                       },
                                     ),
@@ -238,11 +356,12 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                           })),
                       Container(
                         padding: EdgeInsets.only(top: 10, bottom: 10),
-                        color: Colors.white,
+                        color: Colors.transparent,
                         //width: 1.sw,
                         //height: 100 ,
                         child: WidgetOptionPage.build(
-                            context, _optionWidgetProperty, _ItemOptionList),
+                            context, optionTemps[index].property, _ItemOptionList,
+                            rowMaxcount: _currentSliderValue),
                       ),
                     ]),
               );

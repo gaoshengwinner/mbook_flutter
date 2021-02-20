@@ -6,7 +6,7 @@ import 'package:mbook_flutter/src/home/home.dart';
 import 'package:mbook_flutter/src/login/login.dart';
 import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
 import 'package:mbook_flutter/src/mystore/my_store.dart';
-
+import 'package:mbook_flutter/src/comm/global.dart';
 import 'consts.dart';
 
 class MenuBar {
@@ -34,13 +34,13 @@ class MenuBar {
             ),
           ),
           if (isLogin && !notDispMystore)
-            CustomListTitle(Icons.store, S.of(_context).menu_mystore_title,
+            GlobalFun.CustomListTitle(Icons.store, S.of(_context).menu_mystore_title,
                 () => {gotoMyStore(_context, _scaffoldKey)}),
           if (isLogin)
-            CustomListTitle(Icons.logout, S.of(_context).menu_logout_title,
+            GlobalFun.CustomListTitle(Icons.logout, S.of(_context).menu_logout_title,
                     () => {logout(_context, doReturn)}),
           if (!isLogin)
-            CustomListTitle(Icons.logout, S.of(_context).menu_login_title,
+            GlobalFun.CustomListTitle(Icons.logout, S.of(_context).menu_login_title,
                 () => {login(_context, doReturn)}),
         ],
       ),
@@ -74,36 +74,5 @@ class MenuBar {
     //Navigator.pushNamed(_context, G.ROUTES_HOME);
   }
 
-  static Widget CustomListTitle(IconData icon, String title, Function doTop) {
-    return new Padding(
-        padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-        child: Container(
-          decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.grey.shade400))),
-          child: InkWell(
-            splashColor: G.appBaseColor[1],
-            onTap: doTop,
-            child: Container(
-              height: 40,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Icon(icon),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(title,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                            )),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-        ));
-  }
+
 }

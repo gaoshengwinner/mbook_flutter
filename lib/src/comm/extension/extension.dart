@@ -43,44 +43,44 @@ extension FBTextAlign on TextAlign {
 }
 
 class FBAlignment {
-  static String DEFALUT_ALIGM = _NO;
-  static String _NO = "-";
-  static String _TOP_LEFT = "Top Left";
-  static String _TOP_CENTER = "Top Center";
-  static String _TOP_RIGHT = "Top Right";
-  static String _CENTER_LEFT = "Center Left";
-  static String _CENTER = "Center";
-  static String _CENTER_RIGHT = "Center Right";
-  static String _BOTTOM_LEFT = "Bottom Left";
-  static String _BOTTOM_CENTER = "Bottom Center";
-  static String _BOTTOM__RIGHT = "Bottom Right";
+  static String DEFALUT_ALIGM = NO;
+  static String NO = "-";
+  static String TOP_LEFT = "Top Left";
+  static String TOP_CENTER = "Top Center";
+  static String TOP_RIGHT = "Top Right";
+  static String CENTER_LEFT = "Center Left";
+  static String CENTER = "Center";
+  static String CENTER_RIGHT = "Center Right";
+  static String BOTTOM_LEFT = "Bottom Left";
+  static String BOTTOM_CENTER = "Bottom Center";
+  static String BOTTOM__RIGHT = "Bottom Right";
 
   static Map map(){
     Map alignmentMap = Map();
-    alignmentMap[_NO] = null;
-    alignmentMap[_TOP_LEFT] = Alignment(-1.0, -1.0);
-    alignmentMap[_TOP_CENTER] = Alignment(0.0, -1.0);
-    alignmentMap[_TOP_RIGHT] = Alignment(1.0, -1.0);
-    alignmentMap[_CENTER_LEFT] = Alignment(-1.0, 0.0);
-    alignmentMap[_CENTER] = Alignment(0.0, 0.0);
-    alignmentMap[_CENTER_RIGHT] = Alignment(1.0, 0.0);
-    alignmentMap[_BOTTOM_LEFT] = Alignment(-1.0, 1.0);
-    alignmentMap[_BOTTOM_CENTER] = Alignment(0.0, 1.0);
-    alignmentMap[_BOTTOM__RIGHT] = Alignment(1.0, 1.0);
+    alignmentMap[NO] = null;
+    alignmentMap[TOP_LEFT] = Alignment(-1.0, -1.0);
+    alignmentMap[TOP_CENTER] = Alignment(0.0, -1.0);
+    alignmentMap[TOP_RIGHT] = Alignment(1.0, -1.0);
+    alignmentMap[CENTER_LEFT] = Alignment(-1.0, 0.0);
+    alignmentMap[CENTER] = Alignment(0.0, 0.0);
+    alignmentMap[CENTER_RIGHT] = Alignment(1.0, 0.0);
+    alignmentMap[BOTTOM_LEFT] = Alignment(-1.0, 1.0);
+    alignmentMap[BOTTOM_CENTER] = Alignment(0.0, 1.0);
+    alignmentMap[BOTTOM__RIGHT] = Alignment(1.0, 1.0);
     return alignmentMap;
   }
   static List<Text> getAligmentList() {
     List<Text> result = [];
-    result.add(Text(_NO));
-    result.add(Text(_TOP_LEFT));
-    result.add(Text(_TOP_CENTER));
-    result.add(Text(_TOP_RIGHT));
-    result.add(Text(_CENTER_LEFT));
-    result.add(Text(_CENTER));
-    result.add(Text(_CENTER_RIGHT));
-    result.add(Text(_BOTTOM_LEFT));
-    result.add(Text(_BOTTOM_CENTER));
-    result.add(Text(_BOTTOM__RIGHT));
+    result.add(Text(NO));
+    result.add(Text(TOP_LEFT));
+    result.add(Text(TOP_CENTER));
+    result.add(Text(TOP_RIGHT));
+    result.add(Text(CENTER_LEFT));
+    result.add(Text(CENTER));
+    result.add(Text(CENTER_RIGHT));
+    result.add(Text(BOTTOM_LEFT));
+    result.add(Text(BOTTOM_CENTER));
+    result.add(Text(BOTTOM__RIGHT));
     return result;
   }
   static int getIndexByString(String s){

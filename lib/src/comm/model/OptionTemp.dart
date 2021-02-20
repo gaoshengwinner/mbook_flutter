@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mbook_flutter/src/comm/model/widget/OptionWidgetProperty.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 import 'package:uuid/uuid.dart';
 
@@ -20,16 +21,16 @@ class OptionTemp {
   }
 
   @JsonKey(ignore: true)
-  TextWidgetProperty property;
+  OptionWidgetProperty property;
 
   @JsonKey(ignore: true)
   String uuid;
 
   OptionTemp({this.id, this.data, this.desc, this.propertyString}) {
     if (propertyString == null || propertyString.isEmpty) {
-      property = TextWidgetProperty();
+      property = OptionWidgetProperty.init();
     } else {
-      property = TextWidgetProperty.fromJson(jsonDecode(propertyString));
+      property = OptionWidgetProperty.fromJson(jsonDecode(propertyString));
     }
     uuid = Uuid().v1();
   }

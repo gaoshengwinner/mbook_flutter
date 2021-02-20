@@ -9,7 +9,7 @@ import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
 
 class WidgetOptionPage {
   static Widget build(BuildContext context, OptionWidgetProperty property,
-      ItemOptionList data) {
+      ItemOptionList data ,{int rowMaxcount = 3}) {
     return Column(
       children: [
         Container(
@@ -24,7 +24,7 @@ class WidgetOptionPage {
             initialKeyValue: data.options.first,
             optionWidgetProperty: property,
             data: data,
-            rowMaxcount: 3,
+            rowMaxcount: rowMaxcount,
           ),
         ),
 

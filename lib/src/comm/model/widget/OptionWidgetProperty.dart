@@ -1,38 +1,112 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
-
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mbook_flutter/src/comm/consts.dart';
+import 'package:mbook_flutter/src/comm/extension/extension.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 import 'package:mbook_flutter/src/comm/tools/wh_picker.dart';
 
+part 'OptionWidgetProperty.g.dart';
+
 @JsonSerializable()
 @CustomColorConverter()
+@CustomTextWidgetPropertyConverter()
 class OptionWidgetProperty {
+  factory OptionWidgetProperty.init() {
+    const double defalutspace = 5;
+    OptionWidgetProperty me = OptionWidgetProperty();
+    me.framPr = TextWidgetProperty(
+        paddingLeft: defalutspace,
+        paddingTop: defalutspace,
+        paddingRight: defalutspace,
+        paddingBottom: defalutspace,
+        spacingHWidth: defalutspace,
+        spacingVWidth: defalutspace,
+        minWidth: 100,
+        minWidthUnit: enumToString(WHOptin.sw));
+    me.titlePr = TextWidgetProperty(paddingLeft: defalutspace,fontWeight:700);
+    me.buttonPr = TextWidgetProperty(
+        alignment: FBAlignment.CENTER,
+        backalignment: FBAlignment.CENTER,
+        borderWidth: 1,
+        borderColor: Color.fromRGBO(224, 224, 224, 1),
+        minHeight: 50,
+        minWidth: 100,
+        minWidthUnit: enumToString(WHOptin.sw));
+    me.buttonSelectPr = me.buttonPr.copy();
+    me.buttonSelectPr.borderColor = G.appBaseColor[0];
 
-  TextWidgetProperty framPr = TextWidgetProperty(paddingRight:5, minWidth: 100, minWidthUnit: enumToString(WHOptin.sw));
+    return me;
+  }
+
+  OptionWidgetProperty copy() {
+    print(toJson());
+    return OptionWidgetProperty.fromJson(toJson());
+  }
+
+  OptionWidgetProperty(
+      {this.titlePr, this.framPr, this.buttonPr, this.buttonSelectPr});
+
+  factory OptionWidgetProperty.fromJson(Map<String, dynamic> json) =>
+      _$OptionWidgetPropertyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OptionWidgetPropertyToJson(this);
+
+  String getJsonString() {
+    return jsonEncode(this.toJson());
+  }
+
+  TextWidgetProperty framPr = TextWidgetProperty();
   TextWidgetProperty titlePr = TextWidgetProperty();
-
-  TextWidgetProperty buttonPr = TextWidgetProperty(minHeight: 50, minWidth: 100, minWidthUnit: enumToString(WHOptin.sw));
-
-  TextWidgetProperty buttonSelectPr = TextWidgetProperty(minHeight: 50);
-
-
+  TextWidgetProperty buttonPr = TextWidgetProperty();
+  TextWidgetProperty buttonSelectPr = TextWidgetProperty();
 }
 
-class FrameProperty{
-
+class FrameProperty {
   Color backColor = Colors.white;
 
   FrameProperty({this.backColor});
 }
 
-
-class OptionBean{
+class OptionBean {
   String mainTitle;
   String subTitle;
   int price;
+}
 
+
+
+class CustomTextWidgetPropertyConverter implements JsonConverter<TextWidgetProperty, String> {
+  const CustomTextWidgetPropertyConverter();
+
+  @override
+  TextWidgetProperty fromJson(String json) {
+
+    return TextWidgetProperty.fromJson(jsonDecode(json));
+  }
+
+  @override
+  String toJson(TextWidgetProperty object) {
+    // TODO: implement toJson
+    print(1);
+    return object.getJsonString();
+  }
+
+
+  //
+  // @override
+  // CustomTextWidgetPropertyConverter fromJson(String json) {
+  //   if (json == null || json == "") {
+  //     return null;
+  //   }
+  //   return TextWidgetProperty.fromJson(json);
+  // }
+  //
+  // @override
+  // String toJson(TextWidgetProperty json) {
+  //   return json.toJson();
+  // }
 }

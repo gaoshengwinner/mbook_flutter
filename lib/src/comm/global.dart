@@ -534,6 +534,39 @@ class GlobalFun {
         ));
   }
 
+  static Widget CustomListTitle(IconData icon, String title, Function doTop) {
+    return new Padding(
+        padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color: Colors.grey.shade400))),
+          child: InkWell(
+            splashColor: G.appBaseColor[1],
+            onTap: doTop,
+            child: Container(
+              height: 40,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Icon(icon),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(title,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                            )),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        ));
+  }
+
   static Widget FBInputBox(
       BuildContext context, String lableText, String value, Function serValue,
       {Widget valueWidget = null, width = null}) {
@@ -579,7 +612,9 @@ class GlobalFun {
         ),
       ],
     );
+
   }
+
 
   static Widget setingRow(IconData icon, String text) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
