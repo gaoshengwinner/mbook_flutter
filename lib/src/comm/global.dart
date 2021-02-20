@@ -515,15 +515,23 @@ class GlobalFun {
   }
 
   static Widget commonTitle(String lableText,
-      {Widget valueWidget = null, width = null}) {
+      {Widget rightWidget = null, width = null}) {
     width = width == null ? 0.8.sw : width;
     return Container(
-      width: width,
-      child: Text(
-        lableText,
-        style: TextStyle(fontWeight: FontWeight.bold, color: G.appBaseColor[0]),
-      ),
-    );
+        width: width,
+        child: Row(
+          children: <Widget>[
+            Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  lableText,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: G.appBaseColor[0]),
+                )),
+            Flexible(fit: FlexFit.tight, child: SizedBox()),
+            Align(alignment: Alignment.centerRight, child: rightWidget)
+          ],
+        ));
   }
 
   static Widget FBInputBox(
@@ -571,6 +579,22 @@ class GlobalFun {
         ),
       ],
     );
+  }
+
+  static Widget setingRow(IconData icon, String text) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      if (icon != null)
+        Icon(
+          icon,
+          size: 18,
+          color: G.appBaseColor[0],
+        ),
+      if (text != null)
+        Text(
+          text,
+          style: TextStyle(fontSize: 14, color: G.appBaseColor[0]),
+        )
+    ]);
   }
 }
 

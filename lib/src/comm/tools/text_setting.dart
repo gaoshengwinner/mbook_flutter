@@ -321,6 +321,26 @@ class _TextSettingWidget extends State<TextSettingWidget>
       [
 
         SettingsGroup(<Widget>[
+          // SettingsItem(
+          //   label: 'Spacing Color',
+          //   icon: Icon(Icons.color_lens_outlined, color: property.spacingColor),
+          //   hasDetails: true,
+          //   type: SettingsItemType.modal,
+          //   onPress: () {
+          //     GlobalFun.showBottomSheet(
+          //         context,
+          //         [
+          //           ColorPickerPage(
+          //               currentColor: property.spacingColor,
+          //               onColorChange: (value) {
+          //                 setState(() {
+          //                   property.spacingColor = value;
+          //                 });
+          //               })
+          //         ],
+          //         property.spacingColor);
+          //   },
+          // ),
           SettingsItem(
             label: "Spacing H Width",
             type: SettingsItemType.modal,

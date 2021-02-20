@@ -12,7 +12,7 @@ import 'package:mbook_flutter/src/comm/tools/wh_picker.dart';
 @CustomColorConverter()
 class OptionWidgetProperty {
 
-  TextWidgetProperty framPr = TextWidgetProperty(paddingRight:5, minWidth: 100, minWidthUnit: enumToString(WHOptin.sw), borderWidth: 1,borderColor: Colors.grey);
+  TextWidgetProperty framPr = TextWidgetProperty(paddingRight:5, minWidth: 100, minWidthUnit: enumToString(WHOptin.sw));
   TextWidgetProperty titlePr = TextWidgetProperty();
 
   TextWidgetProperty buttonPr = TextWidgetProperty(minHeight: 50, minWidth: 100, minWidthUnit: enumToString(WHOptin.sw));

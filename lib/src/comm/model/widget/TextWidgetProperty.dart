@@ -60,6 +60,8 @@ class TextWidgetProperty {
   double spacingHWidth = 0;
   double spacingVWidth = 0;
 
+  String backImg = "";
+
   TextWidgetProperty(
       {this.fullLineDisp = false,
       this.textColor = Colors.black,
@@ -95,7 +97,19 @@ class TextWidgetProperty {
       this.marginLeft = 0,
       this.marginTop = 0,
       this.marginRight = 0,
-      this.marginBottom = 0});
+      this.marginBottom = 0,
+      this.backImg = "",
+      this.spacingHWidth = 0,
+      this.spacingVWidth = 0,
+      this.spacingColor = Colors.transparent}) {
+    if (this.spacingHWidth == null) {
+      this.spacingHWidth = 0;
+    }
+
+    if (this.spacingVWidth == null) {
+      this.spacingVWidth = 0;
+    }
+  }
 
   double getRealMinWidth() {
     return this.minWidth <= 0
@@ -111,10 +125,10 @@ class TextWidgetProperty {
     return this.minHeight <= 0
         ? null
         : enumFromString(WHOptin.values, this.minHeightUnit) == WHOptin.px
-        ? this.minHeight
-        : enumFromString(WHOptin.values, this.minHeightUnit) == WHOptin.sw
-        ? this.minHeight * 0.01 * 1.sw
-        : this.minHeight * 0.01 * 1.sh;
+            ? this.minHeight
+            : enumFromString(WHOptin.values, this.minHeightUnit) == WHOptin.sw
+                ? this.minHeight * 0.01 * 1.sw
+                : this.minHeight * 0.01 * 1.sh;
   }
 
   factory TextWidgetProperty.fromJson(Map<String, dynamic> json) =>

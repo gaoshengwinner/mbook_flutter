@@ -9,6 +9,7 @@ part of 'ItemOptionList.dart';
 ItemOptionList _$ItemOptionListFromJson(Map<String, dynamic> json) {
   return ItemOptionList(
     canMultSelect: json['canMultSelect'] as bool,
+    title: json['title'] as String,
     delefalutSelectId:
         (json['delefalutSelectId'] as List)?.map((e) => e as int)?.toList(),
     options: (json['options'] as List)
@@ -21,6 +22,7 @@ ItemOptionList _$ItemOptionListFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$ItemOptionListToJson(ItemOptionList instance) =>
     <String, dynamic>{
       'canMultSelect': instance.canMultSelect,
+      'title': instance.title,
       'delefalutSelectId': instance.delefalutSelectId,
       'options': instance.options,
     };

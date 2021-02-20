@@ -37,14 +37,22 @@ TextWidgetProperty _$TextWidgetPropertyFromJson(Map<String, dynamic> json) {
     shadowBlurRadius: (json['shadowBlurRadius'] as num)?.toDouble(),
     shadowSpreadRadius: (json['shadowSpreadRadius'] as num)?.toDouble(),
     minWidth: (json['minWidth'] as num)?.toDouble(),
+    minWidthUnit: json['minWidthUnit'] as String,
     minHeight: (json['minHeight'] as num)?.toDouble(),
+    minHeightUnit: json['minHeightUnit'] as String,
     maxWidth: (json['maxWidth'] as num)?.toDouble(),
     maxHeight: (json['maxHeight'] as num)?.toDouble(),
     alignment: json['alignment'] as String,
+    backalignment: json['backalignment'] as String,
     marginLeft: (json['marginLeft'] as num)?.toDouble(),
     marginTop: (json['marginTop'] as num)?.toDouble(),
     marginRight: (json['marginRight'] as num)?.toDouble(),
     marginBottom: (json['marginBottom'] as num)?.toDouble(),
+    backImg: json['backImg'] as String,
+    spacingHWidth: (json['spacingHWidth'] as num)?.toDouble(),
+    spacingVWidth: (json['spacingVWidth'] as num)?.toDouble(),
+    spacingColor:
+        const CustomColorConverter().fromJson(json['spacingColor'] as String),
   );
 }
 
@@ -74,7 +82,9 @@ Map<String, dynamic> _$TextWidgetPropertyToJson(TextWidgetProperty instance) =>
       'shadowBlurRadius': instance.shadowBlurRadius,
       'shadowSpreadRadius': instance.shadowSpreadRadius,
       'minWidth': instance.minWidth,
+      'minWidthUnit': instance.minWidthUnit,
       'minHeight': instance.minHeight,
+      'minHeightUnit': instance.minHeightUnit,
       'maxWidth': instance.maxWidth,
       'maxHeight': instance.maxHeight,
       'marginLeft': instance.marginLeft,
@@ -82,4 +92,10 @@ Map<String, dynamic> _$TextWidgetPropertyToJson(TextWidgetProperty instance) =>
       'marginRight': instance.marginRight,
       'marginBottom': instance.marginBottom,
       'alignment': instance.alignment,
+      'backalignment': instance.backalignment,
+      'spacingColor':
+          const CustomColorConverter().toJson(instance.spacingColor),
+      'spacingHWidth': instance.spacingHWidth,
+      'spacingVWidth': instance.spacingVWidth,
+      'backImg': instance.backImg,
     };
