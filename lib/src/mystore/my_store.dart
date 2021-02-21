@@ -97,7 +97,7 @@ class _MyStorePageState extends State<MyStorePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                MyOptionsPage([])));
+                                MyOptionsPage(MyGlobal.optionTempInfos)));
                   },
                 ),
                 SettingsTile(

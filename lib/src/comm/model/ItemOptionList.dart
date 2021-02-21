@@ -26,7 +26,9 @@ class ItemOptionList {
         price: 100,
         nexPriceString: "¥"));
     options.add(ItemOption(
-        title: "Option b",
+        title: '''Option b
++100
+        ''',
         prePriceString: "",
         price: -50,
         nexPriceString: "¥"));

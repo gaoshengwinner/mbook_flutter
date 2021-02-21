@@ -11,7 +11,6 @@ part 'OptionTemp.g.dart';
 @JsonSerializable()
 class OptionTemp {
   int id;
-  String data;
   String desc;
   String propertyString;
   int orders;
@@ -26,7 +25,7 @@ class OptionTemp {
   @JsonKey(ignore: true)
   String uuid;
 
-  OptionTemp({this.id, this.data, this.desc, this.propertyString}) {
+  OptionTemp({this.id, this.desc, this.propertyString}) {
     if (propertyString == null || propertyString.isEmpty) {
       property = OptionWidgetProperty.init();
     } else {
@@ -61,7 +60,6 @@ class OptionTemp {
 
     return o is OptionTemp &&
         o.id == id &&
-        o.data == data &&
         o.uuid == uuid &&
         o.property.toJson() == property.toJson();
   }

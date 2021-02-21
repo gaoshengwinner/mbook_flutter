@@ -52,10 +52,14 @@ class GlobalFun {
       content: new Row(
         children: <Widget>[
           new CircularProgressIndicator(),
-          new Text(
+          new
+          Container(
+            width: 0.7.sw,
+            child: Text(
             title,
             maxLines: 5,
-          )
+          ),)
+
         ],
       ),
     ));

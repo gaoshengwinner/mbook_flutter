@@ -180,6 +180,7 @@ class _MyTagsPageState extends State<MyTagsPage>
             .whenComplete(() {
           GlobalFun.removeCurrentSnackBar(_scaffoldKey);
         }).catchError((e) {
+          print(e.toString());
           GlobalFun.showSnackBar(_scaffoldKey, e.toString());
         });
       }),

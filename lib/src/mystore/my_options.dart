@@ -144,7 +144,7 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                                             TextSettingWidget(
                                                 property: optionTemps[index].property
                                                     .framPr,
-                                                data: optionTemps[index].data,
+                                                data: "",
                                                 onChange: (value) {
                                                   setState(() {
                                                     optionTemps[index].property
@@ -272,7 +272,7 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                                                   property:
                                                   optionTemps[index].property
                                                           .framPr,
-                                                  data: optionTemps[index].data,
+                                                  data: "",
                                                   onChange: (value) {
                                                     setState(() {
                                                       optionTemps[index].property
@@ -369,7 +369,7 @@ class _MyOptionsPageState extends State<MyOptionsPage>
             footer: FBListViewWidget.buildFooter(context,
                 icon: Icons.add, title: "Add a Option template", onTap: () {
               setState(() {
-                optionTemps.add(OptionTemp(data: "", desc: ""));
+                optionTemps.add(OptionTemp( desc: ""));
               });
             }),
             setSeActions: (c, r, index) {
@@ -394,7 +394,7 @@ class _MyOptionsPageState extends State<MyOptionsPage>
       ),
       floatingActionButton: GlobalFun.saveFloatingActionButton(() {
         GlobalFun.showSnackBar(_scaffoldKey, "  Saving...");
-        Api.saveOptionTempInfo(
+        Api.saveMyOptionTempnfo(
                 context, OptionTempResultList(optionTempLst: this.optionTemps))
             .whenComplete(() {
           GlobalFun.removeCurrentSnackBar(_scaffoldKey);

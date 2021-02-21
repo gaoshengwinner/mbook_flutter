@@ -27,7 +27,7 @@ class OptionWidgetProperty {
         spacingVWidth: defalutspace,
         minWidth: 100,
         minWidthUnit: enumToString(WHOptin.sw));
-    me.titlePr = TextWidgetProperty(paddingLeft: defalutspace,fontWeight:700);
+    me.titlePr = TextWidgetProperty(paddingLeft: defalutspace, fontWeight: 700);
     me.buttonPr = TextWidgetProperty(
         alignment: FBAlignment.CENTER,
         backalignment: FBAlignment.CENTER,
@@ -77,36 +77,17 @@ class OptionBean {
   int price;
 }
 
-
-
-class CustomTextWidgetPropertyConverter implements JsonConverter<TextWidgetProperty, String> {
+class CustomTextWidgetPropertyConverter
+    implements JsonConverter<TextWidgetProperty, String> {
   const CustomTextWidgetPropertyConverter();
 
   @override
   TextWidgetProperty fromJson(String json) {
-
     return TextWidgetProperty.fromJson(jsonDecode(json));
   }
 
   @override
   String toJson(TextWidgetProperty object) {
-    // TODO: implement toJson
-    print(1);
     return object.getJsonString();
   }
-
-
-  //
-  // @override
-  // CustomTextWidgetPropertyConverter fromJson(String json) {
-  //   if (json == null || json == "") {
-  //     return null;
-  //   }
-  //   return TextWidgetProperty.fromJson(json);
-  // }
-  //
-  // @override
-  // String toJson(TextWidgetProperty json) {
-  //   return json.toJson();
-  // }
 }

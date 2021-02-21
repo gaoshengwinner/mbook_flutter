@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mbook_flutter/src/comm/device/device.dart';
 import 'package:mbook_flutter/src/comm/menu.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
+import 'package:mbook_flutter/src/comm/model/OptionTemp.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTempResultList.dart';
 import 'package:mbook_flutter/src/comm/model/RefreshTokenResult.dart';
 import 'package:mbook_flutter/src/comm/model/ShopInfo.dart';
@@ -27,13 +27,14 @@ class Api {
       _BASE_API_URL + "/v1/api/manag/shopItemInfo";
   static String _MY_SAVE_ITEM_BASE_INFO_URL =
       _BASE_API_URL + "/v1/api/manag/shopItemInfoRow";
-
   static String _MY_DELETE_ITEM_URL =
       _BASE_API_URL + "/v1/api/manag/deleteShopItemRow";
 
   static String _MY_GET_TAG_URL = _BASE_API_URL +  "/v1/api/manag/get_tags";
-
   static String _MY_SAVE_TAG_URL = _BASE_API_URL +  "/v1/api/manag/save_tags";
+
+  static String _MY_GET_OPTIONTEMP_URL = _BASE_API_URL +  "/v1/api/manag/get_optiontemps";
+  static String _MY_SAVE_OPTIONTEMP_URL = _BASE_API_URL +  "/v1/api/manag/save_optiontemps";
 
   static String _CONTENT_TYPE = "application/json; charset=utf-8";
   static String _MB_DEVICE_INFOR_HEADER = "MB_DEVICE_INFOR_HEADER";
@@ -208,13 +209,29 @@ class Api {
     throw Exception('${result[0]}${result[1]}');
   }
 
-  static Future<void> saveOptionTempInfo(BuildContext _context, OptionTempResultList _options) async{
-    // List<Object> result = await doPostNeedLoginApi(
-    //     _context, _MY_SAVE_TAG_URL, jsonEncode(_tags));
-    // if (result[0] == 200) {
-    //   return;
-    // }
-    // throw Exception('${result[0]}${result[1]}');
+  static Future<List<Object>> getMyOptionTemps(BuildContext _context) async {
+    List<Object> optionTempInfo =
+    await doPostNeedLoginApi(_context, _MY_GET_OPTIONTEMP_URL, null);
+    if (optionTempInfo[0] == 200) {
+      List<OptionTemp> myModels = (json.decode(optionTempInfo[1]) as List)
+          .map((i) => OptionTemp.fromJson(i))
+          .toList();
+      optionTempInfo[1] = myModels;
+      print(myModels.length);
+    } else {
+      throw Exception(optionTempInfo[1]);
+    }
+
+    return optionTempInfo;
+  }
+
+  static Future<void> saveMyOptionTempnfo(BuildContext _context, OptionTempResultList _optionTemps) async{
+    List<Object> result = await doPostNeedLoginApi(
+        _context, _MY_SAVE_OPTIONTEMP_URL, jsonEncode(_optionTemps));
+    if (result[0] == 200) {
+      return;
+    }
+    throw Exception('${result[0]}${result[1]}');
   }
 
 }
