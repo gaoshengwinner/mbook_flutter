@@ -3,6 +3,7 @@ import 'package:mbook_flutter/src/comm/api/api.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
+import 'package:mbook_flutter/src/comm/widgets/Image.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_listview.dart';
 import 'my_menu_edit.dart';
 
@@ -95,8 +96,8 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
                       : Container(
                           //width: 0.3.sw,
                           constraints: BoxConstraints.tightFor(width: 100.0),
-                          child: Image.network(
-                            item.itemMainPicUrl,
+                          child: MBImage(
+                            url:item.itemMainPicUrl,
                             fit: BoxFit.fitWidth,
                           )),
 

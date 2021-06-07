@@ -116,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                                 {
                                   GlobalFun.showSnackBar(_scaffoldKey, "  Signing-In...");
                                   Api.login("gaoshengwinner@hotmail.com", "Gsh@home01").then((value) => {
-                                        if (value[0] == 200)
+                                        if (value[0] == Api.OK)
                                           {
                                             Navigator.push(
                                                 context,

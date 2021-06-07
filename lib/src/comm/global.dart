@@ -46,7 +46,8 @@ class GlobalFun {
   static void showSnackBar(
       GlobalKey<ScaffoldState> _scaffoldKey, String title) {
     //_scaffoldKey.currentContext.
-    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+    ScaffoldMessenger.of(_scaffoldKey.currentContext).showSnackBar(new SnackBar(
+    //_scaffoldKey.currentState.showSnackBar(new SnackBar(
       backgroundColor: G.appBaseColor[0],
       duration: new Duration(seconds: 4),
       content: new Row(
@@ -601,7 +602,7 @@ class GlobalFun {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               width: 0.8.sw,
-              child: valueWidget == null ? Text(value) : valueWidget,
+              child: valueWidget == null ? Text(value ?? "") : valueWidget,
             ),
             onTap: () {
               GlobalFun.openEditPage(context, lableText, value,

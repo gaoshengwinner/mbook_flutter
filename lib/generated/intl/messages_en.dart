@@ -34,6 +34,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "menu_login_title" : MessageLookupByLibrary.simpleMessage("Sign in"),
     "menu_logout_title" : MessageLookupByLibrary.simpleMessage("Sign out"),
     "menu_mystore_title" : MessageLookupByLibrary.simpleMessage("My store"),
-    "mystore_title" : MessageLookupByLibrary.simpleMessage("My store")
+    "menu_signup_title" : MessageLookupByLibrary.simpleMessage("Sign up"),
+    "mystore_title" : MessageLookupByLibrary.simpleMessage("My store"),
+    "signup_button_sending" : MessageLookupByLibrary.simpleMessage("Send"),
+    "signup_code_button_sending" : MessageLookupByLibrary.simpleMessage("Confirm"),
+    "signup_password_validator_cofict_msg" : MessageLookupByLibrary.simpleMessage("Inconsistent passwords"),
+    "signup_signup_title" : MessageLookupByLibrary.simpleMessage("Sign up"),
+    "signup_sigup_button" : MessageLookupByLibrary.simpleMessage("Sigup"),
+    "sigup_email_validator_empty_msg" : MessageLookupByLibrary.simpleMessage("Please enter Your email address."),
+    "sigup_email_validator_not_valid_msg" : MessageLookupByLibrary.simpleMessage("Please enter a valid email address. "),
+    "sigup_mail_cfn_hintText" : MessageLookupByLibrary.simpleMessage("Please enter the verification code"),
+    "sigup_mail_hintText" : MessageLookupByLibrary.simpleMessage("Mail"),
+    "sigup_password_hintText" : MessageLookupByLibrary.simpleMessage("Password"),
+    "sigup_password_validator_empty_msg" : MessageLookupByLibrary.simpleMessage("Please enter password. ")
   };
 }

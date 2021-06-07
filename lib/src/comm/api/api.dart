@@ -10,14 +10,18 @@ import 'package:mbook_flutter/src/comm/model/OptionTemp.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTempResultList.dart';
 import 'package:mbook_flutter/src/comm/model/RefreshTokenResult.dart';
 import 'package:mbook_flutter/src/comm/model/ShopInfo.dart';
+import 'package:mbook_flutter/src/comm/model/SignupMailCnfResult.dart';
 import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
 import 'package:mbook_flutter/src/comm/model/TagResultList.dart';
 import 'package:mbook_flutter/src/comm/model/Token.dart';
 import 'package:mbook_flutter/src/comm/token/token.dart';
 
 class Api {
-  static String _BASE_API_URL = "https://4136135c1ab9.ngrok.io";
+  static final int OK = 200;
+  static String _BASE_API_URL = "https://62171983847b.ngrok.io";
   static String _LOGIN_URL = _BASE_API_URL + "/v1/api/member/login";
+  static String _SIGNUP_MAIL_CNF_URL = _BASE_API_URL + "/v1/api/sigup/sigupMailCnf";
+
   static String _REFRESH_TOKEN_URL =
       _BASE_API_URL + "/v1/api/manag/refreshToken";
   static String _MY_SHOPINFO_URL = _BASE_API_URL + "/v1/api/manag/shopInfo";
@@ -52,11 +56,22 @@ class Api {
     });
     List<Object> result = await doPostNoNeedLoginApi(_LOGIN_URL, body);
     result[1] = Token.fromJson(jsonDecode(result[1]));
-    if (result[0] == 200) {
+    if (result[0] == Api.OK) {
       await TokenUtil.saveToken(result[1]);
     }
     return result;
   }
+
+  static Future<List<Object>> sigupMailCnf(String mail) async {
+    String body = jsonEncode(<String, String>{
+      'memberEmail': mail
+    });
+    List<Object> result = await doPostNoNeedLoginApi(_SIGNUP_MAIL_CNF_URL, body);
+    result[1] = SignupMailCnfResult.fromJson(jsonDecode(result[1]));
+
+    return result;
+  }
+
 
   // [0] status [1] body string
   static Future<List<Object>> doPostNoNeedLoginApi(String url,

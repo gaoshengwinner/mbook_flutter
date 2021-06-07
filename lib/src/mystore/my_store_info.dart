@@ -4,6 +4,7 @@ import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ShopInfo.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mbook_flutter/src/comm/widgets/Image.dart';
 
 class MyStoreInfoPage extends StatefulWidget {
   ShopInfo _shopInfo = ShopInfo("", "", "", "");
@@ -81,7 +82,7 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
               },
                   width: 0.9.sw,
                   valueWidget: Row(children: [
-                    Flexible(child: Image.network(_shopInfo.shopPicUrl))
+                    Flexible(child: MBImage(url:_shopInfo.shopPicUrl))
                   ])),
             ]),
 

@@ -12,22 +12,38 @@ class FBButton {
         child: SizedBox(
           width: width, //0.6.sw,
           height: 45,
-          child:
-          RaisedButton.icon(
+          child: ElevatedButton.icon(
             onPressed: () {
               if (doTap != null) doTap();
             },
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(22.5))),
+            style: ElevatedButton.styleFrom(
+                primary: G.appBaseColor[0],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(22.5)))),
             label: Text(
               title, //S.of(context).home_scan_button_title,
               style: TextStyle(color: Colors.white),
             ),
             icon: Icon(icon /**Icons.qr_code_scanner**/, color: Colors.white),
-            textColor: Colors.black,
+            //textColor: Colors.black,
             //splashColor: Colors.deepOrange,
-            color: G.appBaseColor[0],
+            //color: G.appBaseColor[0],
           ),
+          // RaisedButton.icon(
+          //   onPressed: () {
+          //     if (doTap != null) doTap();
+          //   },
+          //   shape: RoundedRectangleBorder(
+          //       borderRadius: BorderRadius.all(Radius.circular(22.5))),
+          //   label: Text(
+          //     title, //S.of(context).home_scan_button_title,
+          //     style: TextStyle(color: Colors.white),
+          //   ),
+          //   icon: Icon(icon /**Icons.qr_code_scanner**/, color: Colors.white),
+          //   textColor: Colors.black,
+          //   //splashColor: Colors.deepOrange,
+          //   color: G.appBaseColor[0],
+          // ),
         ));
   }
 }

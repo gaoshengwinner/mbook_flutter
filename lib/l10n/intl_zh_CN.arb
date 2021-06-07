@@ -8,10 +8,24 @@
   "menu_logout_title": "Sign out",
   "menu_login_title": "Sign in",
   "login_login_title": "Sign in",
+  "signup_signup_title": "Sign up",
+  "menu_signup_title": "Sign up",
   "login_mail_hintText": "Mail",
   "login_password_hintText": "Password",
   "login_email_validator_empty_msg": "Please enter Your email address.",
   "login_email_validator_not_valid_msg": "Please enter a valid email address. ",
   "login_password_validator_empty_msg": "Please enter your password. ",
-  "mystore_title": "My store"
+  "mystore_title": "My store",
+
+  "sigup_mail_hintText": "Mail",
+  "sigup_password_hintText": "Password",
+  "sigup_email_validator_empty_msg": "Please enter Your email address.",
+  "sigup_email_validator_not_valid_msg": "Please enter a valid email address. ",
+  "sigup_password_validator_empty_msg": "Please enter password. ",
+  "signup_button_sending": "Send",
+  "sigup_mail_cfn_hintText": "Please enter the verification code",
+  "signup_code_button_sending": "Confirm",
+  "signup_password_validator_cofict_msg": "Inconsistent passwords",
+  "signup_sigup_button" : "Sigup"
+
 }

@@ -115,6 +115,26 @@ class S {
     );
   }
 
+  /// `Sign up`
+  String get signup_signup_title {
+    return Intl.message(
+      'Sign up',
+      name: 'signup_signup_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign up`
+  String get menu_signup_title {
+    return Intl.message(
+      'Sign up',
+      name: 'menu_signup_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Mail`
   String get login_mail_hintText {
     return Intl.message(
@@ -170,6 +190,106 @@ class S {
     return Intl.message(
       'My store',
       name: 'mystore_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mail`
+  String get sigup_mail_hintText {
+    return Intl.message(
+      'Mail',
+      name: 'sigup_mail_hintText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get sigup_password_hintText {
+    return Intl.message(
+      'Password',
+      name: 'sigup_password_hintText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter Your email address.`
+  String get sigup_email_validator_empty_msg {
+    return Intl.message(
+      'Please enter Your email address.',
+      name: 'sigup_email_validator_empty_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid email address. `
+  String get sigup_email_validator_not_valid_msg {
+    return Intl.message(
+      'Please enter a valid email address. ',
+      name: 'sigup_email_validator_not_valid_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter password. `
+  String get sigup_password_validator_empty_msg {
+    return Intl.message(
+      'Please enter password. ',
+      name: 'sigup_password_validator_empty_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send`
+  String get signup_button_sending {
+    return Intl.message(
+      'Send',
+      name: 'signup_button_sending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the verification code`
+  String get sigup_mail_cfn_hintText {
+    return Intl.message(
+      'Please enter the verification code',
+      name: 'sigup_mail_cfn_hintText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get signup_code_button_sending {
+    return Intl.message(
+      'Confirm',
+      name: 'signup_code_button_sending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inconsistent passwords`
+  String get signup_password_validator_cofict_msg {
+    return Intl.message(
+      'Inconsistent passwords',
+      name: 'signup_password_validator_cofict_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sigup`
+  String get signup_sigup_button {
+    return Intl.message(
+      'Sigup',
+      name: 'signup_sigup_button',
       desc: '',
       args: [],
     );

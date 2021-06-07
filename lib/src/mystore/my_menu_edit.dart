@@ -6,6 +6,7 @@ import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mbook_flutter/src/comm/widgets/Image.dart';
 import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
 
 class MyMenuEditPage extends StatefulWidget {
@@ -127,7 +128,7 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
           },
               width: 0.9.sw,
               valueWidget: Row(children: [
-                Flexible(child: Image.network(_item.itemMainPicUrl))
+                Flexible(child: MBImage(url:_item.itemMainPicUrl))
               ])),
         ]));
   }
