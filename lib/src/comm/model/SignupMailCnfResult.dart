@@ -7,7 +7,7 @@ part 'SignupMailCnfResult.g.dart';
 @JsonSerializable()
 class SignupMailCnfResult {
   String statu;
-  String code;
+  String uuid;
   List<Errs> errs;
 
   SignupMailCnfResult(this.statu, this.errs);

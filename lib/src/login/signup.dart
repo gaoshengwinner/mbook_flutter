@@ -9,6 +9,7 @@ import 'package:mbook_flutter/src/comm/model/SignupMailCnfResult.dart';
 import 'package:mbook_flutter/src/home/home.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/widgets/raised_button.dart';
+import 'package:status_change/status_change.dart';
 
 class SignupPage extends StatefulWidget {
   _SignupPageState createState() => _SignupPageState();
@@ -19,6 +20,7 @@ class _SignupPageState extends State<SignupPage> {
   int step = 0;
   String _mail;
   String _code;
+  String _uuid;
 
   // 响应空白处的焦点的Node
   FocusNode _blankNode = FocusNode();
@@ -55,28 +57,97 @@ class _SignupPageState extends State<SignupPage> {
                                   fontWeight: FontWeight.w500,
                                   fontSize: 30),
                             )),
-                        step == 0
-                            ? new SignupMailCnfPage(_scaffoldKey, _formKey,
-                                (mail, code) {
-                                setState(() {
-                                  _code = code;
-                                  _mail = mail;
-                                  step = 1;
-                                });
-                              })
-                            : step == 1
-                                ? new SignupCodeCnfPage(
-                                    _scaffoldKey, _formKey, _code, () {
-                                    setState(() {
-                                      step = 2;
-                                    });
-                                  })
-                                : new SignupPasswordPage(
-                                    _scaffoldKey, _formKey, _mail, _code, () {
-                                    setState(() {
-                                      step = 3;
-                                    });
-                                  })
+                        Theme(
+                          data: ThemeData(primarySwatch: G.appBaseColor[0]),
+                          //color: Colors.red,
+                          child: Expanded(
+                              child: Stepper(
+                                  type: StepperType.horizontal,
+                                  physics: ScrollPhysics(),
+                                  currentStep: step,
+                                  onStepContinue: true
+                                      ? null
+                                      : () {
+                                    step < 2
+                                        ? setState(() => step += 1)
+                                        : null;
+                                  },
+                                  onStepCancel: true
+                                      ? null
+                                      : () {
+                                    step > 0
+                                        ? setState(() => step -= 1)
+                                        : null;
+                                  },
+                                  onStepTapped: (sp) =>
+                                      setState(() => step = sp),
+                                  // delete continue and cancle
+                                  controlsBuilder: (BuildContext context,
+                                      {VoidCallback onStepContinue,
+                                        VoidCallback onStepCancel}) =>
+                                      Container(),
+                                  steps: <Step>[
+                                    Step(
+                                        isActive: step == 0,
+                                        state: step >= 0
+                                            ? StepState.complete
+                                            : StepState.disabled,
+                                        title: new Text(
+                                          'Mail',
+                                          style:
+                                          TextStyle(color: G.appBaseColor[0],
+                                              fontSize: 10),
+                                        ),
+                                        content: new SignupMailCnfPage(
+                                            _scaffoldKey, _formKey, (mail,
+                                            uuid) {
+                                          setState(() {
+                                            _uuid = uuid;
+                                            _mail = mail;
+                                            step = 1;
+                                          });
+                                        })),
+                                    Step(
+                                        isActive: step == 1,
+                                        state: step >= 1
+                                            ? StepState.complete
+                                            : StepState.disabled,
+                                        title: new Text(
+                                          'Code',
+                                          style:
+                                          TextStyle(color: G.appBaseColor[0],
+                                              fontSize: 10),
+                                        ),
+                                        content: new SignupCodeCnfPage(
+
+                                            _scaffoldKey, _formKey, _uuid, (
+                                            uuid) {
+                                          setState(() {
+                                            _uuid = uuid;
+                                            step = 2;
+                                          });
+                                        })),
+                                    Step(
+                                        isActive: step == 2,
+                                        state: step >= 2
+                                            ? StepState.complete
+                                            : StepState.disabled,
+                                        title: new Text(
+                                          'Password',
+                                          style:
+                                          TextStyle(color: G.appBaseColor[0],
+                                              fontSize: 10),
+                                        ),
+                                        content: new SignupPasswordPage(
+                                            _scaffoldKey, _formKey, _mail,
+                                            _uuid,
+                                                () {
+                                              setState(() {
+                                                step = 3;
+                                              });
+                                            })),
+                                  ])),
+                        )
                       ]),
                     ),
                   ),
@@ -108,7 +179,9 @@ class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
                   focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: G.appBaseColor[0])),
                   prefixIcon: Icon(Icons.email, color: G.appBaseColor[0]),
-                  hintText: S.of(context).sigup_mail_hintText),
+                  hintText: S
+                      .of(context)
+                      .sigup_mail_hintText),
               initialValue: "",
               keyboardType: TextInputType.emailAddress,
               onChanged: (value) {
@@ -120,9 +193,13 @@ class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
                 });
 
                 if (email.isEmpty) {
-                  return S.of(context).sigup_email_validator_empty_msg;
+                  return S
+                      .of(context)
+                      .sigup_email_validator_empty_msg;
                 } else if (!EmailValidator.validate(email)) {
-                  return S.of(context).login_email_validator_not_valid_msg;
+                  return S
+                      .of(context)
+                      .login_email_validator_not_valid_msg;
                 }
                 return null;
               }),
@@ -135,33 +212,37 @@ class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: FBButton.build(context, 0.6.sw,
-                  S.of(context).signup_button_sending, Icons.mail, () {
-                if (widget._formKey.currentState.validate()) {
-                  GlobalFun.showSnackBar(
-                      widget._scaffoldKey, "  Sending Mail...");
-                  Api.sigupMailCnf(_mail)
-                      .then((value) => {
-                            if (value[0] == Api.OK &&
-                                (value[1] as SignupMailCnfResult).statu == "0")
-                              {
-                                widget.onOK(_mail,
-                                    (value[1] as SignupMailCnfResult).code)
-                              }
-                            else
-                              {
-                                setState(() {
-                                  this._errmsg =
-                                      (value[1] as SignupMailCnfResult)
-                                          .errs[0]
-                                          .msg;
-                                })
-                              }
-                          })
-                      .catchError((e) {
-                    GlobalFun.showSnackBar(widget._scaffoldKey, e.toString());
-                  });
-                }
-              })),
+                  S
+                      .of(context)
+                      .signup_button_sending, Icons.mail, () {
+                    if (widget._formKey.currentState.validate()) {
+                      GlobalFun.showSnackBar(
+                          widget._scaffoldKey, "  Sending Mail...");
+                      Api.sigupMailCnf(_mail)
+                          .then((value) =>
+                      {
+                        if (value[0] == Api.OK &&
+                            (value[1] as SignupMailCnfResult).statu == "0")
+                          {
+                            widget.onOK(_mail,
+                                (value[1] as SignupMailCnfResult).uuid)
+                          }
+                        else
+                          {
+                            setState(() {
+                              this._errmsg =
+                                  (value[1] as SignupMailCnfResult)
+                                      .errs[0]
+                                      .msg;
+                            })
+                          }
+                      })
+                          .catchError((e) {
+                        GlobalFun.showSnackBar(
+                            widget._scaffoldKey, e.toString());
+                      });
+                    }
+                  })),
         ],
       ),
     );
@@ -171,12 +252,12 @@ class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
 class SignupCodeCnfPage extends StatefulWidget {
   final Function onOK;
 
-  SignupCodeCnfPage(this._scaffoldKey, this._formKey, this._code, this.onOK);
+  SignupCodeCnfPage(this._scaffoldKey, this._formKey, this._uuid, this.onOK);
 
   _SignupCodeCnfPageState createState() => _SignupCodeCnfPageState();
   final _formKey;
   final GlobalKey<ScaffoldState> _scaffoldKey;
-  final String _code;
+  final String _uuid;
 }
 
 class _SignupCodeCnfPageState extends State<SignupCodeCnfPage> {
@@ -193,7 +274,9 @@ class _SignupCodeCnfPageState extends State<SignupCodeCnfPage> {
                   focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: G.appBaseColor[0])),
                   prefixIcon: Icon(Icons.lock_clock, color: G.appBaseColor[0]),
-                  hintText: S.of(context).sigup_mail_cfn_hintText),
+                  hintText: S
+                      .of(context)
+                      .sigup_mail_cfn_hintText),
               initialValue: "",
               keyboardType: TextInputType.emailAddress,
               onChanged: (value) {
@@ -205,7 +288,9 @@ class _SignupCodeCnfPageState extends State<SignupCodeCnfPage> {
                 });
 
                 if (code.isEmpty) {
-                  return S.of(context).sigup_email_validator_empty_msg;
+                  return S
+                      .of(context)
+                      .sigup_email_validator_empty_msg;
                 }
                 return null;
               }),
@@ -220,18 +305,28 @@ class _SignupCodeCnfPageState extends State<SignupCodeCnfPage> {
               child: FBButton.build(
                   context,
                   0.6.sw,
-                  S.of(context).signup_code_button_sending,
+                  S
+                      .of(context)
+                      .signup_code_button_sending,
                   Icons.check_circle, () {
-                if (widget._code == _cnfcode) {
-                  setState(() {
-                    _errmsg = "";
-                    widget.onOK();
-                  });
-                } else {
-                  setState(() {
-                    _errmsg = "Inconsistent check codes。";
-                  });
-                }
+                Api.sigupMailCodeCnf(widget._uuid, _cnfcode)
+                    .then((value) =>
+                {
+                  if (value[0] == Api.OK &&
+                      (value[1] as SignupMailCnfResult).statu == "0")
+                    {
+                      widget.onOK((value[1] as SignupMailCnfResult).uuid)
+                    }
+                  else
+                    {
+                      setState(() {
+                        this._errmsg =
+                            (value[1] as SignupMailCnfResult)
+                                .errs[0]
+                                .msg;
+                      })
+                    }
+                });
               })),
         ],
       ),
@@ -242,19 +337,18 @@ class _SignupCodeCnfPageState extends State<SignupCodeCnfPage> {
 class SignupPasswordPage extends StatefulWidget {
   final Function onOK;
 
-  SignupPasswordPage(
-      this._scaffoldKey, this._formKey, this._mail, this._code, this.onOK);
+  SignupPasswordPage(this._scaffoldKey, this._formKey, this._mail, this._uuid,
+      this.onOK);
 
   _SignupPasswordPagetate createState() => _SignupPasswordPagetate();
   final _formKey;
   final GlobalKey<ScaffoldState> _scaffoldKey;
-  final String _code;
+  final String _uuid;
   final String _mail;
 }
 
 class _SignupPasswordPagetate extends State<SignupPasswordPage> {
   String _errmsg = "";
-  String _cnfcode = "";
   String _password = "";
   String _passwordCnf = "";
 
@@ -270,14 +364,25 @@ class _SignupPasswordPagetate extends State<SignupPasswordPage> {
                   focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: G.appBaseColor[0])),
                   prefixIcon: Icon(Icons.lock, color: G.appBaseColor[0]),
-                  hintText: S.of(context).login_password_hintText),
+                  hintText: S
+                      .of(context)
+                      .login_password_hintText),
               keyboardType: TextInputType.visiblePassword,
               onChanged: (value) {
                 _password = value;
               },
               validator: (password) {
                 if (password.isEmpty) {
-                  return S.of(context).login_password_validator_empty_msg;
+                  return S
+                      .of(context)
+                      .login_password_validator_empty_msg;
+                }
+
+                RegExp exp = RegExp(
+                    r'^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$');
+                bool matched = exp.hasMatch(password);
+                if (!matched) {
+                  return "Please enter 8 single-byte alphanumeric characters including uppercase and lowercase letters.";
                 }
                 return null;
               }),
@@ -288,17 +393,21 @@ class _SignupPasswordPagetate extends State<SignupPasswordPage> {
                   focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: G.appBaseColor[0])),
                   prefixIcon: Icon(Icons.lock, color: G.appBaseColor[0]),
-                  hintText: S.of(context).login_password_hintText),
+                  hintText: S
+                      .of(context)
+                      .login_password_hintText),
               keyboardType: TextInputType.visiblePassword,
               onChanged: (value) {
                 _passwordCnf = value;
               },
               validator: (password) {
                 if (password.isEmpty) {
-                  return S.of(context).login_password_validator_empty_msg;
+                  return S
+                      .of(context)
+                      .login_password_validator_empty_msg;
                 }
                 if (password != this._password) {
-                  return S.of(context).signup_password_validator_cofict_msg;
+                  return "Password mismatch";
                 }
                 return null;
               }),
@@ -310,18 +419,57 @@ class _SignupPasswordPagetate extends State<SignupPasswordPage> {
               )),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: FBButton.build(
-                  context,
-                  0.6.sw,
-                  S.of(context).signup_sigup_button,
-                  Icons.login, () {
+              child: FBButton.build(context, 0.6.sw,
+                  S
+                      .of(context)
+                      .signup_sigup_button, Icons.login, () {
                     setState(() {
                       _errmsg = "";
                     });
-                if (widget._formKey.currentState.validate()){
-
-                }
-              })),
+                    if (widget._formKey.currentState.validate()) {
+                      GlobalFun.showSnackBar(
+                          widget._scaffoldKey, "  Sending Mail...");
+                      Api.sigup(widget._mail, widget._uuid, _password)
+                          .then((value) =>
+                      {
+                        if (value[0] == Api.OK &&
+                            (value[1] as SignupMailCnfResult).statu == "0")
+                          {
+                            showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  AlertDialog(
+                                    title: const Text('Sign up'),
+                                    content: const Text(
+                                        'Succeed in registration'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context, 'OK');
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  ),
+                            )
+                          }
+                        else
+                          {
+                            setState(() {
+                              this._errmsg =
+                                  (value[1] as SignupMailCnfResult)
+                                      .errs[0]
+                                      .msg;
+                            })
+                          }
+                      })
+                          .catchError((e) {
+                        GlobalFun.showSnackBar(
+                            widget._scaffoldKey, e.toString());
+                      });
+                    }
+                  })),
         ],
       ),
     );

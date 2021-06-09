@@ -21,6 +21,10 @@ class Api {
   static String _BASE_API_URL = "https://62171983847b.ngrok.io";
   static String _LOGIN_URL = _BASE_API_URL + "/v1/api/member/login";
   static String _SIGNUP_MAIL_CNF_URL = _BASE_API_URL + "/v1/api/sigup/sigupMailCnf";
+  static String _SIGNUP_MAIL_CODE_CNF_URL = _BASE_API_URL + "/v1/api/sigup/sigupCodeCnf";
+  static String _SIGNUP_SIGUP_URL = _BASE_API_URL + "/v1/api/sigup/sigup";
+
+
 
   static String _REFRESH_TOKEN_URL =
       _BASE_API_URL + "/v1/api/manag/refreshToken";
@@ -71,6 +75,30 @@ class Api {
 
     return result;
   }
+
+  static Future<List<Object>> sigupMailCodeCnf(String uuid, String code) async {
+    String body = jsonEncode(<String, String>{
+      'code': code,
+      'uuid': uuid
+    });
+    List<Object> result = await doPostNoNeedLoginApi(_SIGNUP_MAIL_CODE_CNF_URL, body);
+    result[1] = SignupMailCnfResult.fromJson(jsonDecode(result[1]));
+
+    return result;
+  }
+
+  static Future<List<Object>> sigup(String memberEmail, String uuid, String memberPassword) async {
+    String body = jsonEncode(<String, String>{
+      'memberEmail': memberEmail,
+      'uuid': uuid,
+      'memberPassword':memberPassword
+    });
+    List<Object> result = await doPostNoNeedLoginApi(_SIGNUP_SIGUP_URL, body);
+    result[1] = SignupMailCnfResult.fromJson(jsonDecode(result[1]));
+
+    return result;
+  }
+
 
 
   // [0] status [1] body string

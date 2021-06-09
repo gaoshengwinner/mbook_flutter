@@ -1,0 +1,13 @@
+Target dependency graph (5 targets)
+Flutter in Pods
+device_info in Pods, depends on:
+Flutter in Pods (explicit)
+flutter_keychain in Pods, depends on:
+Flutter in Pods (explicit)
+flutter_secure_storage in Pods, depends on:
+Flutter in Pods (explicit)
+Pods-Runner in Pods, depends on:
+Flutter in Pods (explicit)
+device_info in Pods (explicit)
+flutter_keychain in Pods (explicit)
+flutter_secure_storage in Pods (explicit)
