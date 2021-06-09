@@ -43,9 +43,6 @@ class MenuBar {
           if (!isLogin)
             GlobalFun.CustomListTitle(Icons.login, S.of(_context).menu_login_title,
                 () => {login(_context, doReturn)}),
-          if (!isLogin)
-            GlobalFun.CustomListTitle(Icons.login, S.of(_context).menu_signup_title,
-                    () => {signup(_context, doReturn)}),
         ],
       ),
     );
@@ -59,18 +56,6 @@ class MenuBar {
         isScrollControlled: true,
         builder: (context) {
           return LoginPage();
-        });
-    //Navigator.pushNamed(_context, G.ROUTES_HOME);
-  }
-
-  static signup(BuildContext _context, Function doReturn) async {
-    await Navigator.pop(_context);
-    //await Navigator.pushNamed(_context, G.ROUTES_LOGIN);
-    await showModalBottomSheet(
-        context: _context,
-        isScrollControlled: true,
-        builder: (context) {
-          return SignupPage();
         });
     //Navigator.pushNamed(_context, G.ROUTES_HOME);
   }
