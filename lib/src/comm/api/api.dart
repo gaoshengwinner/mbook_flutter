@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:mbook_flutter/src/comm/device/device.dart';
 import 'package:mbook_flutter/src/comm/menu.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
+import 'package:mbook_flutter/src/comm/model/LoginResult.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTemp.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTempResultList.dart';
 import 'package:mbook_flutter/src/comm/model/RefreshTokenResult.dart';
@@ -59,7 +60,7 @@ class Api {
       'memberPassword': pws,
     });
     List<Object> result = await doPostNoNeedLoginApi(_LOGIN_URL, body);
-    result[1] = Token.fromJson(jsonDecode(result[1]));
+    result[1] = LoginResult.fromJson(jsonDecode(result[1]));
     if (result[0] == Api.OK) {
       await TokenUtil.saveToken(result[1]);
     }

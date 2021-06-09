@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                             borderSide: BorderSide(color: G.appBaseColor[0])),
                         prefixIcon: Icon(Icons.email, color: G.appBaseColor[0]),
                         hintText: S.of(context).login_mail_hintText),
-                    initialValue: "gaoshengwinner@hotmail.com",
+                    initialValue: "",
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) {
                       _mail = value;
@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                     }),
                 TextFormField(
                     obscureText: true,
-                    initialValue: "Gsh@home01",
+                    initialValue: "",
                     decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: G.appBaseColor[0])),
@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                               if (_formKey.currentState.validate())
                                 {
                                   GlobalFun.showSnackBar(_scaffoldKey, "  Signing-In...");
-                                  Api.login("gaoshengwinner@hotmail.com", "Gsh@home01").then((value) => {
+                                  Api.login(_mail, _pws).then((value) => {
                                         if (value[0] == Api.OK)
                                           {
                                             Navigator.push(
