@@ -65,7 +65,7 @@ class MyGlobal {
       GlobalKey<ScaffoldState> _scaffoldKey, Function onLoaded) async {
     GlobalFun.showSnackBar(_scaffoldKey, "  Loading...");
     int count = 0;
-     final int API_COUNT = 4;
+     const int API_COUNT = 4;
     await Api.getMyTags(context).then((result) {
       tagInfos = result[1];
       count++;

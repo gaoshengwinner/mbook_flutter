@@ -4,7 +4,6 @@ import 'package:mbook_flutter/generated/l10n.dart';
 import 'package:mbook_flutter/src/comm/token/token.dart';
 import 'package:mbook_flutter/src/home/home.dart';
 import 'package:mbook_flutter/src/login/login.dart';
-import 'package:mbook_flutter/src/login/signup.dart';
 import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
 import 'package:mbook_flutter/src/mystore/my_store.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
@@ -35,13 +34,13 @@ class MenuBar {
             ),
           ),
           if (isLogin && !notDispMystore)
-            GlobalFun.CustomListTitle(Icons.store, S.of(_context).menu_mystore_title,
+            GlobalFun.customListTitle(Icons.store, S.of(_context).menu_mystore_title,
                 () => {gotoMyStore(_context, _scaffoldKey)}),
           if (isLogin)
-            GlobalFun.CustomListTitle(Icons.logout, S.of(_context).menu_logout_title,
+            GlobalFun.customListTitle(Icons.logout, S.of(_context).menu_logout_title,
                     () => {logout(_context, doReturn)}),
           if (!isLogin)
-            GlobalFun.CustomListTitle(Icons.login, S.of(_context).menu_login_title,
+            GlobalFun.customListTitle(Icons.login, S.of(_context).menu_login_title,
                 () => {login(_context, doReturn)}),
         ],
       ),
@@ -49,7 +48,7 @@ class MenuBar {
   }
 
   static login(BuildContext _context, Function doReturn) async {
-    await Navigator.pop(_context);
+     Navigator.pop(_context);
     //await Navigator.pushNamed(_context, G.ROUTES_LOGIN);
     await showModalBottomSheet(
         context: _context,
@@ -63,7 +62,7 @@ class MenuBar {
 
 
   static gotoMyStore(BuildContext _context, GlobalKey<ScaffoldState> _scaffoldKey) async{
-    await Navigator.pop(_context);
+     Navigator.pop(_context);
     await MyGlobal.init(_context, _scaffoldKey, (){
       Navigator.push(_context, MaterialPageRoute(builder: (context) => MyStorePage()));
     }).whenComplete(() {

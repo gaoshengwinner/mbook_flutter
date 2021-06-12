@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTemp.dart';
-import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
 
 part 'OptionTempResultList.g.dart';
 
@@ -11,8 +9,7 @@ part 'OptionTempResultList.g.dart';
 class OptionTempResultList {
   List<OptionTemp> optionTempLst;
 
-  OptionTempResultList({this.optionTempLst}) {
-  }
+  OptionTempResultList({this.optionTempLst}) ;
 
   factory OptionTempResultList.fromJson(Map<String, dynamic> json) =>
       _$OptionTempResultListFromJson(json);

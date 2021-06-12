@@ -19,7 +19,7 @@ class ListHelper {
 
   int getIndexBySValue(String dbValue) {
     for (int i = 0; i < _values.length; i++) {
-      if (_sValues[i] == "${this.pre}${dbValue}${tral}") {
+      if (_sValues[i] == "$this.pre$dbValue$tral") {
         return i;
       }
     }
@@ -34,7 +34,7 @@ class ListHelper {
     int i = 0;
     while (tmp <= endNumber) {
       _values.add(tmp);
-      _list.add(Text("${pre}${tmp}${tral}"));
+      _list.add(Text("$pre$tmp$tral"));
       i++;
       tmp = beginNumber + b * i;
     }

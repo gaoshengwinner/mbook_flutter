@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
 
@@ -10,8 +9,7 @@ part 'TagResultList.g.dart';
 class TagResultList {
   List<TagInfo> tagLst;
 
-  TagResultList({this.tagLst}) {
-  }
+  TagResultList({this.tagLst}) ;
 
   factory TagResultList.fromJson(Map<String, dynamic> json) =>
       _$TagResultListFromJson(json);

@@ -10,6 +10,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/login/signup.dart';
 import 'package:mbook_flutter/src/widgets/raised_button.dart';
 
+import 'findpassword.dart';
+
 class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
@@ -36,7 +38,9 @@ class _LoginPageState extends State<LoginPage> {
                 key: _scaffoldKey,
                 //resizeToAvoidBottomInset: true,
                 //appBar: AppBarView.appbar(S.of(context).login_title, true),
-                body: GestureDetector(
+                body:
+                    Scrollbar(child:SingleChildScrollView(child:
+                GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: () {
                     // 点击空白页面关闭键盘
@@ -116,11 +120,17 @@ class _LoginPageState extends State<LoginPage> {
                             )),
                         Container(
                             alignment: Alignment.centerRight,
-                            child: Text(
-                              "Forgot password?",
-                              style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: G.appBaseColor[0]),
+                            child: InkWell(
+                              splashColor: G.appBaseColor[1],
+                              child: Text(
+                                "Forgot password?",
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: G.appBaseColor[0]),
+                              ),
+                              onTap: () {
+                                restPassword(context);
+                              },
                             ),
                             margin: EdgeInsets.only(right: 10)),
                         Padding(
@@ -162,22 +172,24 @@ class _LoginPageState extends State<LoginPage> {
                         Container(
                             alignment: Alignment.center,
                             child: InkWell(
-                                splashColor:G.appBaseColor[1],
+                              splashColor: G.appBaseColor[1],
                               child: Text("Don't have an account?Create",
                                   style: TextStyle(
                                       decoration: TextDecoration.underline,
                                       color: G.appBaseColor[0])),
-                              onTap: () {signup(context);},
+                              onTap: () {
+                                signup(context);
+                              },
                             ),
                             margin: EdgeInsets.only(right: 10)),
                       ]),
                     ),
                   ),
-                ))));
+                ))))));
   }
 
   static signup(BuildContext _context) async {
-    await Navigator.pop(_context);
+     Navigator.pop(_context);
     //await Navigator.pushNamed(_context, G.ROUTES_LOGIN);
     await showModalBottomSheet(
         context: _context,
@@ -187,4 +199,18 @@ class _LoginPageState extends State<LoginPage> {
         });
     //Navigator.pushNamed(_context, G.ROUTES_HOME);
   }
+
+  static restPassword(BuildContext _context) async {
+    Navigator.pop(_context);
+    //await Navigator.pushNamed(_context, G.ROUTES_LOGIN);
+    await showModalBottomSheet(
+        context: _context,
+        isScrollControlled: true,
+        builder: (context) {
+          return FindPasswordPage();
+        });
+    //Navigator.pushNamed(_context, G.ROUTES_HOME);
+  }
+
+
 }

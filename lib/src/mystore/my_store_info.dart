@@ -7,26 +7,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/widgets/Image.dart';
 
 class MyStoreInfoPage extends StatefulWidget {
-  ShopInfo _shopInfo = ShopInfo("", "", "", "");
+  final ShopInfo _shopInfo;
 
-  MyStoreInfoPage(ShopInfo shopInfo) {
-    if (shopInfo == null) {
-      _shopInfo = ShopInfo("", "", "", "");
-    } else {
-      _shopInfo = shopInfo;
-    }
-  }
-
-  _MyStoreInfoPageState createState() => _MyStoreInfoPageState(_shopInfo);
+  MyStoreInfoPage(this._shopInfo);
+  _MyStoreInfoPageState createState() => _MyStoreInfoPageState();
 }
 
 class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
   // 响应空白处的焦点的Node
   FocusNode _blankNode = FocusNode();
-  ShopInfo _shopInfo = ShopInfo("", "", "", "");
 
-  _MyStoreInfoPageState(this._shopInfo);
-
+String shopPicUrl;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -57,33 +48,36 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
             color: Color(0xFFEFEFF4),
             //margin: EdgeInsets.only(left: 20, right: 20),
             child: ListView(children: [
-              GlobalFun.FBInputBox(context, "Store name", _shopInfo.shopName,
+              GlobalFun.fbInputBox(context, "Store name", widget._shopInfo.shopName,
                   (value) {
                 setState(() {
-                  _shopInfo.shopName = value;
+                  widget._shopInfo.shopName = value;
                 });
               }, width: 0.9.sw),
-              GlobalFun.FBInputBox(context, "Tel", _shopInfo.shopTel, (value) {
+              GlobalFun.fbInputBox(context, "Tel", widget._shopInfo.shopTel, (value) {
                 setState(() {
-                  _shopInfo.shopTel = value;
+                  widget._shopInfo.shopTel = value;
                 });
               }, width: 0.9.sw),
-              GlobalFun.FBInputBox(context, "Locate", _shopInfo.shopAddr,
+              GlobalFun.fbInputBox(context, "Locate", widget._shopInfo.shopAddr,
                   (value) {
                 setState(() {
-                  _shopInfo.shopAddr = value;
+                  widget._shopInfo.shopAddr = value;
                 });
               }, width: 0.9.sw),
-              GlobalFun.FBInputBox(context, "Image", _shopInfo.shopPicUrl,
-                  (value) {
-                setState(() {
-                  _shopInfo.shopPicUrl = value;
-                });
-              },
+              GlobalFun.fbInputBox(context, "Image", widget._shopInfo.shopPicUrl,
+                      (value) {
+                    setState(() {
+                      widget._shopInfo.shopPicUrl = value;
+                      shopPicUrl = value;
+                    });
+                  },
                   width: 0.9.sw,
                   valueWidget: Row(children: [
-                    Flexible(child: MBImage(url:_shopInfo.shopPicUrl))
+                    //MBImage(url: widget._shopInfo.shopPicUrl, defImagePath: shopPicUrl,),
+                    Flexible(child: new MBImage(url: widget._shopInfo.shopPicUrl, ))
                   ])),
+
             ]),
 
             // Form(
@@ -196,7 +190,7 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
           )),
       floatingActionButton: GlobalFun.saveFloatingActionButton(() {
         GlobalFun.showSnackBar(_scaffoldKey, "  Saving...");
-        Api.saveMyShopInfo(context, _shopInfo).whenComplete(() {
+        Api.saveMyShopInfo(context, widget._shopInfo).whenComplete(() {
           GlobalFun.removeCurrentSnackBar(_scaffoldKey);
         }).catchError((e) {
           GlobalFun.showSnackBar(_scaffoldKey, e.toString());

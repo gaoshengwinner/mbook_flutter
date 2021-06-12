@@ -67,8 +67,7 @@ class GlobalFun {
   }
 
   static void removeCurrentSnackBar(GlobalKey<ScaffoldState> _scaffoldKey) {
-    //_scaffoldKey.currentContext.
-    _scaffoldKey.currentState.removeCurrentSnackBar();
+    ScaffoldMessenger.of(_scaffoldKey.currentContext).removeCurrentSnackBar();
   }
 
   static Future<T> showBottomSheet<T>(
@@ -216,11 +215,11 @@ class GlobalFun {
     );
   }
 
-  static ListHelper _list_min = ListHelper(0, 1024);
+  static ListHelper _listMin = ListHelper(0, 1024);
 
   static showWHPicker(BuildContext context, double initValue,
       List<String> utils, String selectedUtil, Function onSelectedItemChanged) {
-    int initialItem = _list_min.getIndexByValue(initValue.toInt());
+    int initialItem = _listMin.getIndexByValue(initValue.toInt());
     int oldInitialItem = initialItem;
     showCupertinoModalPopup(
       context: context,
@@ -274,6 +273,7 @@ class GlobalFun {
                 width: 1.sw,
                 color: Color(0xfff7f7f7),
                 child: CupertinoRadioChoice(
+                  initialKeyValue: "",
                     selectedColor: G.appBaseColor[0],
                     choices: {
                       "px": 'Pixel',
@@ -291,10 +291,10 @@ class GlobalFun {
               color: Color(0xfff7f7f7),
               child: CupertinoPicker(
                   itemExtent: 32.6,
-                  children: _list_min.list(),
+                  children: _listMin.list(),
                   onSelectedItemChanged: (value) {
                     onSelectedItemChanged(
-                        _list_min.values()[value.toInt()].toDouble());
+                        _listMin.values()[value.toInt()].toDouble());
                   },
                   scrollController:
                       FixedExtentScrollController(initialItem: initialItem)),
@@ -410,7 +410,7 @@ class GlobalFun {
         ]));
   }
 
-  static Widget ClipOvalIconTitle(IconData icon, String title, Function onTap) {
+  static Widget clipOvalIconTitle(IconData icon, String title, Function onTap) {
     return
         // FittedBox(
         // fit: BoxFit.fill,
@@ -445,7 +445,7 @@ class GlobalFun {
     // );
   }
 
-  static Widget ClipOvalIcon(IconData icon, Function onTap) {
+  static Widget clipOvalIcon(IconData icon, Function onTap) {
     return ClipOval(
         child: Material(
       //color: G.appBaseColor[1], // button color
@@ -467,9 +467,9 @@ class GlobalFun {
     ));
   }
 
-  static Widget FBInputTagBox(BuildContext context, String lableText,
+  static Widget fbInputTagBox(BuildContext context, String lableText,
       List<TagInfo> tags, List<TagInfo> selectedTags, Function onSelected,
-      {width = null}) {
+      {width}) {
     width = width == null ? 0.8.sw : width;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -520,7 +520,7 @@ class GlobalFun {
   }
 
   static Widget commonTitle(String lableText,
-      {Widget rightWidget = null, width = null}) {
+      {Widget rightWidget, width}) {
     width = width == null ? 0.8.sw : width;
     return Container(
         width: width,
@@ -539,7 +539,7 @@ class GlobalFun {
         ));
   }
 
-  static Widget CustomListTitle(IconData icon, String title, Function doTop) {
+  static Widget customListTitle(IconData icon, String title, Function doTop) {
     return new Padding(
         padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
         child: Container(
@@ -572,9 +572,9 @@ class GlobalFun {
         ));
   }
 
-  static Widget FBInputBox(
+  static Widget fbInputBox(
       BuildContext context, String lableText, String value, Function serValue,
-      {Widget valueWidget = null, width = null}) {
+      {Widget valueWidget, width}) {
     width = width == null ? 0.8.sw : width;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -639,9 +639,9 @@ class GlobalFun {
 }
 
 class FBCustomScrollView extends StatefulWidget {
-  Widget upWidget = null;
-  List<Widget> downWidget = null;
-  int downFlex = 5;
+  final Widget upWidget;
+  final List<Widget> downWidget;
+  final int downFlex;
 
   FBCustomScrollView({this.upWidget, this.downWidget, this.downFlex = 5});
 
@@ -653,8 +653,8 @@ class FBCustomScrollView extends StatefulWidget {
 }
 
 class _FBCustomScrollViewState extends State<FBCustomScrollView> {
-  Widget upWidget = null;
-  List<Widget> downWidget = null;
+  Widget upWidget;
+  List<Widget> downWidget;
   int downFlex = 5;
 
   _FBCustomScrollViewState({this.upWidget, this.downWidget, this.downFlex = 5});

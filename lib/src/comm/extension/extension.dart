@@ -43,17 +43,17 @@ extension FBTextAlign on TextAlign {
 }
 
 class FBAlignment {
-  static String DEFALUT_ALIGM = NO;
-  static String NO = "-";
-  static String TOP_LEFT = "Top Left";
-  static String TOP_CENTER = "Top Center";
-  static String TOP_RIGHT = "Top Right";
-  static String CENTER_LEFT = "Center Left";
-  static String CENTER = "Center";
-  static String CENTER_RIGHT = "Center Right";
-  static String BOTTOM_LEFT = "Bottom Left";
-  static String BOTTOM_CENTER = "Bottom Center";
-  static String BOTTOM__RIGHT = "Bottom Right";
+  static const String DEFAULT_ALIGM = NO;
+  static const String NO = "-";
+  static const String TOP_LEFT = "Top Left";
+  static const String TOP_CENTER = "Top Center";
+  static const String TOP_RIGHT = "Top Right";
+  static const String CENTER_LEFT = "Center Left";
+  static const String CENTER = "Center";
+  static const String CENTER_RIGHT = "Center Right";
+  static const String BOTTOM_LEFT = "Bottom Left";
+  static const String BOTTOM_CENTER = "Bottom Center";
+  static const String BOTTOM__RIGHT = "Bottom Right";
 
   static Map map(){
     Map alignmentMap = Map();

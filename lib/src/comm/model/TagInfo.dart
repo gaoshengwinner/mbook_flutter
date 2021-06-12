@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 import 'package:uuid/uuid.dart';
@@ -64,4 +63,8 @@ class TagInfo {
         o.uuid == uuid &&
         o.property.toJson() == property.toJson();
   }
+
+  @override
+  int get hashCode => super.hashCode;
+
 }

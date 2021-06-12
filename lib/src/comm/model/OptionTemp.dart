@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mbook_flutter/src/comm/model/widget/OptionWidgetProperty.dart';
-import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 import 'package:uuid/uuid.dart';
 
 part 'OptionTemp.g.dart';
@@ -63,4 +61,8 @@ class OptionTemp {
         o.uuid == uuid &&
         o.property.toJson() == property.toJson();
   }
+
+  @override
+  int get hashCode => super.hashCode;
+
 }

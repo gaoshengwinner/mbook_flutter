@@ -14,7 +14,7 @@ Function deepEq = const DeepCollectionEquality().equals;
 class MyTagsPage extends StatefulWidget {
   MyTagsPage(this.tagInfos);
 
-  List<TagInfo> tagInfos = [];
+  final List<TagInfo> tagInfos;
 
   _MyTagsPageState createState() => _MyTagsPageState(this.tagInfos);
 }
@@ -71,12 +71,9 @@ class _MyTagsPageState extends State<MyTagsPage>
     });
   }
 
-  final FocusNode _descriptionNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
 
     return Scaffold(
       appBar: AppBarView.appbar("Tags", true),
@@ -107,7 +104,7 @@ class _MyTagsPageState extends State<MyTagsPage>
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GlobalFun.FBInputBox(
+                    GlobalFun.fbInputBox(
                         context, "Description", tagInfos[index].desc, (value) {
                       setState(() {
                         tagInfos[index].desc = value;
@@ -115,7 +112,7 @@ class _MyTagsPageState extends State<MyTagsPage>
                     }),
                     Row(
                       children: [
-                        GlobalFun.FBInputBox(
+                        GlobalFun.fbInputBox(
                             context, "Tag", tagInfos[index].data, (value) {
                           setState(() {
                             tagInfos[index].data = value;
@@ -129,7 +126,7 @@ class _MyTagsPageState extends State<MyTagsPage>
                                 )
                               ],
                             )),
-                        GlobalFun.ClipOvalIcon(Icons.settings, () {
+                        GlobalFun.clipOvalIcon(Icons.settings, () {
                           return GlobalFun.showBottomSheetForTextPrperty(
                               context,
                               TextSettingWidget(

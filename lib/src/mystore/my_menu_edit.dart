@@ -10,24 +10,19 @@ import 'package:mbook_flutter/src/comm/widgets/Image.dart';
 import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
 
 class MyMenuEditPage extends StatefulWidget {
-  ItemDetail _item;
+  final ItemDetail _item;
 
   MyMenuEditPage(this._item);
 
-  _MyMenuEditState createState() => _MyMenuEditState(this._item);
+  _MyMenuEditState createState() => _MyMenuEditState();
 }
 
 class _MyMenuEditState extends State<MyMenuEditPage> {
-  ItemDetail _item;
-
-  _MyMenuEditState(this._item);
 
   // 响应空白处的焦点的Node
-  FocusNode _blankNode = FocusNode();
   final GlobalKey<ScaffoldState> _baseInfoscaffoldKey =
       new GlobalKey<ScaffoldState>();
-  final GlobalKey<ScaffoldState> _allScaffoldKey =
-      new GlobalKey<ScaffoldState>();
+
 
   @override
   void initState() {
@@ -53,7 +48,7 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
       key: _baseInfoscaffoldKey,
       appBar: AppBarView.appbar("Item info", true, canSave: true, onSave: () {
         GlobalFun.showSnackBar(_baseInfoscaffoldKey, "  Saving...");
-        Api.saveMyItemInfo(context, this._item).whenComplete(() {
+        Api.saveMyItemInfo(context, widget._item).whenComplete(() {
           GlobalFun.removeCurrentSnackBar(_baseInfoscaffoldKey);
         }).catchError((e) {
           GlobalFun.showSnackBar(_baseInfoscaffoldKey, e.toString());
@@ -105,30 +100,30 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
         padding: EdgeInsets.all(10),
         color: Color(0xFFEFEFF4),
         child: ListView(children: [
-          GlobalFun.FBInputBox(context, "商品名", _item.itemName, (value) {
+          GlobalFun.fbInputBox(context, "商品名", widget._item.itemName, (value) {
             setState(() {
-              _item.itemName = value;
+              widget._item.itemName = value;
             });
           }, width: 0.9.sw),
-          GlobalFun.FBInputBox(context, "商品価格", _item.itemPrice, (value) {
+          GlobalFun.fbInputBox(context, "商品価格", widget._item.itemPrice, (value) {
             setState(() {
-              _item.itemPrice = value;
+              widget._item.itemPrice = value;
             });
           }, width: 0.9.sw),
-          GlobalFun.FBInputBox(context, "商品説明", _item.itemDescr, (value) {
+          GlobalFun.fbInputBox(context, "商品説明", widget._item.itemDescr, (value) {
             setState(() {
-              _item.itemDescr = value;
+              widget._item.itemDescr = value;
             });
           }, width: 0.9.sw),
-          GlobalFun.FBInputBox(context, "商品代表写真", _item.itemMainPicUrl,
+          GlobalFun.fbInputBox(context, "商品代表写真", widget._item.itemMainPicUrl,
               (value) {
             setState(() {
-              _item.itemMainPicUrl = value;
+              widget._item.itemMainPicUrl = value;
             });
           },
               width: 0.9.sw,
               valueWidget: Row(children: [
-                Flexible(child: MBImage(url:_item.itemMainPicUrl))
+                Flexible(child: new MBImage(url: widget._item.itemMainPicUrl))
               ])),
         ]));
   }
@@ -139,10 +134,10 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
       color: Color(0xFFEFEFF4),
       child: ListView(
         children: [
-          GlobalFun.FBInputTagBox(
-              context, "Tags", MyGlobal.tagInfos, _item.tags, (value) {
+          GlobalFun.fbInputTagBox(
+              context, "Tags", MyGlobal.tagInfos, widget._item.tags, (value) {
             setState(() {
-              _item.tags = value;
+              widget._item.tags = value;
             });
           }),
         ],

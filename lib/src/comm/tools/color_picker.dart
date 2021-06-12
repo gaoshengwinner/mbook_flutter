@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
-import 'package:mbook_flutter/src/comm/input_bottom.dart';
 import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 
 void openColor(
@@ -17,6 +15,7 @@ void openColor(
               currentColor: currentColor, onColorChange: onColorChange)));
 }
 
+// ignore: must_be_immutable
 class ColorPickerPage extends StatefulWidget {
   Color currentColor = Colors.white;
   Function onColorChange;
@@ -107,6 +106,7 @@ class _ColorPickerPageState extends State<ColorPickerPage>
             )
             ,
             CupertinoRadioChoice(
+              initialKeyValue: "0",
                 choices: {"0": 'Sliders', "1": 'Spectrum', "2": 'Grid'},
                 onChange: (selectedGender) {
                   setState(() {

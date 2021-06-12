@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mbook_flutter/src/comm/extension/extension.dart';
 import 'package:mbook_flutter/src/comm/model/ItemOptionList.dart';
 import 'package:mbook_flutter/src/comm/model/widget/OptionWidgetProperty.dart';
-import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
 
@@ -257,24 +255,24 @@ class _CupertinoRadioChoiceState extends State<_CupertinoRadioChoice> {
     //  )
     // ;
 
-    return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-          for (var row in buttonList)
-            Center(
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                  for (var child in row)
-                    Expanded(
-                      flex: 5,
-                      child: child,
-                    )
-                ]))
-        ])
-        //)
-        ;
+    // return Column(
+    //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+    //         mainAxisSize: MainAxisSize.min,
+    //         children: [
+    //       for (var row in buttonList)
+    //         Center(
+    //             child: Row(
+    //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //                 mainAxisSize: MainAxisSize.min,
+    //                 children: [
+    //               for (var child in row)
+    //                 Expanded(
+    //                   flex: 5,
+    //                   child: child,
+    //                 )
+    //             ]))
+    //     ])
+    //     //)
+    //     ;
   }
 }

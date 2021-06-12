@@ -10,7 +10,7 @@ class AppBarView {
   {bool canBesearch = false,
       BuildContext context,
       ValueChanged onEditingCompleteText, String serarchValue,
-    bool canSave = false, Function onSave =  null
+    bool canSave = false, Function onSave
   }) {
     return new AppBar(
       leading: canReturn ? null : Container(),

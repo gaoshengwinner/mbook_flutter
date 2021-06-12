@@ -2,12 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mbook_flutter/src/comm/api/api.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
-import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ItemOptionList.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTemp.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTempResultList.dart';
-import 'package:mbook_flutter/src/comm/model/widget/OptionWidgetProperty.dart';
 import 'package:mbook_flutter/src/comm/tools/text_setting.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_option.dart';
@@ -19,7 +17,7 @@ Function deepEq = const DeepCollectionEquality().equals;
 class MyOptionsPage extends StatefulWidget {
   MyOptionsPage(this.optionTemps);
 
-  List<OptionTemp> optionTemps = [];
+  final List<OptionTemp> optionTemps;
 
   _MyOptionsPageState createState() => _MyOptionsPageState(this.optionTemps);
 }
@@ -62,17 +60,14 @@ class _MyOptionsPageState extends State<MyOptionsPage>
     });
   }
 
-  final FocusNode _descriptionNode = FocusNode();
 
   //OptionWidgetProperty _optionWidgetProperty = OptionWidgetProperty.init();
-  ItemOptionList _ItemOptionList = ItemOptionList.forTemp();
+  ItemOptionList _itemOptionList = ItemOptionList.forTemp();
 
   int _currentSliderValue = 3;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
 
     return Scaffold(
       appBar: AppBarView.appbar("Options", true),
@@ -104,7 +99,7 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      GlobalFun.FBInputBox(
+                      GlobalFun.fbInputBox(
                           context, "Description", optionTemps[index].desc,
                           (value) {
                         setState(() {
@@ -113,12 +108,12 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                       }),
                       GlobalFun.commonTitle("Temp",
                           width: 0.95.sw,
-                          rightWidget: GlobalFun.ClipOvalIconTitle(
+                          rightWidget: GlobalFun.clipOvalIconTitle(
                               Icons.settings, "", () {
                             GlobalFun.showBottomSheet(
                                 context,
                                 [
-                                  GlobalFun.CustomListTitle(
+                                  GlobalFun.customListTitle(
                                       Icons.settings, "Title style", () {
                                     Navigator.pop(context);
                                     GlobalFun.showBottomSheetForTextPrperty(
@@ -126,7 +121,7 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                                         TextSettingWidget(
                                             property:
                                             optionTemps[index].property.titlePr,
-                                            data: _ItemOptionList.title,
+                                            data: _itemOptionList.title,
                                             onChange: (value) {
                                               setState(() {
                                                 optionTemps[index].property.titlePr =
@@ -135,7 +130,7 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                                             }),
                                         null);
                                   }),
-                                  GlobalFun.CustomListTitle(
+                                  GlobalFun.customListTitle(
                                       Icons.settings, "Frame style", () {
                                     Navigator.pop(context);
                                     return GlobalFun
@@ -153,7 +148,7 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                                                 }),
                                             null);
                                   }),
-                                  GlobalFun.CustomListTitle(Icons.settings,
+                                  GlobalFun.customListTitle(Icons.settings,
                                       "Option style(not selected)", () {
                                     Navigator.pop(context);
                                     return GlobalFun
@@ -162,7 +157,7 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                                             TextSettingWidget(
                                                 property: optionTemps[index].property
                                                     .buttonPr,
-                                                data: _ItemOptionList
+                                                data: _itemOptionList
                                                     .options.first.title,
                                                 onChange: (value) {
                                                   setState(() {
@@ -172,7 +167,7 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                                                 }),
                                             null);
                                   }),
-                                  GlobalFun.CustomListTitle(
+                                  GlobalFun.customListTitle(
                                       Icons.settings, "Option style(selected)",
                                       () {
                                     Navigator.pop(context);
@@ -182,7 +177,7 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                                             TextSettingWidget(
                                                 property: optionTemps[index].property
                                                     .buttonSelectPr,
-                                                data: _ItemOptionList
+                                                data: _itemOptionList
                                                     .options.first.title,
                                                 onChange: (value) {
                                                   setState(() {
@@ -192,14 +187,14 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                                                 }),
                                             null);
                                   }),
-                                  GlobalFun.CustomListTitle(Icons.copy,
+                                  GlobalFun.customListTitle(Icons.copy,
                                       "Option style copy(not selected→selected",
                                       () {
                                         optionTemps[index].property.buttonSelectPr =
                                             optionTemps[index].property.buttonPr.copy();
                                     Navigator.pop(context);
                                   }),
-                                  GlobalFun.CustomListTitle(Icons.copy,
+                                  GlobalFun.customListTitle(Icons.copy,
                                       "Option style copy(selected→not selected",
                                       () {
                                         optionTemps[index].property.buttonPr =
@@ -207,7 +202,7 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                                             .copy();
                                     Navigator.pop(context);
                                   }),
-                                  GlobalFun.CustomListTitle(Icons.copy,
+                                  GlobalFun.customListTitle(Icons.copy,
                                       "Print",
                                           () {
                                             print("titlePr");
@@ -233,126 +228,126 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                                 null);
                             return;
 
-                            showCupertinoModalPopup(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  CupertinoActionSheet(
-                                // title: const Text('Choose Options'),
-                                // message: const Text('Your options are '),
-                                actions: <Widget>[
-                                  CupertinoActionSheetAction(
-                                    child: GlobalFun.setingRow(
-                                        null, "Title style"),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      GlobalFun.showBottomSheetForTextPrperty(
-                                          context,
-                                          TextSettingWidget(
-                                              property:
-                                              optionTemps[index].property.titlePr,
-                                              data: _ItemOptionList.title,
-                                              onChange: (value) {
-                                                setState(() {
-                                                  optionTemps[index].property
-                                                      .titlePr = value;
-                                                });
-                                              }),
-                                          null);
-                                    },
-                                  ),
-                                  CupertinoActionSheetAction(
-                                    child: GlobalFun.setingRow(
-                                        null, "Frame style"),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      return GlobalFun
-                                          .showBottomSheetForTextPrperty(
-                                              context,
-                                              TextSettingWidget(
-                                                  property:
-                                                  optionTemps[index].property
-                                                          .framPr,
-                                                  data: "",
-                                                  onChange: (value) {
-                                                    setState(() {
-                                                      optionTemps[index].property
-                                                          .framPr = value;
-                                                    });
-                                                  }),
-                                              null);
-                                    },
-                                  ),
-                                  CupertinoActionSheetAction(
-                                    child: GlobalFun.setingRow(
-                                        null, "Option style(not selected)"),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      return GlobalFun
-                                          .showBottomSheetForTextPrperty(
-                                              context,
-                                              TextSettingWidget(
-                                                  property:
-                                                  optionTemps[index].property
-                                                          .buttonPr,
-                                                  data: _ItemOptionList
-                                                      .options.first.title,
-                                                  onChange: (value) {
-                                                    setState(() {
-                                                      optionTemps[index].property
-                                                          .buttonPr = value;
-                                                    });
-                                                  }),
-                                              null);
-                                    },
-                                  ),
-                                  CupertinoActionSheetAction(
-                                    child: GlobalFun.setingRow(
-                                        null, "Option style(selected)"),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      return GlobalFun
-                                          .showBottomSheetForTextPrperty(
-                                              context,
-                                              TextSettingWidget(
-                                                  property:
-                                                  optionTemps[index].property
-                                                          .buttonSelectPr,
-                                                  data: _ItemOptionList
-                                                      .options.first.title,
-                                                  onChange: (value) {
-                                                    setState(() {
-                                                      optionTemps[index].property
-                                                              .buttonSelectPr =
-                                                          value;
-                                                    });
-                                                  }),
-                                              null);
-                                    },
-                                  ),
-                                  CupertinoActionSheetAction(
-                                    child: GlobalFun.setingRow(null,
-                                        "Option style copy(not selected→selected)"),
-                                    onPressed: () {
-                                      optionTemps[index].property.buttonSelectPr =
-                                          optionTemps[index].property.buttonPr.copy();
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                  Container(
-                                    child: CupertinoSlider(
-                                      value: _currentSliderValue.toDouble(),
-                                      min: 1,
-                                      max: 10,
-                                      onChanged: (double value) {
-                                        setState(() {
-                                          _currentSliderValue = value.toInt();
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
+                            // showCupertinoModalPopup(
+                            //   context: context,
+                            //   builder: (BuildContext context) =>
+                            //       CupertinoActionSheet(
+                            //     // title: const Text('Choose Options'),
+                            //     // message: const Text('Your options are '),
+                            //     actions: <Widget>[
+                            //       CupertinoActionSheetAction(
+                            //         child: GlobalFun.setingRow(
+                            //             null, "Title style"),
+                            //         onPressed: () {
+                            //           Navigator.pop(context);
+                            //           GlobalFun.showBottomSheetForTextPrperty(
+                            //               context,
+                            //               TextSettingWidget(
+                            //                   property:
+                            //                   optionTemps[index].property.titlePr,
+                            //                   data: _ItemOptionList.title,
+                            //                   onChange: (value) {
+                            //                     setState(() {
+                            //                       optionTemps[index].property
+                            //                           .titlePr = value;
+                            //                     });
+                            //                   }),
+                            //               null);
+                            //         },
+                            //       ),
+                            //       CupertinoActionSheetAction(
+                            //         child: GlobalFun.setingRow(
+                            //             null, "Frame style"),
+                            //         onPressed: () {
+                            //           Navigator.pop(context);
+                            //           return GlobalFun
+                            //               .showBottomSheetForTextPrperty(
+                            //                   context,
+                            //                   TextSettingWidget(
+                            //                       property:
+                            //                       optionTemps[index].property
+                            //                               .framPr,
+                            //                       data: "",
+                            //                       onChange: (value) {
+                            //                         setState(() {
+                            //                           optionTemps[index].property
+                            //                               .framPr = value;
+                            //                         });
+                            //                       }),
+                            //                   null);
+                            //         },
+                            //       ),
+                            //       CupertinoActionSheetAction(
+                            //         child: GlobalFun.setingRow(
+                            //             null, "Option style(not selected)"),
+                            //         onPressed: () {
+                            //           Navigator.pop(context);
+                            //           return GlobalFun
+                            //               .showBottomSheetForTextPrperty(
+                            //                   context,
+                            //                   TextSettingWidget(
+                            //                       property:
+                            //                       optionTemps[index].property
+                            //                               .buttonPr,
+                            //                       data: _ItemOptionList
+                            //                           .options.first.title,
+                            //                       onChange: (value) {
+                            //                         setState(() {
+                            //                           optionTemps[index].property
+                            //                               .buttonPr = value;
+                            //                         });
+                            //                       }),
+                            //                   null);
+                            //         },
+                            //       ),
+                            //       CupertinoActionSheetAction(
+                            //         child: GlobalFun.setingRow(
+                            //             null, "Option style(selected)"),
+                            //         onPressed: () {
+                            //           Navigator.pop(context);
+                            //           return GlobalFun
+                            //               .showBottomSheetForTextPrperty(
+                            //                   context,
+                            //                   TextSettingWidget(
+                            //                       property:
+                            //                       optionTemps[index].property
+                            //                               .buttonSelectPr,
+                            //                       data: _ItemOptionList
+                            //                           .options.first.title,
+                            //                       onChange: (value) {
+                            //                         setState(() {
+                            //                           optionTemps[index].property
+                            //                                   .buttonSelectPr =
+                            //                               value;
+                            //                         });
+                            //                       }),
+                            //                   null);
+                            //         },
+                            //       ),
+                            //       CupertinoActionSheetAction(
+                            //         child: GlobalFun.setingRow(null,
+                            //             "Option style copy(not selected→selected)"),
+                            //         onPressed: () {
+                            //           optionTemps[index].property.buttonSelectPr =
+                            //               optionTemps[index].property.buttonPr.copy();
+                            //           Navigator.pop(context);
+                            //         },
+                            //       ),
+                            //       Container(
+                            //         child: CupertinoSlider(
+                            //           value: _currentSliderValue.toDouble(),
+                            //           min: 1,
+                            //           max: 10,
+                            //           onChanged: (double value) {
+                            //             setState(() {
+                            //               _currentSliderValue = value.toInt();
+                            //             });
+                            //           },
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // );
                           })),
                       Container(
                         padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -360,7 +355,7 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                         //width: 1.sw,
                         //height: 100 ,
                         child: WidgetOptionPage.build(
-                            context, optionTemps[index].property, _ItemOptionList,
+                            context, optionTemps[index].property, _itemOptionList,
                             rowMaxcount: _currentSliderValue),
                       ),
                     ]),

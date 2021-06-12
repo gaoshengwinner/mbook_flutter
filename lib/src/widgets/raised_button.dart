@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mbook_flutter/generated/l10n.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FBButton {
   static build(BuildContext context, double width, String title, IconData icon,

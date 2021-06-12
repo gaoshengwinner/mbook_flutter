@@ -10,6 +10,7 @@ import 'package:mbook_flutter/src/comm/model/LoginResult.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTemp.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTempResultList.dart';
 import 'package:mbook_flutter/src/comm/model/RefreshTokenResult.dart';
+import 'package:mbook_flutter/src/comm/model/ResetPasswordResult.dart';
 import 'package:mbook_flutter/src/comm/model/ShopInfo.dart';
 import 'package:mbook_flutter/src/comm/model/SignupMailCnfResult.dart';
 import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
@@ -18,37 +19,40 @@ import 'package:mbook_flutter/src/comm/model/Token.dart';
 import 'package:mbook_flutter/src/comm/token/token.dart';
 
 class Api {
-  static final int OK = 200;
-  static String _BASE_API_URL = "https://62171983847b.ngrok.io";
-  static String _LOGIN_URL = _BASE_API_URL + "/v1/api/member/login";
-  static String _SIGNUP_MAIL_CNF_URL = _BASE_API_URL + "/v1/api/sigup/sigupMailCnf";
-  static String _SIGNUP_MAIL_CODE_CNF_URL = _BASE_API_URL + "/v1/api/sigup/sigupCodeCnf";
-  static String _SIGNUP_SIGUP_URL = _BASE_API_URL + "/v1/api/sigup/sigup";
+  static const int OK = 200;
+  static const String _BASE_API_URL = "https://62171983847b.ngrok.io";
+  static const String _LOGIN_URL = _BASE_API_URL + "/v1/api/member/login";
+  static const String _SIGNUP_MAIL_CNF_URL = _BASE_API_URL + "/v1/api/sigup/sigupMailCnf";
+  static const String _SIGNUP_MAIL_CODE_CNF_URL = _BASE_API_URL + "/v1/api/sigup/sigupCodeCnf";
+  static const String _SIGNUP_SIGUP_URL = _BASE_API_URL + "/v1/api/sigup/sigup";
+
+  static const String _RESET_PASSWORD_MAIL_CNF_URL = _BASE_API_URL + "/v1/api/resetPassword/resetPasswordMailCnf";
+  static const String _RESET_PASSWORD_MAIL_CODE_CNF_URL = _BASE_API_URL + "/v1/api/resetPassword/resetPasswordCodeCnf";
+  static const String _RESET_PASSWORD_SIGUP_URL = _BASE_API_URL + "/v1/api/resetPassword/resetPassword";
 
 
-
-  static String _REFRESH_TOKEN_URL =
+  static const String _REFRESH_TOKEN_URL =
       _BASE_API_URL + "/v1/api/manag/refreshToken";
-  static String _MY_SHOPINFO_URL = _BASE_API_URL + "/v1/api/manag/shopInfo";
-  static String _SAVE_MY_SHOPINFO_URL =
+  static const String _MY_SHOPINFO_URL = _BASE_API_URL + "/v1/api/manag/shopInfo";
+  static const String _SAVE_MY_SHOPINFO_URL =
       _BASE_API_URL + "/v1/api/manag/save_shopInfo";
-  static String _GET_MY_ITEMINFO_URL =
+  static const String _GET_MY_ITEMINFO_URL =
       _BASE_API_URL + "/v1/api/manag/shopItemInfo";
-  static String _MY_SAVE_ITEM_BASE_INFO_URL =
+  static const String _MY_SAVE_ITEM_BASE_INFO_URL =
       _BASE_API_URL + "/v1/api/manag/shopItemInfoRow";
-  static String _MY_DELETE_ITEM_URL =
+  static const String _MY_DELETE_ITEM_URL =
       _BASE_API_URL + "/v1/api/manag/deleteShopItemRow";
 
-  static String _MY_GET_TAG_URL = _BASE_API_URL +  "/v1/api/manag/get_tags";
-  static String _MY_SAVE_TAG_URL = _BASE_API_URL +  "/v1/api/manag/save_tags";
+  static const String _MY_GET_TAG_URL = _BASE_API_URL +  "/v1/api/manag/get_tags";
+  static const String _MY_SAVE_TAG_URL = _BASE_API_URL +  "/v1/api/manag/save_tags";
 
-  static String _MY_GET_OPTIONTEMP_URL = _BASE_API_URL +  "/v1/api/manag/get_optiontemps";
-  static String _MY_SAVE_OPTIONTEMP_URL = _BASE_API_URL +  "/v1/api/manag/save_optiontemps";
+  static const String _MY_GET_OPTIONTEMP_URL = _BASE_API_URL +  "/v1/api/manag/get_optiontemps";
+  static const String _MY_SAVE_OPTIONTEMP_URL = _BASE_API_URL +  "/v1/api/manag/save_optiontemps";
 
-  static String _CONTENT_TYPE = "application/json; charset=utf-8";
-  static String _MB_DEVICE_INFOR_HEADER = "MB_DEVICE_INFOR_HEADER";
-  static String _AUTHON_REFRESH_HEADER = "AUTHON_REFRESH_HEADER";
-  static String _AUTHON_ACCESS_HEADER = "AUTHON_ACCESS_HEADER";
+  static const String _CONTENT_TYPE = "application/json; charset=utf-8";
+  static const String _MB_DEVICE_INFOR_HEADER = "MB_DEVICE_INFOR_HEADER";
+  static const String _AUTHON_REFRESH_HEADER = "AUTHON_REFRESH_HEADER";
+  static const String _AUTHON_ACCESS_HEADER = "AUTHON_ACCESS_HEADER";
 
 
 
@@ -62,7 +66,7 @@ class Api {
     List<Object> result = await doPostNoNeedLoginApi(_LOGIN_URL, body);
     result[1] = LoginResult.fromJson(jsonDecode(result[1]));
     if (result[0] == Api.OK) {
-      await TokenUtil.saveToken(result[1]);
+      await TokenUtil.saveToken(Token.fromTokenResult(result[1]));
     }
     return result;
   }
@@ -100,6 +104,41 @@ class Api {
     return result;
   }
 
+  static Future<List<Object>> resetPassordMailCnf(String mail) async {
+    String body = jsonEncode(<String, String>{
+      'memberEmail': mail
+    });
+    List<Object> result = await doPostNoNeedLoginApi(_RESET_PASSWORD_MAIL_CNF_URL
+        , body);
+    result[1] = ResetPasswordResult.fromJson(jsonDecode(result[1]));
+
+    return result;
+  }
+
+  static Future<List<Object>> resetPasswordMailCodeCnf(String uuid, String code) async {
+    String body = jsonEncode(<String, String>{
+      'code': code,
+      'uuid': uuid
+    });
+    List<Object> result = await doPostNoNeedLoginApi(_RESET_PASSWORD_MAIL_CODE_CNF_URL
+        , body);
+    result[1] = ResetPasswordResult.fromJson(jsonDecode(result[1]));
+
+    return result;
+  }
+
+  static Future<List<Object>> resetPassword(String memberEmail, String uuid, String memberPassword) async {
+    String body = jsonEncode(<String, String>{
+      'memberEmail': memberEmail,
+      'uuid': uuid,
+      'memberPassword':memberPassword
+    });
+    List<Object> result = await doPostNoNeedLoginApi(_RESET_PASSWORD_SIGUP_URL
+        , body);
+    result[1] = ResetPasswordResult.fromJson(jsonDecode(result[1]));
+
+    return result;
+  }
 
 
   // [0] status [1] body string
@@ -126,14 +165,13 @@ class Api {
       resultList[1] = responsebody;
       return resultList;
     } else {
-      throw Exception('${response.statusCode}${responsebody}');
+      throw Exception('$response.statusCode$responsebody');
     }
   }
 
   static Future<List<Object>> doPostNeedLoginApi(
       BuildContext _context, String url, String body) async {
-    print("${body}");
-    final deviceInfo = await DeviceHelper.getDeviceInfo();
+    print("$body");
     String accessToken = await TokenUtil.getAccessToken();
     if (accessToken == null) {
       final refreshToken = await TokenUtil.getRefreshToken();

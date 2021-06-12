@@ -7,30 +7,29 @@ import 'package:mbook_flutter/src/comm/widgets/Image.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_listview.dart';
 import 'my_menu_edit.dart';
 
+// ignore: must_be_immutable
 class MyMenuInfoPage extends StatefulWidget {
-  List<ItemDetail> _itemList;
+   List<ItemDetail> _allitemList;
 
-  MyMenuInfoPage(this._itemList);
+   MyMenuInfoPage(this._allitemList);
 
-  _MyMenuInfoState createState() => _MyMenuInfoState(this._itemList);
+  _MyMenuInfoState createState() => _MyMenuInfoState();
 }
 
 class _MyMenuInfoState extends State<MyMenuInfoPage> {
   // 响应空白处的焦点的Node
   FocusNode _blankNode = FocusNode();
-  List<ItemDetail> _AllitemList;
-  List<ItemDetail> _itemList = List<ItemDetail>();
+  final List<ItemDetail> _itemList = [];
 
   String serchString = "";
 
-  _MyMenuInfoState(this._AllitemList);
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
-    if (_AllitemList != null)
-    _itemList.addAll(_AllitemList);
+    if (widget._allitemList != null)
+    _itemList.addAll(widget._allitemList);
     super.initState();
   }
 
@@ -43,7 +42,7 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
         serchString = query;
         //setState(() {
         List<ItemDetail> dummySearchList = [];
-        dummySearchList.addAll(_AllitemList);
+        dummySearchList.addAll(widget._allitemList);
         if (query.isNotEmpty) {
           List<ItemDetail> dummyListData = [];
           dummySearchList.forEach((item) {
@@ -136,9 +135,9 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
                     GlobalFun.removeCurrentSnackBar(_scaffoldKey);
                     setState(
                       () {
-                        this._AllitemList = result[1];
+                        widget._allitemList = result[1];
                         _itemList.clear();
-                        _itemList.addAll(_AllitemList);
+                        _itemList.addAll(widget._allitemList);
                       },
                     );
                   },

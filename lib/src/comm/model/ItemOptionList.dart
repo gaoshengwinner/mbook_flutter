@@ -78,7 +78,7 @@ class ItemOption {
   String getPriceString() {
     if (price != 0) {
       String tmp = price > 0 ? "-" : "";
-      return "${prePriceString}${tmp}${price}${nexPriceString}"; //prePriceString + price + nexPriceString;
+      return "$prePriceString$tmp$price$nexPriceString"; //prePriceString + price + nexPriceString;
     }
     return "";
   }

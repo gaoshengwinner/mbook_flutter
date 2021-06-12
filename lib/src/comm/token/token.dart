@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mbook_flutter/src/comm/model/RefreshTokenResult.dart';
@@ -39,7 +38,7 @@ class TokenUtil{
     }
   }
 
-  static Future<Void> refreshAccessToken(RefreshTokenResult result) async{
+  static refreshAccessToken(RefreshTokenResult result) async{
     final storage = new FlutterSecureStorage();
     final tokenString =  await storage.read(key: G.KEY_CHAIN_TOKEN);
 
@@ -54,7 +53,7 @@ class TokenUtil{
   static Future<bool> checkRefreshToken() async{
     final result = await getRefreshToken();
     print("test");
-    return result != null && !result.isEmpty;
+    return result != null && result.isNotEmpty;
   }
   
   static saveToken(Token toke) async{

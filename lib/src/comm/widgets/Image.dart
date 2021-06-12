@@ -5,7 +5,9 @@ class MBImage extends StatefulWidget {
       {this.url,
       this.w,
       this.h,
-      this.defImagePath = "assets/graphics/logo_shu.png", this.fit});
+      this.defImagePath = "assets/graphics/logo_shu.png", this.fit}){
+    createState();
+  }
 
   final String url;
   final double w;

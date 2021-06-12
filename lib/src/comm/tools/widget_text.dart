@@ -88,8 +88,8 @@ class WidgetBasePage {
 }
 
 class WidgetTextPage extends StatelessWidget {
-  TextWidgetProperty property;
-  String data;
+  final TextWidgetProperty property;
+  final String data;
 
   WidgetTextPage({this.property, this.data});
 

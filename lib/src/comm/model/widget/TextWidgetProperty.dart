@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:ui';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -53,9 +52,9 @@ class TextWidgetProperty {
   double marginRight = 0;
   double marginBottom = 0;
 
-  String alignment = FBAlignment.DEFALUT_ALIGM;
+  String alignment = FBAlignment.DEFAULT_ALIGM;
 
-  String backalignment = FBAlignment.DEFALUT_ALIGM;
+  String backalignment = FBAlignment.DEFAULT_ALIGM;
 
   Color spacingColor = Colors.white;
   double spacingHWidth = 0;

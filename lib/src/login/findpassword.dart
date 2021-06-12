@@ -6,15 +6,15 @@ import 'package:mbook_flutter/src/comm/api/api.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
-import 'package:mbook_flutter/src/comm/model/SignupMailCnfResult.dart';
+import 'package:mbook_flutter/src/comm/model/ResetPasswordResult.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/widgets/raised_button.dart';
 
-class SignupPage extends StatefulWidget {
-  _SignupPageState createState() => _SignupPageState();
+class FindPasswordPage extends StatefulWidget {
+  _FindPasswordPageState createState() => _FindPasswordPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _FindPasswordPageState extends State<FindPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   int step = 0;
   String _mail;
@@ -54,7 +54,7 @@ class _SignupPageState extends State<SignupPage> {
                             alignment: Alignment.center,
                             padding: EdgeInsets.all(10),
                             child: Text(
-                              'Sign up',
+                              'Reseat password',
                               style: TextStyle(
                                   color: G.appBaseColor[0],
                                   fontWeight: FontWeight.w500,
@@ -89,33 +89,12 @@ class _SignupPageState extends State<SignupPage> {
                                           color: G.appBaseColor[0],
                                           fontSize: 10),
                                     ),
-                                    content: new SignupMailCnfPage(
+                                    content: new FindPasswordMailCnfPage(
                                         _scaffoldKey,
                                         _formKey,
                                         _canSendMail,
                                         _signUpTitle, (mail, uuid) {
                                       setState(() {
-                                        // countDownTimer?.cancel(); //如果已存在先取消置空
-                                        // countDownTimer = null;
-                                        // countDownTimer = new Timer.periodic(
-                                        //     new Duration(seconds: 1), (t) {
-                                        //   if (60 - t.tick > 1) {
-                                        //     setState(() {
-                                        //       _canSendMail = false;
-                                        //       _signUpTitle = S
-                                        //               .of(context)
-                                        //               .signup_button_sending +
-                                        //           "(${60 - t.tick})";
-                                        //     });
-                                        //   } else {
-                                        //     _canSendMail = true;
-                                        //     _signUpTitle = S
-                                        //         .of(context)
-                                        //         .signup_button_sending;
-                                        //     countDownTimer.cancel();
-                                        //     countDownTimer = null;
-                                        //   }
-                                        // });
                                         _uuid = uuid;
                                         _mail = mail;
                                         step = 1;
@@ -132,7 +111,7 @@ class _SignupPageState extends State<SignupPage> {
                                           color: G.appBaseColor[0],
                                           fontSize: 10),
                                     ),
-                                    content: new SignupCodeCnfPage(_uuid, (uuid) {
+                                    content: new FindPasswordCodeCnfPage(_uuid, (uuid) {
                                       setState(() {
                                         _uuid = uuid;
                                         step = 2;
@@ -149,7 +128,7 @@ class _SignupPageState extends State<SignupPage> {
                                           color: G.appBaseColor[0],
                                           fontSize: 10),
                                     ),
-                                    content: new SignupPasswordPage(
+                                    content: new FindPasswordPasswordPage(
                                         _scaffoldKey, _formKey, _mail, _uuid,
                                         () {
                                       setState(() {
@@ -165,21 +144,21 @@ class _SignupPageState extends State<SignupPage> {
   }
 }
 
-class SignupMailCnfPage extends StatefulWidget {
+class FindPasswordMailCnfPage extends StatefulWidget {
   final Function onOK;
 
-  SignupMailCnfPage(this._scaffoldKey, this._formKey, this._canClick,
+  FindPasswordMailCnfPage(this._scaffoldKey, this._formKey, this._canClick,
       this._signUpTitle, this.onOK);
 
   final String _signUpTitle;
   final bool _canClick;
 
-  _SignupMailCnfPageState createState() => _SignupMailCnfPageState();
+  _FindPasswordMailCnfPageState createState() => _FindPasswordMailCnfPageState();
   final _formKey;
   final GlobalKey<ScaffoldState> _scaffoldKey;
 }
 
-class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
+class _FindPasswordMailCnfPageState extends State<FindPasswordMailCnfPage> {
   String _errmsg = "";
   String _mail;
 
@@ -232,23 +211,23 @@ class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
                           if (widget._formKey.currentState.validate()) {
                             GlobalFun.showSnackBar(
                                 widget._scaffoldKey, "  Sending Mail...");
-                            Api.sigupMailCnf(_mail)
+                            Api.resetPassordMailCnf(_mail)
                                 .then((value) => {
                                       if (value[0] == Api.OK &&
-                                          (value[1] as SignupMailCnfResult)
+                                          (value[1] as ResetPasswordResult)
                                                   .statu ==
                                               "0")
                                         {
                                           widget.onOK(
                                               _mail,
-                                              (value[1] as SignupMailCnfResult)
+                                              (value[1] as ResetPasswordResult)
                                                   .uuid)
                                         }
                                       else
                                         {
                                           setState(() {
                                             this._errmsg = (value[1]
-                                                    as SignupMailCnfResult)
+                                                    as ResetPasswordResult)
                                                 .errs[0]
                                                 .msg;
                                           })
@@ -266,16 +245,16 @@ class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
   }
 }
 
-class SignupCodeCnfPage extends StatefulWidget {
+class FindPasswordCodeCnfPage extends StatefulWidget {
   final Function onOK;
 
-  SignupCodeCnfPage(this._uuid, this.onOK);
+  FindPasswordCodeCnfPage(this._uuid, this.onOK);
 
-  _SignupCodeCnfPageState createState() => _SignupCodeCnfPageState();
+  _FindPasswordCodeCnfPageState createState() => _FindPasswordCodeCnfPageState();
   final String _uuid;
 }
 
-class _SignupCodeCnfPageState extends State<SignupCodeCnfPage> {
+class _FindPasswordCodeCnfPageState extends State<FindPasswordCodeCnfPage> {
   String _errmsg = "";
   String _cnfcode = "";
 
@@ -318,15 +297,15 @@ class _SignupCodeCnfPageState extends State<SignupCodeCnfPage> {
                   0.6.sw,
                   S.of(context).signup_code_button_sending,
                   Icons.check_circle, () {
-                Api.sigupMailCodeCnf(widget._uuid, _cnfcode).then((value) => {
+                Api.resetPasswordMailCodeCnf(widget._uuid, _cnfcode).then((value) => {
                       if (value[0] == Api.OK &&
-                          (value[1] as SignupMailCnfResult).statu == "0")
-                        {widget.onOK((value[1] as SignupMailCnfResult).uuid)}
+                          (value[1] as ResetPasswordResult).statu == "0")
+                        {widget.onOK((value[1] as ResetPasswordResult).uuid)}
                       else
                         {
                           setState(() {
                             this._errmsg =
-                                (value[1] as SignupMailCnfResult).errs[0].msg;
+                                (value[1] as ResetPasswordResult).errs[0].msg;
                           })
                         }
                     });
@@ -337,20 +316,20 @@ class _SignupCodeCnfPageState extends State<SignupCodeCnfPage> {
   }
 }
 
-class SignupPasswordPage extends StatefulWidget {
+class FindPasswordPasswordPage extends StatefulWidget {
   final Function onOK;
 
-  SignupPasswordPage(
+  FindPasswordPasswordPage(
       this._scaffoldKey, this._formKey, this._mail, this._uuid, this.onOK);
 
-  _SignupPasswordPagetate createState() => _SignupPasswordPagetate();
+  _FindPasswordPasswordPagetate createState() => _FindPasswordPasswordPagetate();
   final _formKey;
   final GlobalKey<ScaffoldState> _scaffoldKey;
   final String _uuid;
   final String _mail;
 }
 
-class _SignupPasswordPagetate extends State<SignupPasswordPage> {
+class _FindPasswordPasswordPagetate extends State<FindPasswordPasswordPage> {
   String _errmsg = "";
   String _password = "";
 
@@ -421,18 +400,18 @@ class _SignupPasswordPagetate extends State<SignupPasswordPage> {
                 if (widget._formKey.currentState.validate()) {
                   GlobalFun.showSnackBar(
                       widget._scaffoldKey, "  Sending Mail...");
-                  Api.sigup(widget._mail, widget._uuid, _password)
+                  Api.resetPassword(widget._mail, widget._uuid, _password)
                       .then((value) => {
                             if (value[0] == Api.OK &&
-                                (value[1] as SignupMailCnfResult).statu == "0")
+                                (value[1] as ResetPasswordResult).statu == "0")
                               {
                                 showDialog<String>(
                                   context: context,
                                   builder: (BuildContext context) =>
                                       AlertDialog(
-                                    title: const Text('Sign up'),
+                                    title: const Text('Reset password'),
                                     content:
-                                        const Text('Succeed in registration'),
+                                        const Text('Succeed in reset password'),
                                     actions: <Widget>[
                                       TextButton(
                                         onPressed: () {
@@ -449,7 +428,7 @@ class _SignupPasswordPagetate extends State<SignupPasswordPage> {
                               {
                                 setState(() {
                                   this._errmsg =
-                                      (value[1] as SignupMailCnfResult)
+                                      (value[1] as ResetPasswordResult)
                                           .errs[0]
                                           .msg;
                                 })

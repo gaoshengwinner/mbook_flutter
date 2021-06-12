@@ -8,11 +8,11 @@ class G{
 
 
   // MeelBook基本头
-  static final String APP_BASE = "MEAIL_BOOL_";
+  static const String APP_BASE = "MEAIL_BOOL_";
   // KeyChain设备ID
-  static final String KEY_CHAIN_DEVICE_ID = APP_BASE + "KEY_CHAIN_DEVICE_ID";
+  static const String KEY_CHAIN_DEVICE_ID = APP_BASE + "KEY_CHAIN_DEVICE_ID";
   // KeyChainトークン
-  static final String KEY_CHAIN_TOKEN = APP_BASE + "KEY_CHAIN_TOKEN";
+  static const String KEY_CHAIN_TOKEN = APP_BASE + "KEY_CHAIN_TOKEN";
 
   //
   // final size = MediaQuery.of(context).size;
@@ -21,8 +21,8 @@ class G{
 
 
 // routes
- static final String ROUTES_LOGIN = "/login_page";
-  static final String ROUTES_HOME = "/home";
+ static const String ROUTES_LOGIN = "/login_page";
+  static const String ROUTES_HOME = "/home";
 
 
 

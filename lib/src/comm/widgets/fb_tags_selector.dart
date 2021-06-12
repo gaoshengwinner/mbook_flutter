@@ -1,21 +1,18 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
-import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
-import 'package:mbook_flutter/src/comm/tools/text_setting.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_listview.dart';
 
 class TagsSelectWidget extends StatefulWidget {
-  List<TagInfo> tagInfos = [];
-  List<TagInfo> selectedTagInfos = [];
-  Function onSelected;
+  final List<TagInfo> tagInfos;
+  final List<TagInfo> selectedTagInfos;
+  final Function onSelected;
 
   TagsSelectWidget({this.tagInfos, this.selectedTagInfos, this.onSelected});
 
@@ -53,10 +50,7 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
   List<TagInfo> oldTagInfos = [];
   List<TagInfo> selectedTagInfos = [];
   Function onSelected;
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // 响应空白处的焦点的Node
-  FocusNode _blankNode = FocusNode();
   ScrollController scrollController;
 
   int copiedIndex = -1;
@@ -164,7 +158,7 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                           child: Slidable(
                             actionPane: const SlidableBehindActionPane(),
                             child: ListTile(
-                              leading: GlobalFun.ClipOvalIcon(Icons.clear, () {
+                              leading: GlobalFun.clipOvalIcon(Icons.clear, () {
                                 setState(() {
                                   this.tagInfos.add(item.copy());
                                   this.selectedTagInfos.remove(item);
@@ -236,7 +230,7 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                                       actionPane:
                                           const SlidableBehindActionPane(),
                                       child: ListTile(
-                                        leading: GlobalFun.ClipOvalIcon(
+                                        leading: GlobalFun.clipOvalIcon(
                                             Icons.add, () {
                                           setState(() {
                                             this
@@ -452,34 +446,34 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
     // );
   }
 
-  static Widget getSlideActionDelete(BuildContext context, Function onTap) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
-
-    return SlideAction(
-      closeOnTap: true,
-      color: Color.fromRGBO(255, 205, 210, 1),
-      onTap: () {
-        onTap();
-      },
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const Icon(
-              Icons.delete,
-              color: Colors.red,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'Delete',
-              style: textTheme.bodyText2.copyWith(
-                color: Colors.red,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // static Widget getSlideActionDelete(BuildContext context, Function onTap) {
+  //   final theme = Theme.of(context);
+  //   final textTheme = theme.textTheme;
+  //
+  //   return SlideAction(
+  //     closeOnTap: true,
+  //     color: Color.fromRGBO(255, 205, 210, 1),
+  //     onTap: () {
+  //       onTap();
+  //     },
+  //     child: Center(
+  //       child: Column(
+  //         mainAxisSize: MainAxisSize.min,
+  //         children: <Widget>[
+  //           const Icon(
+  //             Icons.delete,
+  //             color: Colors.red,
+  //           ),
+  //           const SizedBox(height: 4),
+  //           Text(
+  //             'Delete',
+  //             style: textTheme.bodyText2.copyWith(
+  //               color: Colors.red,
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }

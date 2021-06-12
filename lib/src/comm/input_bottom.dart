@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'consts.dart';
 
+// ignore: must_be_immutable
 class InputButtomWidget extends StatelessWidget {
   final ValueChanged onEditingCompleteText;
 

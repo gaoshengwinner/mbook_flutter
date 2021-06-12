@@ -12,15 +12,16 @@ typedef CreateSubWidget<E> = Widget Function(
 typedef CreateSubWidgetList<E> = List<Widget> Function(
     BuildContext context, E item, int index);
 
+// ignore: must_be_immutable
 class FBListViewWidget<E> extends StatefulWidget {
   List<E> _list;
   DeleteCallBack<E> onDeleted;
   CreateSubWidget<E> setSubWidget;
   bool canBeMove = false;
 
-  CreateSubWidgetList<E> setActions = null;
-  CreateSubWidgetList<E> setSeActions = null;
-  Widget footer = null;
+  CreateSubWidgetList<E> setActions;
+  CreateSubWidgetList<E> setSeActions;
+  Widget footer;
 
   FBListViewWidget(this._list,
       {this.setActions,
@@ -28,7 +29,7 @@ class FBListViewWidget<E> extends StatefulWidget {
       this.setSubWidget,
       this.onDeleted,
       this.canBeMove,
-      this.footer = null});
+      this.footer});
 
   _FBListViewWidgetState createState() => _FBListViewWidgetState<E>(this._list,
       setActions: this.setActions,
@@ -142,7 +143,7 @@ class FBListViewWidget<E> extends StatefulWidget {
   }
 
   static Widget buildFooter(BuildContext context,
-      {IconData icon = null, String title = "", Function onTap}) {
+      {IconData icon, String title = "", Function onTap}) {
     return GestureDetector(
         onTap: () async {
           if (onTap != null) onTap();
@@ -184,7 +185,7 @@ class _FBListViewWidgetState<E> extends State<FBListViewWidget>
       this.setSubWidget,
       this.onDeleted,
       this.canBeMove = false,
-      this.footer = null}) {
+      this.footer}) {
     if (!(this.canBeMove is bool)) {
       this.canBeMove = false;
     }
@@ -192,10 +193,10 @@ class _FBListViewWidgetState<E> extends State<FBListViewWidget>
 
   DeleteCallBack<E> onDeleted;
   CreateSubWidget<E> setSubWidget;
-  CreateSubWidgetList<E> setActions = null;
-  CreateSubWidgetList<E> setSeActions = null;
+  CreateSubWidgetList<E> setActions;
+  CreateSubWidgetList<E> setSeActions;
   bool canBeMove = false;
-  Widget footer = null;
+  Widget footer;
 
   List<E> _list;
   ScrollController scrollController;
@@ -219,8 +220,6 @@ class _FBListViewWidgetState<E> extends State<FBListViewWidget>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
 
     return Container(
       color: Color(0xFFEFEFF4),
@@ -239,7 +238,6 @@ class _FBListViewWidgetState<E> extends State<FBListViewWidget>
 
   // * An example of a vertically reorderable list.
   Widget _buildVerticalList() {
-    final theme = Theme.of(context);
 
     Widget buildReorderable(
       dynamic item,
@@ -298,8 +296,6 @@ class _FBListViewWidgetState<E> extends State<FBListViewWidget>
   }
 
   Widget _buildTile(double t, E item, int index) {
-    final color = Color.lerp(Colors.white, Colors.grey.shade100, t);
-    final elevation = lerpDouble(0, 8, t);
 
     return Slidable(
         actionPane: const SlidableBehindActionPane(),
