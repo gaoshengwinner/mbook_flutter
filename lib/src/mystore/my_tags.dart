@@ -172,13 +172,13 @@ class _MyTagsPageState extends State<MyTagsPage>
         ),
       ),
       floatingActionButton: GlobalFun.saveFloatingActionButton(() {
-        GlobalFun.showSnackBar(_scaffoldKey, "  Saving...");
+        GlobalFun.showSnackBar(context,_scaffoldKey, "  Saving...");
         Api.saveMyTagInfo(context, TagResultList(tagLst: this.tagInfos))
             .whenComplete(() {
           GlobalFun.removeCurrentSnackBar(_scaffoldKey);
         }).catchError((e) {
           print(e.toString());
-          GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+          GlobalFun.showSnackBar(context,_scaffoldKey, e.toString());
         });
       }),
       //!beCange ? null :

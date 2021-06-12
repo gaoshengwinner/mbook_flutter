@@ -189,11 +189,11 @@ String shopPicUrl;
             // )
           )),
       floatingActionButton: GlobalFun.saveFloatingActionButton(() {
-        GlobalFun.showSnackBar(_scaffoldKey, "  Saving...");
+        GlobalFun.showSnackBar(context,_scaffoldKey, "  Saving...");
         Api.saveMyShopInfo(context, widget._shopInfo).whenComplete(() {
           GlobalFun.removeCurrentSnackBar(_scaffoldKey);
         }).catchError((e) {
-          GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+          GlobalFun.showSnackBar(context,_scaffoldKey, e.toString());
         });
       }),
     );

@@ -141,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                                 S.of(context).login_login_title,
                                 Icons.login, () {
                               if (_formKey.currentState.validate()) {
-                                GlobalFun.showSnackBar(
+                                GlobalFun.showSnackBar(context,
                                     _scaffoldKey, "  Signing-In...");
                                 Api.login(_mail, _pws)
                                     .then((value) => {
@@ -164,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                                             }
                                         })
                                     .catchError((e) {
-                                  GlobalFun.showSnackBar(
+                                  GlobalFun.showSnackBar(context,
                                       _scaffoldKey, e.toString());
                                 });
                               }

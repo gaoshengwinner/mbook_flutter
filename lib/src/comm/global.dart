@@ -43,8 +43,9 @@ class GlobalFun {
     );
   }
 
-  static void showSnackBar(
+  static void showSnackBar(BuildContext context,
       GlobalKey<ScaffoldState> _scaffoldKey, String title) {
+    FocusScope.of(context).requestFocus(new FocusNode());
     print("showSnackBar:$title");
     //_scaffoldKey.currentContext.
     ScaffoldMessenger.of(_scaffoldKey.currentContext).showSnackBar(new SnackBar(

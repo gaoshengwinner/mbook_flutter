@@ -209,7 +209,7 @@ class _FindPasswordMailCnfPageState extends State<FindPasswordMailCnfPage> {
                       ? null
                       : () {
                           if (widget._formKey.currentState.validate()) {
-                            GlobalFun.showSnackBar(
+                            GlobalFun.showSnackBar(context,
                                 widget._scaffoldKey, "  Sending Mail...");
                             Api.resetPassordMailCnf(_mail)
                                 .then((value) => {
@@ -234,7 +234,7 @@ class _FindPasswordMailCnfPageState extends State<FindPasswordMailCnfPage> {
                                         }
                                     })
                                 .catchError((e) {
-                              GlobalFun.showSnackBar(
+                              GlobalFun.showSnackBar(context,
                                   widget._scaffoldKey, e.toString());
                             });
                           }
@@ -398,7 +398,7 @@ class _FindPasswordPasswordPagetate extends State<FindPasswordPasswordPage> {
                   _errmsg = "";
                 });
                 if (widget._formKey.currentState.validate()) {
-                  GlobalFun.showSnackBar(
+                  GlobalFun.showSnackBar(context,
                       widget._scaffoldKey, "  Sending Mail...");
                   Api.resetPassword(widget._mail, widget._uuid, _password)
                       .then((value) => {
@@ -435,7 +435,7 @@ class _FindPasswordPasswordPagetate extends State<FindPasswordPasswordPage> {
                               }
                           })
                       .catchError((e) {
-                    GlobalFun.showSnackBar(widget._scaffoldKey, e.toString());
+                    GlobalFun.showSnackBar(context,widget._scaffoldKey, e.toString());
                   });
                 }
               })),

@@ -99,23 +99,23 @@ class _MyStorePageState extends State<MyStorePage> {
                                 MyOptionsPage(MyGlobal.optionTempInfos)));
                   },
                 ),
-                SettingsTile(
-                  switchActiveColor: G.appBaseColor[0],
-                  title: 'Color Picker',
-                  leading: Icon(Icons.tag),
-                  onPressed: (BuildContext context) async {
-                    GlobalFun.showSnackBar(_scaffoldKey, "  Loading...");
-                    //Api.getMyShopItemInfo(context).then((result) {
-                    // GlobalFun.removeCurrentSnackBar(_scaffoldKey);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ColorPickerPage()));
-                    //}).catchError((e){
-                    //  GlobalFun.showSnackBar(_scaffoldKey, e.toString());
-                    //});
-                  },
-                ),
+                // SettingsTile(
+                //   switchActiveColor: G.appBaseColor[0],
+                //   title: 'Color Picker',
+                //   leading: Icon(Icons.tag),
+                //   onPressed: (BuildContext context) async {
+                //     GlobalFun.showSnackBar(context,_scaffoldKey, "  Loading...");
+                //     //Api.getMyShopItemInfo(context).then((result) {
+                //     // GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => ColorPickerPage()));
+                //     //}).catchError((e){
+                //     //  GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+                //     //});
+                //   },
+                // ),
               ],
             ),
           ],

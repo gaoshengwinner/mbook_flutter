@@ -388,13 +388,13 @@ class _MyOptionsPageState extends State<MyOptionsPage>
         ),
       ),
       floatingActionButton: GlobalFun.saveFloatingActionButton(() {
-        GlobalFun.showSnackBar(_scaffoldKey, "  Saving...");
+        GlobalFun.showSnackBar(context,_scaffoldKey, "  Saving...");
         Api.saveMyOptionTempnfo(
                 context, OptionTempResultList(optionTempLst: this.optionTemps))
             .whenComplete(() {
           GlobalFun.removeCurrentSnackBar(_scaffoldKey);
         }).catchError((e) {
-          GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+          GlobalFun.showSnackBar(context,_scaffoldKey, e.toString());
         });
       }),
     );

@@ -47,11 +47,11 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
     return Scaffold(
       key: _baseInfoscaffoldKey,
       appBar: AppBarView.appbar("Item info", true, canSave: true, onSave: () {
-        GlobalFun.showSnackBar(_baseInfoscaffoldKey, "  Saving...");
+        GlobalFun.showSnackBar(context,_baseInfoscaffoldKey, "  Saving...");
         Api.saveMyItemInfo(context, widget._item).whenComplete(() {
           GlobalFun.removeCurrentSnackBar(_baseInfoscaffoldKey);
         }).catchError((e) {
-          GlobalFun.showSnackBar(_baseInfoscaffoldKey, e.toString());
+          GlobalFun.showSnackBar(context,_baseInfoscaffoldKey, e.toString());
         });
       }),
       body: DefaultTabController(

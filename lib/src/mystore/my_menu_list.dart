@@ -129,7 +129,7 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
                     builder: (context) =>
                         MyMenuEditPage(ItemDetail.newItem()))).then(
               (value) {
-                GlobalFun.showSnackBar(_scaffoldKey, "  Loading...");
+                GlobalFun.showSnackBar(context,_scaffoldKey, "  Loading...");
                 Api.getMyShopItemInfo(context).then(
                   (result) {
                     GlobalFun.removeCurrentSnackBar(_scaffoldKey);
@@ -143,7 +143,7 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
                   },
                 ).catchError(
                   (e) {
-                    GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+                    GlobalFun.showSnackBar(context,_scaffoldKey, e.toString());
                   },
                 );
               },
