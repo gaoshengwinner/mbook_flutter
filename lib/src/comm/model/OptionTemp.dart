@@ -24,7 +24,7 @@ class OptionTemp {
   String uuid;
 
   OptionTemp({this.id, this.desc, this.propertyString}) {
-    if (propertyString == null || propertyString.isEmpty) {
+    if (propertyString?.isEmpty ?? true) {
       property = OptionWidgetProperty.init();
     } else {
       property = OptionWidgetProperty.fromJson(jsonDecode(propertyString));

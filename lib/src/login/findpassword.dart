@@ -183,7 +183,7 @@ class _FindPasswordMailCnfPageState extends State<FindPasswordMailCnfPage> {
                   _errmsg = "";
                 });
 
-                if (email.isEmpty) {
+                if (email?.isEmpty ?? true) {
                   return S.of(context).sigup_email_validator_empty_msg;
                 } else if (!EmailValidator.validate(email)) {
                   return S.of(context).login_email_validator_not_valid_msg;
@@ -201,7 +201,7 @@ class _FindPasswordMailCnfPageState extends State<FindPasswordMailCnfPage> {
               child: FBButton.build(
                   context,
                   0.6.sw,
-                  widget._signUpTitle.isEmpty
+                  widget._signUpTitle?.isEmpty ?? true
                       ? S.of(context).signup_button_sending
                       : widget._signUpTitle,
                   Icons.mail,
@@ -279,7 +279,7 @@ class _FindPasswordCodeCnfPageState extends State<FindPasswordCodeCnfPage> {
                   _errmsg = "";
                 });
 
-                if (code.isEmpty) {
+                if (code?.isEmpty ?? true) {
                   return S.of(context).sigup_email_validator_empty_msg;
                 }
                 return null;

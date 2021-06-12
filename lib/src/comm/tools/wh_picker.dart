@@ -27,10 +27,11 @@ String getUnitTitle(String util) {
           : "% sh";
 }
 
+// ignore: must_be_immutable
 class WHPickerPage extends StatefulWidget {
-  double initValue;
-  WHOptin selectedUtil;
-  Function onSelectedItemChanged;
+  final double initValue;
+   WHOptin selectedUtil;
+  final Function onSelectedItemChanged;
 
   WHPickerPage(
       this.initValue, String sSelectedUtil, this.onSelectedItemChanged) {

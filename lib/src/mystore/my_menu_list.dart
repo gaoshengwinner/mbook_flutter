@@ -90,7 +90,7 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
                   // CircleAvatar(
                   //   backgroundImage: NetworkImage(item.itemMainPicUrl,),
                   // ),
-                  item.itemMainPicUrl == null || item.itemMainPicUrl.isEmpty
+                  item?.itemMainPicUrl?.isEmpty ?? true
                       ? null
                       : Container(
                           //width: 0.3.sw,

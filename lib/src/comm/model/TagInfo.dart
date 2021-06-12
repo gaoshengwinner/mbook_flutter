@@ -25,7 +25,7 @@ class TagInfo {
   String uuid;
 
   TagInfo({this.id, this.data, this.desc, this.propertyString}) {
-    if (propertyString == null || propertyString.isEmpty) {
+    if (propertyString?.isEmpty ?? true) {
       property = TextWidgetProperty();
     } else {
       property = TextWidgetProperty.fromJson(jsonDecode(propertyString));

@@ -11,7 +11,7 @@ class TokenUtil{
   static Future<String> getRefreshToken() async {
     final storage = new FlutterSecureStorage();
     final tokenString =  await storage.read(key: G.KEY_CHAIN_TOKEN);
-    if (tokenString == null || tokenString.isEmpty) {
+    if (tokenString?.isEmpty ?? true) {
       return null;
     }
     final token = Token.fromJson(jsonDecode(tokenString));
@@ -26,7 +26,7 @@ class TokenUtil{
   static Future<String> getAccessToken() async {
     final storage = new FlutterSecureStorage();
     final tokenString =  await storage.read(key: G.KEY_CHAIN_TOKEN);
-    if (tokenString.isEmpty) {
+    if (tokenString?.isEmpty ?? true) {
       return null;
     }
     final token = Token.fromJson(jsonDecode(tokenString));

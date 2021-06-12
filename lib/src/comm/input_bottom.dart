@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
 // ignore: must_be_immutable
 class InputButtomWidget extends StatelessWidget {
   final ValueChanged onEditingCompleteText;
@@ -58,44 +57,73 @@ class InputButtomWidget extends StatelessWidget {
               ),
               padding: EdgeInsets.only(left: 16, top: 8, bottom: 8, right: 16),
               child: Container(
-                  child: TextFormField(
-                controller: _controller,
-                autofocus: true,
-                style: TextStyle(fontSize: 16, backgroundColor: Colors.white),
-                //设置键盘按钮为发送
-                textInputAction: textInputAction,
-                keyboardType: keyboardType,
-                //initialValue: initVlueValue,
-                onChanged: (value) {
-                  onEditingCompleteText(value);
-                },
-                onEditingComplete: () {
-                  Navigator.pop(context);
-                },
-                decoration: InputDecoration(
-                  focusedBorder: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(5.0),
-                      borderSide: new BorderSide(
-                        color: Colors.grey,
-                      ),),
-                  hintText: hintTextValue,
-                  isDense: true,
-                  contentPadding:
-                      EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 10),
-                  border: const OutlineInputBorder(
-                    gapPadding: 0,
-                    borderSide: BorderSide(
-                      width: 0,
-                      style: BorderStyle.none,
+                  child: Column(
+                children: [
+                  TextFormField(
+                    controller: _controller,
+                    autofocus: true,
+                    style:
+                        TextStyle(fontSize: 16, backgroundColor: Colors.white),
+                    //设置键盘按钮为发送
+                    textInputAction: textInputAction,
+                    keyboardType: keyboardType,
+                    //initialValue: initVlueValue,
+                    onChanged: (value) {
+                      onEditingCompleteText(value);
+                    },
+                    onEditingComplete: () {
+                      Navigator.pop(context);
+                    },
+                    decoration: InputDecoration(
+                      focusedBorder: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(5.0),
+                        borderSide: new BorderSide(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      hintText: hintTextValue,
+                      isDense: true,
+                      contentPadding: EdgeInsets.only(
+                          left: 10, top: 5, bottom: 5, right: 10),
+                      border: const OutlineInputBorder(
+                        gapPadding: 0,
+                        borderSide: BorderSide(
+                          width: 0,
+                          style: BorderStyle.none,
+                        ),
+                      ),
                     ),
+
+                    minLines: 1,
+                    maxLines: 5,
                   ),
-                ),
+                  Row(
+                    children: [
+                      IconButton(onPressed: (){
+                        _controller.clear();
+                        onEditingCompleteText("");
+                      }, icon: Icon(Icons.clear)),
+                      IconButton(onPressed: () async {
+                        await Clipboard.getData(Clipboard.kTextPlain).then((cdata){
+                          if (cdata != null && cdata.text !=null && cdata.text.isNotEmpty){
+                            final String inputText = _controller.text;
+                            final int beginBaseOffset = _controller.selection.baseOffset;
+                            if (inputText?.isEmpty ?? true){
+                              _controller.text = cdata.text;
+                            } else {
+                              _controller.text = inputText.substring(0, beginBaseOffset) + cdata.text
+                                  + inputText.substring(_controller.selection.extentOffset);
+                            }
+                            _controller.selection = new TextSelection(baseOffset: (beginBaseOffset + cdata.text.length), extentOffset: beginBaseOffset + cdata.text.length);
+                            onEditingCompleteText(_controller.text);
+                          }
+                        });
 
-
-                minLines: 1,
-                maxLines: 5,
+                      }, icon: Icon(Icons.attach_file)),
+                    ],
+                  ),
+                ],
               )
-
                   //Text("Te")
 
                   ))

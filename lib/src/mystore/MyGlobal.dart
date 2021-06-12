@@ -19,7 +19,12 @@ class MyGlobal {
       GlobalFun.showSnackBar(_scaffoldKey, "  Loading...");
     Api.getMyTags(context).then((result) {
       if (_scaffoldKey != null) GlobalFun.removeCurrentSnackBar(_scaffoldKey);
-      tagInfos = result[1];
+      // ignore: null_aware_before_operator
+      if (result?.length > 0  ?? false) {
+        tagInfos = result[1];
+      } else {
+        tagInfos = [];
+      }
     })
         //     .catchError((e) {
         //   print(e.toString());
@@ -35,7 +40,7 @@ class MyGlobal {
       GlobalFun.showSnackBar(_scaffoldKey, "  Loading...");
     Api.getMyOptionTemps(context).then((result) {
       if (_scaffoldKey != null) GlobalFun.removeCurrentSnackBar(_scaffoldKey);
-      optionTempInfos = result[1];
+      optionTempInfos = (result?.length > 0 ?? false) ? result[1] : [];
     });
   }
 
@@ -44,7 +49,7 @@ class MyGlobal {
     GlobalFun.showSnackBar(_scaffoldKey, "  Loading...");
     Api.getMyShopItemInfo(context).then((result) {
       GlobalFun.removeCurrentSnackBar(_scaffoldKey);
-      itemDetails = result[1];
+      itemDetails = (result?.length > 0 ?? false) ? result[1] : [];
     }).catchError((e) {
       GlobalFun.showSnackBar(_scaffoldKey, e.toString());
     });
@@ -55,7 +60,7 @@ class MyGlobal {
     GlobalFun.showSnackBar(_scaffoldKey, "  Loading...");
     Api.getMyShopInfo(context).then((result) {
       GlobalFun.removeCurrentSnackBar(_scaffoldKey);
-      shopInfo = result[1];
+      shopInfo = (result?.length > 0 ?? false) ? result[1] : [];
     }).catchError((e) {
       GlobalFun.showSnackBar(_scaffoldKey, e.toString());
     });
@@ -67,7 +72,7 @@ class MyGlobal {
     int count = 0;
      const int API_COUNT = 4;
     await Api.getMyTags(context).then((result) {
-      tagInfos = result[1];
+      tagInfos = (result?.length > 0 ?? false) ? result[1] : [];
       count++;
       if (count >= API_COUNT) {
         onLoaded();
@@ -76,12 +81,14 @@ class MyGlobal {
       if (count >= API_COUNT) {
         GlobalFun.removeCurrentSnackBar(_scaffoldKey);
       }
-    }).catchError((e) {
-      GlobalFun.showSnackBar(_scaffoldKey, e.toString());
-    });
+    })
+    //     .catchError((e) {
+    //   GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+    // })
+    ;
 
     await Api.getMyShopItemInfo(context).then((result) {
-      itemDetails = result[1];
+      itemDetails = (result?.length > 0 ?? false) ? result[1] : [];
       count++;
       if (count >= API_COUNT) {
         onLoaded();
@@ -95,7 +102,7 @@ class MyGlobal {
     });
 
     await Api.getMyShopInfo(context).then((result) {
-      shopInfo = result[1];
+      shopInfo = (result?.length > 0 ?? false) ? result[1] : [];
       count++;
       if (count >= API_COUNT) {
         onLoaded();
@@ -109,7 +116,7 @@ class MyGlobal {
     });
 
     await Api.getMyOptionTemps(context).then((result) {
-      optionTempInfos = result[1];
+      optionTempInfos = (result?.length > 0 ?? false) ? result[1] : [];
       count++;
       if (count >= API_COUNT) {
         onLoaded();

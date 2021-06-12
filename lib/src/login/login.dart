@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                                 _errmsg = "";
                               });
 
-                              if (email.isEmpty) {
+                              if (email?.isEmpty ?? true) {
                                 return S
                                     .of(context)
                                     .login_email_validator_empty_msg;
@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                               _pws = value;
                             },
                             validator: (password) {
-                              if (password.isEmpty) {
+                              if (password?.isEmpty ?? true) {
                                 return S
                                     .of(context)
                                     .login_password_validator_empty_msg;

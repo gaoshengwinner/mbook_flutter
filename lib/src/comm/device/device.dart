@@ -13,8 +13,8 @@ class DeviceHelper {
     final storage = new FlutterSecureStorage();
 
 // Read value
-    return await storage.read(key: G.KEY_CHAIN_DEVICE_ID).then((deviceId) {
-      if (deviceId == null || deviceId.isEmpty) {
+    return await storage?.read(key: G.KEY_CHAIN_DEVICE_ID)?.then((deviceId) {
+      if (deviceId?.isEmpty ?? true) {
         var uuid = Uuid();
         deviceId = uuid.v4();
         storage.write(key: G.KEY_CHAIN_DEVICE_ID, value: deviceId);

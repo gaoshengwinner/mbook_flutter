@@ -45,6 +45,7 @@ class GlobalFun {
 
   static void showSnackBar(
       GlobalKey<ScaffoldState> _scaffoldKey, String title) {
+    print("showSnackBar:$title");
     //_scaffoldKey.currentContext.
     ScaffoldMessenger.of(_scaffoldKey.currentContext).showSnackBar(new SnackBar(
     //_scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -325,7 +326,7 @@ class GlobalFun {
   static void openEditPage(
       BuildContext context,
       String hintTextValue,
-      String initVlueValue,
+      String initValue,
       TextInputAction textInputAction,
       TextInputType keyboardType,
       Function onEditingCompleteText) {
@@ -337,7 +338,7 @@ class GlobalFun {
             onEditingCompleteText(text);
           },
           hintTextValue: hintTextValue,
-          initVlueValue: initVlueValue,
+          initVlueValue: initValue,
           textInputAction: textInputAction,
           keyboardType: keyboardType,
         )));

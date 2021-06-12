@@ -204,7 +204,7 @@ class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
                   _errmsg = "";
                 });
 
-                if (email.isEmpty) {
+                if (email?.isEmpty ?? true) {
                   return S.of(context).sigup_email_validator_empty_msg;
                 } else if (!EmailValidator.validate(email)) {
                   return S.of(context).login_email_validator_not_valid_msg;
@@ -222,7 +222,7 @@ class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
               child: FBButton.build(
                   context,
                   0.6.sw,
-                  widget._signUpTitle.isEmpty
+                  widget._signUpTitle?.isEmpty ?? true
                       ? S.of(context).signup_button_sending
                       : widget._signUpTitle,
                   Icons.mail,
@@ -300,7 +300,7 @@ class _SignupCodeCnfPageState extends State<SignupCodeCnfPage> {
                   _errmsg = "";
                 });
 
-                if (code.isEmpty) {
+                if (code?.isEmpty ?? true) {
                   return S.of(context).sigup_email_validator_empty_msg;
                 }
                 return null;
@@ -372,7 +372,7 @@ class _SignupPasswordPagetate extends State<SignupPasswordPage> {
                 _password = value;
               },
               validator: (password) {
-                if (password.isEmpty) {
+                if (password?.isEmpty ?? true) {
                   return S.of(context).login_password_validator_empty_msg;
                 }
 
@@ -397,7 +397,7 @@ class _SignupPasswordPagetate extends State<SignupPasswordPage> {
                 //_passwordCnf = value;
               },
               validator: (password) {
-                if (password.isEmpty) {
+                if (password?.isEmpty ?? true) {
                   return S.of(context).login_password_validator_empty_msg;
                 }
                 if (password != this._password) {
@@ -430,7 +430,7 @@ class _SignupPasswordPagetate extends State<SignupPasswordPage> {
                                   context: context,
                                   builder: (BuildContext context) =>
                                       AlertDialog(
-                                    title: const Text('Sign up'),
+                                    title: Text('Sign up', style: TextStyle(color: G.appBaseColor[0]),),
                                     content:
                                         const Text('Succeed in registration'),
                                     actions: <Widget>[
