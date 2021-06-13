@@ -6,6 +6,7 @@ import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
 import 'package:mbook_flutter/src/mystore/my_menu_list.dart';
 import 'package:mbook_flutter/src/mystore/my_options.dart';
+import 'package:mbook_flutter/src/mystore/my_store_info_frm.dart';
 import 'package:mbook_flutter/src/samples/color_picker.dart';
 import 'package:settings_ui/settings_ui.dart';
 
@@ -51,6 +52,18 @@ class _MyStorePageState extends State<MyStorePage> {
               title: 'Base info',
               titleTextStyle: TextStyle(color: G.appBaseColor[0]),
               tiles: [
+                SettingsTile(
+                  title: 'Store Info',
+                  subtitle: '',
+                  leading: Icon(Icons.store),
+                  onPressed: (BuildContext context) async {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                MyStoreInfoFrmPage(MyGlobal.shopInfo)));
+                  },
+                ),
                 SettingsTile(
                   title: 'Store Base Info',
                   subtitle: '',
