@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mbook_flutter/generated/l10n.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
-import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
 import 'package:mbook_flutter/src/mystore/my_menu_list.dart';
 import 'package:mbook_flutter/src/mystore/my_options.dart';
-import 'package:mbook_flutter/src/mystore/my_store_info_frm.dart';
-import 'package:mbook_flutter/src/samples/color_picker.dart';
+import 'package:mbook_flutter/src/mystore/my_store_edite.dart';
 import 'package:settings_ui/settings_ui.dart';
 
-import 'my_store_info.dart';
 import 'my_tags.dart';
 
 class MyStorePage extends StatefulWidget {
@@ -54,18 +51,6 @@ class _MyStorePageState extends State<MyStorePage> {
               tiles: [
                 SettingsTile(
                   title: 'Store Info',
-                  subtitle: '',
-                  leading: Icon(Icons.store),
-                  onPressed: (BuildContext context) async {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                MyStoreInfoFrmPage(MyGlobal.shopInfo)));
-                  },
-                ),
-                SettingsTile(
-                  title: 'Store Base Info',
                   subtitle: '',
                   leading: Icon(Icons.store),
                   onPressed: (BuildContext context) async {

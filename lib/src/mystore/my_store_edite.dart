@@ -10,15 +10,15 @@ import 'package:mbook_flutter/src/comm/model/ShopInfo.dart';
 import 'package:mbook_flutter/src/comm/widgets/Image.dart';
 import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
 
-class MyStoreInfoFrmPage extends StatefulWidget {
+class MyStoreInfoPage extends StatefulWidget {
   final ShopInfo _shopInfo;
 
-  MyStoreInfoFrmPage(this._shopInfo);
+  MyStoreInfoPage(this._shopInfo);
 
-  _MyStoreInfoFrmPageState createState() => _MyStoreInfoFrmPageState();
+  _MyStoreInfoPageState createState() => _MyStoreInfoPageState();
 }
 
-class _MyStoreInfoFrmPageState extends State<MyStoreInfoFrmPage> {
+class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
 
   // 响应空白处的焦点的Node
   final GlobalKey<ScaffoldState> _baseInfoscaffoldKey =
@@ -43,7 +43,7 @@ class _MyStoreInfoFrmPageState extends State<MyStoreInfoFrmPage> {
   Widget build(BuildContext context) {
     List<TabInfo> tabInfos = [
       TabInfo(title: "Store base info", widget: _baseInfo(context)),
-      TabInfo(title: "Addtion info", widget: _addtionInfo(context)),
+      TabInfo(title: "Addition info", widget: _addtionInfo(context)),
     ];
     return Scaffold(
       key: _baseInfoscaffoldKey,
