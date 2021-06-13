@@ -14,7 +14,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'src/home/home.dart';
 import 'src/comm/consts.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
+}
 
 // 手动切换语言Start
 // GlobalKey<_FreeLocalizations> freeLocalizationStateKey =
