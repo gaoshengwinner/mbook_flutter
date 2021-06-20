@@ -63,8 +63,6 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
             _itemList.addAll(dummySearchList);
           });
         }
-        // }
-        // );
       }, serarchValue: serchString),
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -87,9 +85,6 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
             return ListTile(
               contentPadding: EdgeInsets.all(10.0),
               leading:
-                  // CircleAvatar(
-                  //   backgroundImage: NetworkImage(item.itemMainPicUrl,),
-                  // ),
                   item?.itemMainPicUrl?.isEmpty ?? true
                       ? null
                       : Container(
@@ -106,7 +101,6 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
                 softWrap: true,
                 overflow: TextOverflow.ellipsis,
               ),
-              //Text("${item.id}:${item.itemName}", softWrap: true, overflow: TextOverflow.ellipsis,),
               subtitle: Text(
                 item.itemPrice,
                 maxLines: 2,
@@ -150,80 +144,6 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
             );
           }),
         ),
-
-        // Container(
-        //   margin: EdgeInsets.only(left: 5, right: 5),
-        //   child: ListView.builder(
-        //     itemCount: _itemList.length,
-        //     itemBuilder: (context, index) {
-        //       var item = _itemList[index];
-        //       return Container(
-        //           child: ListTile(
-        //             contentPadding: EdgeInsets.all(10.0),
-        //             leading:
-        //                 // CircleAvatar(
-        //                 //   backgroundImage: NetworkImage(item.itemMainPicUrl,),
-        //                 // ),
-        //                 item.itemMainPicUrl == null ||
-        //                         item.itemMainPicUrl.isEmpty
-        //                     ? null
-        //                     : Container(
-        //                         //width: 0.3.sw,
-        //                         constraints:
-        //                             BoxConstraints.tightFor(width: 100.0),
-        //                         child: Image.network(
-        //                           item.itemMainPicUrl,
-        //                           fit: BoxFit.fitWidth,
-        //                         )),
-        //
-        //             trailing: Icon(Icons.arrow_forward_ios),
-        //             title: Text(
-        //               "${item.id}:${item.itemName}",
-        //               softWrap: true,
-        //               overflow: TextOverflow.ellipsis,
-        //             ),
-        //             //Text("${item.id}:${item.itemName}", softWrap: true, overflow: TextOverflow.ellipsis,),
-        //             subtitle: Text(
-        //               item.itemPrice,
-        //               maxLines: 2,
-        //               style: TextStyle(color: Colors.red),
-        //             ),
-        //
-        //             onTap: () {
-        //               Navigator.push(
-        //                   context,
-        //                   MaterialPageRoute(
-        //                       builder: (context) => MyMenuEditPage(item))).then(
-        //                 (value) {
-        //                   GlobalFun.showSnackBar(_scaffoldKey, "  Loading...");
-        //                   Api.getMyShopItemInfo(context).then(
-        //                     (result) {
-        //                       GlobalFun.removeCurrentSnackBar(_scaffoldKey);
-        //                       setState(
-        //                         () {
-        //                           this._AllitemList = result[1];
-        //                           _itemList.clear();
-        //                           _itemList.addAll(_AllitemList);
-        //                         },
-        //                       );
-        //                     },
-        //                   ).catchError(
-        //                     (e) {
-        //                       GlobalFun.showSnackBar(
-        //                           _scaffoldKey, e.toString());
-        //                     },
-        //                   );
-        //                 },
-        //               );
-        //             },
-        //           ),
-        //           decoration: BoxDecoration(
-        //               border: Border(
-        //                   bottom:
-        //                       BorderSide(width: 1, color: Color(0xffe5e5e5)))));
-        //     },
-        //   ),
-        // ),
       ),
     );
   }

@@ -12,7 +12,8 @@ import 'consts.dart';
 class MenuBar {
   static Drawer menu(bool isLogin, bool notDispMystore, BuildContext _context, GlobalKey<ScaffoldState> _scaffoldKey, Function doReturn) {
     return Drawer(
-      child: ListView(
+      child:
+      ListView(
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(

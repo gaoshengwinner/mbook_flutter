@@ -49,20 +49,19 @@ class GlobalFun {
     print("showSnackBar:$title");
     //_scaffoldKey.currentContext.
     ScaffoldMessenger.of(_scaffoldKey.currentContext).showSnackBar(new SnackBar(
-    //_scaffoldKey.currentState.showSnackBar(new SnackBar(
+      //_scaffoldKey.currentState.showSnackBar(new SnackBar(
       backgroundColor: G.appBaseColor[0],
       duration: new Duration(seconds: 4),
       content: new Row(
         children: <Widget>[
           new CircularProgressIndicator(),
-          new
-          Container(
+          new Container(
             width: 0.7.sw,
             child: Text(
-            title,
-            maxLines: 5,
-          ),)
-
+              title,
+              maxLines: 5,
+            ),
+          )
         ],
       ),
     ));
@@ -275,7 +274,7 @@ class GlobalFun {
                 width: 1.sw,
                 color: Color(0xfff7f7f7),
                 child: CupertinoRadioChoice(
-                  initialKeyValue: "",
+                    initialKeyValue: "",
                     selectedColor: G.appBaseColor[0],
                     choices: {
                       "px": 'Pixel',
@@ -521,8 +520,7 @@ class GlobalFun {
     );
   }
 
-  static Widget commonTitle(String lableText,
-      {Widget rightWidget, width}) {
+  static Widget commonTitle(String lableText, {Widget rightWidget, width}) {
     width = width == null ? 0.8.sw : width;
     return Container(
         width: width,
@@ -574,6 +572,34 @@ class GlobalFun {
         ));
   }
 
+  static Widget canClicklistTitle(IconData leadingIcon, IconData trailingIcon,
+      String title, Function doTop) {
+    return new Padding(
+        padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color: Colors.grey.shade400))),
+          child: InkWell(
+            splashColor: G.appBaseColor[1],
+            onTap: doTop,
+            child: Container(
+                height: 40,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                      children: [
+                        Icon(leadingIcon, color: G.appBaseColor[0],),
+                        Padding(padding: const EdgeInsets.all(8.0), child: Text(title, style: TextStyle( color: G.appBaseColor[0]),),)
+                      ],
+                    ),
+                    Icon(trailingIcon , color:G.appBaseColor[0],),
+                  ],
+                )),
+          ),
+        ));
+  }
+
   static Widget fbInputBox(
       BuildContext context, String lableText, String value, Function serValue,
       {Widget valueWidget, width}) {
@@ -619,9 +645,7 @@ class GlobalFun {
         ),
       ],
     );
-
   }
-
 
   static Widget setingRow(IconData icon, String text) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
