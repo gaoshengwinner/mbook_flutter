@@ -28,7 +28,8 @@ class MenuBar {
                   elevation: 10,
                   child: Image.asset(
                     'assets/graphics/logo_shu.png',
-                    width: 0.25.sw,
+                    width: 100,
+                    height:100,
                   ),
                 )
               ],

@@ -4,6 +4,8 @@ import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorder
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:mbook_flutter/src/comm/consts.dart';
+import 'package:mbook_flutter/src/comm/tools/group.dart';
 
 typedef DeleteCallBack<E> = void Function(E item);
 typedef CreateSubWidget<E> = Widget Function(
@@ -55,7 +57,7 @@ class FBListViewWidget<E> extends StatefulWidget {
 
     return SlideAction(
       closeOnTap: true,
-      color: Color.fromRGBO(255, 205, 210, 1),
+      color: backgroundGray,
       onTap: () {
         onTap();
       },
@@ -86,7 +88,7 @@ class FBListViewWidget<E> extends StatefulWidget {
 
     return SlideAction(
       closeOnTap: true,
-      color: Color.fromRGBO(255, 205, 210, 1),
+      color: backgroundGray,
       onTap: () {
         onTap();
       },
@@ -117,7 +119,7 @@ class FBListViewWidget<E> extends StatefulWidget {
 
     return SlideAction(
       closeOnTap: true,
-      color: Color.fromRGBO(255, 205, 210, 1),
+      color: backgroundGray,
       onTap: () {
         onTap();
       },
@@ -149,7 +151,7 @@ class FBListViewWidget<E> extends StatefulWidget {
           if (onTap != null) onTap();
         },
         child: Card(
-          color: Color.fromRGBO(237, 231, 246, 1),
+          color: backgroundGray,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -162,12 +164,13 @@ class FBListViewWidget<E> extends StatefulWidget {
                         child: Center(
                           child: Icon(
                             icon,
-                            color: Colors.grey,
+                            color: G.appBaseColor[0],
                           ),
                         ),
                       ),
                 title: Text(
                   title,
+                  style: TextStyle(color: G.appBaseColor[0]),
                 ),
               ),
               const Divider(height: 0),
@@ -307,7 +310,7 @@ class _FBListViewWidgetState<E> extends State<FBListViewWidget>
             : this.setSeActions(context, item, index),
         child: Stack(children: <Widget>[
           Card(
-            color: Color.fromRGBO(237, 231, 246, 1),
+            color: backgroundGray,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0)),
             ),

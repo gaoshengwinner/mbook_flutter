@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mbook_flutter/src/comm/input_bottom.dart';
 import 'package:mbook_flutter/src/comm/model/ListHelper.dart';
 import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
+import 'package:mbook_flutter/src/comm/tools/group.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_tags_selector.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -80,7 +81,7 @@ class GlobalFun {
       builder: (context) => Container(
           decoration: new BoxDecoration(
             //border: new Border.all( width: 0.5), // 边色与边宽度
-            color: Color(0xFFEFEFF4),
+            color: backgroundGray,
             // 底色
             //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
             borderRadius:

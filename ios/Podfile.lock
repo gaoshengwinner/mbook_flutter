@@ -13,9 +13,13 @@ PODS:
     - Flutter
   - flutter_secure_storage (3.3.1):
     - Flutter
+  - flutter_youtube_view (1.1.4):
+    - Flutter
+    - YoutubeKit
   - OrderedSet (5.0.0)
   - webview_flutter (0.0.1):
     - Flutter
+  - YoutubeKit (0.5.0)
 
 DEPENDENCIES:
   - device_info (from `.symlinks/plugins/device_info/ios`)
@@ -23,11 +27,13 @@ DEPENDENCIES:
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
   - flutter_keychain (from `.symlinks/plugins/flutter_keychain/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - flutter_youtube_view (from `.symlinks/plugins/flutter_youtube_view/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
 
 SPEC REPOS:
   trunk:
     - OrderedSet
+    - YoutubeKit
 
 EXTERNAL SOURCES:
   device_info:
@@ -40,6 +46,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_keychain/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  flutter_youtube_view:
+    :path: ".symlinks/plugins/flutter_youtube_view/ios"
   webview_flutter:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
@@ -49,8 +57,10 @@ SPEC CHECKSUMS:
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
   flutter_keychain: 01aabf894ffe8b01adfda1d9df21c210c1b4b452
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
+  flutter_youtube_view: ea93f139b374c5e2b869b3e84190c4ba9668601b
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   webview_flutter: 9f491a9b5a66f2573946a389b2677987b0ff8c0b
+  YoutubeKit: 9f66eba839211158f2aac7ad3833593bd56fa8f9
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 

@@ -53,8 +53,8 @@ dependencies:
   event_bus: ^1.1.1
   status_change: ^2.0.0
   webview_flutter: ^2.0.8
-
-
+  flutter_youtube_view: ^2.0.0
+  html: ^0.15.0
   font_awesome_flutter:
   youtube_player_flutter: ^8.0.0
 dynamic_theme: ^1.0.1
