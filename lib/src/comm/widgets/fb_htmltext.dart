@@ -53,7 +53,7 @@ class _FbYoutubeState extends State<FBHtmlTextView> {
   Future _loadHtmlFromAssets(
       WebViewController webViewController, String src) async {
     webViewController.loadUrl(Uri.dataFromString(
-        "<html><body>" + src + "</body></html>",
+        "<html><body>" + (src == null ? "" : src) +  "</body></html>",
         mimeType: 'text/html',
         encoding: Encoding.getByName('utf-8'))
         .toString());

@@ -19,20 +19,24 @@ class FbYoutubeWidget extends StatefulWidget {
 
   _FbYoutubeState createState() => _FbYoutubeState();
 
-   double _getHeightbiWidth(final String src) {
+  double _getHeightbiWidth(final String src) {
     if (src == null || src.isEmpty) return 1;
     Document document = parse(src);
     String width = "";
     String height = "";
     Node e = document.querySelector("iframe");
-    e.attributes.forEach((key, value) {
-      if ("width".toLowerCase() == key.toString().toLowerCase()) {
-        width = value;
-      }
-      if ("height".toLowerCase() == key.toString().toLowerCase()) {
-        height = value;
-      }
-    });
+    try {
+      e.attributes.forEach((key, value) {
+        if ("width".toLowerCase() == key.toString().toLowerCase()) {
+          width = value;
+        }
+        if ("height".toLowerCase() == key.toString().toLowerCase()) {
+          height = value;
+        }
+      });
+    } catch (e) {
+      return 0.2;
+    }
 
     e.attributes["width"] = "100%";
     e.attributes["height"] = "100%";
@@ -65,7 +69,9 @@ class _FbYoutubeState extends State<FbYoutubeWidget> {
   Widget build(BuildContext context) {
     return new Container(
       width: widget._width,
-      height: widget._src?.isEmpty ?? true ? 0 : widget._heightbiwidth * widget._width,
+      height: widget._src?.isEmpty ?? true
+          ? 0
+          : widget._heightbiwidth * widget._width,
       constraints: BoxConstraints(
         minHeight: 30,
       ),
@@ -82,7 +88,7 @@ class _FbYoutubeState extends State<FbYoutubeWidget> {
   Future _loadHtmlFromAssets(
       WebViewController webViewController, String src) async {
     webViewController.loadUrl(Uri.dataFromString(
-            "<html><body>" + src + "</body></html>",
+            "<html><body>" + (src == null ? "" : src) + "</body></html>",
             mimeType: 'text/html',
             encoding: Encoding.getByName('utf-8'))
         .toString());
