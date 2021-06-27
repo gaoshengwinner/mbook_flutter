@@ -11,7 +11,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 class FBHtmlTextView extends StatefulWidget {
   String src;
   double _width = 200;
-  double _heightbiwidth = 1;
 
   FBHtmlTextView({this.src});
 
@@ -28,16 +27,18 @@ class _FbYoutubeState extends State<FBHtmlTextView> {
       width: widget._width,
       height: webViewHeight != null ? webViewHeight : 10,
       constraints: BoxConstraints(
-        minHeight: 30,
+        minHeight: 20,
       ),
-      child: WebView(
+      child:
+
+      WebView(
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController webViewController) async {
           _webViewController = webViewController;
-          await _loadHtmlFromAssets(webViewController, widget.src);
+          _loadHtmlFromAssets(webViewController, widget.src);
         },
         onPageFinished: (some) async {
-          if (_webViewController != null) {
+          if (_webViewController != null && (widget.src != null && widget.src.isNotEmpty)) {
             webViewHeight = double.tryParse(
               await _webViewController
                   .evaluateJavascript("document.documentElement.scrollHeight;"),
@@ -50,9 +51,9 @@ class _FbYoutubeState extends State<FBHtmlTextView> {
     );
   }
 
-  Future _loadHtmlFromAssets(
-      WebViewController webViewController, String src) async {
-    webViewController.loadUrl(Uri.dataFromString(
+  Future<void> _loadHtmlFromAssets(
+      WebViewController webViewController, String src)  {
+    return webViewController.loadUrl(Uri.dataFromString(
         "<html><body>" + (src == null ? "" : src) +  "</body></html>",
         mimeType: 'text/html',
         encoding: Encoding.getByName('utf-8'))

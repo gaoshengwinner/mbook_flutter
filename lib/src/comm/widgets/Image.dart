@@ -5,7 +5,8 @@ class MBImage extends StatefulWidget {
       {this.url,
       this.w,
       this.h,
-      this.defImagePath = "assets/graphics/logo_shu.png", this.fit}){
+      this.defImagePath = "assets/graphics/logo_shu.png",
+      this.fit}) {
     createState();
   }
 
@@ -27,12 +28,20 @@ class _StateImageWidget extends State<MBImage> {
   @override
   void initState() {
     super.initState();
-    _image = Image.network(
-      widget.url,
-      width: widget.w,
-      height: widget.h,
-        fit:widget.fit,
-    );
+    if (widget.url == null || widget.url.isEmpty) {
+      _image = Image.asset(
+        widget.defImagePath,
+        width: widget.w,
+        height: widget.h,
+      );
+    } else {
+      _image = Image.network(
+        widget.url,
+        width: widget.w,
+        height: widget.h,
+        fit: widget.fit,
+      );
+    }
     var resolve = _image.image.resolve(ImageConfiguration.empty);
     resolve.addListener(ImageStreamListener((_, __) {
       //加载成功
@@ -50,6 +59,6 @@ class _StateImageWidget extends State<MBImage> {
 
   @override
   Widget build(BuildContext context) {
-    return _image;
+    return widget.url == null || widget.url.isEmpty? Text("") :  _image;
   }
 }

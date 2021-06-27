@@ -107,7 +107,7 @@ class _MyOptionsPageState extends State<MyOptionsPage>
                         });
                       }),
                       GlobalFun.commonTitle("Temp",
-                          width: 0.95.sw,
+                          //width: 0.95.sw,
                           rightWidget: GlobalFun.clipOvalIconTitle(
                               Icons.settings, "", () {
                             GlobalFun.showBottomSheet(

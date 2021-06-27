@@ -30,7 +30,7 @@ class _FBWebViewState extends State<FBWebView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: webViewHeight != null ? webViewHeight : 300,
+      height: webViewHeight != null ? webViewHeight : 20,
       child: WebView(
         javascriptMode: JavascriptMode.unrestricted,
         initialUrl: guideUrl,

@@ -1,6 +1,7 @@
 import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:mbook_flutter/src/comm/input_bottom.dart';
 import 'package:mbook_flutter/src/comm/model/ListHelper.dart';
 import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
@@ -521,23 +522,30 @@ class GlobalFun {
     );
   }
 
-  static Widget commonTitle(String lableText, {Widget rightWidget, width}) {
-    width = width == null ? 0.8.sw : width;
+  static Widget commonTitle(String lableText, {Widget rightWidget}) {
     return Container(
-        width: width,
-        child: Row(
-          children: <Widget>[
-            Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  lableText,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: G.appBaseColor[0]),
-                )),
-            Flexible(fit: FlexFit.tight, child: SizedBox()),
-            Align(alignment: Alignment.centerRight, child: rightWidget)
-          ],
-        ));
+        child:
+        Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+        lableText,
+        style: TextStyle(
+        fontWeight: FontWeight.bold, ), // G.appBaseColor[0]
+    )));
+
+        // Row(
+        //   children: <Widget>[
+        //     Align(
+        //         alignment: Alignment.centerLeft,
+        //         child: Text(
+        //           lableText,
+        //           style: TextStyle(
+        //               fontWeight: FontWeight.bold, ), // G.appBaseColor[0]
+        //         )),
+        //     Flexible(fit: FlexFit.tight, child: SizedBox()),
+        //     Align(alignment: Alignment.centerRight, child: rightWidget)
+        //   ],
+        // ));
   }
 
   static Widget customListTitle(IconData icon, String title, Function doTop) {
@@ -574,7 +582,7 @@ class GlobalFun {
   }
 
   static Widget canClicklistTitle(IconData leadingIcon, IconData trailingIcon,
-      String title, Function doTop) {
+      String title, Function doTop, {Weidget }) {
     return new Padding(
         padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
         child: Container(
@@ -590,11 +598,14 @@ class GlobalFun {
                   children: <Widget>[
                     Row(
                       children: [
-                        Icon(leadingIcon, color: G.appBaseColor[0],),
-                        Padding(padding: const EdgeInsets.all(8.0), child: Text(title, style: TextStyle( color: G.appBaseColor[0]),),)
+                        Icon(leadingIcon),
+                        Padding(padding: const EdgeInsets.all(8.0), child: Text(title))
                       ],
                     ),
-                    Icon(trailingIcon , color:G.appBaseColor[0],),
+                    Row(children: [
+                     // Icon(AntDesign.plussquareo , color:G.appBaseColor[0],),
+                    Icon(trailingIcon ),
+                    ],)
                   ],
                 )),
           ),
@@ -603,25 +614,23 @@ class GlobalFun {
 
   static Widget fbInputBox(
       BuildContext context, String lableText, String value, Function serValue,
-      {Widget valueWidget, width}) {
-    width = width == null ? 0.8.sw : width;
-    return Column(
+      {Widget valueWidget, double width, Axis axis}) {
+    width = width == null ? double.maxFinite : width;
+    return
+      Container(
+          //padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+          child:
+      Flex(
+      direction: axis == null ? Axis.vertical : axis,
+      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        commonTitle(lableText),
-        // Container(
-        //   width: width,
-        //   child: Text(
-        //     lableText,
-        //     style: TextStyle(
-        //         fontWeight: FontWeight.bold, color: G.appBaseColor[0]),
-        //   ),
-        // ),
+        if (lableText != null) commonTitle(lableText),
         Container(
           constraints: BoxConstraints(
-            minHeight: 30,
+            minHeight: 20,
           ),
-          width: width,
+          //width: width,
           child: GestureDetector(
             child: Container(
               padding: EdgeInsets.all(5),
@@ -630,8 +639,28 @@ class GlobalFun {
                 border: Border.all(color: Colors.grey, width: 1),
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
-              width: 0.8.sw,
-              child: valueWidget == null ? Text(value ?? "") : valueWidget,
+             width: width,
+              child:
+
+             //valueWidget == null ? Text(value ?? "", style: TextStyle(color: Colors.black),) : valueWidget,
+
+              Stack(children: [
+                Container(
+                  child: valueWidget == null ? Text(value ?? "", style: TextStyle(color: Colors.black),) : valueWidget
+                ),
+                if (valueWidget != null)   Align(
+                 alignment: Alignment.centerRight,
+                  child: IconButton(
+                      onPressed: null,
+                      icon: Icon(
+                        Icons.edit,
+                        size: 20,
+                        color: Colors.red,
+                      )),
+                )
+              ]),
+
+
             ),
             onTap: () {
               GlobalFun.openEditPage(context, lableText, value,
@@ -645,7 +674,8 @@ class GlobalFun {
           height: 5,
         ),
       ],
-    );
+    )
+      );
   }
 
   static Widget setingRow(IconData icon, String text) {
