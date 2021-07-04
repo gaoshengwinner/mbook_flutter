@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mbook_flutter/src/comm/model/AdditionalMana.dart';
 
 part 'ShopInfo.g.dart';
 
@@ -16,7 +17,11 @@ class ShopInfo{
 
   String  shopPicUrl;
 
-  ShopInfo(this.shopName, this.shopAddr, this.shopTel, this.shopPicUrl);
+  String?  additionInfo;
+
+  ShopInfo({required this.shopName, required this.shopAddr, required this.shopTel, required this.shopPicUrl, this.additionInfo}){
+    getMana();
+  }
 
   factory ShopInfo.fromJson(Map<String, dynamic> json) =>
       _$ShopInfoFromJson(json);
@@ -24,6 +29,14 @@ class ShopInfo{
   Map<String, dynamic> toJson() => _$ShopInfoToJson(this);
 
   String getJsonString() {
+    additionInfo = _additionalMana == null ? "" : _additionalMana!.getJsonString();
     return jsonEncode(this.toJson());
   }
+
+  AdditionalMana? _additionalMana;
+  AdditionalMana getMana(){
+    _additionalMana = AdditionalMana.fromJsonString(additionInfo);
+    return _additionalMana!;
+  }
+
 }

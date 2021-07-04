@@ -30,4 +30,12 @@ class AdditionalMana {
   String getJsonString() {
     return jsonEncode(this.toJson());
   }
+
+  factory AdditionalMana.fromJsonString(String? json){
+    if (json == null || json.isEmpty) {
+      return AdditionalMana(webViews: [], htmlTexts: [], videos: [], pictures: [], simpleTexts: []);
+    } else {
+      return AdditionalMana.fromJson(jsonDecode(json));
+    }
+  }
 }

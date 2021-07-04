@@ -11,7 +11,7 @@ class MyGlobal {
   static List<TagInfo>? tagInfos = [];
   static List<OptionTemp>? optionTempInfos = [];
   static List<ItemDetail>? itemDetails = [];
-  static ShopInfo? shopInfo = ShopInfo("", "", "", "");
+  static ShopInfo? shopInfo = ShopInfo(shopTel: '', shopPicUrl: '', shopAddr: '', shopName: '', );
 
   static Future getTagInfos(
       BuildContext context, GlobalKey<ScaffoldState> _scaffoldKey) async {

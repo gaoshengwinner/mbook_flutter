@@ -92,27 +92,6 @@ class _SignupPageState extends State<SignupPage> {
                                         _canSendMail,
                                         _signUpTitle, (mail, uuid) {
                                       setState(() {
-                                        // countDownTimer?.cancel(); //如果已存在先取消置空
-                                        // countDownTimer = null;
-                                        // countDownTimer = new Timer.periodic(
-                                        //     new Duration(seconds: 1), (t) {
-                                        //   if (60 - t.tick > 1) {
-                                        //     setState(() {
-                                        //       _canSendMail = false;
-                                        //       _signUpTitle = S
-                                        //               .of(context)
-                                        //               .signup_button_sending +
-                                        //           "(${60 - t.tick})";
-                                        //     });
-                                        //   } else {
-                                        //     _canSendMail = true;
-                                        //     _signUpTitle = S
-                                        //         .of(context)
-                                        //         .signup_button_sending;
-                                        //     countDownTimer.cancel();
-                                        //     countDownTimer = null;
-                                        //   }
-                                        // });
                                         _uuid = uuid;
                                         _mail = mail;
                                         step = 1;
@@ -129,7 +108,7 @@ class _SignupPageState extends State<SignupPage> {
                                           color: G.appBaseColor[0],
                                           fontSize: 10),
                                     ),
-                                    content: new SignupCodeCnfPage(_uuid!, (uuid) {
+                                    content: new SignupCodeCnfPage(_uuid?.toString() ?? "", (uuid) {
                                       setState(() {
                                         _uuid = uuid;
                                         step = 2;
@@ -147,7 +126,7 @@ class _SignupPageState extends State<SignupPage> {
                                           fontSize: 10),
                                     ),
                                     content: new SignupPasswordPage(
-                                        _scaffoldKey, _formKey, _mail!, _uuid!,
+                                        _scaffoldKey, _formKey, _mail?.toString() ?? "", _uuid?.toString() ?? "",
                                         () {
                                       setState(() {
                                         step = 3;
@@ -269,7 +248,7 @@ class SignupCodeCnfPage extends StatefulWidget {
   SignupCodeCnfPage(this._uuid, this.onOK);
 
   _SignupCodeCnfPageState createState() => _SignupCodeCnfPageState();
-  final String _uuid;
+  String _uuid;
 }
 
 class _SignupCodeCnfPageState extends State<SignupCodeCnfPage> {

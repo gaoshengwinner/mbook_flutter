@@ -16,7 +16,7 @@ class WidgetOptionPage {
         ),
         WidgetBasePage.build(
           context,
-          property.framPr!,
+          property.framPr,
           child: _CupertinoRadioChoice(
             onChange: () {},
             initialKeyValue: data.options!.first,
@@ -117,11 +117,11 @@ class _CupertinoRadioChoiceState extends State<_CupertinoRadioChoice> {
   Widget build(BuildContext context) {
 
     double realWidth = (1.sw -
-            widget.optionWidgetProperty.framPr!.marginLeft -
-            widget.optionWidgetProperty.framPr!.marginRight -
-            widget.optionWidgetProperty.framPr!.paddingLeft -
-            widget.optionWidgetProperty.framPr!.paddingRight -
-            (widget.rowMaxcount - 1) * widget.optionWidgetProperty.framPr!.spacingHWidth) /
+            widget.optionWidgetProperty.framPr.marginLeft -
+            widget.optionWidgetProperty.framPr.marginRight -
+            widget.optionWidgetProperty.framPr.paddingLeft -
+            widget.optionWidgetProperty.framPr.paddingRight -
+            (widget.rowMaxcount - 1) * widget.optionWidgetProperty.framPr.spacingHWidth) /
         widget.rowMaxcount;
 
     final List<List<Widget>> buttonList = [];
@@ -131,10 +131,10 @@ class _CupertinoRadioChoiceState extends State<_CupertinoRadioChoice> {
     for (var key in widget.data.options!) {
       if (row.length > 0) {
         row.add(new Expanded(
-          flex: widget.optionWidgetProperty.framPr!.spacingHWidth.toInt(),
+          flex: widget.optionWidgetProperty.framPr.spacingHWidth.toInt(),
           child: SizedBox(
-            width: widget.optionWidgetProperty.framPr!.spacingHWidth,
-            height: widget.optionWidgetProperty.framPr!.spacingVWidth,
+            width: widget.optionWidgetProperty.framPr.spacingHWidth,
+            height: widget.optionWidgetProperty.framPr.spacingVWidth,
           ),
         ));
       }
@@ -152,8 +152,8 @@ class _CupertinoRadioChoiceState extends State<_CupertinoRadioChoice> {
         if (i < widget.data.options!.length) {
           buttonList.add([
             SizedBox(
-              height: widget.optionWidgetProperty.framPr!.spacingVWidth,
-              width: widget.optionWidgetProperty.framPr!.spacingHWidth,
+              height: widget.optionWidgetProperty.framPr.spacingVWidth,
+              width: widget.optionWidgetProperty.framPr.spacingHWidth,
             )
           ]);
         }
@@ -168,17 +168,17 @@ class _CupertinoRadioChoiceState extends State<_CupertinoRadioChoice> {
     if (j != 0)
       for (int l = j; l < widget.rowMaxcount; l++) {
         buttonList.last.add(new Expanded(
-          flex: widget.optionWidgetProperty.framPr!.spacingHWidth.toInt(),
+          flex: widget.optionWidgetProperty.framPr.spacingHWidth.toInt(),
           child: SizedBox(
-            width: widget.optionWidgetProperty.framPr!.spacingHWidth,
-            height: widget.optionWidgetProperty.framPr!.spacingVWidth,
+            width: widget.optionWidgetProperty.framPr.spacingHWidth,
+            height: widget.optionWidgetProperty.framPr.spacingVWidth,
           ),
         ));
         buttonList.last.add(new Expanded(
           flex: realWidth.toInt(),
           child: SizedBox(
             width: realWidth,
-            height: widget.optionWidgetProperty.framPr!.spacingVWidth,
+            height: widget.optionWidgetProperty.framPr.spacingVWidth,
             child: Text(
                 "                                                               "),
           ),

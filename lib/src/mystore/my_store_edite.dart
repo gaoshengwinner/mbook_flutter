@@ -16,8 +16,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class MyStoreInfoPage extends StatefulWidget {
   ShopInfo? _shopInfo;
-  AdditionalMana? addtionInfoMana;
-
   MyStoreInfoPage(this._shopInfo);
 
   _MyStoreInfoPageState createState() => _MyStoreInfoPageState();
@@ -151,7 +149,7 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
   }
 
   Widget _addtionInfo(BuildContext context) {
-    return MyAdditionPage(addtionInfoMana: widget.addtionInfoMana);
+    return MyAdditionPage(addtionInfoMana: widget._shopInfo!.getMana());
   }
 
   late ScrollController scrollController;

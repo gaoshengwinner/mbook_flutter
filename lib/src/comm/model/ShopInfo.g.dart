@@ -8,10 +8,11 @@ part of 'ShopInfo.dart';
 
 ShopInfo _$ShopInfoFromJson(Map<String, dynamic> json) {
   return ShopInfo(
-    json['shopName'] as String,
-    json['shopAddr'] as String,
-    json['shopTel'] as String,
-    json['shopPicUrl'] as String,
+    shopName: json['shopName'] as String,
+    shopAddr: json['shopAddr'] as String,
+    shopTel: json['shopTel'] as String,
+    shopPicUrl: json['shopPicUrl'] as String,
+    additionInfo: json['additionInfo'] as String?,
   );
 }
 
@@ -20,4 +21,5 @@ Map<String, dynamic> _$ShopInfoToJson(ShopInfo instance) => <String, dynamic>{
       'shopAddr': instance.shopAddr,
       'shopTel': instance.shopTel,
       'shopPicUrl': instance.shopPicUrl,
+      'additionInfo': instance.additionInfo,
     };
