@@ -16,8 +16,8 @@ typedef Future<void> PressOperationCallback();
 
 class SettingsItem extends StatefulWidget {
   const SettingsItem({
-    @required this.type,
-    @required this.label,
+    required this.type,
+    required this.label,
     this.subtitle,
     this.icon,
     this.value,
@@ -27,12 +27,12 @@ class SettingsItem extends StatefulWidget {
         assert(type != null);
 
   final String label;
-  final String subtitle;
-  final Icon icon;
-  final SettingsItemType type;
-  final Widget value;
-  final bool hasDetails;
-  final PressOperationCallback onPress;
+  final String? subtitle;
+  final Icon? icon;
+  final SettingsItemType? type;
+  final Widget? value;
+  final bool? hasDetails;
+  final PressOperationCallback? onPress;
 
   @override
   State<StatefulWidget> createState() => new SettingsItemState();
@@ -77,7 +77,7 @@ class SettingsItemState extends State<SettingsItem> {
           Text(widget.label),
           const Padding(padding: EdgeInsets.only(top: 4.0)),
           Text(
-            widget.subtitle,
+            widget.subtitle == null ? "" : widget.subtitle!,
             style: TextStyle(
               fontSize: 12.0,
               letterSpacing: -0.2,
@@ -132,7 +132,7 @@ class SettingsItemState extends State<SettingsItem> {
           );
         }
 
-        if (widget.hasDetails) {
+        if (widget.hasDetails == null ? false : widget.hasDetails!) {
           rightRowChildren.add(
             Padding(
               padding: const EdgeInsets.only(
@@ -170,8 +170,8 @@ class SettingsItemState extends State<SettingsItem> {
             setState(() {
               pressed = true;
             });
-            if (widget.onPress != null && widget.onPress() != null)
-            widget.onPress().whenComplete(() {
+            if (widget.onPress != null)
+            widget.onPress!().whenComplete(() {
               Future.delayed(
                 Duration(milliseconds: 150),
                 () {

@@ -8,27 +8,27 @@ part 'TagInfo.g.dart';
 
 @JsonSerializable()
 class TagInfo {
-  int id;
-  String data;
-  String desc;
-  String propertyString;
-  int orders;
+  int? id;
+  String? data;
+  String? desc;
+  String? propertyString;
+  int? orders;
 
   TagInfo copy(){
     return TagInfo.fromJson(toJson());
   }
 
   @JsonKey(ignore: true)
-  TextWidgetProperty property;
+  TextWidgetProperty? property;
 
   @JsonKey(ignore: true)
-  String uuid;
+  String?uuid;
 
   TagInfo({this.id, this.data, this.desc, this.propertyString}) {
     if (propertyString?.isEmpty ?? true) {
       property = TextWidgetProperty();
     } else {
-      property = TextWidgetProperty.fromJson(jsonDecode(propertyString));
+      property = TextWidgetProperty.fromJson(jsonDecode(propertyString!));
     }
     uuid = Uuid().v1();
   }
@@ -51,7 +51,7 @@ class TagInfo {
   }
 
   void beForToJson(){
-    this.propertyString = jsonEncode(property.toJson());
+    this.propertyString = jsonEncode(property!.toJson());
   }
 
   bool operator ==(Object o) {
@@ -61,7 +61,7 @@ class TagInfo {
         o.id == id &&
         o.data == data &&
         o.uuid == uuid &&
-        o.property.toJson() == property.toJson();
+        o.property!.toJson() == property!.toJson();
   }
 
   @override

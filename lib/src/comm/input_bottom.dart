@@ -3,12 +3,12 @@ import 'package:flutter/services.dart';
 
 // ignore: must_be_immutable
 class InputButtomWidget extends StatelessWidget {
-  final ValueChanged onEditingCompleteText;
+  final ValueChanged? onEditingCompleteText;
 
-  String hintTextValue = "";
-  String initVlueValue = "";
-  TextInputAction textInputAction = TextInputAction.search;
-  TextInputType keyboardType = TextInputType.multiline;
+  String? hintTextValue = "";
+  String? initVlueValue = "";
+  TextInputAction? textInputAction = TextInputAction.search;
+  TextInputType? keyboardType = TextInputType.multiline;
 
   final TextEditingController _controller = new TextEditingController();
 
@@ -18,7 +18,7 @@ class InputButtomWidget extends StatelessWidget {
       this.initVlueValue,
       this.textInputAction,
       this.keyboardType}) {
-    _controller.text = initVlueValue;
+    _controller.text = initVlueValue == null ? "" : initVlueValue!;
   }
 
   @override
@@ -69,7 +69,7 @@ class InputButtomWidget extends StatelessWidget {
                     keyboardType: keyboardType,
                     //initialValue: initVlueValue,
                     onChanged: (value) {
-                      onEditingCompleteText(value);
+                      if (onEditingCompleteText != null) onEditingCompleteText!(value);
                     },
                     onEditingComplete: () {
                       Navigator.pop(context);
@@ -101,21 +101,21 @@ class InputButtomWidget extends StatelessWidget {
                     children: [
                       IconButton(onPressed: (){
                         _controller.clear();
-                        onEditingCompleteText("");
+                        if (onEditingCompleteText != null) onEditingCompleteText!("");
                       }, icon: Icon(Icons.clear)),
                       IconButton(onPressed: () async {
                         await Clipboard.getData(Clipboard.kTextPlain).then((cdata){
-                          if (cdata != null && cdata.text !=null && cdata.text.isNotEmpty){
+                          if (cdata != null && cdata.text !=null && cdata.text!.isNotEmpty){
                             final String inputText = _controller.text;
                             final int beginBaseOffset = _controller.selection.baseOffset;
-                            if (inputText?.isEmpty ?? true){
-                              _controller.text = cdata.text;
+                            if (inputText.isEmpty){
+                              _controller.text = cdata.text == null ? "" : cdata.text!;
                             } else {
-                              _controller.text = inputText.substring(0, beginBaseOffset) + cdata.text
+                              _controller.text = inputText.substring(0, beginBaseOffset) + (cdata.text == null ? "" : cdata.text!)
                                   + inputText.substring(_controller.selection.extentOffset);
                             }
-                            _controller.selection = new TextSelection(baseOffset: (beginBaseOffset + cdata.text.length), extentOffset: beginBaseOffset + cdata.text.length);
-                            onEditingCompleteText(_controller.text);
+                            _controller.selection = new TextSelection(baseOffset: (beginBaseOffset + cdata.text!.length), extentOffset: beginBaseOffset + cdata.text!.length);
+                            if (onEditingCompleteText != null) onEditingCompleteText!(_controller.text);
                           }
                         });
 

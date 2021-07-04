@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ListHelper {
-  List<Text> _list;
-  List<int> _values;
-  List<dynamic> _sValues;
+  List<Text>? _list;
+  List<int>? _values;
+  List<dynamic>? _sValues;
   int b = 1;
   int beginNumber = 0;
   int endNumber = 0;
@@ -13,13 +13,14 @@ class ListHelper {
   ListHelper.byStringList(List<String> list, this._sValues){
     _list = [];
     for (int i=0; i<list.length; i++) {
-      _list.add(Text(list[i]));
+      _list!.add(Text(list[i]));
     }
   }
 
   int getIndexBySValue(String dbValue) {
-    for (int i = 0; i < _values.length; i++) {
-      if (_sValues[i] == "$this.pre$dbValue$tral") {
+    if (_values == null) {_values = [];}
+    for (int i = 0; i < _values!.length; i++) {
+      if (_sValues![i] == "$this.pre$dbValue$tral") {
         return i;
       }
     }
@@ -33,8 +34,8 @@ class ListHelper {
     _values = [];
     int i = 0;
     while (tmp <= endNumber) {
-      _values.add(tmp);
-      _list.add(Text("$pre$tmp$tral"));
+      _values!.add(tmp);
+      _list!.add(Text("$pre$tmp$tral"));
       i++;
       tmp = beginNumber + b * i;
     }
@@ -53,9 +54,10 @@ class ListHelper {
   }
 
   int getIndexByValue(int dbValue) {
+    if (_values == null){return 0;}
     int serchS = dbValue.toInt();
-    for (int i = 0; i < _values.length; i++) {
-      if (_values[i] == serchS) {
+    for (int i = 0; i < _values!.length; i++) {
+      if (_values![i] == serchS) {
         return i;
       }
     }

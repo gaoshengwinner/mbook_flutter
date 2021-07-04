@@ -8,26 +8,26 @@ part 'OptionTemp.g.dart';
 
 @JsonSerializable()
 class OptionTemp {
-  int id;
-  String desc;
-  String propertyString;
-  int orders;
+  int? id;
+  String? desc;
+  String? propertyString;
+  int? orders;
 
   OptionTemp copy(){
     return OptionTemp.fromJson(toJson());
   }
 
   @JsonKey(ignore: true)
-  OptionWidgetProperty property;
+  OptionWidgetProperty? property;
 
   @JsonKey(ignore: true)
-  String uuid;
+  String? uuid;
 
   OptionTemp({this.id, this.desc, this.propertyString}) {
     if (propertyString?.isEmpty ?? true) {
       property = OptionWidgetProperty.init();
     } else {
-      property = OptionWidgetProperty.fromJson(jsonDecode(propertyString));
+      property = OptionWidgetProperty.fromJson(jsonDecode(propertyString!));
     }
     uuid = Uuid().v1();
   }
@@ -50,7 +50,7 @@ class OptionTemp {
   }
 
   void beForToJson(){
-    this.propertyString = jsonEncode(property.toJson());
+    this.propertyString = jsonEncode(property?.toJson());
   }
 
   bool operator ==(Object o) {
@@ -59,7 +59,7 @@ class OptionTemp {
     return o is OptionTemp &&
         o.id == id &&
         o.uuid == uuid &&
-        o.property.toJson() == property.toJson();
+        o.property!.toJson() == property!.toJson();
   }
 
   @override

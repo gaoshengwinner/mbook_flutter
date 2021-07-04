@@ -40,7 +40,7 @@ class MenuBar {
                 () => {gotoMyStore(_context, _scaffoldKey)}),
           if (isLogin)
             GlobalFun.customListTitle(Icons.logout, S.of(_context).menu_logout_title,
-                    () => {logout(_context, doReturn)}),
+                    () => {logout(_context)}),
           if (!isLogin)
             GlobalFun.customListTitle(Icons.login, S.of(_context).menu_login_title,
                 () => {login(_context, doReturn)}),
@@ -72,7 +72,7 @@ class MenuBar {
     });
   }
 
-  static logout(BuildContext _context, Function doReturn) async {
+  static logout(BuildContext _context) async {
     await TokenUtil.clearToken();
     Navigator.push(
         _context, MaterialPageRoute(builder: (context) => HomePage()));

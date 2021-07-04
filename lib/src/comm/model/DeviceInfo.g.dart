@@ -8,7 +8,7 @@ part of 'DeviceInfo.dart';
 
 DeviceInfo _$DeviceInfoFromJson(Map<String, dynamic> json) {
   return DeviceInfo(
-    json['deviceId'] as String,
+    json['deviceId'] as String?,
     json['phoneName'] as String,
     json['appVersion'] as String,
     json['systemName'] as String,

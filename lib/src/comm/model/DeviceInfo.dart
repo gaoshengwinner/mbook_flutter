@@ -7,7 +7,7 @@ part 'DeviceInfo.g.dart';
 // root flutter packages pub run build_runner build watch
 @JsonSerializable()
 class DeviceInfo {
-  String deviceId;
+  String? deviceId;
   String phoneName = "TODO";
   String appVersion = "TODO";
   String systemName = "TODO";

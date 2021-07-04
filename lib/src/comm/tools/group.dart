@@ -13,15 +13,15 @@ class SettingsGroup extends StatelessWidget {
   const SettingsGroup(
     this.items,
     {
-      this.header,
+       this.header,
       this.footer,
     }
   ) : assert(items != null);
 
   final List<Widget> items;
 
-  final Widget header;
-  final Widget footer;
+  final Widget? header;
+  final Widget? footer;
 
   @override
   Widget build(BuildContext context) {

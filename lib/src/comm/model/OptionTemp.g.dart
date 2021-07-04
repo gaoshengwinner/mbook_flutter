@@ -8,10 +8,10 @@ part of 'OptionTemp.dart';
 
 OptionTemp _$OptionTempFromJson(Map<String, dynamic> json) {
   return OptionTemp(
-    id: json['id'] as int,
-    desc: json['desc'] as String,
-    propertyString: json['propertyString'] as String,
-  )..orders = json['orders'] as int;
+    id: json['id'] as int?,
+    desc: json['desc'] as String?,
+    propertyString: json['propertyString'] as String?,
+  )..orders = json['orders'] as int?;
 }
 
 Map<String, dynamic> _$OptionTempToJson(OptionTemp instance) =>

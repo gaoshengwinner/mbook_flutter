@@ -20,8 +20,8 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   String _errmsg = "";
-  String _mail;
-  String _pws;
+  String? _mail;
+  String? _pws;
 
   // 响应空白处的焦点的Node
   FocusNode _blankNode = FocusNode();
@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                                 return S
                                     .of(context)
                                     .login_email_validator_empty_msg;
-                              } else if (!EmailValidator.validate(email)) {
+                              } else if (!EmailValidator.validate(email!)) {
                                 return S
                                     .of(context)
                                     .login_email_validator_not_valid_msg;
@@ -140,10 +140,10 @@ class _LoginPageState extends State<LoginPage> {
                                 0.6.sw,
                                 S.of(context).login_login_title,
                                 Icons.login, () {
-                              if (_formKey.currentState.validate()) {
+                              if (_formKey.currentState?.validate() ?? false) {
                                 GlobalFun.showSnackBar(context,
-                                    _scaffoldKey, "  Signing-In...");
-                                Api.login(_mail, _pws)
+                                    _scaffoldKey, null, "  Signing-In...");
+                                Api.login(_mail!, _pws!)
                                     .then((value) => {
                                           if (value[0] == Api.OK)
                                             {
@@ -158,14 +158,14 @@ class _LoginPageState extends State<LoginPage> {
                                               setState(() {
                                                 this._errmsg =
                                                     (value[1] as LoginResult)
-                                                        .errs[0]
-                                                        .msg;
+                                                        .errs![0]
+                                                        .msg!;
                                               })
                                             }
                                         })
                                     .catchError((e) {
                                   GlobalFun.showSnackBar(context,
-                                      _scaffoldKey, e.toString());
+                                      _scaffoldKey, e, e.toString());
                                 });
                               }
                             })),

@@ -13,10 +13,10 @@ class ItemOptionList {
       this.delefalutSelectId,
       this.options});
 
-  bool canMultSelect = false;
-  String title = "";
-  List<int> delefalutSelectId = [];
-  List<ItemOption> options = [];
+  bool? canMultSelect = false;
+  String? title = "";
+  List<int>? delefalutSelectId = [];
+  List<ItemOption>? options = [];
 
   factory ItemOptionList.forTemp() {
     List<ItemOption> options = [];
@@ -69,15 +69,15 @@ class ItemOption {
       this.price,
       this.nexPriceString});
 
-  int id;
-  String title;
-  String prePriceString;
-  int price;
-  String nexPriceString;
+  int? id;
+  String? title;
+  String? prePriceString;
+  int? price;
+  String? nexPriceString;
 
   String getPriceString() {
-    if (price != 0) {
-      String tmp = price > 0 ? "-" : "";
+    if (price != null && price != 0) {
+      String tmp = price!  > 0 ? "-" : "";
       return "$prePriceString$tmp$price$nexPriceString"; //prePriceString + price + nexPriceString;
     }
     return "";

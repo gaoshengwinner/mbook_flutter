@@ -3,7 +3,7 @@ import 'package:mbook_flutter/src/comm/consts.dart';
 
 class FBButton {
   static build(BuildContext context, double width, String title, IconData icon,
-      Function doTap) {
+      Function? doTap) {
     return new Container(
         alignment: Alignment.center,
         margin: EdgeInsets.only(top: 10),

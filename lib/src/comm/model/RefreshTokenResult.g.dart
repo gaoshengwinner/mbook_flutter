@@ -8,10 +8,10 @@ part of 'RefreshTokenResult.dart';
 
 RefreshTokenResult _$RefreshTokenResultFromJson(Map<String, dynamic> json) {
   return RefreshTokenResult(
-    json['statu'] as String,
-    json['err'] as String,
-    json['accessToken'] as String,
-    json['accessTokenLimit'] as int,
+    json['statu'] as String?,
+    json['err'] as String?,
+    json['accessToken'] as String?,
+    json['accessTokenLimit'] as int?,
   );
 }
 

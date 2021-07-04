@@ -14,7 +14,7 @@ Function deepEq = const DeepCollectionEquality().equals;
 class MyTagsPage extends StatefulWidget {
   MyTagsPage(this.tagInfos);
 
-  final List<TagInfo> tagInfos;
+  final List<TagInfo>? tagInfos;
 
   _MyTagsPageState createState() => _MyTagsPageState(this.tagInfos);
 }
@@ -31,14 +31,14 @@ class _MyTagsPageState extends State<MyTagsPage>
 
   // 响应空白处的焦点的Node
   FocusNode _blankNode = FocusNode();
-  ScrollController scrollController;
+  late ScrollController scrollController;
   bool inReorder = true;
 
   int copiedIndex = -1;
 
   //new TextWidgetProperty(backColor: Colors.white)
 
-  List<TagInfo> tagInfos = [];
+  List<TagInfo>? tagInfos = [];
 
   @override
   void initState() {
@@ -46,26 +46,12 @@ class _MyTagsPageState extends State<MyTagsPage>
     scrollController = ScrollController();
   }
 
-  // @override
-  // void setState(VoidCallback fn) {
-  //   super.setState(() {
-  //     fn();
-  //     beCange = !listEquals(selectedLanguages, old);
-  //   });
-  // }
-
-  // @override
-  // void didUpdateWidget(MyTagsPage oldWidget) {
-  //   super.didUpdateWidget(oldWidget);
-  //   print("didUpdateWidget");
-  // }
-
   void onReorderFinished(List<TagInfo> newItems) {
     scrollController.jumpTo(scrollController.offset);
     setState(() {
       inReorder = false;
 
-      tagInfos
+      tagInfos!
         ..clear()
         ..addAll(newItems);
     });
@@ -76,7 +62,7 @@ class _MyTagsPageState extends State<MyTagsPage>
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBarView.appbar("Tags", true),
+      appBar: AppBarView.appbar("Tags", true, context: context),
       key: _scaffoldKey,
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -85,12 +71,12 @@ class _MyTagsPageState extends State<MyTagsPage>
           FocusScope.of(context).requestFocus(_blankNode);
         },
         child: new FBListViewWidget<TagInfo>(
-          tagInfos,
+          tagInfos!,
           setActions: (c, r, index) {
             return [
               FBListViewWidget.getSlideActionDelete(c, () {
                 setState(() {
-                  tagInfos.remove(r);
+                  tagInfos!.remove(r);
                 });
               })
             ];
@@ -105,24 +91,24 @@ class _MyTagsPageState extends State<MyTagsPage>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     GlobalFun.fbInputBox(
-                        context, "Description", tagInfos[index].desc, (value) {
+                        context, "Description", tagInfos![index].desc!, (value) {
                       setState(() {
-                        tagInfos[index].desc = value;
+                        tagInfos![index].desc = value;
                       });
                     }),
                     Row(
                       children: [
                         GlobalFun.fbInputBox(
-                            context, "Tag", tagInfos[index].data, (value) {
+                            context, "Tag", tagInfos![index].data!, (value) {
                           setState(() {
-                            tagInfos[index].data = value;
+                            tagInfos![index].data = value;
                           });
                         },
                             valueWidget: Wrap(
                               children: [
                                 WidgetTextPage(
-                                  property: tagInfos[index].property,
-                                  data: tagInfos[index].data,
+                                  property: tagInfos![index].property,
+                                  data: tagInfos![index].data,
                                 )
                               ],
                             )),
@@ -130,11 +116,11 @@ class _MyTagsPageState extends State<MyTagsPage>
                           return GlobalFun.showBottomSheetForTextPrperty(
                               context,
                               TextSettingWidget(
-                                  property: tagInfos[index].property,
-                                  data: tagInfos[index].data,
+                                  property: tagInfos![index].property,
+                                  data: tagInfos![index].data,
                                   onChange: (value) {
                                     setState(() {
-                                      tagInfos[index].property = value;
+                                      tagInfos![index].property = value;
                                     });
                                   }),
                               null);
@@ -147,7 +133,7 @@ class _MyTagsPageState extends State<MyTagsPage>
           footer: FBListViewWidget.buildFooter(context,
               icon: Icons.add, title: "Add a tag", onTap: () {
             setState(() {
-              tagInfos.add(TagInfo(data: "", desc: ""));
+              tagInfos!.add(TagInfo(data: "", desc: ""));
             });
           }),
           setSeActions: (c, r, index) {
@@ -162,8 +148,8 @@ class _MyTagsPageState extends State<MyTagsPage>
                 FBListViewWidget.getSlideActionBrush(c, () {
                   setState(() {
                     if (copiedIndex >= 0)
-                      tagInfos[index].property =
-                          tagInfos[copiedIndex].property.copy();
+                      tagInfos![index].property =
+                          tagInfos![copiedIndex].property?.copy();
                     //selectedLanguages.remove(r);
                   });
                 })
@@ -172,68 +158,15 @@ class _MyTagsPageState extends State<MyTagsPage>
         ),
       ),
       floatingActionButton: GlobalFun.saveFloatingActionButton(() {
-        GlobalFun.showSnackBar(context,_scaffoldKey, "  Saving...");
+        GlobalFun.showSnackBar(context,_scaffoldKey, null, "  Saving...");
         Api.saveMyTagInfo(context, TagResultList(tagLst: this.tagInfos))
             .whenComplete(() {
           GlobalFun.removeCurrentSnackBar(_scaffoldKey);
         }).catchError((e) {
           print(e.toString());
-          GlobalFun.showSnackBar(context,_scaffoldKey, e.toString());
+          GlobalFun.showSnackBar(context,_scaffoldKey, e, e.toString());
         });
       }),
-      //!beCange ? null :
-//           FloatingActionButton(
-//         onPressed: () async {
-//           GlobalFun.showSnackBar(_scaffoldKey, "  Saving...");
-//           Api.saveMyTagInfo(context, TagResultList(tagLst: this.tagInfos))
-//               .whenComplete(() {
-//             GlobalFun.removeCurrentSnackBar(_scaffoldKey);
-//           }).catchError((e) {
-//             GlobalFun.showSnackBar(_scaffoldKey, e.toString());
-//           });
-//           ;
-//         },
-//         child: Icon(Icons.save),
-//         foregroundColor: Colors.white,
-//         backgroundColor: G.appBaseColor[0],
-// //          mini: true,
-// //            shape: CircleBorder()
-//       ),
     );
   }
 }
-//
-// class Language {
-//   String englishName;
-//
-//   String nativeName;
-//
-//   String uuid;
-//
-//   TextWidgetProperty property = TextWidgetProperty(backColor: Colors.white);
-//
-//   Language({
-//     @required this.englishName,
-//     @required this.nativeName,
-//   }) {
-//     //uuid = Uuid().v1();
-//   }
-//
-//   @override
-//   String toString() =>
-//       'Language englishName: $englishName, nativeName: $nativeName';
-//
-//   @override
-//   bool operator ==(Object o) {
-//     if (identical(this, o)) return true;
-//
-//     return o is Language &&
-//         o.englishName == englishName &&
-//         o.nativeName == nativeName
-//         //&& o.uuid == uuid
-//     ;
-//   }
-//
-//   @override
-//   int get hashCode => englishName.hashCode ^ nativeName.hashCode;
-// }

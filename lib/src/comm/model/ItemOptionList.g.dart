@@ -8,14 +8,14 @@ part of 'ItemOptionList.dart';
 
 ItemOptionList _$ItemOptionListFromJson(Map<String, dynamic> json) {
   return ItemOptionList(
-    canMultSelect: json['canMultSelect'] as bool,
-    title: json['title'] as String,
-    delefalutSelectId:
-        (json['delefalutSelectId'] as List)?.map((e) => e as int)?.toList(),
-    options: (json['options'] as List)
-        ?.map((e) =>
-            e == null ? null : ItemOption.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    canMultSelect: json['canMultSelect'] as bool?,
+    title: json['title'] as String?,
+    delefalutSelectId: (json['delefalutSelectId'] as List<dynamic>?)
+        ?.map((e) => e as int)
+        .toList(),
+    options: (json['options'] as List<dynamic>?)
+        ?.map((e) => ItemOption.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -29,11 +29,11 @@ Map<String, dynamic> _$ItemOptionListToJson(ItemOptionList instance) =>
 
 ItemOption _$ItemOptionFromJson(Map<String, dynamic> json) {
   return ItemOption(
-    id: json['id'] as int,
-    title: json['title'] as String,
-    prePriceString: json['prePriceString'] as String,
-    price: json['price'] as int,
-    nexPriceString: json['nexPriceString'] as String,
+    id: json['id'] as int?,
+    title: json['title'] as String?,
+    prePriceString: json['prePriceString'] as String?,
+    price: json['price'] as int?,
+    nexPriceString: json['nexPriceString'] as String?,
   );
 }
 

@@ -4,10 +4,10 @@ part 'RefreshTokenResult.g.dart';
 
 @JsonSerializable()
 class RefreshTokenResult{
-  String statu;
-  String err;
-  String accessToken;
-  int accessTokenLimit;
+  String? statu;
+  String? err;
+  String? accessToken;
+  int? accessTokenLimit;
 
 RefreshTokenResult(this.statu, this.err, this.accessToken, this.accessTokenLimit);
 

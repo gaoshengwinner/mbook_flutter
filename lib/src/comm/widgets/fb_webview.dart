@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class FBWebView extends StatefulWidget {
-  final String initialUrl;
+  final String? initialUrl;
 
   FBWebView({this.initialUrl});
 
@@ -11,9 +11,9 @@ class FBWebView extends StatefulWidget {
 }
 
 class _FBWebViewState extends State<FBWebView> {
-  double webViewHeight;
-  String guideUrl;
-  WebViewController _webViewController;
+   double? webViewHeight;
+  String? guideUrl;
+  WebViewController? _webViewController;
 
   @override
   void initState() {
@@ -40,7 +40,7 @@ class _FBWebViewState extends State<FBWebView> {
         onPageFinished: (some) async {
           if (_webViewController != null) {
             webViewHeight = double.tryParse(
-              await _webViewController
+              await _webViewController!
                   .evaluateJavascript("document.documentElement.scrollHeight;"),
             );
             setState(() {});

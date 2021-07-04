@@ -40,7 +40,7 @@ class _MyStorePageState extends State<MyStorePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-        appBar: AppBarView.appbar(S.of(context).mystore_title, true),
+        appBar: AppBarView.appbar(S.of(context).mystore_title, true, context: context),
         // backgroundColor:Color(0xf5f5f5).withOpacity(1),
         //endDrawer: Text("test"),//MenuBar.menu(true, true, context, null),
         body: SettingsList(

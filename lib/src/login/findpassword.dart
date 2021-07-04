@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:mbook_flutter/generated/l10n.dart';
 import 'package:mbook_flutter/src/comm/api/api.dart';
@@ -17,11 +15,9 @@ class FindPasswordPage extends StatefulWidget {
 class _FindPasswordPageState extends State<FindPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   int step = 0;
-  String _mail;
-  String _uuid;
+  String? _mail;
+  String? _uuid;
   String _signUpTitle = "";
-
-  Timer countDownTimer;
 
   bool _canSendMail = true;
 
@@ -61,7 +57,7 @@ class _FindPasswordPageState extends State<FindPasswordPage> {
                                   fontSize: 30),
                             )),
                         Theme(
-                          data: ThemeData(primarySwatch: G.appBaseColor[0]),
+                          data: ThemeData(primaryColor: G.appBaseColor[0]),
                           //color: Colors.red,
                           child: Expanded(
                               child: Stepper(
@@ -74,8 +70,8 @@ class _FindPasswordPageState extends State<FindPasswordPage> {
                                       setState(() => step = sp),
                                   // delete continue and cancle
                                   controlsBuilder: (BuildContext context,
-                                          {VoidCallback onStepContinue,
-                                          VoidCallback onStepCancel}) =>
+                                          {VoidCallback? onStepContinue,
+                                          VoidCallback? onStepCancel}) =>
                                       Container(),
                                   steps: <Step>[
                                 Step(
@@ -160,7 +156,7 @@ class FindPasswordMailCnfPage extends StatefulWidget {
 
 class _FindPasswordMailCnfPageState extends State<FindPasswordMailCnfPage> {
   String _errmsg = "";
-  String _mail;
+  String _mail = "";
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +181,7 @@ class _FindPasswordMailCnfPageState extends State<FindPasswordMailCnfPage> {
 
                 if (email?.isEmpty ?? true) {
                   return S.of(context).sigup_email_validator_empty_msg;
-                } else if (!EmailValidator.validate(email)) {
+                } else if (!EmailValidator.validate(email!)) {
                   return S.of(context).login_email_validator_not_valid_msg;
                 }
                 return null;
@@ -201,7 +197,7 @@ class _FindPasswordMailCnfPageState extends State<FindPasswordMailCnfPage> {
               child: FBButton.build(
                   context,
                   0.6.sw,
-                  widget._signUpTitle?.isEmpty ?? true
+                  widget._signUpTitle.isEmpty
                       ? S.of(context).signup_button_sending
                       : widget._signUpTitle,
                   Icons.mail,
@@ -210,7 +206,7 @@ class _FindPasswordMailCnfPageState extends State<FindPasswordMailCnfPage> {
                       : () {
                           if (widget._formKey.currentState.validate()) {
                             GlobalFun.showSnackBar(context,
-                                widget._scaffoldKey, "  Sending Mail...");
+                                widget._scaffoldKey, null, "  Sending Mail...");
                             Api.resetPassordMailCnf(_mail)
                                 .then((value) => {
                                       if (value[0] == Api.OK &&
@@ -228,14 +224,14 @@ class _FindPasswordMailCnfPageState extends State<FindPasswordMailCnfPage> {
                                           setState(() {
                                             this._errmsg = (value[1]
                                                     as ResetPasswordResult)
-                                                .errs[0]
-                                                .msg;
+                                                .errs![0]
+                                                .msg!;
                                           })
                                         }
                                     })
                                 .catchError((e) {
                               GlobalFun.showSnackBar(context,
-                                  widget._scaffoldKey, e.toString());
+                                  widget._scaffoldKey, e, e.toString());
                             });
                           }
                         })),
@@ -251,7 +247,7 @@ class FindPasswordCodeCnfPage extends StatefulWidget {
   FindPasswordCodeCnfPage(this._uuid, this.onOK);
 
   _FindPasswordCodeCnfPageState createState() => _FindPasswordCodeCnfPageState();
-  final String _uuid;
+  final String? _uuid;
 }
 
 class _FindPasswordCodeCnfPageState extends State<FindPasswordCodeCnfPage> {
@@ -305,7 +301,7 @@ class _FindPasswordCodeCnfPageState extends State<FindPasswordCodeCnfPage> {
                         {
                           setState(() {
                             this._errmsg =
-                                (value[1] as ResetPasswordResult).errs[0].msg;
+                                (value[1] as ResetPasswordResult).errs![0].msg!;
                           })
                         }
                     });
@@ -325,8 +321,8 @@ class FindPasswordPasswordPage extends StatefulWidget {
   _FindPasswordPasswordPagetate createState() => _FindPasswordPasswordPagetate();
   final _formKey;
   final GlobalKey<ScaffoldState> _scaffoldKey;
-  final String _uuid;
-  final String _mail;
+  String? _uuid;
+  String? _mail;
 }
 
 class _FindPasswordPasswordPagetate extends State<FindPasswordPasswordPage> {
@@ -351,7 +347,7 @@ class _FindPasswordPasswordPagetate extends State<FindPasswordPasswordPage> {
                 _password = value;
               },
               validator: (password) {
-                if (password.isEmpty) {
+                if (password == null || password.isEmpty) {
                   return S.of(context).login_password_validator_empty_msg;
                 }
 
@@ -376,7 +372,7 @@ class _FindPasswordPasswordPagetate extends State<FindPasswordPasswordPage> {
                 //_passwordCnf = value;
               },
               validator: (password) {
-                if (password.isEmpty) {
+                if (password == null || password.isEmpty) {
                   return S.of(context).login_password_validator_empty_msg;
                 }
                 if (password != this._password) {
@@ -399,7 +395,7 @@ class _FindPasswordPasswordPagetate extends State<FindPasswordPasswordPage> {
                 });
                 if (widget._formKey.currentState.validate()) {
                   GlobalFun.showSnackBar(context,
-                      widget._scaffoldKey, "  Sending Mail...");
+                      widget._scaffoldKey, null, "  Sending Mail...");
                   Api.resetPassword(widget._mail, widget._uuid, _password)
                       .then((value) => {
                             if (value[0] == Api.OK &&
@@ -429,13 +425,13 @@ class _FindPasswordPasswordPagetate extends State<FindPasswordPasswordPage> {
                                 setState(() {
                                   this._errmsg =
                                       (value[1] as ResetPasswordResult)
-                                          .errs[0]
-                                          .msg;
+                                          .errs![0]
+                                          .msg!;
                                 })
                               }
                           })
                       .catchError((e) {
-                    GlobalFun.showSnackBar(context,widget._scaffoldKey, e.toString());
+                    GlobalFun.showSnackBar(context,widget._scaffoldKey, e, e.toString());
                   });
                 }
               })),

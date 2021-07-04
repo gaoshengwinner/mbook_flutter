@@ -24,9 +24,9 @@ class FbYoutubeWidget extends StatefulWidget {
     Document document = parse(src);
     String width = "";
     String height = "";
-    Node e = document.querySelector("iframe");
+    Node? e = document.querySelector("iframe");
     try {
-      e.attributes.forEach((key, value) {
+      e?.attributes.forEach((key, value) {
         if ("width".toLowerCase() == key.toString().toLowerCase()) {
           width = value;
         }
@@ -38,8 +38,8 @@ class FbYoutubeWidget extends StatefulWidget {
       return 0.2;
     }
 
-    e.attributes["width"] = "100%";
-    e.attributes["height"] = "100%";
+    e?.attributes["width"] = "100%";
+    e?.attributes["height"] = "100%";
 
     _src = document.outerHtml;
 
@@ -47,11 +47,11 @@ class FbYoutubeWidget extends StatefulWidget {
     try {
       final double doubleWidth = doubleRegex
           .allMatches(width)
-          .map((m) => double.parse(m[0]))
+          .map((m) => double.parse(m[0]!))
           .toList()[0];
       final double doubleHeight = doubleRegex
           .allMatches(height)
-          .map((m) => double.parse(m[0]))
+          .map((m) => double.parse(m[0]!))
           .toList()[0];
       if (doubleHeight == 0 || doubleWidth == 0) {
         return 1;
@@ -69,7 +69,7 @@ class _FbYoutubeState extends State<FbYoutubeWidget> {
   Widget build(BuildContext context) {
     return new Container(
       width: widget._width,
-      height: widget._src?.isEmpty ?? true
+      height: widget._src.isEmpty
           ? 0
           : widget._heightbiwidth * widget._width,
       constraints: BoxConstraints(

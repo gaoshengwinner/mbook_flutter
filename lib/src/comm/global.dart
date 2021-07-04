@@ -18,8 +18,7 @@ String enumToString(o) => o.toString().split('.').last;
 
 ///string转枚举类型
 T enumFromString<T>(List<T> values, String value) {
-  return values.firstWhere((v) => v.toString().split('.')[1] == value,
-      orElse: () => null);
+  return values.firstWhere((v) => v.toString().split('.')[1] == value);
 }
 
 class GlobalFun {
@@ -46,11 +45,11 @@ class GlobalFun {
   }
 
   static void showSnackBar(BuildContext context,
-      GlobalKey<ScaffoldState> _scaffoldKey, String title) {
+      GlobalKey<ScaffoldState> _scaffoldKey, Object? e, String? title) {
     FocusScope.of(context).requestFocus(new FocusNode());
-    print("showSnackBar:$title");
+    print("showSnackBar:$e");
     //_scaffoldKey.currentContext.
-    ScaffoldMessenger.of(_scaffoldKey.currentContext).showSnackBar(new SnackBar(
+    ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(new SnackBar(
       //_scaffoldKey.currentState.showSnackBar(new SnackBar(
       backgroundColor: G.appBaseColor[0],
       duration: new Duration(seconds: 4),
@@ -60,7 +59,7 @@ class GlobalFun {
           new Container(
             width: 0.7.sw,
             child: Text(
-              title,
+              title?.toString() ?? "",
               maxLines: 5,
             ),
           )
@@ -70,10 +69,10 @@ class GlobalFun {
   }
 
   static void removeCurrentSnackBar(GlobalKey<ScaffoldState> _scaffoldKey) {
-    ScaffoldMessenger.of(_scaffoldKey.currentContext).removeCurrentSnackBar();
+    ScaffoldMessenger.of(_scaffoldKey.currentContext!).removeCurrentSnackBar();
   }
 
-  static Future<T> showBottomSheet<T>(
+  static Future<T?> showBottomSheet<T>(
       BuildContext context, List<Widget> widget, Color bkgColor) {
     return showMaterialModalBottomSheet(
       //expand: false,
@@ -109,8 +108,8 @@ class GlobalFun {
   // Widget upWidget = null;
   // List<Widget> downWidget = null;
   // int downFlex = 5;
-  static Future<T> showBottomSheetForTextPrperty<T>(
-      BuildContext context, Widget widget, Color bkgColor) {
+  static Future<T?> showBottomSheetForTextPrperty<T>(
+      BuildContext context, Widget widget, Color? bkgColor) {
     return showMaterialModalBottomSheet(
       expand: true,
       context: context,
@@ -130,7 +129,7 @@ class GlobalFun {
     );
   }
 
-  static Future<T> showBottomSheetCommon<T>(
+  static Future<T?> showBottomSheetCommon<T>(
       BuildContext context, Widget widget) {
     return showMaterialModalBottomSheet(
       expand: true,
@@ -308,8 +307,8 @@ class GlobalFun {
     );
   }
 
-  static void openEditTagPage(BuildContext context, List<TagInfo> tags,
-      List<TagInfo> selectedTags, Function onSelected) {
+  static void openEditTagPage(BuildContext context, List<TagInfo>? tags,
+      List<TagInfo>? selectedTags, Function? onSelected) {
     showBottomSheetCommon(
         context,
         TagsSelectWidget(
@@ -327,8 +326,8 @@ class GlobalFun {
 
   static void openEditPage(
       BuildContext context,
-      String hintTextValue,
-      String initValue,
+      String? hintTextValue,
+      String? initValue,
       TextInputAction textInputAction,
       TextInputType keyboardType,
       Function onEditingCompleteText) {
@@ -471,7 +470,7 @@ class GlobalFun {
   }
 
   static Widget fbInputTagBox(BuildContext context, String lableText,
-      List<TagInfo> tags, List<TagInfo> selectedTags, Function onSelected,
+      List<TagInfo>? tags, List<TagInfo>? selectedTags, Function onSelected,
       {width}) {
     width = width == null ? 0.8.sw : width;
     return Column(
@@ -502,6 +501,7 @@ class GlobalFun {
                 child: Wrap(
                   spacing: 4,
                   children: [
+                    if (selectedTags != null)
                     for (TagInfo tag in selectedTags)
                       WidgetTextPage(
                         property: tag.property,
@@ -522,7 +522,7 @@ class GlobalFun {
     );
   }
 
-  static Widget commonTitle(String lableText, {Widget rightWidget}) {
+  static Widget commonTitle(String lableText) {
     return Container(
         child:
         Align(
@@ -532,23 +532,9 @@ class GlobalFun {
         style: TextStyle(
         fontWeight: FontWeight.bold, ), // G.appBaseColor[0]
     )));
-
-        // Row(
-        //   children: <Widget>[
-        //     Align(
-        //         alignment: Alignment.centerLeft,
-        //         child: Text(
-        //           lableText,
-        //           style: TextStyle(
-        //               fontWeight: FontWeight.bold, ), // G.appBaseColor[0]
-        //         )),
-        //     Flexible(fit: FlexFit.tight, child: SizedBox()),
-        //     Align(alignment: Alignment.centerRight, child: rightWidget)
-        //   ],
-        // ));
   }
 
-  static Widget customListTitle(IconData icon, String title, Function doTop) {
+  static Widget customListTitle(IconData icon, String title, GestureTapCallback? doTop) {
     return new Padding(
         padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
         child: Container(
@@ -582,7 +568,7 @@ class GlobalFun {
   }
 
   static Widget canClicklistTitle(IconData leadingIcon, IconData trailingIcon,
-      String title, Function doTop, {Weidget }) {
+      String title, GestureTapCallback? doTop, {Weidget }) {
     return new Padding(
         padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
         child: Container(
@@ -613,8 +599,8 @@ class GlobalFun {
   }
 
   static Widget fbInputBox(
-      BuildContext context, String lableText, String value, Function serValue,
-      {Widget valueWidget, double width, Axis axis}) {
+      BuildContext context, String? lableText, String? value, Function? serValue,
+      {Widget? valueWidget, double? width, Axis? axis}) {
     width = width == null ? double.maxFinite : width;
     return
       Container(
@@ -665,7 +651,7 @@ class GlobalFun {
             onTap: () {
               GlobalFun.openEditPage(context, lableText, value,
                   TextInputAction.newline, TextInputType.multiline, (value) {
-                serValue(value);
+                if (serValue != null) serValue(value);
               });
             },
           ),
@@ -696,8 +682,8 @@ class GlobalFun {
 }
 
 class FBCustomScrollView extends StatefulWidget {
-  final Widget upWidget;
-  final List<Widget> downWidget;
+  final Widget? upWidget;
+  final List<Widget>? downWidget;
   final int downFlex;
 
   FBCustomScrollView({this.upWidget, this.downWidget, this.downFlex = 5});
@@ -710,8 +696,8 @@ class FBCustomScrollView extends StatefulWidget {
 }
 
 class _FBCustomScrollViewState extends State<FBCustomScrollView> {
-  Widget upWidget;
-  List<Widget> downWidget;
+  Widget? upWidget;
+  List<Widget>? downWidget;
   int downFlex = 5;
 
   _FBCustomScrollViewState({this.upWidget, this.downWidget, this.downFlex = 5});
@@ -724,7 +710,7 @@ class _FBCustomScrollViewState extends State<FBCustomScrollView> {
         if (upWidget != null)
           Expanded(
             flex: 1,
-            child: upWidget,
+            child: upWidget!,
           ),
         Expanded(
           flex: 5,
@@ -732,7 +718,7 @@ class _FBCustomScrollViewState extends State<FBCustomScrollView> {
             width: double.infinity,
             child: SingleChildScrollView(
               child: Column(
-                children: downWidget == null ? [Text("")] : downWidget,
+                children: downWidget == null ? [Text("")] : downWidget!,
               ),
             ),
           ),
@@ -747,16 +733,16 @@ class PopRoute extends PopupRoute {
   final Duration _duration = Duration(milliseconds: 300);
   Widget child;
 
-  PopRoute({@required this.child});
+  PopRoute({required this.child});
 
   @override
-  Color get barrierColor => null;
+  Color? get barrierColor => null;
 
   @override
   bool get barrierDismissible => true;
 
   @override
-  String get barrierLabel => null;
+  String? get barrierLabel => null;
 
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,

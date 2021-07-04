@@ -15,8 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isLogin = false;
 
-  final GlobalKey<ScaffoldState> _scaffoldKey =
-  new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -42,7 +41,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBarView.appbar(null, false),
+      appBar: AppBarView.appbar(null, false, context: context),
       endDrawer: MenuBar.menu(
           isLogin,
           false,
@@ -132,33 +131,33 @@ class _HomePageState extends State<HomePage> {
                   S.of(context).home_scan_button_title,
                   Icons.qr_code_scanner,
                   () => {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          titlePadding: const EdgeInsets.all(0.0),
-                          contentPadding: const EdgeInsets.all(0.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                          content: SingleChildScrollView(
-                            child: SlidePicker(
-                              paletteType:PaletteType.rgb,
-                              pickerColor: currentColor,
-                              onColorChanged: changeColor,
-                              enableAlpha: true,
-                              displayThumbColor: true,
-                              showLabel: true,
-                              showIndicator: true,
-                              indicatorBorderRadius:
-                              const BorderRadius.vertical(
-                                top: const Radius.circular(25.0),
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              titlePadding: const EdgeInsets.all(0.0),
+                              contentPadding: const EdgeInsets.all(0.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25.0),
                               ),
-                            ),
-                          ),
-                        );
-                      },
-                    )
+                              content: SingleChildScrollView(
+                                child: SlidePicker(
+                                  paletteType: PaletteType.rgb,
+                                  pickerColor: currentColor,
+                                  onColorChanged: changeColor,
+                                  enableAlpha: true,
+                                  displayThumbColor: true,
+                                  showLabel: true,
+                                  showIndicator: true,
+                                  indicatorBorderRadius:
+                                      const BorderRadius.vertical(
+                                    top: const Radius.circular(25.0),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        )
                       })
 
               // Container(

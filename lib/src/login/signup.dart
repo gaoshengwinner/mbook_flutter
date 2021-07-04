@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:mbook_flutter/generated/l10n.dart';
 import 'package:mbook_flutter/src/comm/api/api.dart';
@@ -17,11 +15,10 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   final _formKey = GlobalKey<FormState>();
   int step = 0;
-  String _mail;
-  String _uuid;
+  String? _mail;
+  String? _uuid;
   String _signUpTitle = "";
 
-  Timer countDownTimer;
 
   bool _canSendMail = true;
 
@@ -61,7 +58,7 @@ class _SignupPageState extends State<SignupPage> {
                                   fontSize: 30),
                             )),
                         Theme(
-                          data: ThemeData(primarySwatch: G.appBaseColor[0]),
+                          data: ThemeData(primaryColor: G.appBaseColor[0]),
                           //color: Colors.red,
                           child: Expanded(
                               child: Stepper(
@@ -74,8 +71,8 @@ class _SignupPageState extends State<SignupPage> {
                                       setState(() => step = sp),
                                   // delete continue and cancle
                                   controlsBuilder: (BuildContext context,
-                                          {VoidCallback onStepContinue,
-                                          VoidCallback onStepCancel}) =>
+                                          {VoidCallback? onStepContinue,
+                                          VoidCallback? onStepCancel}) =>
                                       Container(),
                                   steps: <Step>[
                                 Step(
@@ -132,7 +129,7 @@ class _SignupPageState extends State<SignupPage> {
                                           color: G.appBaseColor[0],
                                           fontSize: 10),
                                     ),
-                                    content: new SignupCodeCnfPage(_uuid, (uuid) {
+                                    content: new SignupCodeCnfPage(_uuid!, (uuid) {
                                       setState(() {
                                         _uuid = uuid;
                                         step = 2;
@@ -150,7 +147,7 @@ class _SignupPageState extends State<SignupPage> {
                                           fontSize: 10),
                                     ),
                                     content: new SignupPasswordPage(
-                                        _scaffoldKey, _formKey, _mail, _uuid,
+                                        _scaffoldKey, _formKey, _mail!, _uuid!,
                                         () {
                                       setState(() {
                                         step = 3;
@@ -181,7 +178,7 @@ class SignupMailCnfPage extends StatefulWidget {
 
 class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
   String _errmsg = "";
-  String _mail;
+  late String _mail;
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +203,7 @@ class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
 
                 if (email?.isEmpty ?? true) {
                   return S.of(context).sigup_email_validator_empty_msg;
-                } else if (!EmailValidator.validate(email)) {
+                } else if (!EmailValidator.validate(email!)) {
                   return S.of(context).login_email_validator_not_valid_msg;
                 }
                 return null;
@@ -222,7 +219,7 @@ class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
               child: FBButton.build(
                   context,
                   0.6.sw,
-                  widget._signUpTitle?.isEmpty ?? true
+                  widget._signUpTitle.isEmpty
                       ? S.of(context).signup_button_sending
                       : widget._signUpTitle,
                   Icons.mail,
@@ -231,7 +228,7 @@ class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
                       : () {
                           if (widget._formKey.currentState.validate()) {
                             GlobalFun.showSnackBar(context,
-                                widget._scaffoldKey, "  Sending Mail...");
+                                widget._scaffoldKey, null, "  Sending Mail...");
                             Api.sigupMailCnf(_mail)
                                 .then((value) => {
                                       if (value[0] == Api.OK &&
@@ -249,14 +246,14 @@ class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
                                           setState(() {
                                             this._errmsg = (value[1]
                                                     as SignupMailCnfResult)
-                                                .errs[0]
-                                                .msg;
+                                                .errs![0]
+                                                .msg!;
                                           })
                                         }
                                     })
                                 .catchError((e) {
                               GlobalFun.showSnackBar(context,
-                                  widget._scaffoldKey, e.toString());
+                                  widget._scaffoldKey, e, e.toString());
                             });
                           }
                         })),
@@ -326,7 +323,7 @@ class _SignupCodeCnfPageState extends State<SignupCodeCnfPage> {
                         {
                           setState(() {
                             this._errmsg =
-                                (value[1] as SignupMailCnfResult).errs[0].msg;
+                                (value[1] as SignupMailCnfResult).errs![0].msg!;
                           })
                         }
                     });
@@ -378,7 +375,7 @@ class _SignupPasswordPagetate extends State<SignupPasswordPage> {
 
                 RegExp exp = RegExp(
                     r'^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$');
-                bool matched = exp.hasMatch(password);
+                bool matched = exp.hasMatch(password!);
                 if (!matched) {
                   return "Please enter 8 single-byte alphanumeric characters including uppercase and lowercase letters.";
                 }
@@ -420,7 +417,7 @@ class _SignupPasswordPagetate extends State<SignupPasswordPage> {
                 });
                 if (widget._formKey.currentState.validate()) {
                   GlobalFun.showSnackBar(context,
-                      widget._scaffoldKey, "  Sending Mail...");
+                      widget._scaffoldKey,null, "  Sending Mail...");
                   Api.sigup(widget._mail, widget._uuid, _password)
                       .then((value) => {
                             if (value[0] == Api.OK &&
@@ -450,13 +447,13 @@ class _SignupPasswordPagetate extends State<SignupPasswordPage> {
                                 setState(() {
                                   this._errmsg =
                                       (value[1] as SignupMailCnfResult)
-                                          .errs[0]
-                                          .msg;
+                                          .errs![0]
+                                          .msg!;
                                 })
                               }
                           })
                       .catchError((e) {
-                    GlobalFun.showSnackBar(context,widget._scaffoldKey, e.toString());
+                    GlobalFun.showSnackBar(context,widget._scaffoldKey, e, e.toString());
                   });
                 }
               })),

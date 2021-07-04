@@ -15,15 +15,15 @@ typedef CreateSubWidgetList<E> = List<Widget> Function(
     BuildContext context, E item, int index);
 
 // ignore: must_be_immutable
-class FBListViewWidget<E> extends StatefulWidget {
+class FBListViewWidget<E extends Object> extends StatefulWidget {
   List<E> _list;
-  DeleteCallBack<E> onDeleted;
-  CreateSubWidget<E> setSubWidget;
-  bool canBeMove = false;
+  DeleteCallBack<E>? onDeleted;
+  CreateSubWidget<E>? setSubWidget;
+  bool? canBeMove = false;
 
-  CreateSubWidgetList<E> setActions;
-  CreateSubWidgetList<E> setSeActions;
-  Widget footer;
+  CreateSubWidgetList<E>? setActions;
+  CreateSubWidgetList<E>? setSeActions;
+  Widget? footer;
 
   FBListViewWidget(this._list,
       {this.setActions,
@@ -72,7 +72,7 @@ class FBListViewWidget<E> extends StatefulWidget {
             const SizedBox(height: 4),
             Text(
               'Delete',
-              style: textTheme.bodyText2.copyWith(
+              style: textTheme.bodyText2?.copyWith(
                 color: Colors.red,
               ),
             ),
@@ -103,7 +103,7 @@ class FBListViewWidget<E> extends StatefulWidget {
             const SizedBox(height: 4),
             Text(
               'Copy',
-              style: textTheme.bodyText2.copyWith(
+              style: textTheme.bodyText2?.copyWith(
                 color: Colors.green,
               ),
             ),
@@ -134,7 +134,7 @@ class FBListViewWidget<E> extends StatefulWidget {
             const SizedBox(height: 4),
             Text(
               'Paste',
-              style: textTheme.bodyText2.copyWith(
+              style: textTheme.bodyText2?.copyWith(
                 color: Colors.green,
               ),
             ),
@@ -145,7 +145,7 @@ class FBListViewWidget<E> extends StatefulWidget {
   }
 
   static Widget buildFooter(BuildContext context,
-      {IconData icon, String title = "", Function onTap}) {
+      {IconData? icon, String title = "", Function? onTap}) {
     return GestureDetector(
         onTap: () async {
           if (onTap != null) onTap();
@@ -180,7 +180,7 @@ class FBListViewWidget<E> extends StatefulWidget {
   }
 }
 
-class _FBListViewWidgetState<E> extends State<FBListViewWidget>
+class _FBListViewWidgetState<E extends Object> extends State<FBListViewWidget>
     with SingleTickerProviderStateMixin {
   _FBListViewWidgetState(this._list,
       {this.setActions,
@@ -194,15 +194,15 @@ class _FBListViewWidgetState<E> extends State<FBListViewWidget>
     }
   }
 
-  DeleteCallBack<E> onDeleted;
-  CreateSubWidget<E> setSubWidget;
-  CreateSubWidgetList<E> setActions;
-  CreateSubWidgetList<E> setSeActions;
-  bool canBeMove = false;
-  Widget footer;
+  DeleteCallBack<E>? onDeleted;
+  CreateSubWidget<E>? setSubWidget;
+  CreateSubWidgetList<E>? setActions;
+  CreateSubWidgetList<E>? setSeActions;
+  bool? canBeMove = false;
+  Widget? footer;
 
   List<E> _list;
-  ScrollController scrollController;
+  late ScrollController scrollController;
   bool inReorder = false;
 
   @override
@@ -242,7 +242,7 @@ class _FBListViewWidgetState<E> extends State<FBListViewWidget>
   // * An example of a vertically reorderable list.
   Widget _buildVerticalList() {
 
-    Widget buildReorderable(
+    Reorderable buildReorderable(
       dynamic item,
       int index,
       Widget Function(Widget tile) transitionBuilder,
@@ -269,7 +269,7 @@ class _FBListViewWidgetState<E> extends State<FBListViewWidget>
       );
     }
 
-    return ImplicitlyAnimatedReorderableList<E>(
+    return ImplicitlyAnimatedReorderableList(
       items: _list,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -278,11 +278,11 @@ class _FBListViewWidgetState<E> extends State<FBListViewWidget>
       onReorderStarted: (item, index) => setState(() => inReorder = true),
       onReorderFinished: (movedLanguage, from, to, newItems) {
         // Update the underlying data when the item has been reordered!
-        onReorderFinished(newItems);
+       // onReorderFinished(newItems);
       },
       itemBuilder: (context, itemAnimation, lang, index) {
         if (index == this._list.length) {
-          return null;
+          return Reorderable(key: ValueKey(1),);
         }
 
         return buildReorderable(lang, index, (tile) {
@@ -304,10 +304,10 @@ class _FBListViewWidgetState<E> extends State<FBListViewWidget>
         actionPane: const SlidableBehindActionPane(),
         actions: this.setActions == null
             ? null
-            : this.setActions(context, item, index),
+            : this.setActions!(context, item, index),
         secondaryActions: this.setSeActions == null
             ? null
-            : this.setSeActions(context, item, index),
+            : this.setSeActions!(context, item, index),
         child: Stack(children: <Widget>[
           Card(
             color: backgroundGray,
@@ -315,7 +315,7 @@ class _FBListViewWidgetState<E> extends State<FBListViewWidget>
               borderRadius: BorderRadius.all(Radius.circular(10.0)),
             ),
             elevation: 20,
-            child: this.setSubWidget(context, item, index),
+            child: this.setSubWidget!(context, item, index),
           ),
           new Positioned(
             child: const Handle(

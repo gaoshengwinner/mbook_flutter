@@ -8,13 +8,13 @@ part of 'Token.dart';
 
 Token _$TokenFromJson(Map<String, dynamic> json) {
   return Token(
-    json['refreshToken'] as String,
-    json['refreshTokenLimit'] as int,
+    json['refreshToken'] as String?,
+    json['refreshTokenLimit'] as int?,
     json['refressBeginDate'] == null
         ? null
         : DateTime.parse(json['refressBeginDate'] as String),
-    json['accessToken'] as String,
-    json['accessTokenLimit'] as int,
+    json['accessToken'] as String?,
+    json['accessTokenLimit'] as int?,
     json['accessTokenDate'] == null
         ? null
         : DateTime.parse(json['accessTokenDate'] as String),

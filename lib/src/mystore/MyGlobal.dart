@@ -8,20 +8,20 @@ import 'package:mbook_flutter/src/comm/model/ShopInfo.dart';
 import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
 
 class MyGlobal {
-  static List<TagInfo> tagInfos = [];
-  static List<OptionTemp> optionTempInfos = [];
-  static List<ItemDetail> itemDetails = [];
-  static ShopInfo shopInfo = ShopInfo("", "", "", "");
+  static List<TagInfo>? tagInfos = [];
+  static List<OptionTemp>? optionTempInfos = [];
+  static List<ItemDetail>? itemDetails = [];
+  static ShopInfo? shopInfo = ShopInfo("", "", "", "");
 
   static Future getTagInfos(
       BuildContext context, GlobalKey<ScaffoldState> _scaffoldKey) async {
     if (_scaffoldKey != null)
-      GlobalFun.showSnackBar(context,_scaffoldKey, "  Loading...");
-      GlobalFun.showSnackBar(context,_scaffoldKey, "  Loading...");
+      GlobalFun.showSnackBar(context,_scaffoldKey, null, "  Loading...");
+      GlobalFun.showSnackBar(context,_scaffoldKey, null, "  Loading...");
     Api.getMyTags(context).then((result) {
       if (_scaffoldKey != null) GlobalFun.removeCurrentSnackBar(_scaffoldKey);
       // ignore: null_aware_before_operator
-      if (result?.length > 0  ?? false) {
+      if (result.length > 0 ) {
         tagInfos = result[1];
       } else {
         tagInfos = [];
@@ -38,42 +38,42 @@ class MyGlobal {
   static Future getOptionTemInfos(
       BuildContext context, GlobalKey<ScaffoldState> _scaffoldKey) async {
     if (_scaffoldKey != null)
-      GlobalFun.showSnackBar(context,_scaffoldKey, "  Loading...");
+      GlobalFun.showSnackBar(context,_scaffoldKey, null, "  Loading...");
     Api.getMyOptionTemps(context).then((result) {
       if (_scaffoldKey != null) GlobalFun.removeCurrentSnackBar(_scaffoldKey);
-      optionTempInfos = (result?.length > 0 ?? false) ? result[1] : [];
+      optionTempInfos = result.length> 0  ? result[1] : [];
     });
   }
 
   static Future getShopItemInfo(
       BuildContext context, GlobalKey<ScaffoldState> _scaffoldKey) async {
-    GlobalFun.showSnackBar(context,_scaffoldKey, "  Loading...");
+    GlobalFun.showSnackBar(context,_scaffoldKey, null, "  Loading...");
     Api.getMyShopItemInfo(context).then((result) {
       GlobalFun.removeCurrentSnackBar(_scaffoldKey);
-      itemDetails = (result?.length > 0 ?? false) ? result[1] : [];
+      itemDetails = result.length > 0 ? result[1] : [];
     }).catchError((e) {
-      GlobalFun.showSnackBar(context,_scaffoldKey, e.toString());
+      GlobalFun.showSnackBar(context,_scaffoldKey, null, e.toString());
     });
   }
 
   static Future getShopInfo(
       BuildContext context, GlobalKey<ScaffoldState> _scaffoldKey) async {
-    GlobalFun.showSnackBar(context,_scaffoldKey, "  Loading...");
-    Api.getMyShopInfo(context).then((result) {
+    GlobalFun.showSnackBar(context,_scaffoldKey, null, "  Loading...");
+    Api.getMyShopInfo(context)?.then((result) {
       GlobalFun.removeCurrentSnackBar(_scaffoldKey);
-      shopInfo = (result?.length > 0 ?? false) ? result[1] : [];
+      shopInfo = result.length > 0 ? result[1] : [];
     }).catchError((e) {
-      GlobalFun.showSnackBar(context,_scaffoldKey, e.toString());
+      GlobalFun.showSnackBar(context,_scaffoldKey,e, e.toString());
     });
   }
 
   static Future init(BuildContext context,
       GlobalKey<ScaffoldState> _scaffoldKey, Function onLoaded) async {
-    GlobalFun.showSnackBar(context,_scaffoldKey, "  Loading...");
+    GlobalFun.showSnackBar(context,_scaffoldKey, null, "  Loading...");
     int count = 0;
      const int API_COUNT = 4;
     await Api.getMyTags(context).then((result) {
-      tagInfos = (result?.length > 0 ?? false) ? result[1] : [];
+      tagInfos = result.length> 0 ? result[1] : [];
       count++;
       if (count >= API_COUNT) {
         onLoaded();
@@ -89,7 +89,7 @@ class MyGlobal {
     ;
 
     await Api.getMyShopItemInfo(context).then((result) {
-      itemDetails = (result?.length > 0 ?? false) ? result[1] : [];
+      itemDetails = result.length > 0 ? result[1] : [];
       count++;
       if (count >= API_COUNT) {
         onLoaded();
@@ -99,11 +99,11 @@ class MyGlobal {
         GlobalFun.removeCurrentSnackBar(_scaffoldKey);
       }
     }).catchError((e) {
-      GlobalFun.showSnackBar(context,_scaffoldKey, e.toString());
+      GlobalFun.showSnackBar(context,_scaffoldKey, e, e.toString());
     });
 
-    await Api.getMyShopInfo(context).then((result) {
-      shopInfo = (result?.length > 0 ?? false) ? result[1] : [];
+    await Api.getMyShopInfo(context)?.then((result) {
+      shopInfo = result.length > 0 ? result[1] : [];
       count++;
       if (count >= API_COUNT) {
         onLoaded();
@@ -113,11 +113,11 @@ class MyGlobal {
         GlobalFun.removeCurrentSnackBar(_scaffoldKey);
       }
     }).catchError((e) {
-      GlobalFun.showSnackBar(context,_scaffoldKey, e.toString());
+      GlobalFun.showSnackBar(context,_scaffoldKey, e, e.toString());
     });
 
     await Api.getMyOptionTemps(context).then((result) {
-      optionTempInfos = (result?.length > 0 ?? false) ? result[1] : [];
+      optionTempInfos = result.length > 0 ? result[1] : [];
       count++;
       if (count >= API_COUNT) {
         onLoaded();
@@ -127,8 +127,9 @@ class MyGlobal {
         GlobalFun.removeCurrentSnackBar(_scaffoldKey);
       }
     }).catchError((e) {
-      GlobalFun.showSnackBar(context,_scaffoldKey, e.toString());
-    });
+      GlobalFun.showSnackBar(context,_scaffoldKey, e, e.toString());
+    })
+    ;
 
   }
 

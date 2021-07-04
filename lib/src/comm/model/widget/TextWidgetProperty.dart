@@ -115,7 +115,7 @@ class TextWidgetProperty {
     return jsonEncode(this.toJson());
   }
 
-  double getRealMinWidth() {
+  double? getRealMinWidth() {
     return this.minWidth <= 0
         ? null
         : enumFromString(WHOptin.values, this.minWidthUnit) == WHOptin.px
@@ -125,7 +125,7 @@ class TextWidgetProperty {
                 : this.minWidth * 0.01 * 1.sh;
   }
 
-  double getRealMinHeight() {
+  double? getRealMinHeight() {
     return this.minHeight <= 0
         ? null
         : enumFromString(WHOptin.values, this.minHeightUnit) == WHOptin.px
@@ -151,7 +151,7 @@ class CustomColorConverter implements JsonConverter<Color, String> {
   @override
   Color fromJson(String json) {
     if (json == null || json == "") {
-      return null;
+      return Colors.white;
     }
     List<String> values = json.split(";");
     Map<String, String> map = Map();
@@ -162,8 +162,8 @@ class CustomColorConverter implements JsonConverter<Color, String> {
       }
     }
 
-    return Color.fromRGBO(int.parse(map["R"]), int.parse(map["G"]),
-        int.parse(map["B"]), double.parse(map["O"]));
+    return Color.fromRGBO(int.parse(map["R"]!), int.parse(map["G"]!),
+        int.parse(map["B"]!), double.parse(map["O"]!));
   }
 
   @override

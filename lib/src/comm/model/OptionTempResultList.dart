@@ -7,7 +7,7 @@ part 'OptionTempResultList.g.dart';
 
 @JsonSerializable()
 class OptionTempResultList {
-  List<OptionTemp> optionTempLst;
+  List<OptionTemp>? optionTempLst;
 
   OptionTempResultList({this.optionTempLst}) ;
 

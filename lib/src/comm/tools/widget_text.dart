@@ -4,7 +4,7 @@ import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 
 class WidgetBasePage {
   static Widget build(
-      BuildContext context, TextWidgetProperty property, {Widget child}) {
+      BuildContext context, TextWidgetProperty property, {Widget? child}) {
     return Container(
       alignment: FBAlignment.map()[property.backalignment],
       color: Colors.transparent,
@@ -88,23 +88,29 @@ class WidgetBasePage {
 }
 
 class WidgetTextPage extends StatelessWidget {
-  final TextWidgetProperty property;
-  final String data;
+  TextWidgetProperty? property;
+  String? data;
 
   WidgetTextPage({this.property, this.data});
 
   @override
   Widget build(BuildContext context) {
-    return WidgetBasePage.build(context, property, child: Text(
-      data,
+    if (property == null){
+      property = new TextWidgetProperty() ;
+    }
+    if (data == null) {
+      data = "";
+    }
+    return WidgetBasePage.build(context, property!, child: Text(
+      data!,
       softWrap: true,
-      textAlign: FBTextAlign.getByString(property.textTextAlign),
+      textAlign: FBTextAlign.getByString(property!.textTextAlign),
       style: TextStyle(
-        color: property.textColor,
-        fontSize: property.fontSize,
-        fontWeight: WidgetBasePage.getFontWeightByInt(property.fontWeight),
-        fontStyle: property.italic ? FontStyle.italic : null,
-        letterSpacing: property.letterSpacing,
+        color: property!.textColor,
+        fontSize: property!.fontSize,
+        fontWeight: WidgetBasePage.getFontWeightByInt(property!.fontWeight),
+        fontStyle: property!.italic ? FontStyle.italic : null,
+        letterSpacing: property!.letterSpacing,
       ),
     ));
   }

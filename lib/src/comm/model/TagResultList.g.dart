@@ -8,10 +8,9 @@ part of 'TagResultList.dart';
 
 TagResultList _$TagResultListFromJson(Map<String, dynamic> json) {
   return TagResultList(
-    tagLst: (json['tagLst'] as List)
-        ?.map((e) =>
-            e == null ? null : TagInfo.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    tagLst: (json['tagLst'] as List<dynamic>?)
+        ?.map((e) => TagInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 

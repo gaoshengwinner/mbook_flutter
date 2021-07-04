@@ -18,14 +18,9 @@ void openColor(
 // ignore: must_be_immutable
 class ColorPickerPage extends StatefulWidget {
   Color currentColor = Colors.white;
-  Function onColorChange;
+  Function? onColorChange = (){};
 
-  ColorPickerPage({currentColor: Color, Function onColorChange}) {
-    this.onColorChange = onColorChange;
-    if (currentColor != null) {
-      this.currentColor = currentColor;
-    }
-  }
+  ColorPickerPage({this.currentColor = Colors.white, this.onColorChange});
 
   @override
   _ColorPickerPageState createState() => _ColorPickerPageState();
@@ -35,9 +30,9 @@ class _ColorPickerPageState extends State<ColorPickerPage>
     with SingleTickerProviderStateMixin {
   //Function onColorChange;
 
-  Color oldColor;
+  Color _oldColor = Colors.white;
   // create some values
-  Color pickerColor = Color(0xff443a49);
+  Color _pickerColor = Color(0xff443a49);
   //Color currentColor = Color(0xff443a49);
 
   _ColorPickerPageState();
@@ -47,7 +42,7 @@ class _ColorPickerPageState extends State<ColorPickerPage>
 
   @override
   void initState() {
-    oldColor = this.widget.currentColor;
+    _oldColor = this.widget.currentColor;
     super.initState();
   }
 
@@ -76,7 +71,7 @@ class _ColorPickerPageState extends State<ColorPickerPage>
                       style: TextStyle(color: Colors.grey),
                     ),
                     onPressed: () {
-                      this.widget.onColorChange(oldColor);
+                      this.widget.onColorChange == null ? (){} : this.widget.onColorChange!(_oldColor);
                       Navigator.pop(context);
                     },
                     padding: const EdgeInsets.symmetric(
@@ -121,7 +116,7 @@ class _ColorPickerPageState extends State<ColorPickerPage>
                   setState(() {
                     this.widget.currentColor = value;
                   });
-                  this.widget.onColorChange(value);
+                  this.widget.onColorChange == null ? (){} : this.widget.onColorChange!(value);
                 },
                 paletteType: PaletteType.rgb,
                 enableAlpha: true,
@@ -139,7 +134,7 @@ class _ColorPickerPageState extends State<ColorPickerPage>
                   setState(() {
                     this.widget.currentColor = value;
                   });
-                  this.widget.onColorChange(value);
+                  this.widget.onColorChange == null ? (){} : this.widget.onColorChange!(value);
                 },
                 colorPickerWidth: 300.0,
                 pickerAreaHeightPercent: 0.7,
@@ -164,7 +159,7 @@ class _ColorPickerPageState extends State<ColorPickerPage>
                           setState(() {
                             this.widget.currentColor = value;
                           });
-                          this.widget.onColorChange(value);
+                          this.widget.onColorChange == null ? (){} : this.widget.onColorChange!(value);
                         },
                         enableLabel: true,
                       )))

@@ -8,12 +8,12 @@ part 'Token.g.dart';
 
 @JsonSerializable()
 class Token {
-  String refreshToken;
-  int refreshTokenLimit;
-  DateTime refressBeginDate;
-  String accessToken;
-  int accessTokenLimit;
-  DateTime accessTokenDate;
+  String? refreshToken;
+  int? refreshTokenLimit;
+  DateTime? refressBeginDate;
+  String? accessToken;
+  int? accessTokenLimit;
+  DateTime? accessTokenDate;
 
   Token(this.refreshToken, this.refreshTokenLimit, this.refressBeginDate,
       this.accessToken, this.accessTokenLimit, this.accessTokenDate);

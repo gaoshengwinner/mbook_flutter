@@ -47,13 +47,13 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
     return Scaffold(
       key: _baseInfoscaffoldKey,
       appBar: AppBarView.appbar("Item info", true, canSave: true, onSave: () {
-        GlobalFun.showSnackBar(context,_baseInfoscaffoldKey, "  Saving...");
+        GlobalFun.showSnackBar(context,_baseInfoscaffoldKey,null, "  Saving...");
         Api.saveMyItemInfo(context, widget._item).whenComplete(() {
           GlobalFun.removeCurrentSnackBar(_baseInfoscaffoldKey);
         }).catchError((e) {
-          GlobalFun.showSnackBar(context,_baseInfoscaffoldKey, e.toString());
+          GlobalFun.showSnackBar(context,_baseInfoscaffoldKey, null,e.toString());
         });
-      }),
+      }, context: context),
       body: DefaultTabController(
         length: tabInfos.length,
         child: Column(
@@ -100,22 +100,22 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
         padding: EdgeInsets.all(10),
         color: Color(0xFFEFEFF4),
         child: ListView(children: [
-          GlobalFun.fbInputBox(context, "商品名", widget._item.itemName, (value) {
+          GlobalFun.fbInputBox(context, "商品名", widget._item.itemName?.toString() ?? "", (value) {
             setState(() {
               widget._item.itemName = value;
             });
           }, width: 0.9.sw),
-          GlobalFun.fbInputBox(context, "商品価格", widget._item.itemPrice, (value) {
+          GlobalFun.fbInputBox(context, "商品価格", widget._item.itemPrice?.toString() ?? "", (value) {
             setState(() {
               widget._item.itemPrice = value;
             });
           }, width: 0.9.sw),
-          GlobalFun.fbInputBox(context, "商品説明", widget._item.itemDescr, (value) {
+          GlobalFun.fbInputBox(context, "商品説明", widget._item.itemDescr?.toString() ?? "", (value) {
             setState(() {
               widget._item.itemDescr = value;
             });
           }, width: 0.9.sw),
-          GlobalFun.fbInputBox(context, "商品代表写真", widget._item.itemMainPicUrl,
+          GlobalFun.fbInputBox(context, "商品代表写真", widget._item.itemMainPicUrl?.toString() ?? "",
               (value) {
             setState(() {
               widget._item.itemMainPicUrl = value;
@@ -145,7 +145,7 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
     );
   }
 
-  ScrollController scrollController;
+  ScrollController scrollController =  ScrollController();
   bool dialVisible = true;
 
   void setDialVisible(bool value) {
@@ -156,9 +156,9 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
 }
 
 class TabInfo {
-  const TabInfo({this.title, this.icon, this.widget});
+  const TabInfo({required this.title, this.icon, required this.widget});
 
   final String title;
-  final IconData icon;
+  final IconData? icon;
   final Widget widget;
 }

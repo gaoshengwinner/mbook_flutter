@@ -20,7 +20,7 @@ import 'package:mbook_flutter/src/comm/token/token.dart';
 
 class Api {
   static const int OK = 200;
-  static const String _BASE_API_URL = "https://0ce58272668f.ngrok.io";
+  static const String _BASE_API_URL = "https://27e646ea6296.ngrok.io";
   static const String _LOGIN_URL = _BASE_API_URL + "/v1/api/member/login";
   static const String _SIGNUP_MAIL_CNF_URL = _BASE_API_URL + "/v1/api/sigup/sigupMailCnf";
   static const String _SIGNUP_MAIL_CODE_CNF_URL = _BASE_API_URL + "/v1/api/sigup/sigupCodeCnf";
@@ -54,16 +54,12 @@ class Api {
   static const String _AUTHON_REFRESH_HEADER = "AUTHON_REFRESH_HEADER";
   static const String _AUTHON_ACCESS_HEADER = "AUTHON_ACCESS_HEADER";
 
-
-
-
-
-  static Future<List<Object>> login(String mail, String pws) async {
+  static Future<List<dynamic>> login(String mail, String pws) async {
     String body = jsonEncode(<String, String>{
       'memberEmail': mail,
       'memberPassword': pws,
     });
-    List<Object> result = await doPostNoNeedLoginApi(_LOGIN_URL, body);
+    List<dynamic> result = await doPostNoNeedLoginApi(_LOGIN_URL, body);
     result[1] = LoginResult.fromJson(jsonDecode(result[1]));
     if (result[0] == Api.OK) {
       await TokenUtil.saveToken(Token.fromTokenResult(result[1]));
@@ -71,69 +67,69 @@ class Api {
     return result;
   }
 
-  static Future<List<Object>> sigupMailCnf(String mail) async {
+  static Future<List<dynamic>> sigupMailCnf(String mail) async {
     String body = jsonEncode(<String, String>{
       'memberEmail': mail
     });
-    List<Object> result = await doPostNoNeedLoginApi(_SIGNUP_MAIL_CNF_URL, body);
+    List<dynamic> result = await doPostNoNeedLoginApi(_SIGNUP_MAIL_CNF_URL, body);
     result[1] = SignupMailCnfResult.fromJson(jsonDecode(result[1]));
 
     return result;
   }
 
-  static Future<List<Object>> sigupMailCodeCnf(String uuid, String code) async {
+  static Future<List<dynamic>> sigupMailCodeCnf(String uuid, String code) async {
     String body = jsonEncode(<String, String>{
       'code': code,
       'uuid': uuid
     });
-    List<Object> result = await doPostNoNeedLoginApi(_SIGNUP_MAIL_CODE_CNF_URL, body);
+    List<dynamic> result = await doPostNoNeedLoginApi(_SIGNUP_MAIL_CODE_CNF_URL, body);
     result[1] = SignupMailCnfResult.fromJson(jsonDecode(result[1]));
 
     return result;
   }
 
-  static Future<List<Object>> sigup(String memberEmail, String uuid, String memberPassword) async {
+  static Future<List<dynamic>> sigup(String memberEmail, String uuid, String memberPassword) async {
     String body = jsonEncode(<String, String>{
       'memberEmail': memberEmail,
       'uuid': uuid,
       'memberPassword':memberPassword
     });
-    List<Object> result = await doPostNoNeedLoginApi(_SIGNUP_SIGUP_URL, body);
+    List<dynamic> result = await doPostNoNeedLoginApi(_SIGNUP_SIGUP_URL, body);
     result[1] = SignupMailCnfResult.fromJson(jsonDecode(result[1]));
 
     return result;
   }
 
-  static Future<List<Object>> resetPassordMailCnf(String mail) async {
+  static Future<List<dynamic>> resetPassordMailCnf(String mail) async {
     String body = jsonEncode(<String, String>{
       'memberEmail': mail
     });
-    List<Object> result = await doPostNoNeedLoginApi(_RESET_PASSWORD_MAIL_CNF_URL
+    List<dynamic> result = await doPostNoNeedLoginApi(_RESET_PASSWORD_MAIL_CNF_URL
         , body);
     result[1] = ResetPasswordResult.fromJson(jsonDecode(result[1]));
 
     return result;
   }
 
-  static Future<List<Object>> resetPasswordMailCodeCnf(String uuid, String code) async {
+  static Future<List<dynamic>> resetPasswordMailCodeCnf(String? uuid, String code) async {
     String body = jsonEncode(<String, String>{
       'code': code,
-      'uuid': uuid
+      'uuid': uuid?.toString() ?? ""
     });
-    List<Object> result = await doPostNoNeedLoginApi(_RESET_PASSWORD_MAIL_CODE_CNF_URL
+    List<dynamic> result = await doPostNoNeedLoginApi(_RESET_PASSWORD_MAIL_CODE_CNF_URL
         , body);
     result[1] = ResetPasswordResult.fromJson(jsonDecode(result[1]));
 
     return result;
   }
 
-  static Future<List<Object>> resetPassword(String memberEmail, String uuid, String memberPassword) async {
+  static Future<List<dynamic>> resetPassword(String? memberEmail, String? uuid, String? memberPassword) async {
     String body = jsonEncode(<String, String>{
-      'memberEmail': memberEmail,
-      'uuid': uuid,
-      'memberPassword':memberPassword
+      'memberEmail': memberEmail?.toString() ?? "",
+      'uuid': uuid?.toString() ?? "",
+      'memberPassword':memberPassword?.toString() ?? ""
     });
-    List<Object> result = await doPostNoNeedLoginApi(_RESET_PASSWORD_SIGUP_URL
+    List<dynamic> result = await doPostNoNeedLoginApi(_RESET_PASSWORD_SIGUP_URL
         , body);
     result[1] = ResetPasswordResult.fromJson(jsonDecode(result[1]));
 
@@ -142,21 +138,21 @@ class Api {
 
 
   // [0] status [1] body string
-  static Future<List<Object>> doPostNoNeedLoginApi(String url,
-      [String body, Map<String, String> header]) async {
+  static Future<List<dynamic>> doPostNoNeedLoginApi( String url,
+      [String? body, Map<String, String>? header]) async {
     final deviceInfo = await DeviceHelper.getDeviceInfo();
     Map<String, String> headers = Map();
     if (header != null) headers.addAll(header);
     headers['Content-Type'] = _CONTENT_TYPE;
     headers[_MB_DEVICE_INFOR_HEADER] = deviceInfo.getBase64();
     final response = await http.post(
-      url,
+      Uri.parse(url),
       headers: headers,
       body: body,
     );
 
     print(response.body);
-    List<Object> resultList = [response.statusCode, ""];
+    List<dynamic> resultList = [response.statusCode, ""];
     final String responsebody = utf8.decode(response.bodyBytes);
     print(responsebody);
     if (response.statusCode == 200 ||
@@ -169,24 +165,24 @@ class Api {
     }
   }
 
-  static Future<List<Object>> doPostNeedLoginApi(
-      BuildContext _context, String url, String body) async {
+  static Future<List<dynamic>?>? doPostNeedLoginApi(
+      BuildContext _context, String url, String? body) async {
     print("$body");
-    String accessToken = await TokenUtil.getAccessToken();
+    String? accessToken = await TokenUtil.getAccessToken();
     if (accessToken == null) {
       final refreshToken = await TokenUtil.getRefreshToken();
       if (refreshToken == null) {
-        MenuBar.logout(_context, null);
+        MenuBar.logout(_context);
         return null;
       }
 
       Map<String, String> header = Map();
       header[_AUTHON_REFRESH_HEADER] = refreshToken;
 
-      List<Object> refreshTokenResult =
+      List<dynamic> refreshTokenResult =
           await doPostNoNeedLoginApi(_REFRESH_TOKEN_URL, null, header);
       if (refreshTokenResult[0] != 200) {
-        MenuBar.logout(_context, null);
+        MenuBar.logout(_context);
         return null;
       }
 
@@ -198,20 +194,20 @@ class Api {
     }
 
     Map<String, String> header = Map();
-    header[_AUTHON_ACCESS_HEADER] = accessToken;
-    List<Object> result = await doPostNoNeedLoginApi(url, body, header);
+    header[_AUTHON_ACCESS_HEADER] = accessToken!;
+    List<dynamic> result = await doPostNoNeedLoginApi(url, body, header);
     if (result[0] == 401) {
-      MenuBar.logout(_context, null);
+      MenuBar.logout(_context);
       return null;
     }
 
     return result;
   }
 
-  static Future<List<Object>> getMyShopInfo(BuildContext _context) async {
-    List<Object> shopInfo =
+  static Future<List<dynamic>>? getMyShopInfo(BuildContext _context) async {
+    List<dynamic>? shopInfo =
         await doPostNeedLoginApi(_context, _MY_SHOPINFO_URL, null);
-    if (shopInfo[0] == 200) {
+    if (shopInfo![0] == 200) {
       shopInfo[1] = ShopInfo.fromJson(jsonDecode(shopInfo[1]));
     } else {
       throw Exception(shopInfo[1]);
@@ -221,20 +217,18 @@ class Api {
 
   static Future<void> saveMyShopInfo(
       BuildContext _context, ShopInfo _shopInfo) async {
-    //
-    List<Object> shopInfo = await doPostNeedLoginApi(
+    List<dynamic>? shopInfo = await doPostNeedLoginApi(
         _context, _SAVE_MY_SHOPINFO_URL, _shopInfo.getJsonString());
-    if (shopInfo[0] == 200) {
+    if (shopInfo![0] == 200) {
       return;
     }
     throw Exception('${shopInfo[0]}${shopInfo[1]}');
   }
 
   static Future<void> deleteMyShopItem(BuildContext _context, ItemDetail _itemDetail) async {
-    //
-    List<Object> result = await doPostNeedLoginApi(
+    List<dynamic>? result = await doPostNeedLoginApi(
         _context, _MY_DELETE_ITEM_URL, _itemDetail.getJsonString());
-    if (result[0] == 200) {
+    if (result![0] == 200) {
       return;
     }
     throw Exception('${result[0]}${result[1]}');
@@ -242,17 +236,20 @@ class Api {
   }
 
   static Future<void> saveMyItemInfo(BuildContext _context, ItemDetail _itemDetail) async{
-    List<Object> result = await doPostNeedLoginApi(
+    List<dynamic>? result = await doPostNeedLoginApi(
         _context, _MY_SAVE_ITEM_BASE_INFO_URL, _itemDetail.getJsonString());
-    if (result[0] == 200) {
+    if (result![0] == 200) {
       return;
     }
     throw Exception('${result[0]}${result[1]}');
   }
 
-  static Future<List<Object>> getMyShopItemInfo(BuildContext _context) async {
-    List<Object> itemInfo =
+  static Future<List<dynamic>> getMyShopItemInfo(BuildContext _context) async {
+    List<dynamic>? itemInfo =
         await doPostNeedLoginApi(_context, _GET_MY_ITEMINFO_URL, null);
+    if (itemInfo == null) {
+      throw Exception("itemInfo is null");
+    }
     if (itemInfo[0] == 200) {
       List<ItemDetail> myModels = (json.decode(itemInfo[1]) as List)
           .map((i) => ItemDetail.fromJson(i))
@@ -266,9 +263,12 @@ class Api {
     return itemInfo;
   }
 
-  static Future<List<Object>> getMyTags(BuildContext _context) async {
-    List<Object> tagInfo =
+  static Future<List<dynamic>> getMyTags(BuildContext _context) async {
+    List<dynamic>? tagInfo =
     await doPostNeedLoginApi(_context, _MY_GET_TAG_URL, null);
+    if (tagInfo == null) {
+      throw Exception("tagInfo is null!");
+    }
     if (tagInfo[0] == 200) {
       List<TagInfo> myModels = (json.decode(tagInfo[1]) as List)
           .map((i) => TagInfo.fromJson(i))
@@ -283,18 +283,21 @@ class Api {
   }
 
   static Future<void> saveMyTagInfo(BuildContext _context, TagResultList _tags) async{
-    List<Object> result = await doPostNeedLoginApi(
+    List<dynamic>? result = await doPostNeedLoginApi(
         _context, _MY_SAVE_TAG_URL, jsonEncode(_tags));
+    if (result == null) {
+      return;
+    }
     if (result[0] == 200) {
       return;
     }
     throw Exception('${result[0]}${result[1]}');
   }
 
-  static Future<List<Object>> getMyOptionTemps(BuildContext _context) async {
-    List<Object> optionTempInfo =
+  static Future<List<dynamic>> getMyOptionTemps(BuildContext _context) async {
+    List<dynamic>? optionTempInfo =
     await doPostNeedLoginApi(_context, _MY_GET_OPTIONTEMP_URL, null);
-    if (optionTempInfo[0] == 200) {
+    if (optionTempInfo![0] == 200) {
       List<OptionTemp> myModels = (json.decode(optionTempInfo[1]) as List)
           .map((i) => OptionTemp.fromJson(i))
           .toList();
@@ -308,9 +311,9 @@ class Api {
   }
 
   static Future<void> saveMyOptionTempnfo(BuildContext _context, OptionTempResultList _optionTemps) async{
-    List<Object> result = await doPostNeedLoginApi(
+    List<dynamic>? result = await doPostNeedLoginApi(
         _context, _MY_SAVE_OPTIONTEMP_URL, jsonEncode(_optionTemps));
-    if (result[0] == 200) {
+    if (result![0] == 200) {
       return;
     }
     throw Exception('${result[0]}${result[1]}');

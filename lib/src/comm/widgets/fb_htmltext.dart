@@ -12,7 +12,7 @@ class FBHtmlTextView extends StatefulWidget {
   String src;
   double _width = 200;
 
-  FBHtmlTextView({this.src});
+  FBHtmlTextView({required this.src});
 
   _FbYoutubeState createState() => _FbYoutubeState();
 
@@ -20,7 +20,7 @@ class FBHtmlTextView extends StatefulWidget {
 
 class _FbYoutubeState extends State<FBHtmlTextView> {
   double webViewHeight = 10;
-  WebViewController _webViewController;
+  late WebViewController _webViewController;
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -42,7 +42,7 @@ class _FbYoutubeState extends State<FBHtmlTextView> {
             webViewHeight = double.tryParse(
               await _webViewController
                   .evaluateJavascript("document.documentElement.scrollHeight;"),
-            );
+            )!;
             setState(() {
             });
           }

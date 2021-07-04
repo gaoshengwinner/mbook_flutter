@@ -2,19 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
-import 'package:mbook_flutter/src/comm/model/AdditionInfoManaWidget.dart';
+import 'package:mbook_flutter/src/comm/model/AdditionalInfo.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mbook_flutter/src/comm/model/AdditionalMana.dart';
 import 'package:mbook_flutter/src/comm/widgets/Image.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_active_title.dart';
-import 'package:mbook_flutter/src/comm/widgets/fb_additioninfo_mana.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_addition_info_mana.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_htmltext.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_webview.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_youtuber.dart';
 
 class MyAdditionPage extends StatefulWidget {
-  AdditionalMana addtionInfoMana = new AdditionalMana();
+  AdditionalMana? addtionInfoMana;
 
-  MyAdditionPage({this.addtionInfoMana});
+  MyAdditionPage({this.addtionInfoMana}){
+    if (this.addtionInfoMana == null) {
+      this.addtionInfoMana = new AdditionalMana(htmlTexts: [], webViews: [], simpleTexts: [], pictures: [], videos: []);
+    }
+    if (this.addtionInfoMana!.htmlTexts == null) {
+      this.addtionInfoMana!.htmlTexts = [];
+    }
+    if (this.addtionInfoMana!.webViews == null) {
+      this.addtionInfoMana!.webViews = [];
+    }
+    if (this.addtionInfoMana!.simpleTexts == null) {
+      this.addtionInfoMana!.simpleTexts = [];
+    }
+    if (this.addtionInfoMana!.pictures == null) {
+      this.addtionInfoMana!.pictures = [];
+    }
+    if (this.addtionInfoMana!.videos == null) {
+      this.addtionInfoMana!.videos = [];
+    }
+  }
 
   _MyAdditionPageState createState() => _MyAdditionPageState();
 }
@@ -52,11 +72,11 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
 
   @override
   Widget build(BuildContext context) {
-    List simpleTexts = getCanUseList(widget.addtionInfoMana.simpleTexts);
-    List htmlTexts = getCanUseList(widget.addtionInfoMana.htmlTexts);
-    List pictures = getCanUseList(widget.addtionInfoMana.pictures);
-    List videos = getCanUseList(widget.addtionInfoMana.videos);
-    List webViews = getCanUseList(widget.addtionInfoMana.webViews);
+    List? simpleTexts = getCanUseList(widget.addtionInfoMana!.simpleTexts);
+    List? htmlTexts = getCanUseList(widget.addtionInfoMana!.htmlTexts);
+    List? pictures = getCanUseList(widget.addtionInfoMana!.pictures);
+    List? videos = getCanUseList(widget.addtionInfoMana!.videos);
+    List? webViews = getCanUseList(widget.addtionInfoMana!.webViews);
 
     return Container(
       color: Color(0xFFEFEFF4),
@@ -74,10 +94,10 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                         (simpleTexts?.length ?? 0).toString() +
                         ")",
                     titleIcon: Icons.text_snippet_outlined,
-                    infos: widget.addtionInfoMana.simpleTexts,
+                    infos: widget.addtionInfoMana!.simpleTexts,
                     onSetting: (infos) {
                       setState(() {
-                        widget.addtionInfoMana.simpleTexts = infos;
+                        widget.addtionInfoMana!.simpleTexts = infos;
                       });
                     },
                     onTap: (expanded) {
@@ -125,10 +145,10 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                         (htmlTexts?.length ?? 0).toString() +
                         ")",
                     titleIcon: Zocial.html5,
-                    infos: widget.addtionInfoMana.htmlTexts,
+                    infos: widget.addtionInfoMana?.htmlTexts,
                     onSetting: (infos) {
                       setState(() {
-                        widget.addtionInfoMana.htmlTexts = infos;
+                        widget.addtionInfoMana?.htmlTexts = infos;
                       });
                     },
                     onTap: (expanded) {
@@ -180,10 +200,10 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                         (pictures?.length ?? 0).toString() +
                         ")",
                     titleIcon: Icons.picture_in_picture_outlined,
-                    infos: widget.addtionInfoMana.pictures,
+                    infos: widget.addtionInfoMana!.pictures,
                     onSetting: (infos) {
                       setState(() {
-                        widget.addtionInfoMana.pictures = infos;
+                        widget.addtionInfoMana!.pictures = infos;
                       });
                     },
                     onTap: (expanded) {
@@ -236,10 +256,10 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                     title:
                         "Videos" + "(" + (videos?.length ?? 0).toString() + ")",
                     titleIcon: Icons.video_collection_outlined,
-                    infos: widget.addtionInfoMana.videos,
+                    infos: widget.addtionInfoMana!.videos,
                     onSetting: (infos) {
                       setState(() {
-                        widget.addtionInfoMana.videos = infos;
+                        widget.addtionInfoMana!.videos = infos;
                       });
                     },
                     onTap: (expanded) {
@@ -291,10 +311,10 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                         (webViews?.length ?? 0).toString() +
                         ")",
                     titleIcon: MaterialCommunityIcons.web,
-                    infos: widget.addtionInfoMana.webViews,
+                    infos: widget.addtionInfoMana!.webViews,
                     onSetting: (infos) {
                       setState(() {
-                        widget.addtionInfoMana.webViews = infos;
+                        widget.addtionInfoMana!.webViews = infos;
                       });
                     },
                     onTap: (expanded) {
@@ -347,11 +367,11 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
     );
   }
 
-  List getCanUseList(List<AdditionalInfo> list) {
+  List? getCanUseList(List<AdditionalInfo>? list) {
     if (list == null || list.length == 0) {
       return null;
     }
-    List result = list.where((element) => element.canBeUse).toList();
-    return (list == null || list.length == 0) ? null : result;
+    List result = list.where((element) => element.canBeUse == null ? false : element.canBeUse!).toList();
+    return (result.length == 0) ? null : result;
   }
 }

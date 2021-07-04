@@ -30,7 +30,7 @@ String getUnitTitle(String util) {
 // ignore: must_be_immutable
 class WHPickerPage extends StatefulWidget {
   final double initValue;
-   WHOptin selectedUtil;
+   WHOptin? selectedUtil;
   final Function onSelectedItemChanged;
 
   WHPickerPage(
@@ -49,9 +49,9 @@ class WHPickerPage extends StatefulWidget {
 
 class _WHPickerPageState extends State<WHPickerPage>
     with SingleTickerProviderStateMixin {
-  int _initialItem;
-  int _oldInitialItem;
-  WHOptin _oldSelectedUtil;
+  late int _initialItem;
+  late int _oldInitialItem;
+  WHOptin? _oldSelectedUtil;
 
   int _changeValue = 0;
 

@@ -8,10 +8,9 @@ part of 'OptionTempResultList.dart';
 
 OptionTempResultList _$OptionTempResultListFromJson(Map<String, dynamic> json) {
   return OptionTempResultList(
-    optionTempLst: (json['optionTempLst'] as List)
-        ?.map((e) =>
-            e == null ? null : OptionTemp.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    optionTempLst: (json['optionTempLst'] as List<dynamic>?)
+        ?.map((e) => OptionTemp.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 

@@ -6,10 +6,10 @@ import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mbook_flutter/src/comm/model/AdditionInfoManaWidget.dart';
+import 'package:mbook_flutter/src/comm/model/AdditionalInfo.dart';
 import 'package:mbook_flutter/src/comm/model/ShopInfo.dart';
 import 'package:mbook_flutter/src/comm/widgets/Image.dart';
-import 'package:mbook_flutter/src/comm/widgets/fb_additioninfo_mana.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_addition_info_mana.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_htmltext.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_youtuber.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -18,12 +18,12 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 typedef TitleTapCallBack = void Function(bool expand);
 
 class ActiveTitle extends StatefulWidget {
-  String title;
-  IconData titleIcon;
-  List<AdditionalInfo> infos;
-  TitleTapCallBack onTap;
-  OnSaveSettingCallBack onSetting;
-  bool expand;
+  String? title;
+  IconData? titleIcon;
+  List<AdditionalInfo>? infos;
+  TitleTapCallBack? onTap;
+  OnSaveSettingCallBack? onSetting;
+  bool? expand;
 
   ActiveTitle(
       {this.expand,
@@ -46,7 +46,7 @@ class _ActiveTitleState extends State<ActiveTitle> {
       child: InkWell(
         onTap: () {
           if (widget.onTap != null) {
-            widget.onTap(!noExpand);
+            widget.onTap!(!noExpand);
           }
           ;
         },
@@ -70,13 +70,13 @@ class _ActiveTitleState extends State<ActiveTitle> {
                         padding: const EdgeInsets.all(8.0),
                         child: widget.title == null
                             ? Text("")
-                            : Text(widget.title))
+                            : Text(widget.title == null ? "" : widget.title!))
                   ],
                 ),
                 Row(
                   children: [
                     Icon(
-                      widget.expand ? Feather.book_open : Feather.book,
+                      widget.expand == null || widget.expand! == false ? Feather.book_open : Feather.book,
                       color: G.appBaseColor[0],
                     ),
                   ],
@@ -96,7 +96,7 @@ class _ActiveTitleState extends State<ActiveTitle> {
                         isScrollControlled: true,
                         builder: (context) {
                           return AdditionInfoManaWidget(
-                              infos: widget.infos, onSave: widget.onSetting);
+                              infos: widget.infos!, onSave: widget.onSetting);
                         });
                   }
                   //widget.onSetting,

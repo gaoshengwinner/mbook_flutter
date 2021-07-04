@@ -9,9 +9,9 @@ import 'my_menu_edit.dart';
 
 // ignore: must_be_immutable
 class MyMenuInfoPage extends StatefulWidget {
-   List<ItemDetail> _allitemList;
+   List<ItemDetail>? _allItemList;
 
-   MyMenuInfoPage(this._allitemList);
+   MyMenuInfoPage(this._allItemList);
 
   _MyMenuInfoState createState() => _MyMenuInfoState();
 }
@@ -21,15 +21,15 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
   FocusNode _blankNode = FocusNode();
   final List<ItemDetail> _itemList = [];
 
-  String serchString = "";
+  String searchString = "";
 
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
-    if (widget._allitemList != null)
-    _itemList.addAll(widget._allitemList);
+    if (widget._allItemList != null)
+    _itemList.addAll(widget._allItemList!);
     super.initState();
   }
 
@@ -39,16 +39,16 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
       key: _scaffoldKey,
       appBar: AppBarView.appbar("Item List", true,
           canBesearch: true, context: context, onEditingCompleteText: (query) {
-        serchString = query;
+        searchString = query;
         //setState(() {
         List<ItemDetail> dummySearchList = [];
-        dummySearchList.addAll(widget._allitemList);
+        if (widget._allItemList != null ) dummySearchList.addAll(widget._allItemList!);
         if (query.isNotEmpty) {
           List<ItemDetail> dummyListData = [];
           dummySearchList.forEach((item) {
             if (item.id.toString().contains(query) ||
-                item.itemName.contains(query) ||
-                item.itemDescr.contains(query)) {
+                (item.itemName != null && item.itemName!.contains(query)) ||
+                (item.itemDescr != null && item.itemDescr!.contains(query))) {
               dummyListData.add(item);
             }
           });
@@ -63,7 +63,7 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
             _itemList.addAll(dummySearchList);
           });
         }
-      }, serarchValue: serchString),
+      }, serarchValue: searchString),
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
@@ -85,7 +85,7 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
             return ListTile(
               contentPadding: EdgeInsets.all(10.0),
               leading:
-                  item?.itemMainPicUrl?.isEmpty ?? true
+                  item.itemMainPicUrl?.isEmpty ?? true
                       ? null
                       : Container(
                           //width: 0.3.sw,
@@ -102,7 +102,7 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
                 overflow: TextOverflow.ellipsis,
               ),
               subtitle: Text(
-                item.itemPrice,
+                item.itemPrice == null ? "" : item.itemPrice!,
                 maxLines: 2,
                 style: TextStyle(color: Colors.red),
               ),
@@ -123,21 +123,21 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
                     builder: (context) =>
                         MyMenuEditPage(ItemDetail.newItem()))).then(
               (value) {
-                GlobalFun.showSnackBar(context,_scaffoldKey, "  Loading...");
+                GlobalFun.showSnackBar(context,_scaffoldKey, null,"  Loading...");
                 Api.getMyShopItemInfo(context).then(
                   (result) {
                     GlobalFun.removeCurrentSnackBar(_scaffoldKey);
                     setState(
                       () {
-                        widget._allitemList = result[1];
+                        widget._allItemList = result[1];
                         _itemList.clear();
-                        _itemList.addAll(widget._allitemList);
+                        if (widget._allItemList != null) _itemList.addAll(widget._allItemList!);
                       },
                     );
                   },
                 ).catchError(
                   (e) {
-                    GlobalFun.showSnackBar(context,_scaffoldKey, e.toString());
+                    GlobalFun.showSnackBar(context,_scaffoldKey, e, e.toString());
                   },
                 );
               },

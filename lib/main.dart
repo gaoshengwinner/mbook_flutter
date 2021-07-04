@@ -1,6 +1,8 @@
+
+// @dart=2.9
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil_init.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/device/device.dart';
 import 'package:mbook_flutter/src/login/login.dart';
 
@@ -33,8 +35,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
         designSize: Size(750, 1334),
-        allowFontScaling: false,
-        child: MaterialApp(
+        //allowFontScaling: false,
+        builder: ()=>MaterialApp(
             debugShowCheckedModeBanner: false,
             // 多语言Start
             localizationsDelegates: const [

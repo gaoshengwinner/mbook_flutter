@@ -8,14 +8,14 @@ part 'ItemDetail.g.dart';
 // root flutter packages pub run build_runner build watch
 @JsonSerializable()
 class ItemDetail {
-  int id;
-  int shopId;
-  String itemPrice;
-  String itemName;
-  String itemDescr;
-  String itemMainPicUrl;
-  String itemDispDetail;
-  List<TagInfo> tags;
+  int? id;
+  int? shopId;
+  String? itemPrice;
+  String? itemName;
+  String? itemDescr;
+  String? itemMainPicUrl;
+  String? itemDispDetail;
+  List<TagInfo>? tags = [];
 
   ItemDetail({this.id, this.itemPrice, this.itemName, this.itemDescr,
       this.itemMainPicUrl,this.itemDispDetail, this.tags}){

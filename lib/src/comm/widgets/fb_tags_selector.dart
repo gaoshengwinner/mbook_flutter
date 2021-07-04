@@ -10,9 +10,9 @@ import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_listview.dart';
 
 class TagsSelectWidget extends StatefulWidget {
-  final List<TagInfo> tagInfos;
-  final List<TagInfo> selectedTagInfos;
-  final Function onSelected;
+  final List<TagInfo>? tagInfos;
+  final List<TagInfo>? selectedTagInfos;
+  final Function? onSelected;
 
   TagsSelectWidget({this.tagInfos, this.selectedTagInfos, this.onSelected});
 
@@ -31,27 +31,27 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
 
     this.tagInfos = [];
     if (this.oldTagInfos != null) {
-      for (TagInfo tag in this.oldTagInfos) {
+      for (TagInfo tag in this.oldTagInfos!) {
         bool have = false;
-        for (TagInfo added in this.selectedTagInfos) {
+        for (TagInfo added in this.selectedTagInfos!) {
           if (added.id == tag.id) {
             have = true;
             break;
           }
         }
         if (!have) {
-          this.tagInfos.add(tag.copy());
+          this.tagInfos!.add(tag.copy());
         }
       }
     }
   }
 
-  List<TagInfo> tagInfos = [];
-  List<TagInfo> oldTagInfos = [];
-  List<TagInfo> selectedTagInfos = [];
-  Function onSelected;
+  List<TagInfo>? tagInfos = [];
+  List<TagInfo>? oldTagInfos = [];
+  List<TagInfo>? selectedTagInfos = [];
+  Function? onSelected;
 
-  ScrollController scrollController;
+  late ScrollController scrollController;
 
   int copiedIndex = -1;
 
@@ -61,7 +61,7 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
     scrollController.jumpTo(scrollController.offset);
     setState(() {
       inReorder = false;
-      selectedTagInfos
+      selectedTagInfos!
         ..clear()
         ..addAll(newItems);
     });
@@ -79,7 +79,7 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
       fn();
     });
     if (onSelected != null) {
-      onSelected(this.selectedTagInfos);
+      onSelected!(this.selectedTagInfos);
     }
   }
 
@@ -129,11 +129,11 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                 //child:
                 new ImplicitlyAnimatedReorderableList<TagInfo>(
               key: GlobalKey<ScaffoldState>(),
-              items: selectedTagInfos,
+              items: selectedTagInfos!,
               areItemsTheSame: (oldItem, newItem) => oldItem.id == newItem.id,
               onReorderFinished: (item, from, to, newItems) {
                 setState(() {
-                  selectedTagInfos
+                  selectedTagInfos!
                     ..clear()
                     ..addAll(newItems);
                 });
@@ -153,17 +153,17 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                       animation: itemAnimation,
                       child: Material(
                           color: color,
-                          elevation: elevation,
+                          elevation: elevation!,
                           type: MaterialType.transparency,
                           child: Slidable(
                             actionPane: const SlidableBehindActionPane(),
                             child: ListTile(
                               leading: GlobalFun.clipOvalIcon(Icons.clear, () {
                                 setState(() {
-                                  this.tagInfos.add(item.copy());
-                                  this.selectedTagInfos.remove(item);
-                                  this.tagInfos.sort(
-                                      (a, b) => a.orders.compareTo(b.orders));
+                                  this.tagInfos!.add(item.copy());
+                                  this.selectedTagInfos!.remove(item);
+                                  this.tagInfos!.sort(
+                                      (a, b) => a.orders!.compareTo(b.orders!));
                                 });
                               }),
                               //title: Text(item.desc),
@@ -174,7 +174,7 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                                     property: item.property,
                                     data: item.data,
                                   ),
-                                  Text(item.desc),
+                                  Text(item.desc == null ? "" : item.desc!),
                                 ],
                               ),
                               trailing: Handle(
@@ -197,14 +197,14 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                     SingleChildScrollView(
                       child: new ImplicitlyAnimatedReorderableList<TagInfo>(
                         key: GlobalKey<ScaffoldState>(),
-                        items: tagInfos,
+                        items: tagInfos!,
                         areItemsTheSame: (oldItem, newItem) =>
                             oldItem.id == newItem.id,
                         onReorderFinished: (item, from, to, newItems) {
                           // Remember to update the underlying data when the list has been
                           // reordered.
                           setState(() {
-                            tagInfos
+                            tagInfos!
                               ..clear()
                               ..addAll(newItems);
                           });
@@ -224,7 +224,7 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                                 animation: itemAnimation,
                                 child: Material(
                                     color: color,
-                                    elevation: elevation,
+                                    elevation: elevation!,
                                     type: MaterialType.transparency,
                                     child: Slidable(
                                       actionPane:
@@ -234,9 +234,9 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                                             Icons.add, () {
                                           setState(() {
                                             this
-                                                .selectedTagInfos
+                                                .selectedTagInfos!
                                                 .add(item.copy());
-                                            this.tagInfos.remove(item);
+                                            this.tagInfos!.remove(item);
                                             Navigator.pop(context);
                                           });
                                         }),
@@ -248,7 +248,7 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                                               property: item.property,
                                               data: item.data,
                                             ),
-                                            Text(item.desc)
+                                            Text(item.desc == null? "" : item.desc!)
                                           ],
                                         ),
                                       ),

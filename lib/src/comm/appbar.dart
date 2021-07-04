@@ -6,11 +6,11 @@ import 'package:mbook_flutter/src/comm/input_bottom.dart';
 import 'consts.dart';
 
 class AppBarView {
-  static AppBar appbar(String title, bool canReturn,
+  static AppBar appbar(String? title, bool canReturn,
   {bool canBesearch = false,
-      BuildContext context,
-      ValueChanged onEditingCompleteText, String serarchValue,
-    bool canSave = false, Function onSave
+      required BuildContext context,
+      ValueChanged? onEditingCompleteText, String? serarchValue,
+    bool canSave = false, Function? onSave
   }) {
     return new AppBar(
       leading: canReturn ? null : Container(),
@@ -44,9 +44,9 @@ class AppBarView {
                   PopRoute(
                       child: InputButtomWidget(
                           onEditingCompleteText: (text) {
-                            onEditingCompleteText(text);
+                            if (onEditingCompleteText != null) onEditingCompleteText(text);
                           },
-                          hintTextValue: "Searh", initVlueValue: serarchValue)));
+                          hintTextValue: "Searh", initVlueValue: serarchValue == null ? "" : serarchValue)));
             },
           ),
         if (canSave)
@@ -56,7 +56,7 @@ class AppBarView {
               color: Colors.white,
             ),
             onPressed: () {
-              onSave();
+              if (onSave != null) onSave();
             },
           ),
       ],

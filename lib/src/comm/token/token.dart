@@ -8,30 +8,30 @@ import '../consts.dart';
 
 class TokenUtil{
 
-  static Future<String> getRefreshToken() async {
+  static Future<String?>? getRefreshToken() async {
     final storage = new FlutterSecureStorage();
     final tokenString =  await storage.read(key: G.KEY_CHAIN_TOKEN);
     if (tokenString?.isEmpty ?? true) {
       return null;
     }
-    final token = Token.fromJson(jsonDecode(tokenString));
+    final token = Token.fromJson(jsonDecode(tokenString!));
 
-    if (token.refressBeginDate.difference(DateTime.now()).inMinutes < token.refreshTokenLimit -30){
+    if (token.refressBeginDate!.difference(DateTime.now()).inMinutes < token.refreshTokenLimit! -30){
       return token.refreshToken;
     } else {
       return null;
     }
   }
 
-  static Future<String> getAccessToken() async {
+  static Future<String?>? getAccessToken() async {
     final storage = new FlutterSecureStorage();
     final tokenString =  await storage.read(key: G.KEY_CHAIN_TOKEN);
     if (tokenString?.isEmpty ?? true) {
       return null;
     }
-    final token = Token.fromJson(jsonDecode(tokenString));
+    final token = Token.fromJson(jsonDecode(tokenString!));
 
-    if (token.accessTokenDate.difference(DateTime.now()).inMinutes < token.accessTokenLimit -30){
+    if (token.accessTokenDate!.difference(DateTime.now()).inMinutes < token.accessTokenLimit! -30){
       return token.accessToken;
     } else {
       return null;
@@ -42,7 +42,7 @@ class TokenUtil{
     final storage = new FlutterSecureStorage();
     final tokenString =  await storage.read(key: G.KEY_CHAIN_TOKEN);
 
-    var token = Token.fromJson(jsonDecode(tokenString));
+    var token = Token.fromJson(jsonDecode(tokenString!));
     token.accessToken = result.accessToken;
     token.accessTokenLimit = result.accessTokenLimit;
     token.accessTokenDate = DateTime.now();

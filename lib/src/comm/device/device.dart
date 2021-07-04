@@ -5,15 +5,15 @@ import 'package:uuid/uuid.dart';
 
 class DeviceHelper {
   static Future<DeviceInfo> getDeviceInfo() async {
-    final deviceId = await getDeviceId();
+    final String? deviceId = await getDeviceId();
     return DeviceInfo(deviceId, "", "","","");
   }
 
-  static Future<String> getDeviceId() async {
+  static Future<String?> getDeviceId() async {
     final storage = new FlutterSecureStorage();
 
 // Read value
-    return await storage?.read(key: G.KEY_CHAIN_DEVICE_ID)?.then((deviceId) {
+    return await storage.read(key: G.KEY_CHAIN_DEVICE_ID).then((deviceId) {
       if (deviceId?.isEmpty ?? true) {
         var uuid = Uuid();
         deviceId = uuid.v4();

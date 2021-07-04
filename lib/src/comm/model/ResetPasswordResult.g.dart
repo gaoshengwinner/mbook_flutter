@@ -8,12 +8,11 @@ part of 'ResetPasswordResult.dart';
 
 ResetPasswordResult _$ResetPasswordResultFromJson(Map<String, dynamic> json) {
   return ResetPasswordResult(
-    json['statu'] as String,
-    (json['errs'] as List)
-        ?.map(
-            (e) => e == null ? null : Errs.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-  )..uuid = json['uuid'] as String;
+    json['statu'] as String?,
+    (json['errs'] as List<dynamic>?)
+        ?.map((e) => Errs.fromJson(e as Map<String, dynamic>?))
+        .toList(),
+  )..uuid = json['uuid'] as String?;
 }
 
 Map<String, dynamic> _$ResetPasswordResultToJson(
@@ -26,8 +25,8 @@ Map<String, dynamic> _$ResetPasswordResultToJson(
 
 Errs _$ErrsFromJson(Map<String, dynamic> json) {
   return Errs(
-    json['msg'] as String,
-    json['errField'] as String,
+    json['msg'] as String?,
+    json['errField'] as String?,
   );
 }
 

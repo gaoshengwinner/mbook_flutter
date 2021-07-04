@@ -8,15 +8,14 @@ part of 'LoginResult.dart';
 
 LoginResult _$LoginResultFromJson(Map<String, dynamic> json) {
   return LoginResult(
-    json['statu'] as String,
-    (json['errs'] as List)
-        ?.map(
-            (e) => e == null ? null : Errs.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    json['refreshToken'] as String,
-    json['refreshTokenLimit'] as int,
-    json['accessToken'] as String,
-    json['accessTokenLimit'] as int,
+    json['statu'] as String?,
+    (json['errs'] as List<dynamic>?)
+        ?.map((e) => Errs.fromJson(e as Map<String, dynamic>?))
+        .toList(),
+    json['refreshToken'] as String?,
+    json['refreshTokenLimit'] as int?,
+    json['accessToken'] as String?,
+    json['accessTokenLimit'] as int?,
   );
 }
 
@@ -32,8 +31,8 @@ Map<String, dynamic> _$LoginResultToJson(LoginResult instance) =>
 
 Errs _$ErrsFromJson(Map<String, dynamic> json) {
   return Errs(
-    json['msg'] as String,
-    json['errField'] as String,
+    json['msg'] as String?,
+    json['errField'] as String?,
   );
 }
 

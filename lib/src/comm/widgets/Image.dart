@@ -10,11 +10,11 @@ class MBImage extends StatefulWidget {
     createState();
   }
 
-  final String url;
-  final double w;
-  final double h;
+  final String? url;
+  final double? w;
+  final double? h;
   final String defImagePath;
-  final BoxFit fit;
+  final BoxFit? fit;
 
   @override
   State<StatefulWidget> createState() {
@@ -23,12 +23,12 @@ class MBImage extends StatefulWidget {
 }
 
 class _StateImageWidget extends State<MBImage> {
-  Image _image;
+  late Image _image;
 
   @override
   void initState() {
     super.initState();
-    if (widget.url == null || widget.url.isEmpty) {
+    if (widget.url == null || widget.url!.isEmpty) {
       _image = Image.asset(
         widget.defImagePath,
         width: widget.w,
@@ -36,7 +36,7 @@ class _StateImageWidget extends State<MBImage> {
       );
     } else {
       _image = Image.network(
-        widget.url,
+        widget.url!,
         width: widget.w,
         height: widget.h,
         fit: widget.fit,
@@ -45,13 +45,13 @@ class _StateImageWidget extends State<MBImage> {
     var resolve = _image.image.resolve(ImageConfiguration.empty);
     resolve.addListener(ImageStreamListener((_, __) {
       //加载成功
-    }, onError: (dynamic exception, StackTrace stackTrace) {
+    }, onError: (dynamic exception, StackTrace? stackTrace) {
       //加载失败
       setState(() {
         _image = Image.asset(
           widget.defImagePath,
-          width: widget.w,
-          height: widget.h,
+          width: widget.w!,
+          height: widget.h!,
         );
       });
     }));
@@ -59,6 +59,6 @@ class _StateImageWidget extends State<MBImage> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.url == null || widget.url.isEmpty? Text("") :  _image;
+    return widget.url == null || widget.url!.isEmpty? Text("") :  _image;
   }
 }

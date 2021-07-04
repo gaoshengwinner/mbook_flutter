@@ -17,8 +17,8 @@ part 'OptionWidgetProperty.g.dart';
 class OptionWidgetProperty {
   factory OptionWidgetProperty.init() {
     const double defalutspace = 5;
-    OptionWidgetProperty me = OptionWidgetProperty();
-    me.framPr = TextWidgetProperty(
+
+    TextWidgetProperty framPr = TextWidgetProperty(
         paddingLeft: defalutspace,
         paddingTop: defalutspace,
         paddingRight: defalutspace,
@@ -27,8 +27,8 @@ class OptionWidgetProperty {
         spacingVWidth: defalutspace,
         minWidth: 100,
         minWidthUnit: enumToString(WHOptin.sw));
-    me.titlePr = TextWidgetProperty(paddingLeft: defalutspace, fontWeight: 700);
-    me.buttonPr = TextWidgetProperty(
+    TextWidgetProperty titlePr = TextWidgetProperty(paddingLeft: defalutspace, fontWeight: 700);
+    TextWidgetProperty buttonPr = TextWidgetProperty(
         alignment: FBAlignment.CENTER,
         backalignment: FBAlignment.CENTER,
         borderWidth: 1,
@@ -36,9 +36,9 @@ class OptionWidgetProperty {
         minHeight: 50,
         minWidth: 100,
         minWidthUnit: enumToString(WHOptin.sw));
-    me.buttonSelectPr = me.buttonPr.copy();
-    me.buttonSelectPr.borderColor = G.appBaseColor[0];
-
+    TextWidgetProperty buttonSelectPr = buttonPr.copy();
+    buttonSelectPr.borderColor = G.appBaseColor[0];
+    OptionWidgetProperty me = OptionWidgetProperty(framPr:framPr, titlePr:titlePr, buttonPr:buttonPr, buttonSelectPr:buttonSelectPr );
     return me;
   }
 
@@ -48,7 +48,9 @@ class OptionWidgetProperty {
   }
 
   OptionWidgetProperty(
-      {this.titlePr, this.framPr, this.buttonPr, this.buttonSelectPr});
+      {required this.titlePr, required this.framPr, required this.buttonPr, required this.buttonSelectPr}){
+
+  }
 
   factory OptionWidgetProperty.fromJson(Map<String, dynamic> json) =>
       _$OptionWidgetPropertyFromJson(json);
@@ -65,17 +67,17 @@ class OptionWidgetProperty {
   TextWidgetProperty buttonSelectPr = TextWidgetProperty();
 }
 
-class FrameProperty {
-  Color backColor = Colors.white;
+// class FrameProperty {
+//   Color backColor = Colors.white;
+//
+//   FrameProperty({this.backColor});
+// }
 
-  FrameProperty({this.backColor});
-}
-
-class OptionBean {
-  String mainTitle;
-  String subTitle;
-  int price;
-}
+// class OptionBean {
+//   String mainTitle;
+//   String subTitle;
+//   int price;
+// }
 
 class CustomTextWidgetPropertyConverter
     implements JsonConverter<TextWidgetProperty, String> {

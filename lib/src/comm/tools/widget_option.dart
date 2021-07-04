@@ -16,10 +16,10 @@ class WidgetOptionPage {
         ),
         WidgetBasePage.build(
           context,
-          property.framPr,
+          property.framPr!,
           child: _CupertinoRadioChoice(
             onChange: () {},
-            initialKeyValue: data.options.first,
+            initialKeyValue: data.options!.first,
             optionWidgetProperty: property,
             data: data,
             rowMaxcount: rowMaxcount,
@@ -35,11 +35,11 @@ class _CupertinoRadioChoice extends StatefulWidget {
   /// CupertinoRadioChoice displays a radio choice widget with cupertino format
   _CupertinoRadioChoice(
       { //@required this.choices,
-      @required this.onChange,
-      @required this.initialKeyValue,
+      required this.onChange,
+      required this.initialKeyValue,
       this.enabled = true,
-      this.optionWidgetProperty,
-      this.data,
+      required this.optionWidgetProperty,
+        required this.data,
       this.rowMaxcount = 3});
 
   final int rowMaxcount;
@@ -67,7 +67,7 @@ class _CupertinoRadioChoice extends StatefulWidget {
 /// State of the widget
 class _CupertinoRadioChoiceState extends State<_CupertinoRadioChoice> {
   dynamic _selectedKey;
-  ScrollController _controller;
+  late ScrollController _controller;
 
   _scrollListener() {
     if (_controller.offset >= _controller.position.maxScrollExtent &&
@@ -89,10 +89,10 @@ class _CupertinoRadioChoiceState extends State<_CupertinoRadioChoice> {
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
     super.initState();
-    if (widget.data.options.contains(widget.initialKeyValue))
+    if (widget.data.options!.contains(widget.initialKeyValue))
       _selectedKey = widget.initialKeyValue;
     else
-      _selectedKey = widget.data.options.first;
+      _selectedKey = widget.data.options!.first;
   }
 
   Widget buildSelectionButton(ItemOption key, {bool selected = false}) {
@@ -117,24 +117,24 @@ class _CupertinoRadioChoiceState extends State<_CupertinoRadioChoice> {
   Widget build(BuildContext context) {
 
     double realWidth = (1.sw -
-            widget.optionWidgetProperty.framPr.marginLeft -
-            widget.optionWidgetProperty.framPr.marginRight -
-            widget.optionWidgetProperty.framPr.paddingLeft -
-            widget.optionWidgetProperty.framPr.paddingRight -
-            (widget.rowMaxcount - 1) * widget.optionWidgetProperty.framPr.spacingHWidth) /
+            widget.optionWidgetProperty.framPr!.marginLeft -
+            widget.optionWidgetProperty.framPr!.marginRight -
+            widget.optionWidgetProperty.framPr!.paddingLeft -
+            widget.optionWidgetProperty.framPr!.paddingRight -
+            (widget.rowMaxcount - 1) * widget.optionWidgetProperty.framPr!.spacingHWidth) /
         widget.rowMaxcount;
 
     final List<List<Widget>> buttonList = [];
     int i = 1;
     int j = 0;
     List<Widget> row = [];
-    for (var key in widget.data.options) {
+    for (var key in widget.data.options!) {
       if (row.length > 0) {
         row.add(new Expanded(
-          flex: widget.optionWidgetProperty.framPr.spacingHWidth.toInt(),
+          flex: widget.optionWidgetProperty.framPr!.spacingHWidth.toInt(),
           child: SizedBox(
-            width: widget.optionWidgetProperty.framPr.spacingHWidth,
-            height: widget.optionWidgetProperty.framPr.spacingVWidth,
+            width: widget.optionWidgetProperty.framPr!.spacingHWidth,
+            height: widget.optionWidgetProperty.framPr!.spacingVWidth,
           ),
         ));
       }
@@ -142,18 +142,18 @@ class _CupertinoRadioChoiceState extends State<_CupertinoRadioChoice> {
         flex: realWidth.toInt(),
         child: buildSelectionButton(key, selected: _selectedKey == key),
       ));
-      if ((i % widget.rowMaxcount == 0 || i == widget.data.options.length)) {
-        if (i == widget.data.options.length && i % widget.rowMaxcount != 0) {
+      if ((i % widget.rowMaxcount == 0 || i == widget.data.options!.length)) {
+        if (i == widget.data.options!.length && i % widget.rowMaxcount != 0) {
           j++;
         } else {
           j = 0;
         }
         buttonList.add(row);
-        if (i < widget.data.options.length) {
+        if (i < widget.data.options!.length) {
           buttonList.add([
             SizedBox(
-              height: widget.optionWidgetProperty.framPr.spacingVWidth,
-              width: widget.optionWidgetProperty.framPr.spacingHWidth,
+              height: widget.optionWidgetProperty.framPr!.spacingVWidth,
+              width: widget.optionWidgetProperty.framPr!.spacingHWidth,
             )
           ]);
         }
@@ -168,17 +168,17 @@ class _CupertinoRadioChoiceState extends State<_CupertinoRadioChoice> {
     if (j != 0)
       for (int l = j; l < widget.rowMaxcount; l++) {
         buttonList.last.add(new Expanded(
-          flex: widget.optionWidgetProperty.framPr.spacingHWidth.toInt(),
+          flex: widget.optionWidgetProperty.framPr!.spacingHWidth.toInt(),
           child: SizedBox(
-            width: widget.optionWidgetProperty.framPr.spacingHWidth,
-            height: widget.optionWidgetProperty.framPr.spacingVWidth,
+            width: widget.optionWidgetProperty.framPr!.spacingHWidth,
+            height: widget.optionWidgetProperty.framPr!.spacingVWidth,
           ),
         ));
         buttonList.last.add(new Expanded(
           flex: realWidth.toInt(),
           child: SizedBox(
             width: realWidth,
-            height: widget.optionWidgetProperty.framPr.spacingVWidth,
+            height: widget.optionWidgetProperty.framPr!.spacingVWidth,
             child: Text(
                 "                                                               "),
           ),
