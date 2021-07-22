@@ -13,13 +13,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/tools/text_setting.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_option.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_implicitly_animated_reorderable_list.dart';
-import 'package:mbook_flutter/src/comm/widgets/fb_listview.dart';
 import 'package:collection/collection.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_number_picker.dart';
-import 'package:super_tooltip/super_tooltip.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 
-import 'my_item_options.dart';
 
 typedef EditeOptionTempSaveFunction = void Function(OptionTemp);
 
@@ -214,9 +210,9 @@ class _MyOptionsPageState extends State<MyOptionsPage> {
 }
 
 class OptionTempEditPage extends StatefulWidget {
-  OptionTemp? optionTemp;
-  List<OptionTemp>? optionTemps;
-  int? index;
+  final OptionTemp? optionTemp;
+  final List<OptionTemp>? optionTemps;
+  final int? index;
 
   OptionTempEditPage({this.optionTemp, this.optionTemps, this.index}) {
     assert((optionTemps == null && index == null) ||
@@ -235,8 +231,6 @@ class _OptionTempEditPageState extends State<OptionTempEditPage>
 
   //OptionWidgetProperty _optionWidgetProperty = OptionWidgetProperty.init();
   ItemOptionList _itemOptionList = ItemOptionList.forTemp();
-
-  int _currentSliderValue = 3;
 
   late TabController _tabController;
 

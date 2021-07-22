@@ -1,8 +1,5 @@
 import 'dart:core';
-import 'dart:typed_data';
 
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -11,7 +8,6 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/model/OptionGroupInfo.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTemp.dart';
-import 'package:mbook_flutter/src/comm/tools/item.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_option.dart';
 import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
@@ -19,12 +15,11 @@ import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_implicitly_animated_reorderable_list.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_number_picker.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 
 
 class MyItemOptionsPage extends StatefulWidget {
-  List<OptionGroupInfo> _list = [];
+  final List<OptionGroupInfo> _list = [];
 
   MyItemOptionsPage();
 
@@ -32,7 +27,6 @@ class MyItemOptionsPage extends StatefulWidget {
 }
 
 class _MyItemOptionsPageState extends State<MyItemOptionsPage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -102,20 +96,20 @@ class _MyItemOptionsPageState extends State<MyItemOptionsPage> {
 typedef SaveOptionFunction = void Function(OptionGroupInfo info);
 
 class AddOptionPage extends StatefulWidget {
-  OptionGroupInfo? info;
-  late OptionGroupInfo _info;
-  SaveOptionFunction? onSave;
+  final OptionGroupInfo? info;
+  //late OptionGroupInfo _info;
+  final SaveOptionFunction? onSave;
 
-  AddOptionPage({this.info, this.onSave}) {
-    _info = this.info == null ? OptionGroupInfo() : this.info!.copyWith();
-  }
+  AddOptionPage({this.info, this.onSave});
 
+  OptionGroupInfo get _info {
+    return this.info == null ? OptionGroupInfo() : this.info!.copyWith();
+}
   _AddOptionPageState createState() => _AddOptionPageState();
 }
 
 class _AddOptionPageState extends State<AddOptionPage> {
   int step = 0;
-  SfRangeValues _sfRangeValues = SfRangeValues(0.toDouble(), 1.toDouble());
 
   List<OptionTemp>? optionTempList = MyGlobal.optionTempInfos;
 
@@ -376,14 +370,12 @@ class _AddOptionPageState extends State<AddOptionPage> {
     if (optionTempList == null) {
       return;
     }
-    int initIndex = 0;
     List<Widget> _listView = [];
 
     for (int i = 0; i < optionTempList!.length; i++) {
       if (initValue == null) {
         initValue = optionTempList![0].id;
       } else if (optionTempList![i].id == initValue) {
-        initIndex = i;
         //break;
       }
       _listView

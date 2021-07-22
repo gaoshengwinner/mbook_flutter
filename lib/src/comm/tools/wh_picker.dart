@@ -1,23 +1,13 @@
-import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
+import 'package:custom_radio_grouped_button/CustomButtons/ButtonTextStyle.dart';
+import 'package:custom_radio_grouped_button/CustomButtons/CustomRadioButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ListHelper.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum WHOptin { px, sw, sh }
-
-//
-// void openWHPicker(BuildContext context, double initValue,
-//     String selectedUtil, Function onSelectedItemChanged) {
-//   Navigator.push(
-//       context,
-//       PopRoute(
-//           child: WHPickerPage(
-//               initValue, selectedUtil, onSelectedItemChanged)));
-// }
 
 String getUnitTitle(String util) {
   return enumFromString(WHOptin.values, util) == WHOptin.px
@@ -30,12 +20,12 @@ String getUnitTitle(String util) {
 // ignore: must_be_immutable
 class WHPickerPage extends StatefulWidget {
   final double initValue;
-   WHOptin? selectedUtil;
+  WHOptin? selectedUtil;
   final Function onSelectedItemChanged;
 
   WHPickerPage(
       this.initValue, String sSelectedUtil, this.onSelectedItemChanged) {
-    if (sSelectedUtil != null && sSelectedUtil != "") {
+    if (sSelectedUtil.isNotEmpty) {
       selectedUtil = enumFromString(WHOptin.values, sSelectedUtil);
     }
     if (selectedUtil == null) {
@@ -90,7 +80,9 @@ class _WHPickerPageState extends State<WHPickerPage>
                 ),
                 onPressed: () {
                   this.widget.onSelectedItemChanged(
-                      _oldInitialItem.toDouble(), enumToString(_oldSelectedUtil),getUnitTitle(enumToString(_oldSelectedUtil)) );
+                      _oldInitialItem.toDouble(),
+                      enumToString(_oldSelectedUtil),
+                      getUnitTitle(enumToString(_oldSelectedUtil)));
                   Navigator.pop(context);
                 },
                 padding: const EdgeInsets.symmetric(
@@ -102,31 +94,67 @@ class _WHPickerPageState extends State<WHPickerPage>
           ),
         ),
         Container(
-            alignment: Alignment(0.0, 0.0),
-            width: 1.sw,
-            color: Color(0xfff7f7f7),
-            child: CupertinoRadioChoice(
-                selectedColor: G.appBaseColor[0],
-                initialKeyValue: enumToString(this.widget.selectedUtil),
-                choices: {
-                  enumToString(WHOptin.px): 'Pixel',
-                  enumToString(WHOptin.sw): 'Screen Width',
-                  enumToString(WHOptin.sh): 'Screen Height'
-                },
-                onChange: (selectedGender) {
-                  setState(() {
-                    this.widget.selectedUtil =
-                        enumFromString(WHOptin.values, selectedGender);
+          alignment: Alignment(0.0, 0.0),
+          width: 1.sw,
+          color: Color(0xfff7f7f7),
+          child: CustomRadioButton(
+            width: 0.33.sw,
+            elevation: 0,
+            absoluteZeroSpacing: true,
+            unSelectedColor: Theme.of(context).canvasColor,
+            buttonLables: [
+              'px',
+              'sw',
+              'sh',
+            ],
+            buttonValues: [
+              WHOptin.px,
+              WHOptin.sw,
+              WHOptin.sh,
+            ],
+            buttonTextStyle: ButtonTextStyle(
+                selectedColor: Colors.white,
+                unSelectedColor: Colors.black,
+                textStyle: TextStyle(fontSize: 16)),
+            defaultSelected: WHOptin.px,
+            radioButtonValue: (value) {
+              setState(() {
+                this.widget.selectedUtil = value as WHOptin;
 
-                    this.widget.onSelectedItemChanged(
-                        ListHelper(0, 1024,
-                                tral: enumToString(this.widget.selectedUtil))
-                            .values()[_changeValue]
-                            .toDouble(),
-                        enumToString(this.widget.selectedUtil),
-                        getUnitTitle(enumToString(this.widget.selectedUtil)));
-                  });
-                })),
+                this.widget.onSelectedItemChanged(
+                    ListHelper(0, 1024,
+                            tral: enumToString(this.widget.selectedUtil))
+                        .values()[_changeValue]
+                        .toDouble(),
+                    enumToString(this.widget.selectedUtil),
+                    getUnitTitle(enumToString(this.widget.selectedUtil)));
+              });
+            },
+            selectedColor: Theme.of(context).accentColor,
+          ),
+        ),
+        // CupertinoRadioChoice(
+        //     selectedColor: G.appBaseColor[0],
+        //     initialKeyValue: enumToString(this.widget.selectedUtil),
+        //     choices: {
+        //       enumToString(WHOptin.px): 'Pixel',
+        //       enumToString(WHOptin.sw): 'Screen Width',
+        //       enumToString(WHOptin.sh): 'Screen Height'
+        //     },
+        //     onChange: (selectedGender) {
+        //       setState(() {
+        //         this.widget.selectedUtil =
+        //             enumFromString(WHOptin.values, selectedGender);
+        //
+        //         this.widget.onSelectedItemChanged(
+        //             ListHelper(0, 1024,
+        //                     tral: enumToString(this.widget.selectedUtil))
+        //                 .values()[_changeValue]
+        //                 .toDouble(),
+        //             enumToString(this.widget.selectedUtil),
+        //             getUnitTitle(enumToString(this.widget.selectedUtil)));
+        //       });
+        //     })),
         Container(
           height: 320.0,
           color: Color(0xfff7f7f7),

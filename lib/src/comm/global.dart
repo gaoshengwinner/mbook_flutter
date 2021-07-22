@@ -1,9 +1,6 @@
-import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:mbook_flutter/src/comm/input_bottom.dart';
-import 'package:mbook_flutter/src/comm/model/ListHelper.dart';
 import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
 import 'package:mbook_flutter/src/comm/tools/group.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
@@ -78,7 +75,7 @@ class GlobalFun {
     return showMaterialModalBottomSheet(
       //expand: false,
       context: context,
-      backgroundColor: bkgColor == null ? Colors.blue.withOpacity(0) : bkgColor,
+      backgroundColor: bkgColor,
       builder: (context) => Container(
           decoration: new BoxDecoration(
             //border: new Border.all( width: 0.5), // 边色与边宽度
@@ -217,96 +214,96 @@ class GlobalFun {
       },
     );
   }
+  //
+  // static ListHelper _listMin = ListHelper(0, 1024);
 
-  static ListHelper _listMin = ListHelper(0, 1024);
-
-  static showWHPicker(BuildContext context, double initValue,
-      List<String> utils, String selectedUtil, Function onSelectedItemChanged) {
-    int initialItem = _listMin.getIndexByValue(initValue.toInt());
-    int oldInitialItem = initialItem;
-    showCupertinoModalPopup(
-      context: context,
-      builder: (context) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                color: Color(0xffffffff),
-                border: Border(
-                  bottom: BorderSide(
-                    color: Color(0xff999999),
-                    width: 0.0,
-                  ),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  CupertinoButton(
-                    child: Text(
-                      'Revoke',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    onPressed: () {
-                      onSelectedItemChanged(oldInitialItem);
-                      Navigator.pop(context);
-                    },
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 5.0,
-                    ),
-                  ),
-                  // CupertinoButton(
-                  //   child: Text('Confirm',
-                  //       style: TextStyle(color: G.appBaseColor[0])),
-                  //   onPressed: () {
-                  //     Navigator.pop(context);
-                  //   },
-                  //   padding: const EdgeInsets.symmetric(
-                  //     horizontal: 16.0,
-                  //     vertical: 5.0,
-                  //   ),
-                  // )
-                ],
-              ),
-            ),
-            Container(
-                alignment: Alignment(0.0, 0.0),
-                width: 1.sw,
-                color: Color(0xfff7f7f7),
-                child: CupertinoRadioChoice(
-                    initialKeyValue: "",
-                    selectedColor: G.appBaseColor[0],
-                    choices: {
-                      "px": 'Pixel',
-                      "sw": 'Screen Width',
-                      "sh": 'Screen Height'
-                    },
-                    onChange: (selectedGender) {
-                      // setState(() {
-                      //   selected = selectedGender;
-                      // });
-                      // print(selected);
-                    })),
-            Container(
-              height: 320.0,
-              color: Color(0xfff7f7f7),
-              child: CupertinoPicker(
-                  itemExtent: 32.6,
-                  children: _listMin.list(),
-                  onSelectedItemChanged: (value) {
-                    onSelectedItemChanged(
-                        _listMin.values()[value.toInt()].toDouble());
-                  },
-                  scrollController:
-                      FixedExtentScrollController(initialItem: initialItem)),
-            )
-          ],
-        );
-      },
-    );
-  }
+  // static showWHPicker(BuildContext context, double initValue,
+  //     List<String> utils, String selectedUtil, Function onSelectedItemChanged) {
+  //   int initialItem = _listMin.getIndexByValue(initValue.toInt());
+  //   int oldInitialItem = initialItem;
+  //   showCupertinoModalPopup(
+  //     context: context,
+  //     builder: (context) {
+  //       return Column(
+  //         mainAxisAlignment: MainAxisAlignment.end,
+  //         children: <Widget>[
+  //           Container(
+  //             decoration: BoxDecoration(
+  //               color: Color(0xffffffff),
+  //               border: Border(
+  //                 bottom: BorderSide(
+  //                   color: Color(0xff999999),
+  //                   width: 0.0,
+  //                 ),
+  //               ),
+  //             ),
+  //             child: Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: <Widget>[
+  //                 CupertinoButton(
+  //                   child: Text(
+  //                     'Revoke',
+  //                     style: TextStyle(color: Colors.grey),
+  //                   ),
+  //                   onPressed: () {
+  //                     onSelectedItemChanged(oldInitialItem);
+  //                     Navigator.pop(context);
+  //                   },
+  //                   padding: const EdgeInsets.symmetric(
+  //                     horizontal: 16.0,
+  //                     vertical: 5.0,
+  //                   ),
+  //                 ),
+  //                 // CupertinoButton(
+  //                 //   child: Text('Confirm',
+  //                 //       style: TextStyle(color: G.appBaseColor[0])),
+  //                 //   onPressed: () {
+  //                 //     Navigator.pop(context);
+  //                 //   },
+  //                 //   padding: const EdgeInsets.symmetric(
+  //                 //     horizontal: 16.0,
+  //                 //     vertical: 5.0,
+  //                 //   ),
+  //                 // )
+  //               ],
+  //             ),
+  //           ),
+  //           Container(
+  //               alignment: Alignment(0.0, 0.0),
+  //               width: 1.sw,
+  //               color: Color(0xfff7f7f7),
+  //               child: CupertinoRadioChoice(
+  //                   initialKeyValue: "",
+  //                   selectedColor: G.appBaseColor[0],
+  //                   choices: {
+  //                     "px": 'Pixel',
+  //                     "sw": 'Screen Width',
+  //                     "sh": 'Screen Height'
+  //                   },
+  //                   onChange: (selectedGender) {
+  //                     // setState(() {
+  //                     //   selected = selectedGender;
+  //                     // });
+  //                     // print(selected);
+  //                   })),
+  //           Container(
+  //             height: 320.0,
+  //             color: Color(0xfff7f7f7),
+  //             child: CupertinoPicker(
+  //                 itemExtent: 32.6,
+  //                 children: _listMin.list(),
+  //                 onSelectedItemChanged: (value) {
+  //                   onSelectedItemChanged(
+  //                       _listMin.values()[value.toInt()].toDouble());
+  //                 },
+  //                 scrollController:
+  //                     FixedExtentScrollController(initialItem: initialItem)),
+  //           )
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   static void openEditTagPage(BuildContext context, List<TagInfo>? tags,
       List<TagInfo>? selectedTags, Function? onSelected) {
@@ -570,7 +567,7 @@ class GlobalFun {
 
   static Widget canClicklistTitle(IconData leadingIcon, IconData trailingIcon,
       String title, GestureTapCallback? doTop,
-      {Weidget}) {
+      {weidget}) {
     return new Padding(
         padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
         child: Container(
@@ -680,13 +677,13 @@ class GlobalFun {
 
   static Widget setingRow(IconData icon, String text) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      if (icon != null)
+
         Icon(
           icon,
           size: 18,
           color: G.appBaseColor[0],
         ),
-      if (text != null)
+
         Text(
           text,
           style: TextStyle(fontSize: 14, color: G.appBaseColor[0]),

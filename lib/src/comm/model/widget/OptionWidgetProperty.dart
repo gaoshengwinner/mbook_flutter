@@ -48,9 +48,7 @@ class OptionWidgetProperty {
   }
 
   OptionWidgetProperty(
-      {required this.titlePr, required this.framPr, required this.buttonPr, required this.buttonSelectPr}){
-
-  }
+      {required this.titlePr, required this.framPr, required this.buttonPr, required this.buttonSelectPr});
 
   factory OptionWidgetProperty.fromJson(Map<String, dynamic> json) =>
       _$OptionWidgetPropertyFromJson(json);

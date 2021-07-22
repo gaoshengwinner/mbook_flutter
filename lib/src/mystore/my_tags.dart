@@ -8,6 +8,7 @@ import 'package:mbook_flutter/src/comm/tools/text_setting.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_listview.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Function deepEq = const DeepCollectionEquality().equals;
 
@@ -111,7 +112,7 @@ class _MyTagsPageState extends State<MyTagsPage>
                                   data: tagInfos![index].data,
                                 )
                               ],
-                            )),
+                            ),width: 0.9.sw),
                         GlobalFun.clipOvalIcon(Icons.settings, () {
                           return GlobalFun.showBottomSheetForTextPrperty(
                               context,

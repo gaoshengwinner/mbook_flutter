@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/extension/extension.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 
@@ -28,7 +29,7 @@ class WidgetBasePage {
         //margin: EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: property.backColor,
-          border: property.borderWidth == null || property.borderWidth < 1
+          border: property.borderWidth < 1
               ? null
               : Border.all(
                   color: property.borderColor, width: property.borderWidth),
@@ -63,9 +64,7 @@ class WidgetBasePage {
   }
 
   static FontWeight getFontWeightByInt(int value) {
-    if (value == null || !(value is int)) {
-      return FontWeight.w400;
-    } else if (value < 150) {
+    if (value < 150) {
       return FontWeight.w100;
     } else if (value < 250) {
       return FontWeight.w200;
@@ -88,29 +87,25 @@ class WidgetBasePage {
 }
 
 class WidgetTextPage extends StatelessWidget {
-  TextWidgetProperty? property;
-  String? data;
+  final TextWidgetProperty? property;
+  final String? data;
 
   WidgetTextPage({this.property, this.data});
 
   @override
   Widget build(BuildContext context) {
-    if (property == null){
-      property = new TextWidgetProperty() ;
-    }
-    if (data == null) {
-      data = "";
-    }
-    return WidgetBasePage.build(context, property!, child: Text(
-      data!,
+    TextWidgetProperty _property = G.ifNull(property, new TextWidgetProperty());
+    String _data = G.ifNull(data, "");
+    return WidgetBasePage.build(context, _property, child: Text(
+      _data,
       softWrap: true,
-      textAlign: FBTextAlign.getByString(property!.textTextAlign),
+      textAlign: FBTextAlign.getByString(_property.textTextAlign),
       style: TextStyle(
-        color: property!.textColor,
-        fontSize: property!.fontSize,
-        fontWeight: WidgetBasePage.getFontWeightByInt(property!.fontWeight),
-        fontStyle: property!.italic ? FontStyle.italic : null,
-        letterSpacing: property!.letterSpacing,
+        color: _property.textColor,
+        fontSize: _property.fontSize,
+        fontWeight: WidgetBasePage.getFontWeightByInt(_property.fontWeight),
+        fontStyle: _property.italic ? FontStyle.italic : null,
+        letterSpacing: _property.letterSpacing,
       ),
     ));
   }

@@ -176,13 +176,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
-  cupertino_radio_choice:
+  custom_radio_grouped_button:
     dependency: "direct main"
     description:
-      name: cupertino_radio_choice
+      name: custom_radio_grouped_button
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1+1"
+    version: "2.0.0"
   dart_style:
     dependency: transitive
     description:

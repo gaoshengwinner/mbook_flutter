@@ -15,11 +15,11 @@ class MyGlobal {
 
   static Future getTagInfos(
       BuildContext context, GlobalKey<ScaffoldState> _scaffoldKey) async {
-    if (_scaffoldKey != null)
+
       GlobalFun.showSnackBar(context,_scaffoldKey, null, "  Loading...");
       GlobalFun.showSnackBar(context,_scaffoldKey, null, "  Loading...");
     Api.getMyTags(context).then((result) {
-      if (_scaffoldKey != null) GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+      GlobalFun.removeCurrentSnackBar(_scaffoldKey);
       // ignore: null_aware_before_operator
       if (result.length > 0 ) {
         tagInfos = result[1];
@@ -37,10 +37,10 @@ class MyGlobal {
 
   static Future getOptionTemInfos(
       BuildContext context, GlobalKey<ScaffoldState> _scaffoldKey) async {
-    if (_scaffoldKey != null)
+
       GlobalFun.showSnackBar(context,_scaffoldKey, null, "  Loading...");
     Api.getMyOptionTemps(context).then((result) {
-      if (_scaffoldKey != null) GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+      GlobalFun.removeCurrentSnackBar(_scaffoldKey);
       optionTempInfos = result.length> 0  ? result[1] : [];
     });
   }

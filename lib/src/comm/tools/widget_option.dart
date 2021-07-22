@@ -9,9 +9,9 @@ typedef OptionSelectEventFunction = void Function(
     OptionGroupInfo optionGroupInfo);
 
 class WidgetOptionWidget extends StatefulWidget {
-  OptionGroupInfo optionGroupInfo;
-  OptionTemp optionTemp;
-  OptionSelectEventFunction? onSelected;
+  final OptionGroupInfo optionGroupInfo;
+  final OptionTemp optionTemp;
+  final OptionSelectEventFunction? onSelected;
 
   WidgetOptionWidget(
       {required this.optionGroupInfo,

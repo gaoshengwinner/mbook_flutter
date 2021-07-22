@@ -59,7 +59,7 @@ class _FBReorderableListState<T extends Object>
         child: ImplicitlyAnimatedReorderableList(
           items: widget.items,
           onReorderFinished: (item, rom, to, newItems) {
-            int i = 0;
+
           },
           areItemsTheSame: (oldItem, newItem) {
             return oldItem == newItem;
@@ -149,7 +149,7 @@ class _FBReorderableListState<T extends Object>
       closeOnTap: true,
       color: Colors.red,
       onTap: () {
-        onTap == null ? null : onTap(i);
+        if (onTap != null )onTap(i);
       },
       child: Center(
         child: Column(
@@ -181,7 +181,7 @@ class _FBReorderableListState<T extends Object>
       closeOnTap: true,
       color: Colors.green,
       onTap: () {
-        onTap == null ? null : onTap(i);
+        if (onTap != null)  onTap(i);
       },
       child: Center(
         child: Column(
@@ -213,7 +213,7 @@ class _FBReorderableListState<T extends Object>
       closeOnTap: true,
       color: Colors.deepOrange,
       onTap: () {
-        onTap == null ? null : onTap(i);
+        if (onTap != null ) onTap(i);
       },
       child: Center(
         child: Column(

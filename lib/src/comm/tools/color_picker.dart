@@ -1,10 +1,11 @@
+import 'package:custom_radio_grouped_button/CustomButtons/ButtonTextStyle.dart';
+import 'package:custom_radio_grouped_button/CustomButtons/CustomRadioButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
-import 'package:cupertino_radio_choice/cupertino_radio_choice.dart';
 
 void openColor(
     BuildContext context, Color currentColor, Function onColorChange) {
@@ -15,10 +16,12 @@ void openColor(
               currentColor: currentColor, onColorChange: onColorChange)));
 }
 
+enum ColorSelectStlye { Sliders, Spectrum, Grid }
+
 // ignore: must_be_immutable
 class ColorPickerPage extends StatefulWidget {
   Color currentColor = Colors.white;
-  Function? onColorChange = (){};
+  Function? onColorChange = () {};
 
   ColorPickerPage({this.currentColor = Colors.white, this.onColorChange});
 
@@ -31,14 +34,12 @@ class _ColorPickerPageState extends State<ColorPickerPage>
   //Function onColorChange;
 
   Color _oldColor = Colors.white;
-  // create some values
-  Color _pickerColor = Color(0xff443a49);
-  //Color currentColor = Color(0xff443a49);
 
   _ColorPickerPageState();
 
-  static const String initSelected = "0";
-  String selected = initSelected;
+  //static const String initSelected = "0";
+  //String selected = initSelected;
+  ColorSelectStlye selected = ColorSelectStlye.Sliders;
 
   @override
   void initState() {
@@ -50,7 +51,7 @@ class _ColorPickerPageState extends State<ColorPickerPage>
   Widget build(BuildContext context) {
     return Container(
         height: 0.7.sh,
-        child: new Column(
+        child: new ListView(
           children: [
             Container(
               decoration: BoxDecoration(
@@ -71,7 +72,8 @@ class _ColorPickerPageState extends State<ColorPickerPage>
                       style: TextStyle(color: Colors.grey),
                     ),
                     onPressed: () {
-                      this.widget.onColorChange == null ? (){} : this.widget.onColorChange!(_oldColor);
+                      if (this.widget.onColorChange == null)
+                        this.widget.onColorChange!(_oldColor);
                       Navigator.pop(context);
                     },
                     padding: const EdgeInsets.symmetric(
@@ -79,17 +81,6 @@ class _ColorPickerPageState extends State<ColorPickerPage>
                       vertical: 5.0,
                     ),
                   ),
-                  // CupertinoButton(
-                  //   child: Text('Confirm',
-                  //       style: TextStyle(color: G.appBaseColor[0])),
-                  //   onPressed: () {
-                  //     Navigator.pop(context);
-                  //   },
-                  //   padding: const EdgeInsets.symmetric(
-                  //     horizontal: 16.0,
-                  //     vertical: 5.0,
-                  //   ),
-                  // )
                 ],
               ),
             ),
@@ -98,25 +89,87 @@ class _ColorPickerPageState extends State<ColorPickerPage>
               width: 1.sw - 5,
               height: 20,
               color: this.widget.currentColor,
-            )
-            ,
-            CupertinoRadioChoice(
-              initialKeyValue: "0",
-                choices: {"0": 'Sliders', "1": 'Spectrum', "2": 'Grid'},
-                onChange: (selectedGender) {
-                  setState(() {
-                    selected = selectedGender;
-                  });
-                  print(selected);
-                }),
-            if (this.selected == "0")
+            ),
+
+            CustomRadioButton(
+              width: 0.33.sw,
+              elevation: 0,
+              absoluteZeroSpacing: true,
+              unSelectedColor: Theme.of(context).canvasColor,
+              buttonLables: [
+                'Sliders',
+                'Spectrum',
+                'Grid',
+              ],
+              buttonValues: [
+                ColorSelectStlye.Sliders,
+                ColorSelectStlye.Spectrum,
+                ColorSelectStlye.Grid,
+              ],
+              buttonTextStyle: ButtonTextStyle(
+                  selectedColor: Colors.white,
+                  unSelectedColor: Colors.black,
+                  textStyle: TextStyle(fontSize: 6)),
+              defaultSelected: ColorSelectStlye.Sliders,
+              radioButtonValue: (value) {
+                setState(() {
+                  selected = value as ColorSelectStlye;
+                });
+              },
+              selectedColor: Theme.of(context).accentColor,
+            ),
+
+            // Row(
+            //   children: [
+            // RadioListTile<ColorSelectStlye>(
+            //   title: const Text('Sliders'),
+            //   value: ColorSelectStlye.Sliders,
+            //   groupValue: selected,
+            //   onChanged: (ColorSelectStlye? value) {
+            //     setState(() {
+            //       selected = value ?? ColorSelectStlye.Sliders;
+            //     });
+            //   },
+            // ),
+            // // RadioListTile<ColorSelectStlye>(
+            // //   title: const Text('Spectrum'),
+            // //   value: ColorSelectStlye.Spectrum,
+            // //   groupValue: selected,
+            // //   onChanged: (ColorSelectStlye? value) {
+            // //     setState(() {
+            // //       selected = value ?? ColorSelectStlye.Sliders;
+            // //     });
+            // //   },
+            // // ),
+            // // RadioListTile<ColorSelectStlye>(
+            // //   title: const Text('Grid'),
+            // //   value: ColorSelectStlye.Grid,
+            // //   groupValue: selected,
+            // //   onChanged: (ColorSelectStlye? value) {
+            // //     setState(() {
+            // //       selected = value ?? ColorSelectStlye.Sliders;
+            // //     });
+            // //   },
+            // // ),
+            // ],),
+            // CupertinoRadioChoice(
+            //   initialKeyValue: "0",
+            //     choices: {"0": 'Sliders', "1": 'Spectrum', "2": 'Grid'},
+            //     onChange: (selectedGender) {
+            //       setState(() {
+            //         selected = selectedGender;
+            //       });
+            //       print(selected);
+            //     }),
+            if (this.selected == ColorSelectStlye.Sliders)
               SlidePicker(
                 pickerColor: this.widget.currentColor,
                 onColorChanged: (value) {
                   setState(() {
                     this.widget.currentColor = value;
                   });
-                  this.widget.onColorChange == null ? (){} : this.widget.onColorChange!(value);
+                  if (this.widget.onColorChange != null)
+                    this.widget.onColorChange!(value);
                 },
                 paletteType: PaletteType.rgb,
                 enableAlpha: true,
@@ -127,14 +180,15 @@ class _ColorPickerPageState extends State<ColorPickerPage>
                   top: const Radius.circular(25.0),
                 ),
               ),
-            if (this.selected == "1")
+            if (this.selected == ColorSelectStlye.Spectrum)
               ColorPicker(
                 pickerColor: this.widget.currentColor,
                 onColorChanged: (value) {
                   setState(() {
                     this.widget.currentColor = value;
                   });
-                  this.widget.onColorChange == null ? (){} : this.widget.onColorChange!(value);
+                  if (this.widget.onColorChange != null)
+                    this.widget.onColorChange!(value);
                 },
                 colorPickerWidth: 300.0,
                 pickerAreaHeightPercent: 0.7,
@@ -147,7 +201,7 @@ class _ColorPickerPageState extends State<ColorPickerPage>
                   topRight: const Radius.circular(2.0),
                 ),
               ),
-            if (this.selected == "2")
+            if (this.selected == ColorSelectStlye.Grid)
               SingleChildScrollView(
                   child: ConstrainedBox(
                       constraints: BoxConstraints(
@@ -159,7 +213,8 @@ class _ColorPickerPageState extends State<ColorPickerPage>
                           setState(() {
                             this.widget.currentColor = value;
                           });
-                          this.widget.onColorChange == null ? (){} : this.widget.onColorChange!(value);
+                          if (this.widget.onColorChange != null)
+                            this.widget.onColorChange!(value);
                         },
                         enableLabel: true,
                       )))

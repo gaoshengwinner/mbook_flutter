@@ -1,26 +1,52 @@
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:html/dom.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:html/parser.dart' show parse;
-import 'package:html/dom.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class FbYoutubeWidget extends StatefulWidget {
-  String _src;
-  double _width;
-  double _heightbiwidth = 1;
+  final String src;
+  final double width;
 
-  FbYoutubeWidget(this._src, this._width) {
-    _heightbiwidth = _getHeightbiWidth(this._src);
-  }
+  FbYoutubeWidget(this.src, this.width);
 
   _FbYoutubeState createState() => _FbYoutubeState();
+}
+
+class _FbYoutubeState extends State<FbYoutubeWidget> {
+  late String _src;
+
+  @override
+  Widget build(BuildContext context) {
+    _src = widget.src;
+    return new Container(
+      width: widget.width,
+      height: _src.isEmpty ? 0 : _getHeightbiWidth(_src) * widget.width,
+      constraints: BoxConstraints(
+        minHeight: 30,
+      ),
+      child: WebView(
+        javascriptMode: JavascriptMode.unrestricted,
+        onWebViewCreated: (WebViewController webViewController) async {
+          // _controller = webViewController;
+          await _loadHtmlFromAssets(webViewController, _src);
+        },
+      ),
+    );
+  }
+
+  Future _loadHtmlFromAssets(
+      WebViewController webViewController, String src) async {
+    webViewController.loadUrl(Uri.dataFromString(
+            "<html><body>" + (src) + "</body></html>",
+            mimeType: 'text/html',
+            encoding: Encoding.getByName('utf-8'))
+        .toString());
+  }
 
   double _getHeightbiWidth(final String src) {
-    if (src == null || src.isEmpty) return 1;
+    if (src.isEmpty) return 1;
     Document document = parse(src);
     String width = "";
     String height = "";
@@ -58,39 +84,8 @@ class FbYoutubeWidget extends StatefulWidget {
       } else {
         return doubleHeight / doubleWidth;
       }
-    } catch (e, stack) {
+    } catch (e) {
       return 1;
     }
-  }
-}
-
-class _FbYoutubeState extends State<FbYoutubeWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      width: widget._width,
-      height: widget._src.isEmpty
-          ? 0
-          : widget._heightbiwidth * widget._width,
-      constraints: BoxConstraints(
-        minHeight: 30,
-      ),
-      child: WebView(
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (WebViewController webViewController) async {
-          // _controller = webViewController;
-          await _loadHtmlFromAssets(webViewController, widget._src);
-        },
-      ),
-    );
-  }
-
-  Future _loadHtmlFromAssets(
-      WebViewController webViewController, String src) async {
-    webViewController.loadUrl(Uri.dataFromString(
-            "<html><body>" + (src == null ? "" : src) + "</body></html>",
-            mimeType: 'text/html',
-            encoding: Encoding.getByName('utf-8'))
-        .toString());
   }
 }

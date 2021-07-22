@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mbook_flutter/src/comm/api/api.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
-import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/widgets/Image.dart';
-import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
 
 import 'my_addition_page.dart';
 import 'my_item_options.dart';

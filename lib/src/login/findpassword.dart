@@ -329,8 +329,8 @@ class FindPasswordPasswordPage extends StatefulWidget {
       _FindPasswordPasswordPagetate();
   final _formKey;
   final GlobalKey<ScaffoldState> _scaffoldKey;
-  String? _uuid;
-  String? _mail;
+  final String? _uuid;
+  final String? _mail;
 }
 
 class _FindPasswordPasswordPagetate extends State<FindPasswordPasswordPage> {

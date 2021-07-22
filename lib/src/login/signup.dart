@@ -245,7 +245,7 @@ class SignupCodeCnfPage extends StatefulWidget {
   SignupCodeCnfPage(this._uuid, this.onOK);
 
   _SignupCodeCnfPageState createState() => _SignupCodeCnfPageState();
-  String _uuid;
+  final String _uuid;
 }
 
 class _SignupCodeCnfPageState extends State<SignupCodeCnfPage> {

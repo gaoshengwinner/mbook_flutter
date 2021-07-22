@@ -5,24 +5,25 @@ import 'package:mbook_flutter/src/comm/model/AdditionalInfo.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/tools/group.dart';
-import 'package:mbook_flutter/src/comm/widgets/fb_htmltext.dart';
-
-import 'fb_active_title.dart';
 
 typedef OnSaveSettingCallBack = void Function(List<AdditionalInfo> infos);
 
 class AdditionInfoManaWidget extends StatefulWidget {
-  List<AdditionalInfo>? infos = [];
-  OnSaveSettingCallBack? onSave;
+  final List<AdditionalInfo>? infos;
+  final OnSaveSettingCallBack? onSave;
 
-  AdditionInfoManaWidget({this.infos, this.onSave}) {
+  List<AdditionalInfo> get _infos {
+    List<AdditionalInfo> tmpInfos = [];
     if (infos == null || infos!.length == 0) {
-      infos = [];
+      tmpInfos = [];
       for (int i = 1; i <= 10; i++) {
-        infos!.add(new AdditionalInfo(no: i, canBeUse: false));
+        tmpInfos.add(new AdditionalInfo(no: i, canBeUse: false));
       }
     }
+    return tmpInfos;
   }
+
+  AdditionInfoManaWidget({this.infos, this.onSave});
 
   @override
   _AdditionInfoManaWidgetState createState() =>
@@ -31,13 +32,12 @@ class AdditionInfoManaWidget extends StatefulWidget {
 
 class _AdditionInfoManaWidgetState extends State<AdditionInfoManaWidget> {
   FocusNode _blankNode = FocusNode();
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void setState(VoidCallback fn) {
     super.setState(fn);
     if (widget.onSave != null) {
-      widget.onSave == null? (){} : widget.onSave!(widget.infos!);
+      widget.onSave!(widget._infos);
     }
   }
 
@@ -55,12 +55,12 @@ class _AdditionInfoManaWidgetState extends State<AdditionInfoManaWidget> {
           child: Container(
             color: backgroundGray,
             child: new ListView.builder(
-              itemCount: widget.infos!.length,
+              itemCount: widget._infos.length,
               itemBuilder: (BuildContext context, int index) {
                 return new Card(
                   child: ListTile(
                     title: Text(
-                      "No.${widget.infos![index].no}",
+                      "No.${widget._infos[index].no}",
                       style: TextStyle(
                           fontWeight: FontWeight.normal, fontSize: 12),
                     ),
@@ -73,24 +73,25 @@ class _AdditionInfoManaWidgetState extends State<AdditionInfoManaWidget> {
                           // required TextInputType keyboardType,
                           // required Function onEditingCompleteText}) {
                           GlobalFun.openEditPage(
-                              context:context,
-                              hintTextValue:"Title",
-                              initValue: widget.infos![index].title!,
+                              context: context,
+                              hintTextValue: "Title",
+                              initValue: widget._infos[index].title!,
                               textInputAction: TextInputAction.done,
-                              keyboardType:TextInputType.text, onEditingCompleteText:(value) {
-                            setState(() {
-                              widget.infos![index].title = value;
-                            });
-                          });
+                              keyboardType: TextInputType.text,
+                              onEditingCompleteText: (value) {
+                                setState(() {
+                                  widget._infos[index].title = value;
+                                });
+                              });
                         },
                         child: Text(
-                            "${widget.infos![index].title == null ? "" : widget.infos![index].title}")),
+                            "${widget._infos[index].title == null ? "" : widget._infos[index].title}")),
                     trailing: Checkbox(
                         activeColor: G.appBaseColor[0],
-                        value: widget.infos![index].canBeUse,
+                        value: widget._infos[index].canBeUse,
                         onChanged: (value) {
                           setState(() {
-                            widget.infos![index].canBeUse = value;
+                            widget._infos[index].canBeUse = value;
                           });
                         }),
                   ),

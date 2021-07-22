@@ -104,7 +104,7 @@ class CustomNumberPicker extends StatefulWidget {
   final dynamic minValue;
   final dynamic initialValue;
   final dynamic step;
-  GestureTapCallback? bodyTap;
+  final GestureTapCallback? bodyTap;
 
   ///default vale true
   final bool enable;

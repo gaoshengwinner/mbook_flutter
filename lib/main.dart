@@ -1,5 +1,5 @@
 
-// @dart=2.9
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,7 +12,6 @@ import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 // 多语言End
 
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'src/home/home.dart';
 import 'src/comm/consts.dart';
@@ -60,7 +59,7 @@ class MyApp extends StatelessWidget {
               return MediaQuery(
                 //设置文字大小不随系统设置改变
                 data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                child: widget,
+                child: widget!,
               );
             },
 

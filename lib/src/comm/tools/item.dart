@@ -23,7 +23,7 @@ class SettingsItem extends StatefulWidget {
     this.value,
     this.hasDetails = false,
     this.onPress,
-  })  : assert(label != null),
+  })  :
         assert(type != null);
 
   final String label;
@@ -98,7 +98,7 @@ class SettingsItemState extends State<SettingsItem> {
       ),
     );
 
-    switch (widget.type) {
+    switch (widget.type!) {
       case SettingsItemType.toggle:
         rowChildren.add(
           Padding(

@@ -7,7 +7,6 @@ import 'package:mbook_flutter/src/login/login.dart';
 import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
 import 'package:mbook_flutter/src/mystore/my_store.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
-import 'consts.dart';
 
 class MenuBar {
   static Drawer menu(bool isLogin, bool notDispMystore, BuildContext _context, GlobalKey<ScaffoldState> _scaffoldKey, Function doReturn) {

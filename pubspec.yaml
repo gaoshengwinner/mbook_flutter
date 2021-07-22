@@ -44,7 +44,6 @@ dependencies:
   flutter_colorpicker: ^0.4.0
   flutter_speed_dial: ^3.0.5
   flutter_tags: ^0.4.9+1
-  cupertino_radio_choice: ^1.0.1+1
   modal_bottom_sheet: ^2.0.0
   flutter_slidable: ^0.6.0
   implicitly_animated_reorderable_list: ^0.4.0
@@ -64,6 +63,7 @@ dependencies:
   flutter_number_picker: ^1.0.1
   super_tooltip: ^1.0.1
   auto_size_text: ^3.0.0-nullsafety.0
+  custom_radio_grouped_button: ^2.0.0
 dynamic_theme: ^1.0.1
 google_fonts: ^1.1.0
   # The following adds the Cupertino Icons font to your application.

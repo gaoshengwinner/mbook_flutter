@@ -6,10 +6,9 @@ import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ShopInfo.dart';
 import 'package:mbook_flutter/src/comm/widgets/Image.dart';
 import 'package:mbook_flutter/src/mystore/my_addition_page.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class MyStoreInfoPage extends StatefulWidget {
-  ShopInfo? _shopInfo;
+  final ShopInfo? _shopInfo;
 
   MyStoreInfoPage(this._shopInfo);
 
@@ -31,7 +30,6 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
       });
   }
 
-  late WebViewController _controller;
 
   @override
   Widget build(BuildContext context) {

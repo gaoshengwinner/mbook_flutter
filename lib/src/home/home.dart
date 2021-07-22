@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mbook_flutter/generated/l10n.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/menu.dart';
 import 'package:mbook_flutter/src/comm/token/token.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mbook_flutter/src/widgets/FBButton.dart';
-
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();

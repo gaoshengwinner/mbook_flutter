@@ -101,15 +101,7 @@ class TextWidgetProperty {
       this.backImg = "",
       this.spacingHWidth = 0,
       this.spacingVWidth = 0,
-      this.spacingColor = Colors.transparent}) {
-    if (this.spacingHWidth == null) {
-      this.spacingHWidth = 0;
-    }
-
-    if (this.spacingVWidth == null) {
-      this.spacingVWidth = 0;
-    }
-  }
+      this.spacingColor = Colors.transparent});
 
   String getJsonString() {
     return jsonEncode(this.toJson());
@@ -150,7 +142,7 @@ class CustomColorConverter implements JsonConverter<Color, String> {
 
   @override
   Color fromJson(String json) {
-    if (json == null || json == "") {
+    if (json.isEmpty) {
       return Colors.white;
     }
     List<String> values = json.split(";");
