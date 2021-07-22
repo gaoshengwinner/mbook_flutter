@@ -16,10 +16,10 @@ class MenuBar {
       ListView(
         children: <Widget>[
           DrawerHeader(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-              colors: G.appBaseColor,
-            )),
+            // decoration: BoxDecoration(
+            //     gradient: LinearGradient(
+            //   colors: G.appBaseColor,
+            // )),
             child: Column(
               children: [
                 Material(

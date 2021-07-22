@@ -62,7 +62,7 @@ class _MyTagsPageState extends State<MyTagsPage>
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBarView.appbar("Tags", true, context: context),
+      appBar: AppBarView.appbar(title:"Tags", canReturn:true, context: context),
       key: _scaffoldKey,
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,

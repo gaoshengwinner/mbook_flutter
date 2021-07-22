@@ -6,7 +6,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ResetPasswordResult.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mbook_flutter/src/widgets/raised_button.dart';
+import 'package:mbook_flutter/src/widgets/FBButton.dart';
 
 class FindPasswordPage extends StatefulWidget {
   _FindPasswordPageState createState() => _FindPasswordPageState();
@@ -56,10 +56,8 @@ class _FindPasswordPageState extends State<FindPasswordPage> {
                                   fontWeight: FontWeight.w500,
                                   fontSize: 30),
                             )),
-                        Theme(
-                          data: ThemeData(primaryColor: G.appBaseColor[0]),
-                          //color: Colors.red,
-                          child: Expanded(
+
+                          Expanded(
                               child: Stepper(
                                   type: StepperType.horizontal,
                                   physics: ScrollPhysics(),
@@ -107,7 +105,8 @@ class _FindPasswordPageState extends State<FindPasswordPage> {
                                           color: G.appBaseColor[0],
                                           fontSize: 10),
                                     ),
-                                    content: new FindPasswordCodeCnfPage(_uuid, (uuid) {
+                                    content: new FindPasswordCodeCnfPage(_uuid,
+                                        (uuid) {
                                       setState(() {
                                         _uuid = uuid;
                                         step = 2;
@@ -132,7 +131,7 @@ class _FindPasswordPageState extends State<FindPasswordPage> {
                                       });
                                     })),
                               ])),
-                        )
+
                       ]),
                     ),
                   ),
@@ -149,7 +148,8 @@ class FindPasswordMailCnfPage extends StatefulWidget {
   final String _signUpTitle;
   final bool _canClick;
 
-  _FindPasswordMailCnfPageState createState() => _FindPasswordMailCnfPageState();
+  _FindPasswordMailCnfPageState createState() =>
+      _FindPasswordMailCnfPageState();
   final _formKey;
   final GlobalKey<ScaffoldState> _scaffoldKey;
 }
@@ -194,19 +194,18 @@ class _FindPasswordMailCnfPageState extends State<FindPasswordMailCnfPage> {
               )),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: FBButton.build(
-                  context,
-                  0.6.sw,
-                  widget._signUpTitle.isEmpty
+              child: FBButton(
+                  width: 0.6.sw,
+                  title: widget._signUpTitle.isEmpty
                       ? S.of(context).signup_button_sending
                       : widget._signUpTitle,
-                  Icons.mail,
-                  !widget._canClick
+                  icon: Icons.mail,
+                  onTap: !widget._canClick
                       ? null
                       : () {
                           if (widget._formKey.currentState.validate()) {
-                            GlobalFun.showSnackBar(context,
-                                widget._scaffoldKey, null, "  Sending Mail...");
+                            GlobalFun.showSnackBar(context, widget._scaffoldKey,
+                                null, "  Sending Mail...");
                             Api.resetPassordMailCnf(_mail)
                                 .then((value) => {
                                       if (value[0] == Api.OK &&
@@ -246,7 +245,8 @@ class FindPasswordCodeCnfPage extends StatefulWidget {
 
   FindPasswordCodeCnfPage(this._uuid, this.onOK);
 
-  _FindPasswordCodeCnfPageState createState() => _FindPasswordCodeCnfPageState();
+  _FindPasswordCodeCnfPageState createState() =>
+      _FindPasswordCodeCnfPageState();
   final String? _uuid;
 }
 
@@ -288,24 +288,31 @@ class _FindPasswordCodeCnfPageState extends State<FindPasswordCodeCnfPage> {
               )),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: FBButton.build(
-                  context,
-                  0.6.sw,
-                  S.of(context).signup_code_button_sending,
-                  Icons.check_circle, () {
-                Api.resetPasswordMailCodeCnf(widget._uuid, _cnfcode).then((value) => {
-                      if (value[0] == Api.OK &&
-                          (value[1] as ResetPasswordResult).statu == "0")
-                        {widget.onOK((value[1] as ResetPasswordResult).uuid)}
-                      else
-                        {
-                          setState(() {
-                            this._errmsg =
-                                (value[1] as ResetPasswordResult).errs![0].msg!;
-                          })
-                        }
-                    });
-              })),
+              child: FBButton(
+                  width: 0.6.sw,
+                  title: S.of(context).signup_code_button_sending,
+                  icon: Icons.check_circle,
+                  onTap: () {
+                    Api.resetPasswordMailCodeCnf(widget._uuid, _cnfcode)
+                        .then((value) => {
+                              if (value[0] == Api.OK &&
+                                  (value[1] as ResetPasswordResult).statu ==
+                                      "0")
+                                {
+                                  widget.onOK(
+                                      (value[1] as ResetPasswordResult).uuid)
+                                }
+                              else
+                                {
+                                  setState(() {
+                                    this._errmsg =
+                                        (value[1] as ResetPasswordResult)
+                                            .errs![0]
+                                            .msg!;
+                                  })
+                                }
+                            });
+                  })),
         ],
       ),
     );
@@ -318,7 +325,8 @@ class FindPasswordPasswordPage extends StatefulWidget {
   FindPasswordPasswordPage(
       this._scaffoldKey, this._formKey, this._mail, this._uuid, this.onOK);
 
-  _FindPasswordPasswordPagetate createState() => _FindPasswordPasswordPagetate();
+  _FindPasswordPasswordPagetate createState() =>
+      _FindPasswordPasswordPagetate();
   final _formKey;
   final GlobalKey<ScaffoldState> _scaffoldKey;
   String? _uuid;
@@ -388,53 +396,58 @@ class _FindPasswordPasswordPagetate extends State<FindPasswordPasswordPage> {
               )),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: FBButton.build(context, 0.6.sw,
-                  S.of(context).signup_sigup_button, Icons.login, () {
-                setState(() {
-                  _errmsg = "";
-                });
-                if (widget._formKey.currentState.validate()) {
-                  GlobalFun.showSnackBar(context,
-                      widget._scaffoldKey, null, "  Sending Mail...");
-                  Api.resetPassword(widget._mail, widget._uuid, _password)
-                      .then((value) => {
-                            if (value[0] == Api.OK &&
-                                (value[1] as ResetPasswordResult).statu == "0")
-                              {
-                                showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialog(
-                                    title: const Text('Reset password'),
-                                    content:
-                                        const Text('Succeed in reset password'),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context, 'OK');
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('OK'),
+              child: FBButton(
+                  width: 0.6.sw,
+                  title: S.of(context).signup_sigup_button,
+                  icon: Icons.login,
+                  onTap: () {
+                    setState(() {
+                      _errmsg = "";
+                    });
+                    if (widget._formKey.currentState.validate()) {
+                      GlobalFun.showSnackBar(context, widget._scaffoldKey, null,
+                          "  Sending Mail...");
+                      Api.resetPassword(widget._mail, widget._uuid, _password)
+                          .then((value) => {
+                                if (value[0] == Api.OK &&
+                                    (value[1] as ResetPasswordResult).statu ==
+                                        "0")
+                                  {
+                                    showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                        title: const Text('Reset password'),
+                                        content: const Text(
+                                            'Succeed in reset password'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context, 'OK');
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('OK'),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                )
-                              }
-                            else
-                              {
-                                setState(() {
-                                  this._errmsg =
-                                      (value[1] as ResetPasswordResult)
-                                          .errs![0]
-                                          .msg!;
-                                })
-                              }
-                          })
-                      .catchError((e) {
-                    GlobalFun.showSnackBar(context,widget._scaffoldKey, e, e.toString());
-                  });
-                }
-              })),
+                                    )
+                                  }
+                                else
+                                  {
+                                    setState(() {
+                                      this._errmsg =
+                                          (value[1] as ResetPasswordResult)
+                                              .errs![0]
+                                              .msg!;
+                                    })
+                                  }
+                              })
+                          .catchError((e) {
+                        GlobalFun.showSnackBar(
+                            context, widget._scaffoldKey, e, e.toString());
+                      });
+                    }
+                  })),
         ],
       ),
     );

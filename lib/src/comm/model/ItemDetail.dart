@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
 
+import 'AdditionalMana.dart';
+
 part 'ItemDetail.g.dart';
 
 // root flutter packages pub run build_runner build
@@ -17,11 +19,19 @@ class ItemDetail {
   String? itemDispDetail;
   List<TagInfo>? tags = [];
 
+  String?  additionInfo;
+
   ItemDetail({this.id, this.itemPrice, this.itemName, this.itemDescr,
-      this.itemMainPicUrl,this.itemDispDetail, this.tags}){
+      this.itemMainPicUrl,this.itemDispDetail, this.tags, this.additionInfo}){
     if (this.tags == null){
       this.tags = [];
     }
+    getMana();
+  }
+  AdditionalMana? _additionalMana;
+  AdditionalMana getMana(){
+    _additionalMana = AdditionalMana.fromJsonString(additionInfo);
+    return _additionalMana!;
   }
 
   factory ItemDetail.newItem(){
@@ -33,6 +43,7 @@ class ItemDetail {
   Map<String, dynamic> toJson() => _$ItemDetailToJson(this);
 
   String getJsonString() {
+    additionInfo = _additionalMana == null ? "" : _additionalMana!.getJsonString();
     return jsonEncode(this.toJson());
   }
 }

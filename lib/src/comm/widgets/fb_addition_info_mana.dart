@@ -66,12 +66,18 @@ class _AdditionInfoManaWidgetState extends State<AdditionInfoManaWidget> {
                     ),
                     subtitle: InkWell(
                         onTap: () {
+                          // required BuildContext context,
+                          // String? hintTextValue,
+                          // String? initValue,
+                          // required TextInputAction textInputAction,
+                          // required TextInputType keyboardType,
+                          // required Function onEditingCompleteText}) {
                           GlobalFun.openEditPage(
-                              context,
-                              "Title",
-                              widget.infos![index].title!,
-                              TextInputAction.done,
-                              TextInputType.text, (value) {
+                              context:context,
+                              hintTextValue:"Title",
+                              initValue: widget.infos![index].title!,
+                              textInputAction: TextInputAction.done,
+                              keyboardType:TextInputType.text, onEditingCompleteText:(value) {
                             setState(() {
                               widget.infos![index].title = value;
                             });

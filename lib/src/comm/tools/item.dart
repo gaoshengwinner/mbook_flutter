@@ -171,16 +171,19 @@ class SettingsItemState extends State<SettingsItem> {
               pressed = true;
             });
             if (widget.onPress != null)
-            widget.onPress!().whenComplete(() {
-              Future.delayed(
-                Duration(milliseconds: 150),
-                () {
-                  setState(() {
-                    pressed = false;
-                  });
-                },
-              );
-            });
+            widget.onPress!()
+            //     .whenComplete(() {
+            //   Future.delayed(
+            //     Duration(milliseconds: 150),
+            //     () {
+            //       setState(() {
+            //         pressed = false;
+            //       });
+            //     },
+            //   );
+            // }
+            // )
+            ;
           }
         },
         child: SizedBox(

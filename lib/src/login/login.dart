@@ -8,7 +8,7 @@ import 'package:mbook_flutter/src/comm/model/LoginResult.dart';
 import 'package:mbook_flutter/src/home/home.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/login/signup.dart';
-import 'package:mbook_flutter/src/widgets/raised_button.dart';
+import 'package:mbook_flutter/src/widgets/FBButton.dart';
 
 import 'findpassword.dart';
 
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                                     borderSide:
                                         BorderSide(color: G.appBaseColor[0])),
                                 prefixIcon:
-                                    Icon(Icons.email, color: G.appBaseColor[0]),
+                                    Icon(Icons.email, color: Theme.of(context).iconTheme.color),
                                 hintText: S.of(context).login_mail_hintText),
                             initialValue: "",
                             keyboardType: TextInputType.emailAddress,
@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                                     borderSide:
                                         BorderSide(color: G.appBaseColor[0])),
                                 prefixIcon:
-                                    Icon(Icons.lock, color: G.appBaseColor[0]),
+                                    Icon(Icons.lock, color: Theme.of(context).iconTheme.color),
                                 hintText:
                                     S.of(context).login_password_hintText),
                             keyboardType: TextInputType.visiblePassword,
@@ -135,11 +135,11 @@ class _LoginPageState extends State<LoginPage> {
                             margin: EdgeInsets.only(right: 10)),
                         Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            child: FBButton.build(
-                                context,
-                                0.6.sw,
-                                S.of(context).login_login_title,
-                                Icons.login, () {
+                            child: FBButton(
+                                width:0.6.sw,
+                                title:S.of(context).login_login_title,
+                                icon:Icons.login, onTap:
+                                () {
                               if (_formKey.currentState?.validate() ?? false) {
                                 GlobalFun.showSnackBar(context,
                                     _scaffoldKey, null, "  Signing-In...");

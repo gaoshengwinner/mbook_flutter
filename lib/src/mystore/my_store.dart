@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:mbook_flutter/generated/l10n.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
@@ -40,19 +41,18 @@ class _MyStorePageState extends State<MyStorePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-        appBar: AppBarView.appbar(S.of(context).mystore_title, true, context: context),
-        // backgroundColor:Color(0xf5f5f5).withOpacity(1),
-        //endDrawer: Text("test"),//MenuBar.menu(true, true, context, null),
+        appBar: AppBarView.appbar(title:S.of(context).mystore_title, canReturn:true, context: context),
         body: SettingsList(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           sections: [
             SettingsSection(
               title: 'Base info',
-              titleTextStyle: TextStyle(color: G.appBaseColor[0]),
+              titleTextStyle: TextStyle(color: Theme.of(context).primaryColor),
               tiles: [
                 SettingsTile(
                   title: 'Store Info',
                   subtitle: '',
-                  leading: Icon(Icons.store),
+                  leading: Icon(Icons.store, color:Theme.of(context).iconTheme.color),
                   onPressed: (BuildContext context) async {
                     Navigator.push(
                         context,
@@ -64,7 +64,7 @@ class _MyStorePageState extends State<MyStorePage> {
                 SettingsTile(
                   switchActiveColor: G.appBaseColor[0],
                   title: 'Menu Info',
-                  leading: Icon(Icons.menu),
+                  leading: Icon(Icons.menu, color:Theme.of(context).iconTheme.color),
                   onPressed: (BuildContext context) async {
                     Navigator.push(
                         context,
@@ -76,7 +76,7 @@ class _MyStorePageState extends State<MyStorePage> {
                 SettingsTile(
                   switchActiveColor: G.appBaseColor[0],
                   title: 'Tags',
-                  leading: Icon(Icons.tag),
+                  leading: Icon(FontAwesome.tags, color:Theme.of(context).iconTheme.color),
                   onPressed: (BuildContext context) async {
                     Navigator.push(
                         context,
@@ -88,7 +88,7 @@ class _MyStorePageState extends State<MyStorePage> {
                 SettingsTile(
                   switchActiveColor: G.appBaseColor[0],
                   title: 'Option templates',
-                  leading: Icon(Icons.tag),
+                  leading: Icon(Ionicons.ios_options_outline, color:Theme.of(context).iconTheme.color),
                   onPressed: (BuildContext context) async {
                     Navigator.push(
                         context,
@@ -117,6 +117,7 @@ class _MyStorePageState extends State<MyStorePage> {
               ],
             ),
           ],
-        ));
+        ),
+    );
   }
 }

@@ -1,65 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/input_bottom.dart';
 
 import 'consts.dart';
 
 class AppBarView {
-  static AppBar appbar(String? title, bool canReturn,
-  {bool canBesearch = false,
+  static AppBar appbar({String? title, required bool canReturn,
+      bool canBesearch = false,
       required BuildContext context,
-      ValueChanged? onEditingCompleteText, String? serarchValue,
-    bool canSave = false, Function? onSave
-  }) {
+      ValueChanged? onEditingCompleteText,
+      String? serarchValue,
+      bool canSave = false,
+      Function? onSave,
+      PreferredSizeWidget? bottom}) {
     return new AppBar(
-      leading: canReturn ? null : Container(),
-      //backgroundColor: G.appBaseColor,
+      leading: canReturn
+          ? IconButton(
+              onPressed: () {
+
+                Navigator.pop(context);
+              },
+              icon: Icon(AntDesign.left))
+          : Container(),
       centerTitle: true,
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: G.appBaseColor,
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter),
-        ),
-      ),
       title: title == null
           ? Image.asset(
-              'assets/graphics/logo_heng_white.png',
+
+              MediaQuery.platformBrightnessOf(context) == Brightness.dark
+                  ? 'assets/graphics/logo_heng_white.png'
+                  : 'assets/graphics/logo_heng.png',
               fit: BoxFit.cover,
-              width: 0.4.sw,
+              height: 50,
+              //width: 0.4.sw,
             )
           : Text(title),
       actions: [
         if (canBesearch)
           IconButton(
-            icon: const Icon(
-              Icons.search,
-              color: Colors.white,
-            ),
+            icon: const Icon(Feather.search),
             onPressed: () {
               Navigator.push(
                   context,
                   PopRoute(
                       child: InputButtomWidget(
                           onEditingCompleteText: (text) {
-                            if (onEditingCompleteText != null) onEditingCompleteText(text);
+                            if (onEditingCompleteText != null)
+                              onEditingCompleteText(text);
                           },
-                          hintTextValue: "Searh", initVlueValue: serarchValue == null ? "" : serarchValue)));
+                          hintTextValue: "Search",
+                          initVlueValue:
+                              serarchValue == null ? "" : serarchValue)));
             },
           ),
         if (canSave)
           IconButton(
             icon: const Icon(
               Icons.save,
-              color: Colors.white,
             ),
             onPressed: () {
               if (onSave != null) onSave();
             },
           ),
       ],
+      bottom: bottom,
     );
   }
 }

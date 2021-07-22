@@ -37,7 +37,7 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBarView.appbar("Item List", true,
+      appBar: AppBarView.appbar(title:"Item List", canReturn:true,
           canBesearch: true, context: context, onEditingCompleteText: (query) {
         searchString = query;
         //setState(() {
@@ -71,6 +71,7 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
           FocusScope.of(context).requestFocus(_blankNode);
         },
         child: FBListViewWidget<ItemDetail>(
+
           _itemList,
           setActions: (c, r, index) {
             return [

@@ -4,7 +4,7 @@ import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/menu.dart';
 import 'package:mbook_flutter/src/comm/token/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mbook_flutter/src/widgets/raised_button.dart';
+import 'package:mbook_flutter/src/widgets/FBButton.dart';
 
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
@@ -37,11 +37,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    printScreenInformation();
+    // printScreenInformation();
 
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBarView.appbar(null, false, context: context),
+      appBar: AppBarView.appbar(title:null, canReturn:false, context: context),
       endDrawer: MenuBar.menu(
           isLogin,
           false,
@@ -116,49 +116,48 @@ class _HomePageState extends State<HomePage> {
               //           ]))),
               // 登录页面迁移按钮End
               // QrCodeScarn按钮Start
-              Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(top: 10),
-                width: 0.4.sw,
-                child: SizedBox(
-                  child: Image.network(
-                      "https://cdn-web.qr-code-generator.com/wp-content/themes/qr/new_structure/assets/media/images/api_page/qrcodes/bw/Api_page_-_QR-Code-Generator_com-1.png"),
-                ),
-              ),
-              FBButton.build(
-                  context,
-                  0.6.sw,
-                  S.of(context).home_scan_button_title,
-                  Icons.qr_code_scanner,
-                  () => {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              titlePadding: const EdgeInsets.all(0.0),
-                              contentPadding: const EdgeInsets.all(0.0),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                              ),
-                              content: SingleChildScrollView(
-                                child: SlidePicker(
-                                  paletteType: PaletteType.rgb,
-                                  pickerColor: currentColor,
-                                  onColorChanged: changeColor,
-                                  enableAlpha: true,
-                                  displayThumbColor: true,
-                                  showLabel: true,
-                                  showIndicator: true,
-                                  indicatorBorderRadius:
-                                      const BorderRadius.vertical(
-                                    top: const Radius.circular(25.0),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        )
-                      })
+              // Container(
+              //   alignment: Alignment.center,
+              //   margin: EdgeInsets.only(top: 10),
+              //   width: 0.4.sw,
+              //   child: SizedBox(
+              //     child: Image.network(
+              //         "https://cdn-web.qr-code-generator.com/wp-content/themes/qr/new_structure/assets/media/images/api_page/qrcodes/bw/Api_page_-_QR-Code-Generator_com-1.png"),
+              //   ),
+              // ),
+              // FBButton(
+              //     width: 0.6.sw,
+              //     title:S.of(context).home_scan_button_title,
+              //     icon: Icons.qr_code_scanner,
+              //     onTap:() => {
+              //           showDialog(
+              //             context: context,
+              //             builder: (BuildContext context) {
+              //               return AlertDialog(
+              //                 titlePadding: const EdgeInsets.all(0.0),
+              //                 contentPadding: const EdgeInsets.all(0.0),
+              //                 shape: RoundedRectangleBorder(
+              //                   borderRadius: BorderRadius.circular(25.0),
+              //                 ),
+              //                 content: SingleChildScrollView(
+              //                   child: SlidePicker(
+              //                     paletteType: PaletteType.rgb,
+              //                     pickerColor: currentColor,
+              //                     onColorChanged: changeColor,
+              //                     enableAlpha: true,
+              //                     displayThumbColor: true,
+              //                     showLabel: true,
+              //                     showIndicator: true,
+              //                     indicatorBorderRadius:
+              //                         const BorderRadius.vertical(
+              //                       top: const Radius.circular(25.0),
+              //                     ),
+              //                   ),
+              //                 ),
+              //               );
+              //             },
+              //           )
+              //         })
 
               // Container(
               //     alignment: Alignment.center,
@@ -189,17 +188,17 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void printScreenInformation() {
-    print('Device width dp:${1.sw}dp');
-    print('Device height dp:${1.sh}dp');
-    print('Device pixel density:${ScreenUtil().pixelRatio}');
-    print('Bottom safe zone distance dp:${ScreenUtil().bottomBarHeight}dp');
-    print('Status bar height dp:${ScreenUtil().statusBarHeight}dp');
-    print('The ratio of actual width to UI design:${ScreenUtil().scaleWidth}');
-    print(
-        'The ratio of actual height to UI design:${ScreenUtil().scaleHeight}');
-    print('System font scaling:${ScreenUtil().textScaleFactor}');
-    print('0.5 times the screen width:${0.5.sw}dp');
-    print('0.5 times the screen height:${0.5.sh}dp');
-  }
+  // void printScreenInformation() {
+  //   print('Device width dp:${1.sw}dp');
+  //   print('Device height dp:${1.sh}dp');
+  //   print('Device pixel density:${ScreenUtil().pixelRatio}');
+  //   print('Bottom safe zone distance dp:${ScreenUtil().bottomBarHeight}dp');
+  //   print('Status bar height dp:${ScreenUtil().statusBarHeight}dp');
+  //   print('The ratio of actual width to UI design:${ScreenUtil().scaleWidth}');
+  //   print(
+  //       'The ratio of actual height to UI design:${ScreenUtil().scaleHeight}');
+  //   print('System font scaling:${ScreenUtil().textScaleFactor}');
+  //   print('0.5 times the screen width:${0.5.sw}dp');
+  //   print('0.5 times the screen height:${0.5.sh}dp');
+  // }
 }

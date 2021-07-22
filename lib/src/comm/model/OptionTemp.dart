@@ -12,18 +12,19 @@ class OptionTemp {
   String? desc;
   String? propertyString;
   int? orders;
+  int defaultLineCount = 3;
 
   OptionTemp copy(){
     return OptionTemp.fromJson(toJson());
   }
 
   @JsonKey(ignore: true)
-  OptionWidgetProperty? property;
+  late OptionWidgetProperty property;
 
   @JsonKey(ignore: true)
   String? uuid;
 
-  OptionTemp({this.id, this.desc, this.propertyString}) {
+  OptionTemp({this.id, this.desc, this.propertyString, this.orders, this.defaultLineCount = 3}) {
     if (propertyString?.isEmpty ?? true) {
       property = OptionWidgetProperty.init();
     } else {
@@ -50,7 +51,7 @@ class OptionTemp {
   }
 
   void beForToJson(){
-    this.propertyString = jsonEncode(property?.toJson());
+    this.propertyString = jsonEncode(property.toJson());
   }
 
   bool operator ==(Object o) {
@@ -59,7 +60,7 @@ class OptionTemp {
     return o is OptionTemp &&
         o.id == id &&
         o.uuid == uuid &&
-        o.property!.toJson() == property!.toJson();
+        o.property.toJson() == property.toJson();
   }
 
   @override

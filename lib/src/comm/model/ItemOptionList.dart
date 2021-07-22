@@ -5,6 +5,40 @@ part 'ItemOptionList.g.dart';
 
 // root flutter packages pub run build_runner build
 // root flutter packages pub run build_runner build watch
+//
+//
+// class Option extends Object {
+//   String? title;
+//   String? price;
+//   bool? defaultUse;
+//
+//   Option({this.title, this.price, this.defaultUse});
+// }
+//
+// class OptionInfo extends Object {
+//   String? title;
+//   bool? mustBeSelect;
+//   int mustSelectMin = 0;
+//   int mustSelectMax = 1;
+//   int lineDispCount = 3;
+//   int? optionTempId;
+//   List<Option>? options;
+//
+//   OptionInfo(
+//       {this.title,
+//         this.mustBeSelect,
+//         this.options,
+//         this.mustSelectMin = 0,
+//         this.lineDispCount = 3,
+//         this.optionTempId,
+//         this.mustSelectMax = 1});
+//
+//   OptionInfo copyWith() {
+//     OptionInfo copy = OptionInfo(title: this.title);
+//     return copy;
+//   }
+// }
+
 @JsonSerializable()
 class ItemOptionList {
   ItemOptionList(

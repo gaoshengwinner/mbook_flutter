@@ -49,9 +49,10 @@ class GlobalFun {
     FocusScope.of(context).requestFocus(new FocusNode());
     print("showSnackBar:$e");
     //_scaffoldKey.currentContext.
-    ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(new SnackBar(
+    ScaffoldMessenger.of(_scaffoldKey.currentContext!)
+        .showSnackBar(new SnackBar(
       //_scaffoldKey.currentState.showSnackBar(new SnackBar(
-      backgroundColor: G.appBaseColor[0],
+      //backgroundColor: G.appBaseColor[0],
       duration: new Duration(seconds: 4),
       content: new Row(
         children: <Widget>[
@@ -324,13 +325,13 @@ class GlobalFun {
     //             onSelected: onSelected)));
   }
 
-  static void openEditPage(
-      BuildContext context,
+  static void openEditPage({
+      required BuildContext context,
       String? hintTextValue,
       String? initValue,
-      TextInputAction textInputAction,
-      TextInputType keyboardType,
-      Function onEditingCompleteText) {
+      required TextInputAction textInputAction,
+      required TextInputType keyboardType,
+      required Function onEditingCompleteText}) {
     Navigator.push(
         context,
         PopRoute(
@@ -381,11 +382,11 @@ class GlobalFun {
                         )),
                     onTap: () {
                       GlobalFun.openEditPage(
-                          context,
-                          title,
-                          value,
-                          TextInputAction.newline,
-                          TextInputType.multiline, (value) {
+                          context:context,
+                          hintTextValue:title,
+                          initValue:value,
+                          textInputAction:TextInputAction.newline,
+                          keyboardType:TextInputType.multiline,onEditingCompleteText: (value) {
                         onChange(value);
                       });
                     },
@@ -502,11 +503,11 @@ class GlobalFun {
                   spacing: 4,
                   children: [
                     if (selectedTags != null)
-                    for (TagInfo tag in selectedTags)
-                      WidgetTextPage(
-                        property: tag.property,
-                        data: tag.data,
-                      )
+                      for (TagInfo tag in selectedTags)
+                        WidgetTextPage(
+                          property: tag.property,
+                          data: tag.data,
+                        )
                   ],
                 )),
             onTap: () {
@@ -522,19 +523,19 @@ class GlobalFun {
     );
   }
 
-  static Widget commonTitle(String lableText) {
+  static Widget commonTitle(BuildContext context, String lableText,
+      {Widget? rightWidget}) {
     return Container(
         child:
-        Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-        lableText,
-        style: TextStyle(
-        fontWeight: FontWeight.bold, ), // G.appBaseColor[0]
-    )));
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Text(lableText, style: Theme.of(context).textTheme.subtitle1), //
+              rightWidget != null?  rightWidget : Text("")
+
+    ]));
   }
 
-  static Widget customListTitle(IconData icon, String title, GestureTapCallback? doTop) {
+  static Widget customListTitle(
+      IconData icon, String title, GestureTapCallback? doTop) {
     return new Padding(
         padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
         child: Container(
@@ -553,7 +554,7 @@ class GlobalFun {
                       Icon(icon),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(title,
+                        child: Text(title,maxLines: 2,
                             style: TextStyle(
                               fontSize: 16.0,
                             )),
@@ -568,7 +569,8 @@ class GlobalFun {
   }
 
   static Widget canClicklistTitle(IconData leadingIcon, IconData trailingIcon,
-      String title, GestureTapCallback? doTop, {Weidget }) {
+      String title, GestureTapCallback? doTop,
+      {Weidget}) {
     return new Padding(
         padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
         child: Container(
@@ -585,33 +587,35 @@ class GlobalFun {
                     Row(
                       children: [
                         Icon(leadingIcon),
-                        Padding(padding: const EdgeInsets.all(8.0), child: Text(title))
+                        Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(title))
                       ],
                     ),
-                    Row(children: [
-                     // Icon(AntDesign.plussquareo , color:G.appBaseColor[0],),
-                    Icon(trailingIcon ),
-                    ],)
+                    Row(
+                      children: [
+                        // Icon(AntDesign.plussquareo , color:G.appBaseColor[0],),
+                        Icon(trailingIcon),
+                      ],
+                    )
                   ],
                 )),
           ),
         ));
   }
 
-  static Widget fbInputBox(
-      BuildContext context, String? lableText, String? value, Function? serValue,
-      {Widget? valueWidget, double? width, Axis? axis}) {
+  static Widget fbInputBox(BuildContext context, String? lableText,
+      String? value, Function? serValue,
+      {Widget? valueWidget, double? width, Axis? axis, String? hintTextValue}) {
     width = width == null ? double.maxFinite : width;
-    return
-      Container(
-          //padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-          child:
-      Flex(
+    return Container(
+        //padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+        child: Flex(
       direction: axis == null ? Axis.vertical : axis,
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (lableText != null) commonTitle(lableText),
+        if (lableText != null) commonTitle(context, lableText),
         Container(
           constraints: BoxConstraints(
             minHeight: 20,
@@ -623,34 +627,45 @@ class GlobalFun {
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Colors.grey, width: 1),
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderRadius: BorderRadius.all(Radius.circular(3)),
               ),
-             width: width,
-              child:
-
-             //valueWidget == null ? Text(value ?? "", style: TextStyle(color: Colors.black),) : valueWidget,
-
-              Stack(children: [
+              width: width,
+              child: Stack(children: [
                 Container(
-                  child: valueWidget == null ? Text(value ?? "", style: TextStyle(color: Colors.black),) : valueWidget
-                ),
-                if (valueWidget != null)   Align(
-                 alignment: Alignment.centerRight,
-                  child: IconButton(
-                      onPressed: null,
-                      icon: Icon(
-                        Icons.edit,
-                        size: 20,
-                        color: Colors.red,
-                      )),
-                )
+                    child: valueWidget == null
+                        ? value == null || value == ""
+                            ? Text(
+                                (hintTextValue == null || hintTextValue.isEmpty
+                                    ? ""
+                                    : hintTextValue),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(color: Colors.black54))
+                            : Text(value,
+                                style: Theme.of(context).textTheme.bodyText2)
+                        //)
+                        : valueWidget),
+                if (valueWidget != null)
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                        onPressed: null,
+                        icon: Icon(
+                          Icons.edit,
+                          size: 20,
+                          color: Colors.red,
+                        )),
+                  )
               ]),
-
-
             ),
             onTap: () {
-              GlobalFun.openEditPage(context, lableText, value,
-                  TextInputAction.newline, TextInputType.multiline, (value) {
+              GlobalFun.openEditPage(
+                  context:context,
+                  hintTextValue:lableText == null ? hintTextValue : lableText,
+                  initValue:value,
+                  textInputAction:TextInputAction.newline,
+                  keyboardType:TextInputType.multiline,onEditingCompleteText: (value) {
                 if (serValue != null) serValue(value);
               });
             },
@@ -660,8 +675,7 @@ class GlobalFun {
           height: 5,
         ),
       ],
-    )
-      );
+    ));
   }
 
   static Widget setingRow(IconData icon, String text) {

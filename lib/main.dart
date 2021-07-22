@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/device/device.dart';
 import 'package:mbook_flutter/src/login/login.dart';
+import 'package:mbook_flutter/src/theme/MainThemeData.dart';
 
 // 多语言Start
 import 'generated/l10n.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
         designSize: Size(750, 1334),
+
         //allowFontScaling: false,
         builder: ()=>MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -47,16 +49,20 @@ class MyApp extends StatelessWidget {
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
             ],
+
             supportedLocales: S.delegate.supportedLocales,
             // 多语言End
-            theme: new ThemeData(
-              brightness: Brightness.light,
-              primarySwatch: Colors.blue,
-            ),
-            darkTheme: ThemeData(
-              brightness: Brightness.dark,
-            ),
+            themeMode: ThemeMode.system,
+            theme: FBThemeDate.mainThemeData(Brightness.light),
+            darkTheme: FBThemeDate.mainThemeData(Brightness.dark),
             home: HomePage(),
+            builder:  (context, widget) {
+              return MediaQuery(
+                //设置文字大小不随系统设置改变
+                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                child: widget,
+              );
+            },
 
             routes:{
               G.ROUTES_LOGIN: (context) => LoginPage(),

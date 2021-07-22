@@ -20,7 +20,7 @@ import 'package:mbook_flutter/src/comm/token/token.dart';
 
 class Api {
   static const int OK = 200;
-  static const String _BASE_API_URL = "https://27e646ea6296.ngrok.io";
+  static const String _BASE_API_URL = "https://ec0dc8d9cfb3.ngrok.io";
   static const String _LOGIN_URL = _BASE_API_URL + "/v1/api/member/login";
   static const String _SIGNUP_MAIL_CNF_URL = _BASE_API_URL + "/v1/api/sigup/sigupMailCnf";
   static const String _SIGNUP_MAIL_CODE_CNF_URL = _BASE_API_URL + "/v1/api/sigup/sigupCodeCnf";

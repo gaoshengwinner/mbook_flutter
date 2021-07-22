@@ -6,9 +6,10 @@ import 'package:email_validator/email_validator.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/SignupMailCnfResult.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mbook_flutter/src/widgets/raised_button.dart';
+import 'package:mbook_flutter/src/widgets/FBButton.dart';
 
 class SignupPage extends StatefulWidget {
+
   _SignupPageState createState() => _SignupPageState();
 }
 
@@ -57,10 +58,7 @@ class _SignupPageState extends State<SignupPage> {
                                   fontWeight: FontWeight.w500,
                                   fontSize: 30),
                             )),
-                        Theme(
-                          data: ThemeData(primaryColor: G.appBaseColor[0]),
-                          //color: Colors.red,
-                          child: Expanded(
+                         Expanded(
                               child: Stepper(
                                   type: StepperType.horizontal,
                                   physics: ScrollPhysics(),
@@ -133,7 +131,7 @@ class _SignupPageState extends State<SignupPage> {
                                       });
                                     })),
                               ])),
-                        )
+
                       ]),
                     ),
                   ),
@@ -195,14 +193,13 @@ class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
               )),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: FBButton.build(
-                  context,
-                  0.6.sw,
-                  widget._signUpTitle.isEmpty
+              child: FBButton(
+                 width: 0.6.sw,
+                 title: widget._signUpTitle.isEmpty
                       ? S.of(context).signup_button_sending
                       : widget._signUpTitle,
-                  Icons.mail,
-                  !widget._canClick
+                  icon:Icons.mail,
+                  onTap: !widget._canClick
                       ? null
                       : () {
                           if (widget._formKey.currentState.validate()) {
@@ -289,11 +286,10 @@ class _SignupCodeCnfPageState extends State<SignupCodeCnfPage> {
               )),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: FBButton.build(
-                  context,
-                  0.6.sw,
-                  S.of(context).signup_code_button_sending,
-                  Icons.check_circle, () {
+              child: FBButton(
+                  width:0.6.sw,
+                  title:S.of(context).signup_code_button_sending,
+                  icon:Icons.check_circle, onTap:() {
                 Api.sigupMailCodeCnf(widget._uuid, _cnfcode).then((value) => {
                       if (value[0] == Api.OK &&
                           (value[1] as SignupMailCnfResult).statu == "0")
@@ -389,8 +385,8 @@ class _SignupPasswordPagetate extends State<SignupPasswordPage> {
               )),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: FBButton.build(context, 0.6.sw,
-                  S.of(context).signup_sigup_button, Icons.login, () {
+              child: FBButton(width: 0.6.sw,
+                  title:S.of(context).signup_sigup_button, icon:Icons.login, onTap: () {
                 setState(() {
                   _errmsg = "";
                 });

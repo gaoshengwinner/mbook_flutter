@@ -9,6 +9,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/widgets/Image.dart';
 import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
 
+import 'my_addition_page.dart';
+import 'my_item_options.dart';
+
 class MyMenuEditPage extends StatefulWidget {
   final ItemDetail _item;
 
@@ -18,11 +21,9 @@ class MyMenuEditPage extends StatefulWidget {
 }
 
 class _MyMenuEditState extends State<MyMenuEditPage> {
-
   // 响应空白处的焦点的Node
   final GlobalKey<ScaffoldState> _baseInfoscaffoldKey =
       new GlobalKey<ScaffoldState>();
-
 
   @override
   void initState() {
@@ -34,62 +35,49 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
       });
   }
 
-  Color borderColor = Color(0xFFBCBBC1);
-  Color borderLightColor = Color.fromRGBO(49, 44, 51, 1);
-  Color backgroundGray = Color(0xFFEFEFF4);
-
   @override
   Widget build(BuildContext context) {
     List<TabInfo> tabInfos = [
-      TabInfo(title: "Item info", widget: _baseInfo(context)),
-      TabInfo(title: "Addtion info", widget: _addtionInfo(context)),
+      TabInfo(title: "Base", widget: _baseInfo(context)),
+      TabInfo(title: "Option", widget: _optionsInfo(context)),
+      TabInfo(title: "Addition", widget: _addtionInfo(context)),
     ];
-    return Scaffold(
-      key: _baseInfoscaffoldKey,
-      appBar: AppBarView.appbar("Item info", true, canSave: true, onSave: () {
-        GlobalFun.showSnackBar(context,_baseInfoscaffoldKey,null, "  Saving...");
-        Api.saveMyItemInfo(context, widget._item).whenComplete(() {
-          GlobalFun.removeCurrentSnackBar(_baseInfoscaffoldKey);
-        }).catchError((e) {
-          GlobalFun.showSnackBar(context,_baseInfoscaffoldKey, null,e.toString());
-        });
-      }, context: context),
-      body: DefaultTabController(
-        length: tabInfos.length,
-        child: Column(
-          children: <Widget>[
-            Container(
-              constraints: BoxConstraints(maxHeight: 150.0),
-              child: Material(
-                color: Colors.white,
-                child: TabBar(
-                  isScrollable: true,
-                  labelColor: Colors.black,
-                  indicatorColor: G.appBaseColor[0],
-                  tabs: // [Tab(text: "Hello"), Tab(text: "Hell1o")]
-                      //[
-                      tabInfos.map((TabInfo tabInfo) {
-                    return new Tab(
-                      text: tabInfo.title,
-                    );
-                  }).toList(),
-                ),
-              ),
-            ),
-            Expanded(
-              child: TabBarView(
-                children: //[
 
-                    tabInfos.map((TabInfo tabInfo) {
-                  return Scaffold(
-                    key: new GlobalKey<RefreshIndicatorState>(),
-                    body: Center(child: tabInfo.widget),
-                  );
-                }).toList(),
-                // ],
-              ),
-            ),
-          ],
+    return MaterialApp(
+      theme: Theme.of(context),
+      home: DefaultTabController(
+        length: tabInfos.length,
+        child: Scaffold(
+          appBar: AppBarView.appbar(title:
+            "Item info",
+            canReturn:true,
+            canSave: true,
+            onSave: () {
+              GlobalFun.showSnackBar(
+                  context, _baseInfoscaffoldKey, null, "  Saving...");
+              Api.saveMyItemInfo(context, widget._item).whenComplete(() {
+                GlobalFun.removeCurrentSnackBar(_baseInfoscaffoldKey);
+              }).catchError((e) {
+                GlobalFun.showSnackBar(
+                    context, _baseInfoscaffoldKey, null, e.toString());
+              });
+            },
+            context: context,
+            bottom: TabBar(
+                tabs: tabInfos.map((TabInfo tabInfo) {
+              return Tab(
+                text: tabInfo.title,
+              );
+            }).toList()),
+          ),
+          body: TabBarView(
+            children: tabInfos.map((TabInfo tabInfo) {
+              return Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: tabInfo.widget,
+              );
+            }).toList(),
+          ),
         ),
       ),
     );
@@ -98,24 +86,29 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
   Widget _baseInfo(BuildContext context) {
     return Container(
         padding: EdgeInsets.all(10),
-        color: Color(0xFFEFEFF4),
         child: ListView(children: [
-          GlobalFun.fbInputBox(context, "商品名", widget._item.itemName?.toString() ?? "", (value) {
+          GlobalFun.fbInputBox(
+              context, "商品名", widget._item.itemName?.toString() ?? "", (value) {
             setState(() {
               widget._item.itemName = value;
             });
           }, width: 0.9.sw),
-          GlobalFun.fbInputBox(context, "商品価格", widget._item.itemPrice?.toString() ?? "", (value) {
+          GlobalFun.fbInputBox(
+              context, "商品価格", widget._item.itemPrice?.toString() ?? "",
+              (value) {
             setState(() {
               widget._item.itemPrice = value;
             });
           }, width: 0.9.sw),
-          GlobalFun.fbInputBox(context, "商品説明", widget._item.itemDescr?.toString() ?? "", (value) {
+          GlobalFun.fbInputBox(
+              context, "商品説明", widget._item.itemDescr?.toString() ?? "",
+              (value) {
             setState(() {
               widget._item.itemDescr = value;
             });
           }, width: 0.9.sw),
-          GlobalFun.fbInputBox(context, "商品代表写真", widget._item.itemMainPicUrl?.toString() ?? "",
+          GlobalFun.fbInputBox(
+              context, "商品代表写真", widget._item.itemMainPicUrl?.toString() ?? "",
               (value) {
             setState(() {
               widget._item.itemMainPicUrl = value;
@@ -128,24 +121,29 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
         ]));
   }
 
-  Widget _addtionInfo(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      color: Color(0xFFEFEFF4),
-      child: ListView(
-        children: [
-          GlobalFun.fbInputTagBox(
-              context, "Tags", MyGlobal.tagInfos, widget._item.tags, (value) {
-            setState(() {
-              widget._item.tags = value;
-            });
-          }),
-        ],
-      ),
-    );
+  Widget _optionsInfo(BuildContext context) {
+    return MyItemOptionsPage();
+    // return Container(
+    //   padding: EdgeInsets.all(10),
+    //   color: Color(0xFFEFEFF4),
+    //   child: ListView(
+    //     children: [
+    //       GlobalFun.fbInputTagBox(
+    //           context, "Tags", MyGlobal.tagInfos, widget._item.tags, (value) {
+    //         setState(() {
+    //           widget._item.tags = value;
+    //         });
+    //       }),
+    //     ],
+    //   ),
+    // );
   }
 
-  ScrollController scrollController =  ScrollController();
+  Widget _addtionInfo(BuildContext context) {
+    return MyAdditionPage(addtionInfoMana: widget._item.getMana());
+  }
+
+  ScrollController scrollController = ScrollController();
   bool dialVisible = true;
 
   void setDialVisible(bool value) {

@@ -1,4 +1,5 @@
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
 class G{
@@ -25,5 +26,12 @@ class G{
   static const String ROUTES_HOME = "/home";
 
 
+  static String nullSafe(String? s){
+    return s == null ? "" : s;
+  }
+
+  static T ifNull<T>(T? value, dynamic nullValue){
+    return value == null ? nullValue : value;
+  }
 
 }

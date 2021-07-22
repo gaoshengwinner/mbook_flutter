@@ -79,12 +79,13 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
     List? webViews = getCanUseList(widget.addtionInfoMana!.webViews);
 
     return Container(
-      color: Color(0xFFEFEFF4),
+      //color: Color(0xFFEFEFF4),
       child: Scrollbar(
         child: ListView(
+
           children: [
             Container(
-              color: Color(0xFFEFEFF4),
+              //color: Color(0xFFEFEFF4),
               child: Column(
                 children: [
                   ActiveTitle(
@@ -110,9 +111,9 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                     new Column(
                         children: simpleTexts.map((item) {
                       return Container(
-                        color: Colors.white,
+                        //color: Colors.white,
                         child: Card(
-                          color: Color(0xFFEFEFF4),
+                          //color: Color(0xFFEFEFF4),
                           child: ListTile(
                             title: Container(
                               alignment: Alignment.centerLeft,

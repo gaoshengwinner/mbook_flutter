@@ -281,9 +281,9 @@ class _FBListViewWidgetState<E extends Object> extends State<FBListViewWidget>
        // onReorderFinished(newItems);
       },
       itemBuilder: (context, itemAnimation, lang, index) {
-        if (index == this._list.length) {
-          return Reorderable(key: ValueKey(1),);
-        }
+        // if (index == this._list.length) {
+        //   return null;
+        // }
 
         return buildReorderable(lang, index, (tile) {
           return SizeFadeTransition(
@@ -311,10 +311,11 @@ class _FBListViewWidgetState<E extends Object> extends State<FBListViewWidget>
         child: Stack(children: <Widget>[
           Card(
             color: backgroundGray,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            shape:
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(0.0)),
             ),
-            elevation: 20,
+            //elevation: 20,
             child: this.setSubWidget!(context, item, index),
           ),
           new Positioned(
@@ -335,7 +336,7 @@ class _FBListViewWidgetState<E extends Object> extends State<FBListViewWidget>
                 style: TextStyle(fontSize: 12),
               ),
             ),
-            left: 0,
+            left: 5,
             top: 0,
           )
         ]));
