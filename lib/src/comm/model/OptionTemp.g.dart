@@ -11,7 +11,9 @@ OptionTemp _$OptionTempFromJson(Map<String, dynamic> json) {
     id: json['id'] as int?,
     desc: json['desc'] as String?,
     propertyString: json['propertyString'] as String?,
-  )..orders = json['orders'] as int?;
+    orders: json['orders'] as int?,
+    defaultLineCount: json['defaultLineCount'] as int?,
+  );
 }
 
 Map<String, dynamic> _$OptionTempToJson(OptionTemp instance) =>
@@ -20,4 +22,5 @@ Map<String, dynamic> _$OptionTempToJson(OptionTemp instance) =>
       'desc': instance.desc,
       'propertyString': instance.propertyString,
       'orders': instance.orders,
+      'defaultLineCount': instance.defaultLineCount,
     };

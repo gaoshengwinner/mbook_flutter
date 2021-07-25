@@ -170,7 +170,7 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                               title: Wrap(
                                 spacing: 3,
                                 children: [
-                                  WidgetTextPage(
+                                  WidgetTextWidget(
                                     property: item.property,
                                     data: item.data,
                                   ),
@@ -198,9 +198,9 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                       child: new ImplicitlyAnimatedReorderableList<TagInfo>(
                         key: GlobalKey<ScaffoldState>(),
                         items: tagInfos!,
-                        areItemsTheSame: (oldItem, newItem) =>
+                        areItemsTheSame: (TagInfo oldItem, TagInfo newItem) =>
                             oldItem.id == newItem.id,
-                        onReorderFinished: (item, from, to, newItems) {
+                        onReorderFinished: (TagInfo item, int? from, int to, List<TagInfo> newItems) {
                           // Remember to update the underlying data when the list has been
                           // reordered.
                           setState(() {
@@ -244,7 +244,7 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                                         title: Wrap(
                                           spacing: 4,
                                           children: [
-                                            WidgetTextPage(
+                                            WidgetTextWidget(
                                               property: item.property,
                                               data: item.data,
                                             ),

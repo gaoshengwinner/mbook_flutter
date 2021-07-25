@@ -14,9 +14,13 @@ ItemDetail _$ItemDetailFromJson(Map<String, dynamic> json) {
     itemDescr: json['itemDescr'] as String?,
     itemMainPicUrl: json['itemMainPicUrl'] as String?,
     itemDispDetail: json['itemDispDetail'] as String?,
-    tags: (json['tags'] as List<dynamic>?)
+    displayTags: (json['displayTags'] as List<dynamic>?)
         ?.map((e) => TagInfo.fromJson(e as Map<String, dynamic>))
         .toList(),
+    functionTags: (json['functionTags'] as List<dynamic>?)
+        ?.map((e) => TagInfo.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    additionInfo: json['additionInfo'] as String?,
   )..shopId = json['shopId'] as int?;
 }
 
@@ -29,5 +33,7 @@ Map<String, dynamic> _$ItemDetailToJson(ItemDetail instance) =>
       'itemDescr': instance.itemDescr,
       'itemMainPicUrl': instance.itemMainPicUrl,
       'itemDispDetail': instance.itemDispDetail,
-      'tags': instance.tags,
+      'displayTags': instance.displayTags,
+      'functionTags': instance.functionTags,
+      'additionInfo': instance.additionInfo,
     };

@@ -16,8 +16,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_implicitly_animated_reorderable_list.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_number_picker.dart';
 
-
-
 class MyItemOptionsPage extends StatefulWidget {
   final List<OptionGroupInfo> _list = [];
 
@@ -27,7 +25,6 @@ class MyItemOptionsPage extends StatefulWidget {
 }
 
 class _MyItemOptionsPageState extends State<MyItemOptionsPage> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,9 +56,21 @@ class _MyItemOptionsPageState extends State<MyItemOptionsPage> {
         ],
         items: widget._list,
         needHandle: true,
-        body: (OptionGroupInfo item, int i) {
+        body: (OptionGroupInfo optionGroupInfo, int i) {
           return ListTile(
-            title: Text(item.title ?? ""),
+            onTap: () {
+              openOptionEdit(option: optionGroupInfo);
+            },
+            title: Text(optionGroupInfo.description),
+            // subtitle: Center(
+            //   child: MyGlobal.getOptionTempById(optionGroupInfo.optionTempId) ==
+            //           null
+            //       ? Text("")
+            //       : WidgetOptionWidget(
+            //           optionGroupInfo: optionGroupInfo,
+            //           optionTemp: MyGlobal.getOptionTempById(
+            //               optionGroupInfo.optionTempId)!),
+            // ),
             trailing: Icon(
               CupertinoIcons.forward,
               color: Theme.of(context).primaryColor,
@@ -73,17 +82,18 @@ class _MyItemOptionsPageState extends State<MyItemOptionsPage> {
               style: TextStyle(color: Theme.of(context).primaryColor))
           ..icon = Icon(Icons.add, color: Theme.of(context).primaryColor)
           ..onTap = () {
-            addOption(context);
+            openOptionEdit(option: OptionGroupInfo());
           },
       ),
     );
   }
 
-  void addOption(BuildContext _context) async {
+  void openOptionEdit({required OptionGroupInfo option}) async {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => AddOptionPage(
+                  info: option,
                   onSave: (OptionGroupInfo option) {
                     setState(() {
                       widget._list.add(option);
@@ -96,21 +106,18 @@ class _MyItemOptionsPageState extends State<MyItemOptionsPage> {
 typedef SaveOptionFunction = void Function(OptionGroupInfo info);
 
 class AddOptionPage extends StatefulWidget {
-  final OptionGroupInfo? info;
-  //late OptionGroupInfo _info;
+  final OptionGroupInfo info;
+
+  //late OptionGroupInfo widget.info;
   final SaveOptionFunction? onSave;
 
-  AddOptionPage({this.info, this.onSave});
+  AddOptionPage({required this.info, this.onSave});
 
-  OptionGroupInfo get _info {
-    return this.info == null ? OptionGroupInfo() : this.info!.copyWith();
-}
   _AddOptionPageState createState() => _AddOptionPageState();
 }
 
 class _AddOptionPageState extends State<AddOptionPage> {
   int step = 0;
-
   List<OptionTemp>? optionTempList = MyGlobal.optionTempInfos;
 
   _init() {
@@ -118,29 +125,30 @@ class _AddOptionPageState extends State<AddOptionPage> {
       return;
     }
     for (int i = 0; i < optionTempList!.length; i++) {
-      if (widget._info.optionTempId == null) {
+      if (widget.info.optionTempId == null) {
         _optionTemp = optionTempList![0];
-      } else if (optionTempList![i].id == widget._info.optionTempId) {
+      } else if (optionTempList![i].id == widget.info.optionTempId) {
         _optionTemp = optionTempList![i];
       }
     }
   }
 
   OptionTemp _optionTemp = OptionTemp(id: null, desc: "");
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  //final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     _init();
     return Scaffold(
-        key: _scaffoldKey,
+        //key: GlobalKey<ScaffoldState>(),
         appBar: AppBarView.appbar(
           title: "Add Option",
           canReturn: true,
           canSave: true,
           onSave: () {
             if (widget.onSave != null) {
-              widget.onSave!(widget._info);
+              widget.onSave!(widget.info);
             }
             Navigator.pop(context);
           },
@@ -154,41 +162,52 @@ class _AddOptionPageState extends State<AddOptionPage> {
                 children: [
                   GlobalFun.fbInputBox(
                     context,
-                    "Title",
-                    G.ifNull(widget._info.title, ""),
+                    "Description",
+                    G.ifNull(widget.info.description, ""),
                     (value) {
                       setState(() {
-                        widget._info.title = value;
+                        widget.info.description = value;
                       });
                     },
                   ),
-                  //if (widget._info.options?.isNotEmpty ?? false)
+                  //if (widget.info.options?.isNotEmpty ?? false)
                   Divider(),
-                  //if (widget._info.options?.isNotEmpty ?? false)
+                  //if (widget.info.options?.isNotEmpty ?? false)
                   FBNumberPicker(
                     title: "Minimum selected options",
-                    initialValue: widget._info.mustSelectMin?.toInt() ?? 0,
-                    maxValue: widget._info.mustSelectMax ?? 0,
+                    initialValue: widget.info.mustSelectMin.toInt(),
+                    maxValue: widget.info.mustSelectMax,
                     minValue: 0,
                     step: 1,
                     onValue: (value) {
                       setState(() {
-                        widget._info.mustSelectMin = value;
+                        widget.info.mustSelectMin = value;
                       });
                     },
                   ),
-                  // if (widget._info.options?.isNotEmpty ?? false)
+                  // if (widget.info.options?.isNotEmpty ?? false)
                   Divider(),
-                  // if (widget._info.options?.isNotEmpty ?? false)
+                  // if (widget.info.options?.isNotEmpty ?? false)
                   FBNumberPicker(
                     title: "Maximum selected options",
-                    initialValue: widget._info.mustSelectMax ?? 0,
-                    maxValue: widget._info.options?.length ?? 0,
-                    minValue: (widget._info.mustSelectMin ?? 0),
+                    initialValue: widget.info.mustSelectMax,
+                    maxValue: widget.info.options.length,
+                    minValue: (widget.info.mustSelectMin),
                     step: 1,
                     onValue: (value) {
                       setState(() {
-                        widget._info.mustSelectMax = value;
+                        widget.info.mustSelectMax = value;
+                      });
+                    },
+                  ),
+                  Divider(),
+                  GlobalFun.fbInputBox(
+                    context,
+                    "Option title",
+                    G.ifNull(widget.info.title, ""),
+                    (value) {
+                      setState(() {
+                        widget.info.title = value;
                       });
                     },
                   ),
@@ -200,61 +219,53 @@ class _AddOptionPageState extends State<AddOptionPage> {
                             style: Theme.of(context).textTheme.subtitle1),
                         IconButton(
                             onPressed: () {
-                              if (widget._info.options == null) {
-                                widget._info.options = [];
-                              }
-                              widget._info.options!
-                                  .add(Option(title: "", price: null));
-                              setState(() {});
+                              setState(() {
+                                widget.info.options
+                                    .add(Option(title: "", price: null));
+                              });
                             },
                             icon: Icon(Icons.add))
                       ]),
-                  if (widget._info.options?.isNotEmpty ?? false)
+                  if (widget.info.options.isNotEmpty)
                     Column(
                       children: getOptionsWidgetList(),
                     ),
                   Divider(),
                   FBNumberPicker(
                     title: "Rows/line",
-                    initialValue: widget._info.lineDispCount ?? 3,
+                    initialValue: widget.info.lineDispCount ?? 3,
                     maxValue: 20,
                     minValue: 1,
                     step: 1,
                     onValue: (value) {
                       setState(() {
-                        widget._info.lineDispCount  = value;
+                        widget.info.lineDispCount = value;
                       });
                     },
                   ),
                   Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text("Option Temp",
-                          style: Theme.of(context).textTheme.subtitle1),
-                      Text("${_optionTemp.id}:${_optionTemp.desc}"),
-                      IconButton(
-                        onPressed: () {
-                          showOptionTempPicker(context,
-                              initValue: _optionTemp.id,
-                              onSelectedItemChanged: (OptionTemp value) {
-                            _optionTemp = value;
-                            widget._info.optionTempId = value.id;
-                            setState(() {});
-                          });
-                          //setState(() {});
-                        },
-                        icon: Row(
-                          children: [
-                            Icon(
-                              CupertinoIcons.forward,
-                              color: Theme.of(context).primaryColor,
-                              //size: 21.0,
-                            ),
-                          ],
+                  InkWell(
+                    onTap: () {
+                      showOptionTempPicker(context, initValue: _optionTemp.id,
+                          onSelectedItemChanged: (OptionTemp value) {
+                        _optionTemp = value;
+                        widget.info.optionTempId = value.id;
+                        setState(() {});
+                      });
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text("Option Temp",
+                            style: Theme.of(context).textTheme.subtitle1),
+                        Text("${_optionTemp.id}:${_optionTemp.desc}"),
+                        Icon(
+                          CupertinoIcons.forward,
+                          color: Theme.of(context).primaryColor,
+                          //size: 21.0,
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   Divider(),
                   Container(
@@ -262,13 +273,14 @@ class _AddOptionPageState extends State<AddOptionPage> {
                       color: Colors.transparent,
                       //width: 1.sw,
                       //height: 100 ,
-                      child: WidgetOptionWidget(optionGroupInfo: widget._info,optionTemp:_optionTemp)
+                      child: WidgetOptionWidget(
+                          optionGroupInfo: widget.info, optionTemp: _optionTemp)
 
-                    // WidgetOptionWidget.build(context,
-                    //     _optionTemps[i].property!, _itemOptionList,
-                    //     rowMaxcount: _optionTemps[i].defaultLineCount),
-                    //
-                  ),
+                      // WidgetOptionWidget.build(context,
+                      //     _optionTemps[i].property!, _itemOptionList,
+                      //     rowMaxcount: _optionTemps[i].defaultLineCount),
+                      //
+                      ),
                 ],
               ),
             ),
@@ -278,7 +290,7 @@ class _AddOptionPageState extends State<AddOptionPage> {
 
   List<Widget> getOptionsWidgetList() {
     List<Widget> result = [];
-    for (int i = 0; i < widget._info.options!.length; i++) {
+    for (int i = 0; i < widget.info.options.length; i++) {
       Slidable slidable = Slidable(
         actionPane: SlidableDrawerActionPane(),
         actionExtentRatio: 0.25,
@@ -289,26 +301,26 @@ class _AddOptionPageState extends State<AddOptionPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GlobalFun.fbInputBox(
-                    context, null, G.ifNull(widget._info.options?[i].title, ""),
+                    context, null, G.ifNull(widget.info.options[i].title, ""),
                     (value) {
                   setState(() {
-                    widget._info.options?[i].title = value;
+                    widget.info.options[i].title = value;
                   });
                 }, hintTextValue: "title", width: 0.55.sw),
                 GlobalFun.fbInputBox(
-                    context, null, G.ifNull(widget._info.options?[i].price, ""),
+                    context, null, G.ifNull(widget.info.options[i].price, ""),
                     (value) {
                   setState(() {
-                    widget._info.options?[i].price = value;
+                    widget.info.options[i].price = value;
                   });
                 }, hintTextValue: "price", width: 0.25.sw),
                 // CupertinoSwitch(
                 //   activeColor: Theme.of(context).primaryColor,
-                //   value: widget._info.options?[i].selected ?? false,
+                //   value: widget.info.options?[i].selected ?? false,
                 //   onChanged: (value) {
                 //     setState(
                 //       () {
-                //         widget._info.options![i].selected = value;
+                //         widget.info.options![i].selected = value;
                 //       },
                 //     );
                 //   },
@@ -324,7 +336,7 @@ class _AddOptionPageState extends State<AddOptionPage> {
             icon: Icons.delete,
             onTap: () {
               setState(() {
-                widget._info.options?.removeAt(i);
+                widget.info.options.removeAt(i);
               });
             },
           ),
@@ -337,9 +349,11 @@ class _AddOptionPageState extends State<AddOptionPage> {
             onTap: () {
               if (i > 0) {
                 setState(() {
-                  Option item = widget._info.options![i];
-                  widget._info.options!.removeAt(i);
-                  widget._info.options!.insert(i - 1, item);
+                  Option item = widget.info.options[i];
+
+                  widget.info.options.removeAt(i);
+
+                  widget.info.options.insert(i - 1, item);
                 });
               }
             },
@@ -349,11 +363,13 @@ class _AddOptionPageState extends State<AddOptionPage> {
             color: Colors.green,
             icon: Entypo.arrow_bold_down,
             onTap: () {
-              if (i < widget._info.options!.length - 1) {
+              if (i < widget.info.options.length - 1) {
                 setState(() {
-                  Option item = widget._info.options![i];
-                  widget._info.options!.removeAt(i);
-                  widget._info.options!.insert(i + 1, item);
+                  Option item = widget.info.options[i];
+
+                  widget.info.options.removeAt(i);
+
+                  widget.info.options.insert(i + 1, item);
                 });
               }
             },

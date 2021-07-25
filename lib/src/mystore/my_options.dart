@@ -16,7 +16,6 @@ import 'package:mbook_flutter/src/comm/widgets/fb_implicitly_animated_reorderabl
 import 'package:collection/collection.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_number_picker.dart';
 
-
 typedef EditeOptionTempSaveFunction = void Function(OptionTemp);
 
 Function deepEq = const DeepCollectionEquality().equals;
@@ -72,42 +71,43 @@ class _MyOptionsPageState extends State<MyOptionsPage> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: FBReorderableList<OptionTemp>(
-            items: _optionTemps,
-            body: (OptionTemp item, int i) {
-              return Container(
-                width: 1.sw,
-                child: ListTile(
-                    onTap: () {
-                      openEditePage(optionTemps: _optionTemps, index: i);
-                    },
-                    leading: Icon(Ionicons.ios_options_outline,
-                        color: Theme.of(context).iconTheme.color),
-                    title: Text(item.desc ?? ""),
-                    trailing: Icon(
-                      CupertinoIcons.forward,
-                      color: Theme.of(context).primaryColor,
-                    )),
-              );
+          items: _optionTemps,
+          body: (OptionTemp item, int i) {
+            return Container(
+              width: 0.95.sw,
+              child: ListTile(
+                  onTap: () {
+                    openEditePage(optionTemps: _optionTemps, index: i);
+                  },
+                  leading: Icon(Ionicons.ios_options_outline,
+                      color: Theme.of(context).iconTheme.color),
+                  title: Text(item.desc),
+                  trailing: Icon(
+                    CupertinoIcons.forward,
+                    color: Theme.of(context).primaryColor,
+                  )),
+            );
+          },
+          actions: [
+            ActionsParam(
+                kind: ActionsKind.delete,
+                actFuction: (int index) {
+                  setState(() {
+                    _optionTemps.removeAt(index);
+                  });
+                })
+          ],
+          needHandle: true,
+          footerParam: FooterParam()
+            ..title = Text("Add a option temp",
+                style: TextStyle(color: Theme.of(context).primaryColor))
+            ..icon = Icon(Icons.add, color: Theme.of(context).primaryColor)
+            ..onTap = () {
+              //final OptionTemp newOptionTem = OptionTemp();
+              //_optionTemps.add(newOptionTem);
+              openEditePage();
             },
-            actions: [
-              ActionsParam(
-                  kind: ActionsKind.delete,
-                  actFuction: (int index) {
-                    setState(() {
-                      _optionTemps.removeAt(index);
-                    });
-                  })
-            ],
-            needHandle: true,
-            footerParam: FooterParam()
-              ..title = Text("Add a option temp",
-                  style: TextStyle(color: Theme.of(context).primaryColor))
-              ..icon = Icon(Icons.add, color: Theme.of(context).primaryColor)
-              ..onTap = () {
-                //final OptionTemp newOptionTem = OptionTemp();
-                //_optionTemps.add(newOptionTem);
-                openEditePage();
-              }),
+        ),
 
         // child: new FBListViewWidget<OptionTemp>(
         //   optionTemps!,
@@ -290,65 +290,70 @@ class _OptionTempEditPageState extends State<OptionTempEditPage>
         },
       ),
       body:
-    //SingleChildScrollView(child:
-    TabBarView(
+          //SingleChildScrollView(child:
+          TabBarView(
         controller: this._tabController,
         children: [
           for (var i = 0; i < _optionTemps.length; i++)
             ListView(children: [
-            GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  // 点击空白页面关闭键盘
-                  FocusScope.of(context).requestFocus(FocusNode());
-                },
-                child: Container(
-                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GlobalFun.fbInputBox(context, "Title",
-                            (_optionTemps[i].desc?.toString() ?? ""), (value) {
-                          setState(() {
-                            _optionTemps[i].desc = value;
-                          });
-                        }),
-                        Divider(),
-                        FBNumberPicker(
-                          title:"Default rows/line",
-                          initialValue: _optionTemps[i].defaultLineCount,
-                          maxValue: 10,
-                          minValue: 1,
-                          step: 1,
-                          onValue: (value) {
+              GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    // 点击空白页面关闭键盘
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          GlobalFun.fbInputBox(context, "Description",
+                              (_optionTemps[i].desc.toString()),
+                              (value) {
                             setState(() {
-                              _optionTemps[i].defaultLineCount = value ??  _optionTemps[i].defaultLineCount;
+                              _optionTemps[i].desc = value;
                             });
-                          },
-                        ),
-                        Divider(),
-                        GlobalFun.commonTitle(
-                          context,
-                          "Look like",
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(top: 10, bottom: 10),
-                          color: Colors.transparent,
-                          //width: 1.sw,
-                          //height: 100 ,
-                          child: WidgetOptionWidget(optionGroupInfo: OptionGroupInfo.temp(),optionTemp:_optionTemps[i])
+                          }),
+                          Divider(),
+                          FBNumberPicker(
+                            title: "Default rows/line",
+                            initialValue: _optionTemps[i].defaultLineCount,
+                            maxValue: 10,
+                            minValue: 1,
+                            step: 1,
+                            onValue: (value) {
+                              setState(() {
+                                _optionTemps[i].defaultLineCount =
+                                    value ?? _optionTemps[i].defaultLineCount;
+                              });
+                            },
+                          ),
+                          Divider(),
+                          GlobalFun.commonTitle(
+                            context,
+                            "Look like",
+                          ),
+                          Container(
+                              padding: EdgeInsets.only(top: 10, bottom: 10),
+                              color: Colors.transparent,
+                              //width: 1.sw,
+                              //height: 100 ,
+                              child: WidgetOptionWidget(
+                                  optionGroupInfo: OptionGroupInfo.temp(),
+                                  optionTemp: _optionTemps[i])
 
-                          // WidgetOptionWidget.build(context,
-                          //     _optionTemps[i].property!, _itemOptionList,
-                          //     rowMaxcount: _optionTemps[i].defaultLineCount),
-                          //
-                        ),
-                      ]),
-                ))])
+                              // WidgetOptionWidget.build(context,
+                              //     _optionTemps[i].property!, _itemOptionList,
+                              //     rowMaxcount: _optionTemps[i].defaultLineCount),
+                              //
+                              ),
+                        ]),
+                  ))
+            ])
         ],
       ),
-    //) ,
-        )//,
+      //) ,
+    ) //,
         // )
         ;
   }
@@ -420,6 +425,21 @@ class _OptionTempEditPageState extends State<OptionTempEditPage>
                 null);
           }),
           GlobalFun.customListTitle(
+              Ionicons.md_settings_outline, "Background style", () {
+            Navigator.pop(context);
+            GlobalFun.showBottomSheetForTextPrperty(
+                context,
+                TextSettingWidget(
+                    property: optionTemp.property.framPr,
+                    data: "",
+                    onChange: (value) {
+                      setState(() {
+                        optionTemp.property.framPr = value;
+                      });
+                    }),
+                null);
+          }),
+          GlobalFun.customListTitle(
               Ionicons.md_settings_outline, "Option style(not selected)", () {
             Navigator.pop(context);
             GlobalFun.showBottomSheetForTextPrperty(
@@ -449,14 +469,14 @@ class _OptionTempEditPageState extends State<OptionTempEditPage>
                     }),
                 null);
           }),
-          GlobalFun.customListTitle(
-              Icons.copy, "copy(not selected→selected)", () {
+          GlobalFun.customListTitle(Icons.copy, "copy(not selected→selected)",
+              () {
             optionTemp.property.buttonSelectPr =
                 optionTemp.property.buttonPr.copy();
             Navigator.pop(context);
           }),
-          GlobalFun.customListTitle(
-              Icons.copy, "copy(selected→not selected)", () {
+          GlobalFun.customListTitle(Icons.copy, "copy(selected→not selected)",
+              () {
             optionTemp.property.buttonPr =
                 optionTemp.property.buttonSelectPr.copy();
             Navigator.pop(context);

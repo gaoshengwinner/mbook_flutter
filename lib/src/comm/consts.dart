@@ -29,7 +29,7 @@ class G{
     return s == null ? "" : s;
   }
 
-  static T ifNull<T>(T? value, dynamic nullValue){
+  static T ifNull<T>(T? value, T nullValue){
     return value == null ? nullValue : value;
   }
 

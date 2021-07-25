@@ -17,14 +17,18 @@ class ItemDetail {
   String? itemDescr;
   String? itemMainPicUrl;
   String? itemDispDetail;
-  List<TagInfo>? tags = [];
+  List<TagInfo>? displayTags = [];
+  List<TagInfo>? functionTags = [];
 
   String?  additionInfo;
 
   ItemDetail({this.id, this.itemPrice, this.itemName, this.itemDescr,
-      this.itemMainPicUrl,this.itemDispDetail, this.tags, this.additionInfo}){
-    if (this.tags == null){
-      this.tags = [];
+      this.itemMainPicUrl,this.itemDispDetail, this.displayTags, this.functionTags, this.additionInfo}){
+    if (this.displayTags == null){
+      this.displayTags = [];
+    }
+    if (this.functionTags == null){
+      this.functionTags = [];
     }
     getMana();
   }

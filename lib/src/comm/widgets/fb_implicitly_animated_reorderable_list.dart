@@ -19,13 +19,14 @@ class FooterParam {
   GestureTapCallback? onTap;
 }
 
+// typedef ReorderFinishedFunction<T extends Object> = void Function();
 class FBReorderableList<T extends Object> extends StatefulWidget {
-  final List<T> items;
+  final List<Object> items;
   final Function body;
   final List<ActionsParam>? actions;
   final List<ActionsParam>? secondaryActions;
   final bool? needHandle;
-  final ReorderFinishedCallback<T>? onReorderFinished;
+  final Function? onReorderFinished;
   final FooterParam? footerParam;
 
   FBReorderableList(
@@ -56,10 +57,10 @@ class _FBReorderableListState<T extends Object>
         }
       },
       child: Container(
-        child: ImplicitlyAnimatedReorderableList(
-          items: widget.items,
+        child: ImplicitlyAnimatedReorderableList<T>(
+          items: widget.items as List<T>,
           onReorderFinished: (item, rom, to, newItems) {
-
+              if (widget.onReorderFinished != null) widget.onReorderFinished!(item, rom, to, newItems);
           },
           areItemsTheSame: (oldItem, newItem) {
             return oldItem == newItem;
@@ -73,7 +74,7 @@ class _FBReorderableListState<T extends Object>
                       curve: Curves.easeInOut,
                       animation: animation,
                       child: getListTitle(
-                          title: widget.body(item!, i),
+                          title: widget.body(item, i),
                           actions: getActions(context, widget.actions, item, i),
                           secondaryActions: getActions(
                               context, widget.secondaryActions, item, i)));
@@ -149,7 +150,7 @@ class _FBReorderableListState<T extends Object>
       closeOnTap: true,
       color: Colors.red,
       onTap: () {
-        if (onTap != null )onTap(i);
+        if (onTap != null) onTap(i);
       },
       child: Center(
         child: Column(
@@ -181,7 +182,7 @@ class _FBReorderableListState<T extends Object>
       closeOnTap: true,
       color: Colors.green,
       onTap: () {
-        if (onTap != null)  onTap(i);
+        if (onTap != null) onTap(i);
       },
       child: Center(
         child: Column(
@@ -213,7 +214,7 @@ class _FBReorderableListState<T extends Object>
       closeOnTap: true,
       color: Colors.deepOrange,
       onTap: () {
-        if (onTap != null ) onTap(i);
+        if (onTap != null) onTap(i);
       },
       child: Center(
         child: Column(
@@ -245,14 +246,15 @@ class _FBReorderableListState<T extends Object>
       child: Stack(
         children: [
           Card(
-            child:title,
+            child: title,
           ),
-          if (_displayHandle == true) Handle(
-            delay: const Duration(milliseconds: 100),
-            child: Icon(
-              Icons.list,
+          if (_displayHandle == true)
+            Handle(
+              delay: const Duration(milliseconds: 100),
+              child: Icon(
+                Icons.list,
+              ),
             ),
-          ),
         ],
       ),
     );

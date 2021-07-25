@@ -13,16 +13,14 @@ class TagInfo {
   String? desc;
   String? propertyString;
   int? orders;
-
-  TagInfo copy(){
-    return TagInfo.fromJson(toJson());
-  }
-
   @JsonKey(ignore: true)
   TextWidgetProperty? property;
-
   @JsonKey(ignore: true)
-  String?uuid;
+  String? uuid;
+
+  TagInfo copy() {
+    return TagInfo.fromJson(toJson());
+  }
 
   TagInfo({this.id, this.data, this.desc, this.propertyString}) {
     if (propertyString?.isEmpty ?? true) {
@@ -50,21 +48,23 @@ class TagInfo {
     return jsonEncode(this.toJson());
   }
 
-  void beForToJson(){
+  void beForToJson() {
     this.propertyString = jsonEncode(property!.toJson());
   }
 
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
+    beForToJson();
+    (o as TagInfo).beForToJson();
     return o is TagInfo &&
         o.id == id &&
         o.data == data &&
-        o.uuid == uuid &&
-        o.property!.toJson() == property!.toJson();
+        o.desc == desc &&
+        //o.uuid == uuid &&
+        o.propertyString == propertyString;
   }
 
   @override
   int get hashCode => super.hashCode;
-
 }

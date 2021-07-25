@@ -8,7 +8,7 @@ class WidgetBasePage {
       BuildContext context, TextWidgetProperty property, {Widget? child}) {
     return Container(
       alignment: FBAlignment.map()[property.backalignment],
-      color: Colors.transparent,
+      color: property.backColor,
       width: property.getRealMinWidth(),
       height: property.getRealMinHeight(),
       child: Container(
@@ -86,11 +86,11 @@ class WidgetBasePage {
   }
 }
 
-class WidgetTextPage extends StatelessWidget {
+class WidgetTextWidget extends StatelessWidget {
   final TextWidgetProperty? property;
   final String? data;
 
-  WidgetTextPage({this.property, this.data});
+  WidgetTextWidget({this.property, this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -108,5 +108,19 @@ class WidgetTextPage extends StatelessWidget {
         letterSpacing: _property.letterSpacing,
       ),
     ));
+  }
+}
+
+class WidgetContainerWidget extends StatelessWidget {
+  final TextWidgetProperty? property;
+  final Widget? child;
+
+  WidgetContainerWidget({this.property, this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    TextWidgetProperty _property = G.ifNull(property, new TextWidgetProperty());
+    Widget _widget = G.ifNull(child, Text(""));
+    return WidgetBasePage.build(context, _property, child: _widget);
   }
 }

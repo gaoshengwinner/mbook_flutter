@@ -52,14 +52,28 @@ class _WidgetOptionWidgetState extends State<WidgetOptionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.optionGroupInfo.options == null ||
-        widget.optionGroupInfo.options!.isEmpty) {
+    return WidgetContainerWidget(
+      property: widget.optionTemp.property.framPr,
+      child: Column(
+        children: [
+          Container(
+            child: WidgetTextWidget(
+                property: widget.optionTemp.property.titlePr,
+                data: widget.optionGroupInfo.title),
+          ),
+          body(context)
+        ],
+      ),
+    );
+  }
+
+  Widget body(BuildContext context) {
+    if (
+        widget.optionGroupInfo.options.isEmpty) {
       return Text("");
     }
 
-    var rowMaxcount = widget.optionGroupInfo.lineDispCount == null
-        ? widget.optionTemp.defaultLineCount
-        : widget.optionGroupInfo.lineDispCount!;
+    var rowMaxcount = widget.optionGroupInfo.lineDispCount ?? widget.optionTemp.defaultLineCount;
 
     double realWidth = (1.sw -
             widget.optionTemp.property.framPr.marginLeft -
@@ -74,7 +88,9 @@ class _WidgetOptionWidgetState extends State<WidgetOptionWidget> {
     int i = 1;
     int j = 0;
     List<Widget> row = [];
-    for (var index = 0; index < widget.optionGroupInfo.options!.length; index++) {
+    for (var index = 0;
+        index < widget.optionGroupInfo.options.length;
+        index++) {
       if (row.length > 0) {
         row.add(new Expanded(
           flex: widget.optionTemp.property.framPr.spacingHWidth.toInt(),
@@ -86,18 +102,18 @@ class _WidgetOptionWidgetState extends State<WidgetOptionWidget> {
       }
       row.add(new Expanded(
         flex: realWidth.toInt(),
-        child: buildSelectionButton(widget.optionGroupInfo.options![index], i),
+        child: buildSelectionButton(widget.optionGroupInfo.options[index], i),
       ));
       if ((i % rowMaxcount == 0 ||
-          i == widget.optionGroupInfo.options!.length)) {
-        if (i == widget.optionGroupInfo.options!.length &&
+          i == widget.optionGroupInfo.options.length)) {
+        if (i == widget.optionGroupInfo.options.length &&
             i % rowMaxcount != 0) {
           j++;
         } else {
           j = 0;
         }
         buttonList.add(row);
-        if (i < widget.optionGroupInfo.options!.length) {
+        if (i < widget.optionGroupInfo.options.length) {
           buttonList.add([
             SizedBox(
               height: widget.optionTemp.property.framPr.spacingVWidth,
@@ -152,38 +168,35 @@ class _WidgetOptionWidgetState extends State<WidgetOptionWidget> {
     return InkWell(
       onTap: () {
         setState(() {
-          int selectedCount = widget.optionGroupInfo.options?.where((o) {
+          int selectedCount = widget.optionGroupInfo.options.where((o) {
                 return o.selected;
-              }).length ??
-              0;
+              }).length;
           // 之前是未选中
           if (!option.selected) {
             if (selectedCount <
-                (widget.optionGroupInfo.mustSelectMax ??
-                    widget.optionGroupInfo.options?.length ??
-                    0)) {
+                (widget.optionGroupInfo.mustSelectMax)) {
               option.selected = !option.selected;
-
             } else {
-              List<Option>? tmp = widget.optionGroupInfo.options?.where((o) {
+              List<Option>? tmp = widget.optionGroupInfo.options.where((o) {
                 return o.selected;
               }).toList();
-              tmp?.sort((a, b) {
+              tmp.sort((a, b) {
                 return a.selectedTime!.compareTo(b.selectedTime!);
               });
-              tmp?.first.selected = false;
+              tmp.first.selected = false;
               option.selected = !option.selected;
             }
           } else {
             //之前是选中
-            if (selectedCount > (widget.optionGroupInfo.mustSelectMin ?? 0)) {
+            if (selectedCount > (widget.optionGroupInfo.mustSelectMin)) {
               option.selected = !option.selected;
             }
           }
         });
-         if ( widget.onSelected != null)widget.onSelected!(widget.optionGroupInfo);
+        if (widget.onSelected != null)
+          widget.onSelected!(widget.optionGroupInfo);
       },
-      child: WidgetTextPage(
+      child: WidgetTextWidget(
           property: (option.selected)
               ? widget.optionTemp.property.buttonSelectPr
               : widget.optionTemp.property.buttonPr,

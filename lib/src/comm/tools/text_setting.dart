@@ -102,7 +102,7 @@ class _TextSettingWidget extends State<TextSettingWidget>
             width: 1.sw - 5,
             height: 100,
             child: Center(
-              child: WidgetTextPage(property: property, data: data),
+              child: WidgetTextWidget(property: property, data: data),
             ),
           ),
         ),

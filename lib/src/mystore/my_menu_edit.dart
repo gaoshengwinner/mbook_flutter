@@ -6,6 +6,7 @@ import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/widgets/Image.dart';
+import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
 
 import 'my_addition_page.dart';
 import 'my_item_options.dart';
@@ -38,6 +39,7 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
     List<TabInfo> tabInfos = [
       TabInfo(title: "Base", widget: _baseInfo(context)),
       TabInfo(title: "Option", widget: _optionsInfo(context)),
+      TabInfo(title: "Tag", widget: _tagInfo(context)),
       TabInfo(title: "Addition", widget: _addtionInfo(context)),
     ];
 
@@ -135,6 +137,30 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
     //     ],
     //   ),
     // );
+  }
+
+  Widget _tagInfo(BuildContext context) {
+    //return MyItemOptionsPage();
+    return Container(
+      padding: EdgeInsets.all(10),
+      color: Color(0xFFEFEFF4),
+      child: ListView(
+        children: [
+          GlobalFun.fbInputTagBox(
+              context, "Display Tags", MyGlobal.tagInfos, widget._item.displayTags, (value) {
+            setState(() {
+              widget._item.displayTags = value;
+            });
+          }),
+          GlobalFun.fbInputTagBox(
+              context, "Function Tags", MyGlobal.tagInfos, widget._item.functionTags, (value) {
+            setState(() {
+              widget._item.functionTags = value;
+            });
+          }),
+        ],
+      ),
+    );
   }
 
   Widget _addtionInfo(BuildContext context) {

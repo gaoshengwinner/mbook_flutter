@@ -67,7 +67,9 @@ class GlobalFun {
   }
 
   static void removeCurrentSnackBar(GlobalKey<ScaffoldState> _scaffoldKey) {
-    ScaffoldMessenger.of(_scaffoldKey.currentContext!).removeCurrentSnackBar();
+    if (_scaffoldKey.currentContext != null)
+      ScaffoldMessenger.of(_scaffoldKey.currentContext!)
+          .removeCurrentSnackBar();
   }
 
   static Future<T?> showBottomSheet<T>(
@@ -214,6 +216,7 @@ class GlobalFun {
       },
     );
   }
+
   //
   // static ListHelper _listMin = ListHelper(0, 1024);
 
@@ -322,8 +325,8 @@ class GlobalFun {
     //             onSelected: onSelected)));
   }
 
-  static void openEditPage({
-      required BuildContext context,
+  static void openEditPage(
+      {required BuildContext context,
       String? hintTextValue,
       String? initValue,
       required TextInputAction textInputAction,
@@ -379,13 +382,14 @@ class GlobalFun {
                         )),
                     onTap: () {
                       GlobalFun.openEditPage(
-                          context:context,
-                          hintTextValue:title,
-                          initValue:value,
-                          textInputAction:TextInputAction.newline,
-                          keyboardType:TextInputType.multiline,onEditingCompleteText: (value) {
-                        onChange(value);
-                      });
+                          context: context,
+                          hintTextValue: title,
+                          initValue: value,
+                          textInputAction: TextInputAction.newline,
+                          keyboardType: TextInputType.multiline,
+                          onEditingCompleteText: (value) {
+                            onChange(value);
+                          });
                     },
                   ),
                 ),
@@ -501,7 +505,7 @@ class GlobalFun {
                   children: [
                     if (selectedTags != null)
                       for (TagInfo tag in selectedTags)
-                        WidgetTextPage(
+                        WidgetTextWidget(
                           property: tag.property,
                           data: tag.data,
                         )
@@ -526,43 +530,98 @@ class GlobalFun {
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Text(lableText, style: Theme.of(context).textTheme.subtitle1), //
-              rightWidget != null?  rightWidget : Text("")
-
+      rightWidget != null ? rightWidget : Text("")
     ]));
   }
 
   static Widget customListTitle(
       IconData icon, String title, GestureTapCallback? doTop) {
-    return new Padding(
-        padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-        child: Container(
-          decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.grey.shade400))),
-          child: InkWell(
-            splashColor: G.appBaseColor[1],
-            onTap: doTop,
-            child: Container(
-              height: 40,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Icon(icon),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(title,maxLines: 2,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                            )),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
+    return InkWell(
+      onTap: doTop,
+      child: Container(
+          child: Column(
+        children: [
+          Row(
+            children: <Widget>[
+              Icon(icon),
+              SizedBox(width: 10),
+              Text(title,
+                  maxLines: 2,
+                  style: TextStyle(
+                    fontSize: 16.0,
+                  )),
+              Spacer(),
+              Icon(Icons.keyboard_arrow_right),
+            ],
           ),
-        ));
+          Divider(
+            indent: 32.0,
+            color: Colors.grey.shade400,
+            thickness: 1,
+          )
+        ],
+      )),
+    );
+
+    // Padding(
+    //   padding: const EdgeInsets.fromLTRB(0.0, 0, 0.0, 0),
+    //   child: Container(
+    //     width: 0.6.sw,
+    //     // decoration: BoxDecoration(
+    //     //     border: Border(bottom: BorderSide(color: Colors.grey.shade400))),
+    //     child:
+    //
+    //     InkWell(
+    //         splashColor: G.appBaseColor[1],
+    //         onTap: doTop,
+    //         child: Column(
+    //           children: [
+    //             Container(
+    //               height: 40,
+    //               child:
+    //               ListTile(
+    //                   dense:true,
+    //                 leading: Icon(icon),
+    //                 title:
+    //                 Text(title,
+    //                     maxLines: 2,
+    //                     style: TextStyle(
+    //                       fontSize: 16.0,
+    //                     )),
+    //                 trailing:
+    //                 Icon(Icons.arrow_forward_ios_outlined, size: 16,)
+    //                 ,
+    //               ),
+    //               // Row(
+    //               //   children: <Widget>[
+    //               //     Icon(icon),
+    //               //     Padding(
+    //               //
+    //               //         padding: const EdgeInsets.only(left: 8.0),
+    //               //         child: Row(
+    //               //           mainAxisAlignment:
+    //               //               MainAxisAlignment.spaceBetween,
+    //               //           children: [
+    //               //             Text(title,
+    //               //                 maxLines: 2,
+    //               //                 style: TextStyle(
+    //               //                   fontSize: 16.0,
+    //               //                 )),
+    //               //             Icon(Icons.arrow_forward_ios_outlined, size: 16,)
+    //               //           ],
+    //               //         )),
+    //               //   ],
+    //               // )
+    //             ),
+    //             Divider(
+    //               indent: 32.0,
+    //               color: Colors.grey.shade400,
+    //               thickness: 1,
+    //               height: 1,
+    //             )
+    //           ],
+    //         )),
+    //   ));
   }
 
   static Widget canClicklistTitle(IconData leadingIcon, IconData trailingIcon,
@@ -658,13 +717,14 @@ class GlobalFun {
             ),
             onTap: () {
               GlobalFun.openEditPage(
-                  context:context,
-                  hintTextValue:lableText == null ? hintTextValue : lableText,
-                  initValue:value,
-                  textInputAction:TextInputAction.newline,
-                  keyboardType:TextInputType.multiline,onEditingCompleteText: (value) {
-                if (serValue != null) serValue(value);
-              });
+                  context: context,
+                  hintTextValue: lableText == null ? hintTextValue : lableText,
+                  initValue: value,
+                  textInputAction: TextInputAction.newline,
+                  keyboardType: TextInputType.multiline,
+                  onEditingCompleteText: (value) {
+                    if (serValue != null) serValue(value);
+                  });
             },
           ),
         ),
@@ -677,17 +737,15 @@ class GlobalFun {
 
   static Widget setingRow(IconData icon, String text) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-
-        Icon(
-          icon,
-          size: 18,
-          color: G.appBaseColor[0],
-        ),
-
-        Text(
-          text,
-          style: TextStyle(fontSize: 14, color: G.appBaseColor[0]),
-        )
+      Icon(
+        icon,
+        size: 18,
+        color: G.appBaseColor[0],
+      ),
+      Text(
+        text,
+        style: TextStyle(fontSize: 14, color: G.appBaseColor[0]),
+      )
     ]);
   }
 }

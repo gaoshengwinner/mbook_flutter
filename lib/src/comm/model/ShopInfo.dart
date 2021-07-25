@@ -9,13 +9,13 @@ part 'ShopInfo.g.dart';
 // root flutter packages pub run build_runner build watch
 @JsonSerializable()
 class ShopInfo{
-  String shopName;
+  String? shopName;
 
-  String  shopAddr;
+  String?  shopAddr;
 
-  String  shopTel;
+  String?  shopTel;
 
-  String  shopPicUrl;
+  String?  shopPicUrl;
 
   String?  additionInfo;
 
