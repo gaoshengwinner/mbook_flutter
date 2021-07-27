@@ -74,7 +74,7 @@ class _MyOptionsPageState extends State<MyOptionsPage> {
           items: _optionTemps,
           body: (OptionTemp item, int i) {
             return Container(
-              width: 0.95.sw,
+              //width: 0.95.sw,
               child: ListTile(
                   onTap: () {
                     openEditePage(optionTemps: _optionTemps, index: i);
