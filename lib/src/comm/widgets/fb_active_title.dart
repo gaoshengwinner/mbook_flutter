@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
+import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/AdditionalInfo.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_addition_info_mana.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -15,6 +16,8 @@ class ActiveTitle extends StatefulWidget {
   final TitleTapCallBack? onTap;
   final OnSaveSettingCallBack? onSetting;
   final bool? expand;
+  final bool? isFirst;
+  final bool? isBottom;
 
   ActiveTitle(
       {this.expand,
@@ -22,7 +25,9 @@ class ActiveTitle extends StatefulWidget {
       this.titleIcon,
       this.onTap,
       this.onSetting,
-      this.infos});
+      this.infos,
+      this.isFirst,
+      this.isBottom});
 
   _ActiveTitleState createState() => _ActiveTitleState();
 }
@@ -32,8 +37,8 @@ class _ActiveTitleState extends State<ActiveTitle> {
 
   @override
   Widget build(BuildContext context) {
-    return new Padding(
-      padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+    return new Container(
+      //padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
       child: InkWell(
         onTap: () {
           if (widget.onTap != null) {
@@ -42,39 +47,47 @@ class _ActiveTitleState extends State<ActiveTitle> {
         },
         child: Container(
           alignment: Alignment.topCenter,
-          decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.grey.shade400))),
+          // decoration: BoxDecoration(
+          //     border: Border(bottom: BorderSide(color: Colors.grey.shade400))),
           child: Slidable(
             actionPane: SlidableDrawerActionPane(),
-            child: Container(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: [
-                    if (widget.titleIcon != null)
-                      Icon(
-                        widget.titleIcon,
-                      ),
-                    Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: widget.title == null
-                            ? Text("")
-                            : Text(widget.title == null ? "" : widget.title!))
-                  ],
-                ),
-                Row(
-                  children: [
-                    Icon(
-                      widget.expand == null || widget.expand! == false
-                          ? Feather.book_open
-                          : Feather.book,
-                      color: G.appBaseColor[0],
-                    ),
-                  ],
-                )
-              ],
-            )),
+            child: GlobalFun.customListTitle(
+                context: context,
+                icon: widget.titleIcon,
+                title: G.ifNull(widget.title, ""),
+                doTop: null,
+                isFirst: widget.isFirst ?? false,
+                isBottom: widget.isBottom ?? false),
+
+            // Container(
+            //     child: Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: <Widget>[
+            //     Row(
+            //       children: [
+            //         if (widget.titleIcon != null)
+            //           Icon(
+            //             widget.titleIcon,
+            //           ),
+            //         Padding(
+            //             padding: const EdgeInsets.all(8.0),
+            //             child: widget.title == null
+            //                 ? Text("")
+            //                 : Text(widget.title == null ? "" : widget.title!))
+            //       ],
+            //     ),
+            //     Row(
+            //       children: [
+            //         Icon(
+            //           widget.expand == null || widget.expand! == false
+            //               ? Feather.book_open
+            //               : Feather.book,
+            //           color: G.appBaseColor[0],
+            //         ),
+            //       ],
+            //     )
+            //   ],
+            // )),
             actions: null,
             secondaryActions: <Widget>[
               IconSlideAction(

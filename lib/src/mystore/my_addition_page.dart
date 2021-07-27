@@ -90,14 +90,16 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
 
     return Container(
       //color: Color(0xFFEFEFF4),
-      child: Scrollbar(
-        child: ListView(
+      child: SingleChildScrollView(
+        child: Column(
           children: [
             Container(
               //color: Color(0xFFEFEFF4),
               child: Column(
                 children: [
+                  GlobalFun.customListGroup(context: context),
                   ActiveTitle(
+                    isFirst:true,
                     expand: _nowExpanded == SwitchItem.texts,
                     title: "Texts" +
                         "(" +
@@ -115,6 +117,7 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                         _nowExpanded = reserSWTexts(_nowExpanded);
                       });
                     },
+
                   ),
                   if (SwitchItem.texts == _nowExpanded && simpleTexts != null)
                     new Column(
@@ -332,6 +335,7 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                         _nowExpanded = reserSWWebViewUrl(_nowExpanded);
                       });
                     },
+                    isBottom: true,
                   ),
                   if (SwitchItem.webViewUrl == _nowExpanded && webViews != null)
                     new Column(

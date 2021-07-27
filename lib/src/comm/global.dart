@@ -11,7 +11,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'consts.dart';
 
 ///枚举类型转string
-String enumToString(o) => o.toString().split('.').last;
+String enumToString(o) =>
+    o
+        .toString()
+        .split('.')
+        .last;
 
 ///string转枚举类型
 T enumFromString<T>(List<T> values, String value) {
@@ -72,35 +76,36 @@ class GlobalFun {
           .removeCurrentSnackBar();
   }
 
-  static Future<T?> showBottomSheet<T>(
-      BuildContext context, List<Widget> widget, Color bkgColor) {
+  static Future<T?> showBottomSheet<T>(BuildContext context,
+      List<Widget> widget, Color bkgColor) {
     return showMaterialModalBottomSheet(
       //expand: false,
       context: context,
       backgroundColor: bkgColor,
-      builder: (context) => Container(
-          decoration: new BoxDecoration(
-            //border: new Border.all( width: 0.5), // 边色与边宽度
-            color: backgroundGray,
-            // 底色
-            //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
-            borderRadius:
+      builder: (context) =>
+          Container(
+              decoration: new BoxDecoration(
+                //border: new Border.all( width: 0.5), // 边色与边宽度
+                color: backgroundGray,
+                // 底色
+                //        borderRadius: new BorderRadius.circular((20.0)), // 圆角度
+                borderRadius:
                 new BorderRadius.vertical(top: Radius.elliptical(5, 5)),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black,
-                  offset: Offset(5.0, 5.0),
-                  blurRadius: 20.0,
-                  spreadRadius: 2.0)
-            ],
-          ),
-          child: SafeArea(
-            top: false,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: widget,
-            ),
-          )),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black,
+                      offset: Offset(5.0, 5.0),
+                      blurRadius: 20.0,
+                      spreadRadius: 2.0)
+                ],
+              ),
+              child: SafeArea(
+                top: false,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: widget,
+                ),
+              )),
     );
   }
 
@@ -108,44 +113,46 @@ class GlobalFun {
   // Widget upWidget = null;
   // List<Widget> downWidget = null;
   // int downFlex = 5;
-  static Future<T?> showBottomSheetForTextPrperty<T>(
-      BuildContext context, Widget widget, Color? bkgColor) {
+  static Future<T?> showBottomSheetForTextPrperty<T>(BuildContext context,
+      Widget widget, Color? bkgColor) {
     return showMaterialModalBottomSheet(
       expand: true,
       context: context,
       backgroundColor: bkgColor == null ? Colors.blue.withOpacity(0) : bkgColor,
-      builder: (context) => Container(
-          child: Material(
-              child: CupertinoPageScaffold(
-                  navigationBar: CupertinoNavigationBar(
-                      // leading: Icon(Icons.clear),
-                      // middle: Container(),
-                      // trailing: Icon(Icons.done),
+      builder: (context) =>
+          Container(
+              child: Material(
+                  child: CupertinoPageScaffold(
+                      navigationBar: CupertinoNavigationBar(
+                        // leading: Icon(Icons.clear),
+                        // middle: Container(),
+                        // trailing: Icon(Icons.done),
                       ),
-                  child: SafeArea(
-                    bottom: false,
-                    child: (widget),
-                  )))),
+                      child: SafeArea(
+                        bottom: false,
+                        child: (widget),
+                      )))),
     );
   }
 
-  static Future<T?> showBottomSheetCommon<T>(
-      BuildContext context, Widget widget) {
+  static Future<T?> showBottomSheetCommon<T>(BuildContext context,
+      Widget widget) {
     return showMaterialModalBottomSheet(
       expand: true,
       context: context,
-      builder: (context) => Container(
-          child: Material(
-              child: CupertinoPageScaffold(
-                  navigationBar: CupertinoNavigationBar(
-                      // leading: Icon(Icons.clear),
-                      // middle: Container(),
-                      // trailing: Icon(Icons.done),
+      builder: (context) =>
+          Container(
+              child: Material(
+                  child: CupertinoPageScaffold(
+                      navigationBar: CupertinoNavigationBar(
+                        // leading: Icon(Icons.clear),
+                        // middle: Container(),
+                        // trailing: Icon(Icons.done),
                       ),
-                  child: SafeArea(
-                    bottom: false,
-                    child: (widget),
-                  )))),
+                      child: SafeArea(
+                        bottom: false,
+                        child: (widget),
+                      )))),
     );
   }
 
@@ -209,7 +216,7 @@ class GlobalFun {
                     onSelectedItemChanged(value);
                   },
                   scrollController:
-                      FixedExtentScrollController(initialItem: initialItem)),
+                  FixedExtentScrollController(initialItem: initialItem)),
             )
           ],
         );
@@ -325,25 +332,24 @@ class GlobalFun {
     //             onSelected: onSelected)));
   }
 
-  static void openEditPage(
-      {required BuildContext context,
-      String? hintTextValue,
-      String? initValue,
-      required TextInputAction textInputAction,
-      required TextInputType keyboardType,
-      required Function onEditingCompleteText}) {
+  static void openEditPage({required BuildContext context,
+    String? hintTextValue,
+    String? initValue,
+    required TextInputAction textInputAction,
+    required TextInputType keyboardType,
+    required Function onEditingCompleteText}) {
     Navigator.push(
         context,
         PopRoute(
             child: InputButtomWidget(
-          onEditingCompleteText: (text) {
-            onEditingCompleteText(text);
-          },
-          hintTextValue: hintTextValue,
-          initVlueValue: initValue,
-          textInputAction: textInputAction,
-          keyboardType: keyboardType,
-        )));
+              onEditingCompleteText: (text) {
+                onEditingCompleteText(text);
+              },
+              hintTextValue: hintTextValue,
+              initVlueValue: initValue,
+              textInputAction: textInputAction,
+              keyboardType: keyboardType,
+            )));
   }
 
   static Widget getEditCont(BuildContext context, String title, String value,
@@ -406,9 +412,9 @@ class GlobalFun {
             Row(children: [
               Flexible(
                   child: Text(
-                value,
-                maxLines: 100,
-              ))
+                    value,
+                    maxLines: 100,
+                  ))
             ]),
           if (isImage) Row(children: [Flexible(child: Image.network(value))]),
         ]));
@@ -416,35 +422,35 @@ class GlobalFun {
 
   static Widget clipOvalIconTitle(IconData icon, String title, Function onTap) {
     return
-        // FittedBox(
-        // fit: BoxFit.fill,
-        // alignment: Alignment.topLeft,
-        //
-        // child:
-        Row(
-      children: [
-        ClipOval(
-            child: Material(
-          //color: G.appBaseColor[1], // button color
-          child: InkWell(
-            splashColor: Colors.purpleAccent,
-            // inkwell color
-            child: SizedBox(
-                width: 25,
-                height: 25,
-                child: Icon(
-                  icon,
-                  color: G.appBaseColor[0],
-                  size: 25,
-                )),
-            onTap: () {
-              onTap();
-            },
-          ),
-        )),
-        Text(title)
-      ],
-    );
+      // FittedBox(
+      // fit: BoxFit.fill,
+      // alignment: Alignment.topLeft,
+      //
+      // child:
+      Row(
+        children: [
+          ClipOval(
+              child: Material(
+                //color: G.appBaseColor[1], // button color
+                child: InkWell(
+                  splashColor: Colors.purpleAccent,
+                  // inkwell color
+                  child: SizedBox(
+                      width: 25,
+                      height: 25,
+                      child: Icon(
+                        icon,
+                        color: G.appBaseColor[0],
+                        size: 25,
+                      )),
+                  onTap: () {
+                    onTap();
+                  },
+                ),
+              )),
+          Text(title)
+        ],
+      );
     //     ,
     // );
   }
@@ -452,23 +458,23 @@ class GlobalFun {
   static Widget clipOvalIcon(IconData icon, Function onTap) {
     return ClipOval(
         child: Material(
-      //color: G.appBaseColor[1], // button color
-      child: InkWell(
-        splashColor: Colors.purpleAccent,
-        // inkwell color
-        child: SizedBox(
-            width: 40,
-            height: 40,
-            child: Icon(
-              icon,
-              //color: Colors.white,
-              size: 28,
-            )),
-        onTap: () {
-          onTap();
-        },
-      ),
-    ));
+          //color: G.appBaseColor[1], // button color
+          child: InkWell(
+            splashColor: Colors.purpleAccent,
+            // inkwell color
+            child: SizedBox(
+                width: 40,
+                height: 40,
+                child: Icon(
+                  icon,
+                  //color: Colors.white,
+                  size: 28,
+                )),
+            onTap: () {
+              onTap();
+            },
+          ),
+        ));
   }
 
   static Widget fbInputTagBox(BuildContext context, String lableText,
@@ -528,39 +534,74 @@ class GlobalFun {
       {Widget? rightWidget}) {
     return Container(
         child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Text(lableText, style: Theme.of(context).textTheme.subtitle1), //
-      rightWidget != null ? rightWidget : Text("")
-    ]));
+        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Text(lableText, style: Theme
+              .of(context)
+              .textTheme
+              .subtitle1), //
+          rightWidget != null ? rightWidget : Text("")
+        ]));
   }
 
-  static Widget customListTitle(
-      IconData icon, String title, GestureTapCallback? doTop) {
+  static Widget customListGroup(
+      {required BuildContext context, String? title}) {
+    return Container(
+      padding: EdgeInsets.only(top: 20, left: 8, right: 8, bottom: 2),
+      alignment: Alignment.bottomLeft,
+      child: Text(
+        title ?? "",
+        style: TextStyle(color: Theme
+            .of(context)
+            .primaryColor),
+      ),
+    );
+  }
+
+  static Widget customListTitle({required BuildContext context,
+    IconData? icon,
+    required String title,
+    GestureTapCallback? doTop,
+    bool? isFirst = false,
+    bool? isBottom = false}) {
     return InkWell(
       onTap: doTop,
       child: Container(
+          alignment: Alignment.center,
+          // padding: EdgeInsets.only(left: 8, right: 8),
+          color: Colors.white,
           child: Column(
-        children: [
-          Row(
-            children: <Widget>[
-              Icon(icon),
-              SizedBox(width: 10),
-              Text(title,
-                  maxLines: 2,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  )),
-              Spacer(),
-              Icon(Icons.keyboard_arrow_right),
+            children: [
+              if (isFirst != null && isFirst)
+                Container(
+                  height: 10,
+                  width: 1.sw,
+                ),
+              Row(
+                children: <Widget>[
+                  Icon(icon),
+                  SizedBox(width: 10),
+                  Text(title,
+                      maxLines: 2,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                      )),
+                  Spacer(),
+                  Icon(Icons.keyboard_arrow_right),
+                ],
+              ),
+              if (isBottom == null || !isBottom)
+                Divider(
+                  indent: 32.0,
+                  color: Colors.grey.shade400,
+                  thickness: 1,
+                ),
+              if (isBottom != null && isBottom)
+                Container(
+                  height: 10,
+                  width: 1.sw,
+                )
             ],
-          ),
-          Divider(
-            indent: 32.0,
-            color: Colors.grey.shade400,
-            thickness: 1,
-          )
-        ],
-      )),
+          )),
     );
 
     // Padding(
@@ -665,74 +706,80 @@ class GlobalFun {
       {Widget? valueWidget, double? width, Axis? axis, String? hintTextValue}) {
     width = width == null ? double.maxFinite : width;
     return Container(
-        //padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+      //padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
         child: Flex(
-      direction: axis == null ? Axis.vertical : axis,
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (lableText != null) commonTitle(context, lableText),
-        Container(
-          constraints: BoxConstraints(
-            minHeight: 20,
-          ),
-          //width: width,
-          child: GestureDetector(
-            child: Container(
-              padding: EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.grey, width: 1),
-                borderRadius: BorderRadius.all(Radius.circular(3)),
+          direction: axis == null ? Axis.vertical : axis,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (lableText != null) commonTitle(context, lableText),
+            Container(
+              constraints: BoxConstraints(
+                minHeight: 20,
               ),
-              width: width,
-              child: Stack(children: [
-                Container(
-                    child: valueWidget == null
-                        ? value == null || value == ""
+              //width: width,
+              child: GestureDetector(
+                child: Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey, width: 1),
+                    borderRadius: BorderRadius.all(Radius.circular(3)),
+                  ),
+                  width: width,
+                  child: Stack(children: [
+                    Container(
+                        child: valueWidget == null
+                            ? value == null || value == ""
                             ? Text(
-                                (hintTextValue == null || hintTextValue.isEmpty
-                                    ? ""
-                                    : hintTextValue),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    ?.copyWith(color: Colors.black54))
+                            (hintTextValue == null || hintTextValue.isEmpty
+                                ? ""
+                                : hintTextValue),
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText2
+                                ?.copyWith(color: Colors.black54))
                             : Text(value,
-                                style: Theme.of(context).textTheme.bodyText2)
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .bodyText2)
                         //)
-                        : valueWidget),
-                if (valueWidget != null)
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
-                        onPressed: null,
-                        icon: Icon(
-                          Icons.edit,
-                          size: 20,
-                          color: Colors.red,
-                        )),
-                  )
-              ]),
+                            : valueWidget),
+                    if (valueWidget != null)
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: IconButton(
+                            onPressed: null,
+                            icon: Icon(
+                              Icons.edit,
+                              size: 20,
+                              color: Colors.red,
+                            )),
+                      )
+                  ]),
+                ),
+                onTap: () {
+                  GlobalFun.openEditPage(
+                      context: context,
+                      hintTextValue: lableText == null
+                          ? hintTextValue
+                          : lableText,
+                      initValue: value,
+                      textInputAction: TextInputAction.newline,
+                      keyboardType: TextInputType.multiline,
+                      onEditingCompleteText: (value) {
+                        if (serValue != null) serValue(value);
+                      });
+                },
+              ),
             ),
-            onTap: () {
-              GlobalFun.openEditPage(
-                  context: context,
-                  hintTextValue: lableText == null ? hintTextValue : lableText,
-                  initValue: value,
-                  textInputAction: TextInputAction.newline,
-                  keyboardType: TextInputType.multiline,
-                  onEditingCompleteText: (value) {
-                    if (serValue != null) serValue(value);
-                  });
-            },
-          ),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-      ],
-    ));
+            SizedBox(
+              height: 5,
+            ),
+          ],
+        ));
   }
 
   static Widget setingRow(IconData icon, String text) {
@@ -758,10 +805,11 @@ class FBCustomScrollView extends StatefulWidget {
   FBCustomScrollView({this.upWidget, this.downWidget, this.downFlex = 5});
 
   @override
-  _FBCustomScrollViewState createState() => _FBCustomScrollViewState(
-      upWidget: this.upWidget,
-      downWidget: this.downWidget,
-      downFlex: this.downFlex);
+  _FBCustomScrollViewState createState() =>
+      _FBCustomScrollViewState(
+          upWidget: this.upWidget,
+          downWidget: this.downWidget,
+          downFlex: this.downFlex);
 }
 
 class _FBCustomScrollViewState extends State<FBCustomScrollView> {
@@ -775,25 +823,25 @@ class _FBCustomScrollViewState extends State<FBCustomScrollView> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
-      children: <Widget>[
-        if (upWidget != null)
-          Expanded(
-            flex: 1,
-            child: upWidget!,
-          ),
-        Expanded(
-          flex: 5,
-          child: Container(
-            width: double.infinity,
-            child: SingleChildScrollView(
-              child: Column(
-                children: downWidget == null ? [Text("")] : downWidget!,
+          children: <Widget>[
+            if (upWidget != null)
+              Expanded(
+                flex: 1,
+                child: upWidget!,
               ),
-            ),
-          ),
-        )
-      ],
-    ));
+            Expanded(
+              flex: 5,
+              child: Container(
+                width: double.infinity,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: downWidget == null ? [Text("")] : downWidget!,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ));
   }
 }
 

@@ -9,7 +9,7 @@ import 'package:mbook_flutter/src/mystore/my_store.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 
 class MenuBar {
-  static Drawer menu(bool isLogin, bool notDispMystore, BuildContext _context, GlobalKey<ScaffoldState> _scaffoldKey, Function doReturn) {
+  static Drawer menu(BuildContext context, bool isLogin, bool notDispMystore, BuildContext _context, GlobalKey<ScaffoldState> _scaffoldKey, Function doReturn) {
     return Drawer(
       child:
       ListView(
@@ -35,14 +35,14 @@ class MenuBar {
             ),
           ),
           if (isLogin && !notDispMystore)
-            GlobalFun.customListTitle(Icons.store, S.of(_context).menu_mystore_title,
-                () => {gotoMyStore(_context, _scaffoldKey)}),
+            GlobalFun.customListTitle(context:context,icon:Icons.store, title:S.of(_context).menu_mystore_title,
+              doTop:   () => {gotoMyStore(_context, _scaffoldKey)},isFirst:true),
           if (isLogin)
-            GlobalFun.customListTitle(Icons.logout, S.of(_context).menu_logout_title,
-                    () => {logout(_context)}),
+            GlobalFun.customListTitle(context:context,icon:Icons.logout, title:S.of(_context).menu_logout_title,
+                   doTop:  () => {logout(_context)}, isBottom:true),
           if (!isLogin)
-            GlobalFun.customListTitle(Icons.login, S.of(_context).menu_login_title,
-                () => {login(_context, doReturn)}),
+            GlobalFun.customListTitle(context:context,icon:Icons.login, title:S.of(_context).menu_login_title,
+                doTop: () => {login(_context, doReturn)}),
         ],
       ),
     );

@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBarView.appbar(title:null, canReturn:false, context: context),
-      endDrawer: MenuBar.menu(
+      endDrawer: MenuBar.menu(context,
           isLogin,
           false,
           context,

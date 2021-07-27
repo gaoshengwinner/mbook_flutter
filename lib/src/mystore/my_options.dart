@@ -409,8 +409,8 @@ class _OptionTempEditPageState extends State<OptionTempEditPage>
     GlobalFun.showBottomSheet(
         context,
         [
-          GlobalFun.customListTitle(Ionicons.md_settings_outline, "Title style",
-              () {
+          GlobalFun.customListTitle(context:context, icon:Ionicons.md_settings_outline, title:"Title style",
+             doTop:  () {
             Navigator.pop(context);
             GlobalFun.showBottomSheetForTextPrperty(
                 context,
@@ -423,9 +423,9 @@ class _OptionTempEditPageState extends State<OptionTempEditPage>
                       });
                     }),
                 null);
-          }),
-          GlobalFun.customListTitle(
-              Ionicons.md_settings_outline, "Background style", () {
+          },isFirst:true),
+          GlobalFun.customListTitle(context:context, icon:
+              Ionicons.md_settings_outline, title:"Background style", doTop: () {
             Navigator.pop(context);
             GlobalFun.showBottomSheetForTextPrperty(
                 context,
@@ -439,8 +439,8 @@ class _OptionTempEditPageState extends State<OptionTempEditPage>
                     }),
                 null);
           }),
-          GlobalFun.customListTitle(
-              Ionicons.md_settings_outline, "Option style(not selected)", () {
+          GlobalFun.customListTitle(context:context, icon:
+              Ionicons.md_settings_outline, title:"Option style(not selected)", doTop: () {
             Navigator.pop(context);
             GlobalFun.showBottomSheetForTextPrperty(
                 context,
@@ -454,8 +454,8 @@ class _OptionTempEditPageState extends State<OptionTempEditPage>
                     }),
                 null);
           }),
-          GlobalFun.customListTitle(
-              Ionicons.md_settings_outline, "Option style(selected)", () {
+          GlobalFun.customListTitle(context:context, icon:
+              Ionicons.md_settings_outline, title:"Option style(selected)", doTop: () {
             Navigator.pop(context);
             GlobalFun.showBottomSheetForTextPrperty(
                 context,
@@ -469,18 +469,18 @@ class _OptionTempEditPageState extends State<OptionTempEditPage>
                     }),
                 null);
           }),
-          GlobalFun.customListTitle(Icons.copy, "copy(not selected→selected)",
-              () {
+          GlobalFun.customListTitle(context:context,icon:Icons.copy, title:"copy(not selected→selected)",
+             doTop:  () {
             optionTemp.property.buttonSelectPr =
                 optionTemp.property.buttonPr.copy();
             Navigator.pop(context);
           }),
-          GlobalFun.customListTitle(Icons.copy, "copy(selected→not selected)",
-              () {
+          GlobalFun.customListTitle(context:context,icon:Icons.copy, title:"copy(selected→not selected)",
+            doTop:   () {
             optionTemp.property.buttonPr =
                 optionTemp.property.buttonSelectPr.copy();
             Navigator.pop(context);
-          }),
+          },isBottom:true),
           // GlobalFun.customListTitle(Icons.copy, "Print", () {
           //   print("titlePr");
           //   print(optionTemp.property!.titlePr.getJsonString());

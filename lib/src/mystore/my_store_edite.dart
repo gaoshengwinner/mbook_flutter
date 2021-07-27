@@ -68,8 +68,8 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
           ),
           body: TabBarView(
             children: tabInfos.map((TabInfo tabInfo) {
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
+              return Container(
+                //padding: const EdgeInsets.all(16.0),
                 child: tabInfo.widget,
               );
             }).toList(),
