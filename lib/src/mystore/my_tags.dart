@@ -141,8 +141,7 @@ class _MyTagsPageState extends State<MyTagsPage>
               final TagInfo item = widget._tagInfos.removeAt(rom!);
               widget._tagInfos.insert(to, item);
 
-              GlobalFun.showSnackBar(
-                  context, null, "  Saving...");
+              GlobalFun.showSnackBar(context, null, "  Saving...");
               Api.saveMyTagInfo(
                           context, TagResultList(tagLst: widget._tagInfos))
                       .whenComplete(() {
@@ -272,20 +271,26 @@ class _TagEditPageState extends State<TagEditPage>
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          GlobalFun.fbInputBox(context, "Description",
-                              (widget._tagInfos[i].desc?.toString() ?? ""),
-                              (value) {
-                            setState(() {
-                              widget._tagInfos[i].desc = value;
-                            });
-                          }),
-                          GlobalFun.fbInputBox(context, "Text",
-                              (widget._tagInfos[i].data?.toString() ?? ""),
-                              (value) {
-                            setState(() {
-                              widget._tagInfos[i].data = value;
-                            });
-                          }),
+                          GlobalFun.fbInputBox(
+                              context: context,
+                              lableText: "Description",
+                              value:
+                                  (widget._tagInfos[i].desc?.toString() ?? ""),
+                              serValue: (value) {
+                                setState(() {
+                                  widget._tagInfos[i].desc = value;
+                                });
+                              }),
+                          GlobalFun.fbInputBox(
+                              context: context,
+                              lableText: "Text",
+                              value:
+                                  (widget._tagInfos[i].data?.toString() ?? ""),
+                              serValue: (value) {
+                                setState(() {
+                                  widget._tagInfos[i].data = value;
+                                });
+                              }),
                           Divider(),
                           GlobalFun.commonTitle(
                             context,

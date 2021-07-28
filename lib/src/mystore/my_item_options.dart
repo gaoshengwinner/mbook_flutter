@@ -161,10 +161,10 @@ class _AddOptionPageState extends State<AddOptionPage> {
               child: ListView(
                 children: [
                   GlobalFun.fbInputBox(
-                    context,
-                    "Description",
-                    G.ifNull(widget.info.description, ""),
-                    (value) {
+                    context: context,
+                    lableText: "Description",
+                    value: G.ifNull(widget.info.description, ""),
+                    serValue: (value) {
                       setState(() {
                         widget.info.description = value;
                       });
@@ -202,10 +202,10 @@ class _AddOptionPageState extends State<AddOptionPage> {
                   ),
                   Divider(),
                   GlobalFun.fbInputBox(
-                    context,
-                    "Option title",
-                    G.ifNull(widget.info.title, ""),
-                    (value) {
+                    context: context,
+                    lableText: "Option title",
+                    value: G.ifNull(widget.info.title, ""),
+                    serValue: (value) {
                       setState(() {
                         widget.info.title = value;
                       });
@@ -301,19 +301,25 @@ class _AddOptionPageState extends State<AddOptionPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GlobalFun.fbInputBox(
-                    context, null, G.ifNull(widget.info.options[i].title, ""),
-                    (value) {
-                  setState(() {
-                    widget.info.options[i].title = value;
-                  });
-                }, hintTextValue: "title", width: 0.55.sw),
+                    context: context,
+                    value: G.ifNull(widget.info.options[i].title, ""),
+                    serValue: (value) {
+                      setState(() {
+                        widget.info.options[i].title = value;
+                      });
+                    },
+                    hintTextValue: "title",
+                    width: 0.55.sw),
                 GlobalFun.fbInputBox(
-                    context, null, G.ifNull(widget.info.options[i].price, ""),
-                    (value) {
-                  setState(() {
-                    widget.info.options[i].price = value;
-                  });
-                }, hintTextValue: "price", width: 0.25.sw),
+                    context: context,
+                    value: G.ifNull(widget.info.options[i].price, ""),
+                    serValue: (value) {
+                      setState(() {
+                        widget.info.options[i].price = value;
+                      });
+                    },
+                    hintTextValue: "price",
+                    width: 0.25.sw),
                 // CupertinoSwitch(
                 //   activeColor: Theme.of(context).primaryColor,
                 //   value: widget.info.options?[i].selected ?? false,

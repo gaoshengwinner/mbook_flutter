@@ -85,37 +85,47 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
        // color: Color(0xFFEFEFF4),
         child: ListView(children: [
           GlobalFun.fbInputBox(
-            context,
-            "Store name",
-            widget._shopInfo?.shopName,
-            (value) {
+            context:context,
+            lableText:"Store name",
+            value:widget._shopInfo?.shopName,
+            serValue:(value) {
               setState(() {
                 widget._shopInfo?.shopName = value;
               });
             },
           ),
           GlobalFun.fbInputBox(
-            context,
-            "Tel",
-            widget._shopInfo?.shopTel,
-            (value) {
+            context:context,
+            lableText:"Tel",
+            value:widget._shopInfo?.shopTel,
+            serValue:(value) {
               setState(() {
                 widget._shopInfo?.shopTel = value;
               });
             },
           ),
           GlobalFun.fbInputBox(
-            context,
-            "Locate",
-            widget._shopInfo?.shopAddr,
-            (value) {
+            context:context,
+            lableText:"Locate",
+            value:widget._shopInfo?.shopAddr,
+            serValue: (value) {
               setState(() {
                 widget._shopInfo?.shopAddr = value;
               });
             },
           ),
-          GlobalFun.fbInputBox(context, "Image", widget._shopInfo?.shopPicUrl,
-              (value) {
+          GlobalFun.fbInputBox(
+            context:context,
+            lableText:"Currency symbol",
+            value:widget._shopInfo?.preCurrencyUnit,
+            serValue:  (value) {
+              setState(() {
+                widget._shopInfo?.preCurrencyUnit = value;
+              });
+            },
+          ),
+          GlobalFun.fbInputBox(context:context, lableText:"Image", value:widget._shopInfo?.shopPicUrl,
+              serValue: (value) {
             setState(() {
               widget._shopInfo?.shopPicUrl = value;
             });

@@ -141,7 +141,7 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                                 minHeight: 40,
                               ),
                               child: GlobalFun.fbInputBox(
-                                  context, null, item.value, (value) {
+                                  context:context, value:item.value, serValue:(value) {
                                 setState(() {
                                   item.value = value;
                                 });
@@ -192,7 +192,7 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                                 minHeight: 40,
                               ),
                               child: GlobalFun.fbInputBox(
-                                  context, null, item.value, (value) {
+                                  context:context, value:item.value, serValue:(value) {
                                 setState(() {
                                   item.value = value;
                                 });
@@ -247,7 +247,7 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                                 minHeight: 40,
                               ),
                               child: GlobalFun.fbInputBox(
-                                  context, null, item.value, (value) {
+                                  context:context,  value:item.value, serValue:(value) {
                                 setState(() {
                                   item.value = value;
                                 });
@@ -303,7 +303,7 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                                 minHeight: 40,
                               ),
                               child: GlobalFun.fbInputBox(
-                                  context, null, item.value, (value) {
+                                  context:context, value:item.value, serValue:(value) {
                                 if (mounted)
                                   setState(() {
                                     item.value = value;
@@ -359,7 +359,7 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                                 minHeight: 40,
                               ),
                               child: GlobalFun.fbInputBox(
-                                  context, null, item.value, (value) {
+                                  context:context,  value:item.value, serValue:(value) {
                                 setState(() {
                                   item.value = value;
                                 });

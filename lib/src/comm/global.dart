@@ -687,9 +687,9 @@ class GlobalFun {
         ));
   }
 
-  static Widget fbInputBox(BuildContext context, String? lableText,
+  static Widget fbInputBox({required BuildContext context, String? lableText,
       String? value, Function? serValue,
-      {Widget? valueWidget, double? width, Axis? axis, String? hintTextValue}) {
+      Widget? valueWidget, double? width, Axis? axis, String? hintTextValue}) {
     width = width == null ? double.maxFinite : width;
     return Container(
         //padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),

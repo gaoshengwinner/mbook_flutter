@@ -88,28 +88,28 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
         padding: EdgeInsets.all(10),
         child: ListView(children: [
           GlobalFun.fbInputBox(
-              context, "商品名", widget._item.itemName?.toString() ?? "", (value) {
+              context:context, lableText:"商品名", value:widget._item.itemName?.toString() ?? "", serValue:(value) {
             setState(() {
               widget._item.itemName = value;
             });
           }, width: 0.9.sw),
           GlobalFun.fbInputBox(
-              context, "商品価格", widget._item.itemPrice?.toString() ?? "",
-              (value) {
+              context:context, lableText:"商品価格", value:widget._item.itemPrice?.toString() ?? "",
+              serValue:(value) {
             setState(() {
               widget._item.itemPrice = value;
             });
           }, width: 0.9.sw),
           GlobalFun.fbInputBox(
-              context, "商品説明", widget._item.itemDescr?.toString() ?? "",
-              (value) {
+              context:context, lableText:"商品説明", value:widget._item.itemDescr?.toString() ?? "",
+              serValue:  (value) {
             setState(() {
               widget._item.itemDescr = value;
             });
           }, width: 0.9.sw),
           GlobalFun.fbInputBox(
-              context, "商品代表写真", widget._item.itemMainPicUrl?.toString() ?? "",
-              (value) {
+              context:context, lableText:"商品代表写真", value:widget._item.itemMainPicUrl?.toString() ?? "",
+              serValue:(value) {
             setState(() {
               widget._item.itemMainPicUrl = value;
             });

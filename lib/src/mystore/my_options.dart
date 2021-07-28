@@ -307,9 +307,9 @@ class _OptionTempEditPageState extends State<OptionTempEditPage>
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          GlobalFun.fbInputBox(context, "Description",
-                              (_optionTemps[i].desc.toString()),
-                              (value) {
+                          GlobalFun.fbInputBox(context:context, lableText:"Description",
+                              value:(_optionTemps[i].desc.toString()),
+                              serValue:(value) {
                             setState(() {
                               _optionTemps[i].desc = value;
                             });
