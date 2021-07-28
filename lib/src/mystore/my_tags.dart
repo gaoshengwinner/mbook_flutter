@@ -100,7 +100,7 @@ class _MyTagsPageState extends State<MyTagsPage>
                       tagInfos: widget._tagInfos,
                       index: i,
                       onSaved: (value) {
-                        MyGlobal.getTagInfos(context, _scaffoldKey);
+                        MyGlobal.getTagInfos(context);
                         setState(() {
                           widget.tagInfos.clear();
                           widget.tagInfos.addAll(value);
@@ -142,11 +142,11 @@ class _MyTagsPageState extends State<MyTagsPage>
               widget._tagInfos.insert(to, item);
 
               GlobalFun.showSnackBar(
-                  context, _scaffoldKey, null, "  Saving...");
+                  context, null, "  Saving...");
               Api.saveMyTagInfo(
                           context, TagResultList(tagLst: widget._tagInfos))
                       .whenComplete(() {
-                GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+                GlobalFun.removeCurrentSnackBar(context);
                 widget.tagInfos.clear();
                 widget.tagInfos.addAll(widget._tagInfos);
               })
@@ -231,10 +231,10 @@ class _TagEditPageState extends State<TagEditPage>
           context: context,
           canSave: true,
           onSave: () {
-            GlobalFun.showSnackBar(context, _scaffoldKey, null, "  Saving...");
+            GlobalFun.showSnackBar(context, null, "  Saving...");
             Api.saveMyTagInfo(context, TagResultList(tagLst: widget._tagInfos))
                     .whenComplete(() {
-              GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+              GlobalFun.removeCurrentSnackBar(context);
               widget.tagInfos.clear();
               widget.tagInfos.addAll(widget._tagInfos);
               if (widget.onSaved != null) widget.onSaved!(widget._tagInfos);

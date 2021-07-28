@@ -9,7 +9,6 @@ import 'package:mbook_flutter/src/comm/model/ItemOptionList.dart';
 import 'package:mbook_flutter/src/comm/model/OptionGroupInfo.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTemp.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTempResultList.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/tools/text_setting.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_option.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_implicitly_animated_reorderable_list.dart';
@@ -70,7 +69,8 @@ class _MyOptionsPageState extends State<MyOptionsPage> {
           // 点击空白页面关闭键盘
           FocusScope.of(context).requestFocus(FocusNode());
         },
-        child: FBReorderableList<OptionTemp>(
+        child:
+    FBReorderableList<OptionTemp>(
           items: _optionTemps,
           body: (OptionTemp item, int i) {
             return Container(
@@ -182,13 +182,13 @@ class _MyOptionsPageState extends State<MyOptionsPage> {
         //),
       ),
       floatingActionButton: GlobalFun.saveFloatingActionButton(() {
-        GlobalFun.showSnackBar(context, _scaffoldKey, null, "  Saving...");
+        GlobalFun.showSnackBar(context, null, "  Saving...");
         Api.saveMyOptionTempnfo(
                 context, OptionTempResultList(optionTempLst: this._optionTemps))
             .whenComplete(() {
-          GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+          GlobalFun.removeCurrentSnackBar(context);
         }).catchError((e) {
-          GlobalFun.showSnackBar(context, _scaffoldKey, null, e.toString());
+          GlobalFun.showSnackBar(context, null, e.toString());
         });
       }),
     );

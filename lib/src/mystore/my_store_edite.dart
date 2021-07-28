@@ -49,12 +49,12 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
             canSave: true,
             onSave: () {
               GlobalFun.showSnackBar(
-                  context, _baseInfoscaffoldKey, null, "  Saving...");
+                  context, null, "  Saving...");
               Api.saveMyShopInfo(context, widget._shopInfo!).whenComplete(() {
-                GlobalFun.removeCurrentSnackBar(_baseInfoscaffoldKey);
+                GlobalFun.removeCurrentSnackBar(context);
               }).catchError((e) {
                 GlobalFun.showSnackBar(
-                    context, _baseInfoscaffoldKey, null, e.toString());
+                    context, null, e.toString());
               });
             },
             context: context,

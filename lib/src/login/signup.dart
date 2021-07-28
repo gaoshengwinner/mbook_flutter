@@ -203,8 +203,7 @@ class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
                       ? null
                       : () {
                           if (widget._formKey.currentState.validate()) {
-                            GlobalFun.showSnackBar(context,
-                                widget._scaffoldKey, null, "  Sending Mail...");
+                            GlobalFun.showSnackBar(context, null, "  Sending Mail...");
                             Api.sigupMailCnf(_mail)
                                 .then((value) => {
                                       if (value[0] == Api.OK &&
@@ -229,7 +228,7 @@ class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
                                     })
                                 .catchError((e) {
                               GlobalFun.showSnackBar(context,
-                                  widget._scaffoldKey, e, e.toString());
+                                   e, e.toString());
                             });
                           }
                         })),
@@ -392,7 +391,7 @@ class _SignupPasswordPagetate extends State<SignupPasswordPage> {
                 });
                 if (widget._formKey.currentState.validate()) {
                   GlobalFun.showSnackBar(context,
-                      widget._scaffoldKey,null, "  Sending Mail...");
+                      null, "  Sending Mail...");
                   Api.sigup(widget._mail, widget._uuid, _password)
                       .then((value) => {
                             if (value[0] == Api.OK &&
@@ -428,7 +427,7 @@ class _SignupPasswordPagetate extends State<SignupPasswordPage> {
                               }
                           })
                       .catchError((e) {
-                    GlobalFun.showSnackBar(context,widget._scaffoldKey, e, e.toString());
+                    GlobalFun.showSnackBar(context, e, e.toString());
                   });
                 }
               })),

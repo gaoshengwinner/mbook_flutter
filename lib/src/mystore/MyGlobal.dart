@@ -26,11 +26,11 @@ class MyGlobal {
   }
 
   static Future getTagInfos(
-      BuildContext context, GlobalKey<ScaffoldState> _scaffoldKey) async {
+      BuildContext context) async {
 
-      GlobalFun.showSnackBar(context,_scaffoldKey, null, "  Loading...");
+      GlobalFun.showSnackBar(context, null, "  Loading...");
     Api.getMyTags(context).then((result) {
-      GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+      GlobalFun.removeCurrentSnackBar(context);
       // ignore: null_aware_before_operator
       if (result.length > 0 ) {
         tagInfos = result[1];
@@ -47,20 +47,20 @@ class MyGlobal {
   }
 
   static Future getOptionTemInfos(
-      BuildContext context, GlobalKey<ScaffoldState> _scaffoldKey) async {
+      BuildContext context) async {
 
-      GlobalFun.showSnackBar(context,_scaffoldKey, null, "  Loading...");
+      GlobalFun.showSnackBar(context, null, "  Loading...");
     Api.getMyOptionTemps(context).then((result) {
-      GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+      GlobalFun.removeCurrentSnackBar(context);
       optionTempInfos = result.length> 0  ? result[1] : [];
     });
   }
 
   static Future getShopItemInfo(
-      BuildContext context, GlobalKey<ScaffoldState> _scaffoldKey) async {
-    GlobalFun.showSnackBar(context,_scaffoldKey, null, "  Loading...");
+      BuildContext context) async {
+    GlobalFun.showSnackBar(context, null, "  Loading...");
     Api.getMyShopItemInfo(context).then((result) {
-      GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+      GlobalFun.removeCurrentSnackBar(context);
       itemDetails = result.length > 0 ? result[1] : [];
     })
     //     .catchError((e) {
@@ -72,9 +72,9 @@ class MyGlobal {
 
   static Future getShopInfo(
       BuildContext context, GlobalKey<ScaffoldState> _scaffoldKey) async {
-    GlobalFun.showSnackBar(context,_scaffoldKey, null, "  Loading...");
+    GlobalFun.showSnackBar(context, null, "  Loading...");
     Api.getMyShopInfo(context)?.then((result) {
-      GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+      GlobalFun.removeCurrentSnackBar(context);
       shopInfo = result.length > 0 ? result[1] : [];
     })
     //     .catchError((e) {
@@ -83,9 +83,8 @@ class MyGlobal {
     ;
   }
 
-  static Future init(BuildContext context,
-      GlobalKey<ScaffoldState> _scaffoldKey, Function onLoaded) async {
-    GlobalFun.showSnackBar(context,_scaffoldKey, null, "  Loading...");
+  static Future init(BuildContext context,Function onLoaded) async {
+    GlobalFun.showSnackBar(context, null, "  Loading...");
     int count = 0;
      const int API_COUNT = 4;
     await Api.getMyTags(context).then((result) {
@@ -96,11 +95,11 @@ class MyGlobal {
       }
     }).whenComplete(() {
       if (count >= API_COUNT) {
-        GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+        GlobalFun.removeCurrentSnackBar(context);
       }
     })
     //     .catchError((e) {
-    //   GlobalFun.showSnackBar(_scaffoldKey, e.toString());
+    //   GlobalFun.showSnackBar(_scaffoldKey, e.toString());removeCurrentSnackBar
     // })
     ;
 
@@ -112,7 +111,7 @@ class MyGlobal {
       }
     }).whenComplete(() {
       if (count >= API_COUNT) {
-        GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+        GlobalFun.removeCurrentSnackBar(context);
       }
     })
     //     .catchError((e) {
@@ -128,7 +127,7 @@ class MyGlobal {
       }
     }).whenComplete(() {
       if (count >= API_COUNT) {
-        GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+        GlobalFun.removeCurrentSnackBar(context);
       }
     })
     //     .catchError((e) {
@@ -144,7 +143,7 @@ class MyGlobal {
       }
     }).whenComplete(() {
       if (count >= API_COUNT) {
-        GlobalFun.removeCurrentSnackBar(_scaffoldKey);
+        GlobalFun.removeCurrentSnackBar(context);
       }
     })
     //     .catchError((e) {

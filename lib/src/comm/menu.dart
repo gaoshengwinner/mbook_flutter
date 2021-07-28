@@ -36,7 +36,7 @@ class MenuBar {
           ),
           if (isLogin && !notDispMystore)
             GlobalFun.customListTitle(context:context,icon:Icons.store, title:S.of(_context).menu_mystore_title,
-              doTop:   () => {gotoMyStore(_context, _scaffoldKey)},isFirst:true),
+              doTop:   () => {gotoMyStore(_context)},isFirst:true),
           if (isLogin)
             GlobalFun.customListTitle(context:context,icon:Icons.logout, title:S.of(_context).menu_logout_title,
                    doTop:  () => {logout(_context)}, isBottom:true),
@@ -62,9 +62,9 @@ class MenuBar {
 
 
 
-  static gotoMyStore(BuildContext _context, GlobalKey<ScaffoldState> _scaffoldKey) async{
+  static gotoMyStore(BuildContext _context) async{
      Navigator.pop(_context);
-    await MyGlobal.init(_context, _scaffoldKey, (){
+    await MyGlobal.init(_context, (){
       Navigator.push(_context, MaterialPageRoute(builder: (context) => MyStorePage()));
     }).whenComplete(() {
 

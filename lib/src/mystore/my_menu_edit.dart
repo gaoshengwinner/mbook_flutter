@@ -54,12 +54,12 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
             canSave: true,
             onSave: () {
               GlobalFun.showSnackBar(
-                  context, _baseInfoscaffoldKey, null, "  Saving...");
+                  context, null, "  Saving...");
               Api.saveMyItemInfo(context, widget._item).whenComplete(() {
-                GlobalFun.removeCurrentSnackBar(_baseInfoscaffoldKey);
+                GlobalFun.removeCurrentSnackBar(context);
               }).catchError((e) {
                 GlobalFun.showSnackBar(
-                    context, _baseInfoscaffoldKey, null, e.toString());
+                    context, null, e.toString());
               });
             },
             context: context,
@@ -143,7 +143,6 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
     //return MyItemOptionsPage();
     return Container(
       padding: EdgeInsets.all(10),
-      color: Color(0xFFEFEFF4),
       child: ListView(
         children: [
           GlobalFun.fbInputTagBox(

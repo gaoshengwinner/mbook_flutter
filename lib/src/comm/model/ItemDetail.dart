@@ -12,6 +12,7 @@ part 'ItemDetail.g.dart';
 class ItemDetail {
   int? id;
   int? shopId;
+  String? no;
   String? itemPrice;
   String? itemName;
   String? itemDescr;

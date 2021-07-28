@@ -24,6 +24,19 @@ class G{
  static const String ROUTES_LOGIN = "/login_page";
   static const String ROUTES_HOME = "/home";
 
+  static bool isNullOrEmpty(dynamic? value){
+    if (value == null){
+      return true;
+    }
+    if (value is String) {
+      return value.isEmpty;
+    }
+    return false;
+  }
+
+  static bool isNotNullOrEmpty(dynamic? value){
+    return !isNullOrEmpty(value);
+  }
 
   static String nullSafe(String? s){
     return s == null ? "" : s;

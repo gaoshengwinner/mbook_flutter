@@ -19,6 +19,22 @@ class ShopInfo{
 
   String?  additionInfo;
 
+  String? _preCurrencyUnit;
+  String? _tailCurrencyUnit;
+
+  set preCurrencyUnit(String? value){
+    _preCurrencyUnit = value;
+  }
+  String? get preCurrencyUnit{
+    return  _preCurrencyUnit ?? "¥";
+  }
+  set tailCurrencyUnit(String? value){
+    _tailCurrencyUnit = value;
+  }
+  String? get tailCurrencyUnit{
+    return  _tailCurrencyUnit ?? "円";
+  }
+
   ShopInfo({required this.shopName, required this.shopAddr, required this.shopTel, required this.shopPicUrl, this.additionInfo}){
     getMana();
   }
