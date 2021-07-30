@@ -57,6 +57,7 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
             },
             context: context,
             bottom: TabBar(
+              isScrollable: true,
               tabs: tabInfos.map((TabInfo tabInfo) {
                 return Tab(
                   text: tabInfo.title,
