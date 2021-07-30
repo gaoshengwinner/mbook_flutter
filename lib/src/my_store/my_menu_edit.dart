@@ -22,10 +22,6 @@ class MyMenuEditPage extends StatefulWidget {
 }
 
 class _MyMenuEditState extends State<MyMenuEditPage> {
-  // 响应空白处的焦点的Node
-  final GlobalKey<ScaffoldState> _baseInfoscaffoldKey =
-      new GlobalKey<ScaffoldState>();
-
   @override
   void initState() {
     super.initState();
@@ -39,11 +35,11 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
   @override
   Widget build(BuildContext context) {
     List<TabInfo> tabInfos = [
-      TabInfo(title: "Base", widget: _baseInfo(context)),
-      TabInfo(title: "Option", widget: _optionsInfo(context)),
-      TabInfo(title: "Tag", widget: _tagInfo(context)),
-      TabInfo(title: "Service", widget: _tagInfo(context)),
-      TabInfo(title: "Addition", widget: _addtionInfo(context)),
+      TabInfo(title: "Base info", widget: _baseInfo(context)),
+      TabInfo(title: "Item options", widget: _optionsInfo(context)),
+      TabInfo(title: "Item tags", widget: _tagInfo(context)),
+      TabInfo(title: "Item services", widget: _tagInfo(context)),
+      TabInfo(title: "Addition info", widget: _addtionInfo(context)),
     ];
 
     return MaterialApp(
@@ -65,6 +61,7 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
             },
             context: context,
             bottom: TabBar(
+              isScrollable: true,
                 tabs: tabInfos.map((TabInfo tabInfo) {
               return Tab(
                 text: tabInfo.title,

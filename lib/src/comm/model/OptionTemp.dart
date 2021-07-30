@@ -64,8 +64,8 @@ class OptionTemp {
 
   set id(int? id) => _id = id;
 
-  int? get id {
-    return _id;
+  int get id {
+    return _id ?? -1;
   }
 
   set desc(String? desc) => _desc = desc;

@@ -83,8 +83,7 @@ class _FindPasswordPageState extends State<FindPasswordPage> {
                                           color: G.appBaseColor[0],
                                           fontSize: 10),
                                     ),
-                                    content: new FindPasswordMailCnfPage(
-                                        _scaffoldKey,
+                                    content: FindPasswordMailCnfPage(
                                         _formKey,
                                         _canSendMail,
                                         _signUpTitle, (mail, uuid) {
@@ -124,7 +123,7 @@ class _FindPasswordPageState extends State<FindPasswordPage> {
                                           fontSize: 10),
                                     ),
                                     content: new FindPasswordPasswordPage(
-                                        _scaffoldKey, _formKey, _mail, _uuid,
+                                        _formKey, _mail, _uuid,
                                         () {
                                       setState(() {
                                         step = 3;
@@ -142,7 +141,7 @@ class _FindPasswordPageState extends State<FindPasswordPage> {
 class FindPasswordMailCnfPage extends StatefulWidget {
   final Function onOK;
 
-  FindPasswordMailCnfPage(this._scaffoldKey, this._formKey, this._canClick,
+  FindPasswordMailCnfPage( this._formKey, this._canClick,
       this._signUpTitle, this.onOK);
 
   final String _signUpTitle;
@@ -151,7 +150,6 @@ class FindPasswordMailCnfPage extends StatefulWidget {
   _FindPasswordMailCnfPageState createState() =>
       _FindPasswordMailCnfPageState();
   final _formKey;
-  final GlobalKey<ScaffoldState> _scaffoldKey;
 }
 
 class _FindPasswordMailCnfPageState extends State<FindPasswordMailCnfPage> {
@@ -322,13 +320,11 @@ class _FindPasswordCodeCnfPageState extends State<FindPasswordCodeCnfPage> {
 class FindPasswordPasswordPage extends StatefulWidget {
   final Function onOK;
 
-  FindPasswordPasswordPage(
-      this._scaffoldKey, this._formKey, this._mail, this._uuid, this.onOK);
+  FindPasswordPasswordPage(this._formKey, this._mail, this._uuid, this.onOK);
 
   _FindPasswordPasswordPagetate createState() =>
       _FindPasswordPasswordPagetate();
   final _formKey;
-  final GlobalKey<ScaffoldState> _scaffoldKey;
   final String? _uuid;
   final String? _mail;
 }

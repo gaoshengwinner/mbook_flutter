@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mbook_flutter/src/comm/api/api.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
-import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
-import 'package:mbook_flutter/src/comm/widgets/Image.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_implicitly_animated_reorderable_list.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_list_tile.dart';
-import 'package:mbook_flutter/src/comm/widgets/fb_listview.dart';
 import 'my_menu_edit.dart';
 
 // ignore: must_be_immutable
@@ -82,7 +78,7 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
           body: (ItemDetail item, int i) {
             item.no = "$i";
             return Container(
-                child: FBListTile.ItemStyle(
+                child: FBListTile.itemStyle(
               context: context,
               item: item,
               doTop: (int? index) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/input_bottom.dart';
 import 'package:mbook_flutter/src/comm/widgets/pop_route.dart';
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
-import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/AdditionalInfo.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_addition_info_mana.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';

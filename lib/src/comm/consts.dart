@@ -24,7 +24,7 @@ class G{
  static const String ROUTES_LOGIN = "/login_page";
   static const String ROUTES_HOME = "/home";
 
-  static bool isNullOrEmpty(dynamic? value){
+  static bool isNullOrEmpty(dynamic value){
     if (value == null){
       return true;
     }
@@ -34,7 +34,7 @@ class G{
     return false;
   }
 
-  static bool isNotNullOrEmpty(dynamic? value){
+  static bool isNotNullOrEmpty(dynamic value){
     return !isNullOrEmpty(value);
   }
 

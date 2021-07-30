@@ -18,13 +18,8 @@ import 'package:mbook_flutter/src/my_store/MyGlobal.dart';
 Function deepEq = const DeepCollectionEquality().equals;
 
 class MyTagsPage extends StatefulWidget {
-  MyTagsPage({required this.tagInfos}) {
-    for (var tagInfo in this.tagInfos) {
-      _tagInfos.add(tagInfo.copy());
-    }
-  }
+  MyTagsPage({required this.tagInfos});
 
-  List<TagInfo> _tagInfos = [];
   final List<TagInfo> tagInfos;
 
   _MyTagsPageState createState() => _MyTagsPageState();
@@ -41,9 +36,14 @@ class _MyTagsPageState extends State<MyTagsPage>
 
   int copiedIndex = -1;
 
+  List<TagInfo> _tagInfos = [];
+
   @override
   void initState() {
     super.initState();
+    for (var tagInfo in widget.tagInfos) {
+      _tagInfos.add(tagInfo.copy());
+    }
     scrollController = ScrollController();
   }
 
@@ -51,7 +51,7 @@ class _MyTagsPageState extends State<MyTagsPage>
     scrollController.jumpTo(scrollController.offset);
     setState(() {
       inReorder = false;
-      widget._tagInfos
+      _tagInfos
         ..clear()
         ..addAll(newItems);
     });
@@ -70,13 +70,13 @@ class _MyTagsPageState extends State<MyTagsPage>
           FocusScope.of(context).requestFocus(_blankNode);
         },
         child: FBReorderableList<TagInfo>(
-            items: widget._tagInfos,
+            items: _tagInfos,
             actions: [
               ActionsParam(
                   kind: ActionsKind.delete,
                   actFuction: (int index) {
                     setState(() {
-                      widget._tagInfos.removeAt(index);
+                      _tagInfos.removeAt(index);
                     });
                   })
             ],
@@ -99,14 +99,14 @@ class _MyTagsPageState extends State<MyTagsPage>
                 onTap: () {
                   TagEditPage.openPage(
                       context: context,
-                      tagInfos: widget._tagInfos,
+                      tagInfos: _tagInfos,
                       index: i,
                       onSaved: (value) {
                         MyGlobal.getTagInfos(context);
                         setState(() {
                           widget.tagInfos.clear();
                           widget.tagInfos.addAll(value);
-                          widget._tagInfos = value;
+                          _tagInfos = value;
                         });
                       });
                 },
@@ -125,8 +125,8 @@ class _MyTagsPageState extends State<MyTagsPage>
                     kind: ActionsKind.paste,
                     actFuction: (int index) {
                       setState(() {
-                        widget._tagInfos[index].property =
-                            widget._tagInfos[copiedIndex].property?.copy();
+                        _tagInfos[index].property =
+                            _tagInfos[copiedIndex].property?.copy();
                       });
                     }),
             ],
@@ -136,20 +136,18 @@ class _MyTagsPageState extends State<MyTagsPage>
                   style: TextStyle(color: Theme.of(context).primaryColor))
               ..icon = Icon(Icons.add, color: Theme.of(context).primaryColor)
               ..onTap = () {
-                TagEditPage.openPage(
-                    context: context, tagInfos: widget._tagInfos);
+                TagEditPage.openPage(context: context, tagInfos: _tagInfos);
               },
             onReorderFinished: (item, rom, to, newItems) {
-              final TagInfo item = widget._tagInfos.removeAt(rom!);
-              widget._tagInfos.insert(to, item);
+              final TagInfo item = _tagInfos.removeAt(rom!);
+              _tagInfos.insert(to, item);
 
               GlobalFun.showSnackBar(context, null, "  Saving...");
-              Api.saveMyTagInfo(
-                          context, TagResultList(tagLst: widget._tagInfos))
+              Api.saveMyTagInfo(context, TagResultList(tagLst: _tagInfos))
                       .whenComplete(() {
                 GlobalFun.removeCurrentSnackBar(context);
                 widget.tagInfos.clear();
-                widget.tagInfos.addAll(widget._tagInfos);
+                widget.tagInfos.addAll(_tagInfos);
               })
                   //     .catchError((e) {
                   //   print(e.toString());

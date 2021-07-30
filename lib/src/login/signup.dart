@@ -85,7 +85,6 @@ class _SignupPageState extends State<SignupPage> {
                                           fontSize: 10),
                                     ),
                                     content: new SignupMailCnfPage(
-                                        _scaffoldKey,
                                         _formKey,
                                         _canSendMail,
                                         _signUpTitle, (mail, uuid) {
@@ -117,14 +116,13 @@ class _SignupPageState extends State<SignupPage> {
                                     state: step >= 2
                                         ? StepState.complete
                                         : StepState.disabled,
-                                    title: new Text(
+                                    title:  Text(
                                       'Password',
                                       style: TextStyle(
                                           color: G.appBaseColor[0],
                                           fontSize: 10),
                                     ),
-                                    content: new SignupPasswordPage(
-                                        _scaffoldKey, _formKey, _mail?.toString() ?? "", _uuid?.toString() ?? "",
+                                    content:  SignupPasswordPage( _formKey, _mail?.toString() ?? "", _uuid?.toString() ?? "",
                                         () {
                                       setState(() {
                                         step = 3;
@@ -142,7 +140,7 @@ class _SignupPageState extends State<SignupPage> {
 class SignupMailCnfPage extends StatefulWidget {
   final Function onOK;
 
-  SignupMailCnfPage(this._scaffoldKey, this._formKey, this._canClick,
+  SignupMailCnfPage(this._formKey, this._canClick,
       this._signUpTitle, this.onOK);
 
   final String _signUpTitle;
@@ -150,7 +148,6 @@ class SignupMailCnfPage extends StatefulWidget {
 
   _SignupMailCnfPageState createState() => _SignupMailCnfPageState();
   final _formKey;
-  final GlobalKey<ScaffoldState> _scaffoldKey;
 }
 
 class _SignupMailCnfPageState extends State<SignupMailCnfPage> {
@@ -311,12 +308,10 @@ class _SignupCodeCnfPageState extends State<SignupCodeCnfPage> {
 class SignupPasswordPage extends StatefulWidget {
   final Function onOK;
 
-  SignupPasswordPage(
-      this._scaffoldKey, this._formKey, this._mail, this._uuid, this.onOK);
+  SignupPasswordPage( this._formKey, this._mail, this._uuid, this.onOK);
 
   _SignupPasswordPagetate createState() => _SignupPasswordPagetate();
   final _formKey;
-  final GlobalKey<ScaffoldState> _scaffoldKey;
   final String _uuid;
   final String _mail;
 }

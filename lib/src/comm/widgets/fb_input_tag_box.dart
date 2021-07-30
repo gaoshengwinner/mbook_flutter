@@ -7,11 +7,11 @@ import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FBInputTagBox extends StatelessWidget {
-  String lableText;
-  List<TagInfo>? tags;
-  List<TagInfo>? selectedTags;
-  Function onSelected;
-  double? width;
+  final String lableText;
+  final List<TagInfo>? tags;
+  final List<TagInfo>? selectedTags;
+  final Function onSelected;
+  final double? width;
 
   FBInputTagBox(
       {required this.lableText,
@@ -22,7 +22,7 @@ class FBInputTagBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    width = width == null ? double.maxFinite : width;
+    double _width = width == null ? double.maxFinite : width!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -35,7 +35,7 @@ class FBInputTagBox extends StatelessWidget {
           ),
         ),
         Container(
-          width: width,
+          width: _width,
           constraints: BoxConstraints(
             minHeight: 30,
           ),

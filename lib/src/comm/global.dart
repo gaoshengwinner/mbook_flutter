@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mbook_flutter/src/comm/input_bottom.dart';
 import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
 import 'package:mbook_flutter/src/comm/tools/group.dart';
-import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_tags_selector.dart';
 import 'package:mbook_flutter/src/comm/widgets/pop_route.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';

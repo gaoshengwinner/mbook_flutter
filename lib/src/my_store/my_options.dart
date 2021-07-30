@@ -38,7 +38,6 @@ class _MyOptionsPageState extends State<MyOptionsPage> {
 
   int copiedIndex = -1;
 
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {

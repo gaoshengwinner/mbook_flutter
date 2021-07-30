@@ -4,13 +4,13 @@ import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_title.dart';
 
 class FBInputBox extends StatelessWidget {
-  String? lableText;
-  String? value;
-  Function? serValue;
-  Widget? valueWidget;
-  double? width;
-  Axis? axis;
-  String? hintTextValue;
+  final String? lableText;
+  final String? value;
+  final Function? serValue;
+  final Widget? valueWidget;
+  final double? width;
+  final Axis? axis;
+  final String? hintTextValue;
 
   FBInputBox(
       {this.lableText,
@@ -23,7 +23,7 @@ class FBInputBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    width = width == null ? double.maxFinite : width;
+    double? _width = width == null ? double.maxFinite : width;
     return Container(
         //padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
         child: Flex(
@@ -45,7 +45,7 @@ class FBInputBox extends StatelessWidget {
                 border: Border.all(color: Colors.grey, width: 1),
                 borderRadius: BorderRadius.all(Radius.circular(3)),
               ),
-              width: width,
+              width: _width,
               child: Stack(children: [
                 Container(
                     child: valueWidget == null

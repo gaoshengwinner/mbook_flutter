@@ -52,11 +52,14 @@ class TagInfo {
     this.propertyString = jsonEncode(property!.toJson());
   }
 
+  static void beForToJson4Object(Object o) {
+    (o as TagInfo).beForToJson();
+  }
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
     beForToJson();
-    (o as TagInfo).beForToJson();
+    beForToJson4Object(o);
     return o is TagInfo &&
         o.id == id &&
         o.data == data &&

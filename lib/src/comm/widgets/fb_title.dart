@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class FBTitle extends StatelessWidget {
-  String lableText;
-  Widget? rightWidget;
+  final String lableText;
+  final Widget? rightWidget;
 
   FBTitle({required this.lableText, this.rightWidget});
 

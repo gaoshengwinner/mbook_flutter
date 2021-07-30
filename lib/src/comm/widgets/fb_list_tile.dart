@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
 import 'package:mbook_flutter/src/comm/widgets/Image.dart';
@@ -34,16 +33,16 @@ class FBListTileInfo {
 typedef GestureTapCallbackIndex = void Function(int? index);
 
 class FBListTile extends StatelessWidget {
-  GestureTapCallbackIndex? doTop;
-  EdgeInsetsGeometry? padding;
+  final GestureTapCallbackIndex? doTop;
+  final EdgeInsetsGeometry? padding;
 
-  int? index;
+  final int? index;
 
-  FBListTileInfo? headerInfo;
-  FBListTileInfo? bodyInfo;
-  FBListTileInfo? bottomInfo;
+  final FBListTileInfo? headerInfo;
+  final FBListTileInfo? bodyInfo;
+  final FBListTileInfo? bottomInfo;
 
-  factory FBListTile.ItemStyle(
+  factory FBListTile.itemStyle(
       {required BuildContext context,
       required ItemDetail item,
       GestureTapCallbackIndex? doTop}) {
@@ -105,7 +104,7 @@ class FBListTile extends StatelessWidget {
     // MainAxisAlignment? mainAxisAlignment;
   }
 
-  FBListTile({this.headerInfo, this.bodyInfo, this.bottomInfo, this.doTop});
+  FBListTile({this.headerInfo, this.bodyInfo, this.bottomInfo, this.doTop, this.padding, this.index});
 
   @override
   Widget build(BuildContext context) {

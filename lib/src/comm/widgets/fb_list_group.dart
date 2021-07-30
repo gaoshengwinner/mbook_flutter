@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class FBListGroup extends StatelessWidget {
-  String? title;
+  final String? title;
 
-  FBListGroup({this.title});
+   FBListGroup({this.title});
 
   @override
   Widget build(BuildContext context) {

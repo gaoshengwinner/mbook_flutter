@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ClipOvalIcon extends StatelessWidget {
-  IconData icon;
-  Function onTap;
+  final IconData icon;
+  final Function onTap;
 
   ClipOvalIcon({required this.icon, required this.onTap});
 

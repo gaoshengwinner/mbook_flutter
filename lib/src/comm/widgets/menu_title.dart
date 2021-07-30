@@ -5,11 +5,11 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MenuTitle extends StatelessWidget {
-  IconData? icon;
-  String title;
-  GestureTapCallback? doTop;
-  bool isFirst;
-  bool isBottom;
+  final IconData? icon;
+  final String title;
+  final GestureTapCallback? doTop;
+  final bool isFirst;
+  final bool isBottom;
 
   MenuTitle(
       {this.icon,
@@ -29,7 +29,7 @@ class MenuTitle extends StatelessWidget {
           color: Colors.white,
           child: Column(
             children: [
-              if (isFirst != null && isFirst)
+              if (isFirst)
                 Container(
                   height: 10,
                   width: 1.sw,
@@ -47,13 +47,13 @@ class MenuTitle extends StatelessWidget {
                   Icon(Icons.keyboard_arrow_right),
                 ],
               ),
-              if (isBottom == null || !isBottom)
+              if (!isBottom)
                 Divider(
                   indent: 32.0,
                   color: Colors.grey.shade400,
                   thickness: 1,
                 ),
-              if (isBottom != null && isBottom)
+              if (isBottom)
                 Container(
                   height: 10,
                   width: 1.sw,
