@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:mbook_flutter/generated/l10n.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
-import 'package:mbook_flutter/src/comm/consts.dart';
-import 'package:mbook_flutter/src/comm/global.dart';
-import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
-import 'package:mbook_flutter/src/mystore/my_menu_list.dart';
-import 'package:mbook_flutter/src/mystore/my_options.dart';
-import 'package:mbook_flutter/src/mystore/my_store_edite.dart';
-import 'package:settings_ui/settings_ui.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_list_group.dart';
+import 'package:mbook_flutter/src/comm/widgets/menu_title.dart';
+import 'package:mbook_flutter/src/my_store/MyGlobal.dart';
+import 'package:mbook_flutter/src/my_store/my_menu_list.dart';
+import 'package:mbook_flutter/src/my_store/my_options.dart';
+import 'package:mbook_flutter/src/my_store/my_store_edit.dart';
 
 import 'my_tags.dart';
 
@@ -51,9 +50,8 @@ class _MyStorePageState extends State<MyStorePage> {
             //padding: EdgeInsets.only(left: 8, right: 8),
             child: Column(
               children: [
-                GlobalFun.customListGroup(context: context, title: "Base Info"),
-                GlobalFun.customListTitle(
-                    context: context,
+                FBListGroup(title: "Base Info"),
+                MenuTitle(
                     icon: Icons.store,
                     title: "Store Info",
                     doTop: () {
@@ -64,8 +62,7 @@ class _MyStorePageState extends State<MyStorePage> {
                                   MyStoreInfoPage(MyGlobal.shopInfo)));
                     },
                     isFirst: true),
-                GlobalFun.customListTitle(
-                    context: context,
+                MenuTitle(
                     icon: Icons.menu,
                     title: "Menu Info",
                     doTop: () {
@@ -76,9 +73,8 @@ class _MyStorePageState extends State<MyStorePage> {
                                   MyMenuInfoPage(MyGlobal.itemDetails)));
                     },
                     isBottom: true),
-                GlobalFun.customListGroup(context: context, title: "Setting"),
-                GlobalFun.customListTitle(
-                    context: context,
+                FBListGroup(title: "Setting"),
+                MenuTitle(
                     icon: FontAwesome.tags,
                     title: "Tags",
                     doTop: () {
@@ -89,8 +85,7 @@ class _MyStorePageState extends State<MyStorePage> {
                                   tagInfos: MyGlobal.tagInfos ?? [])));
                     },
                     isFirst: true),
-                GlobalFun.customListTitle(
-                    context: context,
+                MenuTitle(
                     icon: Ionicons.ios_options_outline,
                     title: "Option templates",
                     doTop: () {

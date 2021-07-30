@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
 import 'package:mbook_flutter/src/comm/widgets/Image.dart';
-import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
+import 'package:mbook_flutter/src/my_store/MyGlobal.dart';
 
 class FBListTileInfo {
   double? height;

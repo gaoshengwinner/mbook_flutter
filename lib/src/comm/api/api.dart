@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mbook_flutter/src/comm/device/device.dart';
+import 'package:mbook_flutter/src/comm/exceptions/NoResourceException.dart';
 import 'package:mbook_flutter/src/comm/menu.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
 import 'package:mbook_flutter/src/comm/model/LoginResult.dart';
@@ -172,7 +173,7 @@ class Api {
     if (accessToken == null) {
       final refreshToken = await TokenUtil.getRefreshToken();
       if (refreshToken == null) {
-        MenuBar.logout(_context);
+        MenuBar.logout(context: _context, showLogin: true);
         return null;
       }
 
@@ -182,7 +183,7 @@ class Api {
       List<dynamic> refreshTokenResult =
           await doPostNoNeedLoginApi(_REFRESH_TOKEN_URL, null, header);
       if (refreshTokenResult[0] != 200) {
-        MenuBar.logout(_context);
+        MenuBar.logout(context: _context, showLogin: true);
         return null;
       }
 
@@ -197,7 +198,7 @@ class Api {
     header[_AUTHON_ACCESS_HEADER] = accessToken!;
     List<dynamic> result = await doPostNoNeedLoginApi(url, body, header);
     if (result[0] == 401) {
-      MenuBar.logout(_context);
+      MenuBar.logout(context :_context, showLogin: true);
       return null;
     }
 
@@ -267,7 +268,7 @@ class Api {
     List<dynamic>? tagInfo =
     await doPostNeedLoginApi(_context, _MY_GET_TAG_URL, null);
     if (tagInfo == null) {
-      throw Exception("tagInfo is null!");
+      throw NoResourceException("tagInfo is null!");
     }
     if (tagInfo[0] == 200) {
       List<TagInfo> myModels = (json.decode(tagInfo[1]) as List)
@@ -276,7 +277,7 @@ class Api {
       tagInfo[1] = myModels;
       print(myModels.length);
     } else {
-      throw Exception(tagInfo[1]);
+      throw NoResourceException(tagInfo[1]);
     }
 
     return tagInfo;

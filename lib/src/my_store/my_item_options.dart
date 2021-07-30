@@ -9,7 +9,8 @@ import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/model/OptionGroupInfo.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTemp.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_option.dart';
-import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_input_box.dart';
+import 'package:mbook_flutter/src/my_store/MyGlobal.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -160,8 +161,7 @@ class _AddOptionPageState extends State<AddOptionPage> {
               padding: EdgeInsets.only(left: 5, right: 5, top: 10),
               child: ListView(
                 children: [
-                  GlobalFun.fbInputBox(
-                    context: context,
+                  FBInputBox(
                     lableText: "Description",
                     value: G.ifNull(widget.info.description, ""),
                     serValue: (value) {
@@ -201,8 +201,7 @@ class _AddOptionPageState extends State<AddOptionPage> {
                     },
                   ),
                   Divider(),
-                  GlobalFun.fbInputBox(
-                    context: context,
+                  FBInputBox(
                     lableText: "Option title",
                     value: G.ifNull(widget.info.title, ""),
                     serValue: (value) {
@@ -300,8 +299,7 @@ class _AddOptionPageState extends State<AddOptionPage> {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                GlobalFun.fbInputBox(
-                    context: context,
+                FBInputBox(
                     value: G.ifNull(widget.info.options[i].title, ""),
                     serValue: (value) {
                       setState(() {
@@ -310,8 +308,7 @@ class _AddOptionPageState extends State<AddOptionPage> {
                     },
                     hintTextValue: "title",
                     width: 0.55.sw),
-                GlobalFun.fbInputBox(
-                    context: context,
+                FBInputBox(
                     value: G.ifNull(widget.info.options[i].price, ""),
                     serValue: (value) {
                       setState(() {

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mbook_flutter/src/comm/global.dart';
+import 'package:mbook_flutter/src/comm/widgets/pop_route.dart';
 
 void openColor(
     BuildContext context, Color currentColor, Function onColorChange) {

@@ -11,7 +11,9 @@ import 'package:mbook_flutter/src/comm/tools/text_setting.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_implicitly_animated_reorderable_list.dart';
 import 'package:collection/collection.dart';
-import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_input_box.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_title.dart';
+import 'package:mbook_flutter/src/my_store/MyGlobal.dart';
 
 Function deepEq = const DeepCollectionEquality().equals;
 
@@ -271,8 +273,7 @@ class _TagEditPageState extends State<TagEditPage>
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          GlobalFun.fbInputBox(
-                              context: context,
+                          FBInputBox(
                               lableText: "Description",
                               value:
                                   (widget._tagInfos[i].desc?.toString() ?? ""),
@@ -281,8 +282,7 @@ class _TagEditPageState extends State<TagEditPage>
                                   widget._tagInfos[i].desc = value;
                                 });
                               }),
-                          GlobalFun.fbInputBox(
-                              context: context,
+                          FBInputBox(
                               lableText: "Text",
                               value:
                                   (widget._tagInfos[i].data?.toString() ?? ""),
@@ -292,9 +292,8 @@ class _TagEditPageState extends State<TagEditPage>
                                 });
                               }),
                           Divider(),
-                          GlobalFun.commonTitle(
-                            context,
-                            "Look like",
+                          FBTitle(
+                            lableText: "Look like",
                           ),
                           Center(
                             child: WidgetTextWidget(

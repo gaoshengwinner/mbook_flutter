@@ -10,6 +10,8 @@ import 'package:mbook_flutter/src/comm/widgets/Image.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_active_title.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_addition_info_mana.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_htmltext.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_input_box.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_list_group.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_webview.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_youtuber.dart';
 
@@ -97,9 +99,9 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
               //color: Color(0xFFEFEFF4),
               child: Column(
                 children: [
-                  GlobalFun.customListGroup(context: context),
+                  FBListGroup(),
                   ActiveTitle(
-                    isFirst:true,
+                    isFirst: true,
                     expand: _nowExpanded == SwitchItem.texts,
                     title: "Texts" +
                         "(" +
@@ -117,7 +119,6 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                         _nowExpanded = reserSWTexts(_nowExpanded);
                       });
                     },
-
                   ),
                   if (SwitchItem.texts == _nowExpanded && simpleTexts != null)
                     new Column(
@@ -140,12 +141,14 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                               constraints: BoxConstraints(
                                 minHeight: 40,
                               ),
-                              child: GlobalFun.fbInputBox(
-                                  context:context, value:item.value, serValue:(value) {
-                                setState(() {
-                                  item.value = value;
-                                });
-                              }, width: 0.9.sw),
+                              child: FBInputBox(
+                                  value: item.value,
+                                  serValue: (value) {
+                                    setState(() {
+                                      item.value = value;
+                                    });
+                                  },
+                                  width: 0.9.sw),
                             ),
                           ),
                         ),
@@ -191,12 +194,13 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                               constraints: BoxConstraints(
                                 minHeight: 40,
                               ),
-                              child: GlobalFun.fbInputBox(
-                                  context:context, value:item.value, serValue:(value) {
-                                setState(() {
-                                  item.value = value;
-                                });
-                              },
+                              child: FBInputBox(
+                                  value: item.value,
+                                  serValue: (value) {
+                                    setState(() {
+                                      item.value = value;
+                                    });
+                                  },
                                   valueWidget: FBHtmlTextView(
                                     src: item.value,
                                   ),
@@ -246,12 +250,13 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                               constraints: BoxConstraints(
                                 minHeight: 40,
                               ),
-                              child: GlobalFun.fbInputBox(
-                                  context:context,  value:item.value, serValue:(value) {
-                                setState(() {
-                                  item.value = value;
-                                });
-                              },
+                              child: FBInputBox(
+                                  value: item.value,
+                                  serValue: (value) {
+                                    setState(() {
+                                      item.value = value;
+                                    });
+                                  },
                                   valueWidget: Row(children: [
                                     Flexible(
                                         child: item.value?.isEmpty ?? true
@@ -302,13 +307,14 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                               constraints: BoxConstraints(
                                 minHeight: 40,
                               ),
-                              child: GlobalFun.fbInputBox(
-                                  context:context, value:item.value, serValue:(value) {
-                                if (mounted)
-                                  setState(() {
-                                    item.value = value;
-                                  });
-                              },
+                              child: FBInputBox(
+                                  value: item.value,
+                                  serValue: (value) {
+                                    if (mounted)
+                                      setState(() {
+                                        item.value = value;
+                                      });
+                                  },
                                   valueWidget:
                                       FbYoutubeWidget(item.value, 0.8.sw),
                                   width: 0.9.sw),
@@ -358,12 +364,13 @@ class _MyAdditionPageState extends State<MyAdditionPage> {
                               constraints: BoxConstraints(
                                 minHeight: 40,
                               ),
-                              child: GlobalFun.fbInputBox(
-                                  context:context,  value:item.value, serValue:(value) {
-                                setState(() {
-                                  item.value = value;
-                                });
-                              },
+                              child: FBInputBox(
+                                  value: item.value,
+                                  serValue: (value) {
+                                    setState(() {
+                                      item.value = value;
+                                    });
+                                  },
                                   valueWidget:
                                       FBWebView(initialUrl: item.value),
                                   width: 0.9.sw),

@@ -7,6 +7,7 @@ import 'package:implicitly_animated_reorderable_list/transitions.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
+import 'package:mbook_flutter/src/comm/widgets/clip_oval_icon.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_listview.dart';
 
 class TagsSelectWidget extends StatefulWidget {
@@ -158,14 +159,16 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                           child: Slidable(
                             actionPane: const SlidableBehindActionPane(),
                             child: ListTile(
-                              leading: GlobalFun.clipOvalIcon(Icons.clear, () {
-                                setState(() {
-                                  this.tagInfos!.add(item.copy());
-                                  this.selectedTagInfos!.remove(item);
-                                  this.tagInfos!.sort(
-                                      (a, b) => a.orders!.compareTo(b.orders!));
-                                });
-                              }),
+                              leading: ClipOvalIcon(
+                                  icon: Icons.clear,
+                                  onTap: () {
+                                    setState(() {
+                                      this.tagInfos!.add(item.copy());
+                                      this.selectedTagInfos!.remove(item);
+                                      this.tagInfos!.sort((a, b) =>
+                                          a.orders!.compareTo(b.orders!));
+                                    });
+                                  }),
                               //title: Text(item.desc),
                               title: Wrap(
                                 spacing: 3,
@@ -200,7 +203,8 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                         items: tagInfos!,
                         areItemsTheSame: (TagInfo oldItem, TagInfo newItem) =>
                             oldItem.id == newItem.id,
-                        onReorderFinished: (TagInfo item, int? from, int to, List<TagInfo> newItems) {
+                        onReorderFinished: (TagInfo item, int? from, int to,
+                            List<TagInfo> newItems) {
                           // Remember to update the underlying data when the list has been
                           // reordered.
                           setState(() {
@@ -230,16 +234,17 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                                       actionPane:
                                           const SlidableBehindActionPane(),
                                       child: ListTile(
-                                        leading: GlobalFun.clipOvalIcon(
-                                            Icons.add, () {
-                                          setState(() {
-                                            this
-                                                .selectedTagInfos!
-                                                .add(item.copy());
-                                            this.tagInfos!.remove(item);
-                                            Navigator.pop(context);
-                                          });
-                                        }),
+                                        leading: ClipOvalIcon(
+                                            icon: Icons.add,
+                                            onTap: () {
+                                              setState(() {
+                                                this
+                                                    .selectedTagInfos!
+                                                    .add(item.copy());
+                                                this.tagInfos!.remove(item);
+                                                Navigator.pop(context);
+                                              });
+                                            }),
                                         //title: Text(item.desc),
                                         title: Wrap(
                                           spacing: 4,
@@ -248,7 +253,9 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
                                               property: item.property,
                                               data: item.data,
                                             ),
-                                            Text(item.desc == null? "" : item.desc!)
+                                            Text(item.desc == null
+                                                ? ""
+                                                : item.desc!)
                                           ],
                                         ),
                                       ),
@@ -446,34 +453,34 @@ class _TagsSelectWidget extends State<TagsSelectWidget> {
     // );
   }
 
-  // static Widget getSlideActionDelete(BuildContext context, Function onTap) {
-  //   final theme = Theme.of(context);
-  //   final textTheme = theme.textTheme;
-  //
-  //   return SlideAction(
-  //     closeOnTap: true,
-  //     color: Color.fromRGBO(255, 205, 210, 1),
-  //     onTap: () {
-  //       onTap();
-  //     },
-  //     child: Center(
-  //       child: Column(
-  //         mainAxisSize: MainAxisSize.min,
-  //         children: <Widget>[
-  //           const Icon(
-  //             Icons.delete,
-  //             color: Colors.red,
-  //           ),
-  //           const SizedBox(height: 4),
-  //           Text(
-  //             'Delete',
-  //             style: textTheme.bodyText2.copyWith(
-  //               color: Colors.red,
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
+// static Widget getSlideActionDelete(BuildContext context, Function onTap) {
+//   final theme = Theme.of(context);
+//   final textTheme = theme.textTheme;
+//
+//   return SlideAction(
+//     closeOnTap: true,
+//     color: Color.fromRGBO(255, 205, 210, 1),
+//     onTap: () {
+//       onTap();
+//     },
+//     child: Center(
+//       child: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         children: <Widget>[
+//           const Icon(
+//             Icons.delete,
+//             color: Colors.red,
+//           ),
+//           const SizedBox(height: 4),
+//           Text(
+//             'Delete',
+//             style: textTheme.bodyText2.copyWith(
+//               color: Colors.red,
+//             ),
+//           ),
+//         ],
+//       ),
+//     ),
+//   );
+// }
 }

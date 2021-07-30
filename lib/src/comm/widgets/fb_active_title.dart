@@ -6,6 +6,7 @@ import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/AdditionalInfo.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_addition_info_mana.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:mbook_flutter/src/comm/widgets/menu_title.dart';
 
 typedef TitleTapCallBack = void Function(bool expand);
 
@@ -51,8 +52,7 @@ class _ActiveTitleState extends State<ActiveTitle> {
           //     border: Border(bottom: BorderSide(color: Colors.grey.shade400))),
           child: Slidable(
             actionPane: SlidableDrawerActionPane(),
-            child: GlobalFun.customListTitle(
-                context: context,
+            child: MenuTitle(
                 icon: widget.titleIcon,
                 title: G.ifNull(widget.title, ""),
                 doTop: null,

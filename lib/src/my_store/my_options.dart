@@ -13,9 +13,12 @@ import 'package:mbook_flutter/src/comm/tools/text_setting.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_option.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_implicitly_animated_reorderable_list.dart';
 import 'package:collection/collection.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_input_box.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_number_picker.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_title.dart';
+import 'package:mbook_flutter/src/comm/widgets/menu_title.dart';
 
-typedef EditeOptionTempSaveFunction = void Function(OptionTemp);
+typedef EditOptionTempSaveFunction = void Function(OptionTemp);
 
 Function deepEq = const DeepCollectionEquality().equals;
 
@@ -69,8 +72,7 @@ class _MyOptionsPageState extends State<MyOptionsPage> {
           // 点击空白页面关闭键盘
           FocusScope.of(context).requestFocus(FocusNode());
         },
-        child:
-    FBReorderableList<OptionTemp>(
+        child: FBReorderableList<OptionTemp>(
           items: _optionTemps,
           body: (OptionTemp item, int i) {
             return Container(
@@ -196,7 +198,7 @@ class _MyOptionsPageState extends State<MyOptionsPage> {
 
   void openEditePage(
       {OptionTemp? optionTemp,
-      EditeOptionTempSaveFunction? onSave,
+      EditOptionTempSaveFunction? onSave,
       List<OptionTemp>? optionTemps,
       int? index}) {
     Navigator.push(
@@ -307,13 +309,14 @@ class _OptionTempEditPageState extends State<OptionTempEditPage>
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          GlobalFun.fbInputBox(context:context, lableText:"Description",
-                              value:(_optionTemps[i].desc.toString()),
-                              serValue:(value) {
-                            setState(() {
-                              _optionTemps[i].desc = value;
-                            });
-                          }),
+                          FBInputBox(
+                              lableText: "Description",
+                              value: (_optionTemps[i].desc.toString()),
+                              serValue: (value) {
+                                setState(() {
+                                  _optionTemps[i].desc = value;
+                                });
+                              }),
                           Divider(),
                           FBNumberPicker(
                             title: "Default rows/line",
@@ -329,9 +332,8 @@ class _OptionTempEditPageState extends State<OptionTempEditPage>
                             },
                           ),
                           Divider(),
-                          GlobalFun.commonTitle(
-                            context,
-                            "Look like",
+                          FBTitle(
+                            lableText :"Look like",
                           ),
                           Container(
                               padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -409,78 +411,92 @@ class _OptionTempEditPageState extends State<OptionTempEditPage>
     GlobalFun.showBottomSheet(
         context,
         [
-          GlobalFun.customListTitle(context:context, icon:Ionicons.md_settings_outline, title:"Title style",
-             doTop:  () {
-            Navigator.pop(context);
-            GlobalFun.showBottomSheetForTextPrperty(
-                context,
-                TextSettingWidget(
-                    property: optionTemp.property.titlePr,
-                    data: _itemOptionList.title,
-                    onChange: (value) {
-                      setState(() {
-                        optionTemp.property.titlePr = value;
-                      });
-                    }),
-                null);
-          },isFirst:true),
-          GlobalFun.customListTitle(context:context, icon:
-              Ionicons.md_settings_outline, title:"Background style", doTop: () {
-            Navigator.pop(context);
-            GlobalFun.showBottomSheetForTextPrperty(
-                context,
-                TextSettingWidget(
-                    property: optionTemp.property.framPr,
-                    data: "",
-                    onChange: (value) {
-                      setState(() {
-                        optionTemp.property.framPr = value;
-                      });
-                    }),
-                null);
-          }),
-          GlobalFun.customListTitle(context:context, icon:
-              Ionicons.md_settings_outline, title:"Option style(not selected)", doTop: () {
-            Navigator.pop(context);
-            GlobalFun.showBottomSheetForTextPrperty(
-                context,
-                TextSettingWidget(
-                    property: optionTemp.property.buttonPr,
-                    data: _itemOptionList.options!.first.title,
-                    onChange: (value) {
-                      setState(() {
-                        optionTemp.property.buttonPr = value;
-                      });
-                    }),
-                null);
-          }),
-          GlobalFun.customListTitle(context:context, icon:
-              Ionicons.md_settings_outline, title:"Option style(selected)", doTop: () {
-            Navigator.pop(context);
-            GlobalFun.showBottomSheetForTextPrperty(
-                context,
-                TextSettingWidget(
-                    property: optionTemp.property.buttonSelectPr,
-                    data: _itemOptionList.options!.first.title,
-                    onChange: (value) {
-                      setState(() {
-                        optionTemp.property.buttonSelectPr = value;
-                      });
-                    }),
-                null);
-          }),
-          GlobalFun.customListTitle(context:context,icon:Icons.copy, title:"copy(not selected→selected)",
-             doTop:  () {
-            optionTemp.property.buttonSelectPr =
-                optionTemp.property.buttonPr.copy();
-            Navigator.pop(context);
-          }),
-          GlobalFun.customListTitle(context:context,icon:Icons.copy, title:"copy(selected→not selected)",
-            doTop:   () {
-            optionTemp.property.buttonPr =
-                optionTemp.property.buttonSelectPr.copy();
-            Navigator.pop(context);
-          },isBottom:true),
+          MenuTitle(
+              icon: Ionicons.md_settings_outline,
+              title: "Title style",
+              doTop: () {
+                Navigator.pop(context);
+                GlobalFun.showBottomSheetForTextPrperty(
+                    context,
+                    TextSettingWidget(
+                        property: optionTemp.property.titlePr,
+                        data: _itemOptionList.title,
+                        onChange: (value) {
+                          setState(() {
+                            optionTemp.property.titlePr = value;
+                          });
+                        }),
+                    null);
+              },
+              isFirst: true),
+          MenuTitle(
+              icon: Ionicons.md_settings_outline,
+              title: "Background style",
+              doTop: () {
+                Navigator.pop(context);
+                GlobalFun.showBottomSheetForTextPrperty(
+                    context,
+                    TextSettingWidget(
+                        property: optionTemp.property.framPr,
+                        data: "",
+                        onChange: (value) {
+                          setState(() {
+                            optionTemp.property.framPr = value;
+                          });
+                        }),
+                    null);
+              }),
+          MenuTitle(
+              icon: Ionicons.md_settings_outline,
+              title: "Option style(not selected)",
+              doTop: () {
+                Navigator.pop(context);
+                GlobalFun.showBottomSheetForTextPrperty(
+                    context,
+                    TextSettingWidget(
+                        property: optionTemp.property.buttonPr,
+                        data: _itemOptionList.options!.first.title,
+                        onChange: (value) {
+                          setState(() {
+                            optionTemp.property.buttonPr = value;
+                          });
+                        }),
+                    null);
+              }),
+          MenuTitle(
+              icon: Ionicons.md_settings_outline,
+              title: "Option style(selected)",
+              doTop: () {
+                Navigator.pop(context);
+                GlobalFun.showBottomSheetForTextPrperty(
+                    context,
+                    TextSettingWidget(
+                        property: optionTemp.property.buttonSelectPr,
+                        data: _itemOptionList.options!.first.title,
+                        onChange: (value) {
+                          setState(() {
+                            optionTemp.property.buttonSelectPr = value;
+                          });
+                        }),
+                    null);
+              }),
+          MenuTitle(
+              icon: Icons.copy,
+              title: "copy(not selected→selected)",
+              doTop: () {
+                optionTemp.property.buttonSelectPr =
+                    optionTemp.property.buttonPr.copy();
+                Navigator.pop(context);
+              }),
+          MenuTitle(
+              icon: Icons.copy,
+              title: "copy(selected→not selected)",
+              doTop: () {
+                optionTemp.property.buttonPr =
+                    optionTemp.property.buttonSelectPr.copy();
+                Navigator.pop(context);
+              },
+              isBottom: true),
           // GlobalFun.customListTitle(Icons.copy, "Print", () {
           //   print("titlePr");
           //   print(optionTemp.property!.titlePr.getJsonString());

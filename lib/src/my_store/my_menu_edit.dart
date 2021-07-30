@@ -6,7 +6,9 @@ import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/src/comm/widgets/Image.dart';
-import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_input_box.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_input_tag_box.dart';
+import 'package:mbook_flutter/src/my_store/MyGlobal.dart';
 
 import 'my_addition_page.dart';
 import 'my_item_options.dart';
@@ -40,6 +42,7 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
       TabInfo(title: "Base", widget: _baseInfo(context)),
       TabInfo(title: "Option", widget: _optionsInfo(context)),
       TabInfo(title: "Tag", widget: _tagInfo(context)),
+      TabInfo(title: "Service", widget: _tagInfo(context)),
       TabInfo(title: "Addition", widget: _addtionInfo(context)),
     ];
 
@@ -48,18 +51,16 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
       home: DefaultTabController(
         length: tabInfos.length,
         child: Scaffold(
-          appBar: AppBarView.appbar(title:
-            "Item info",
-            canReturn:true,
+          appBar: AppBarView.appbar(
+            title: "Item info",
+            canReturn: true,
             canSave: true,
             onSave: () {
-              GlobalFun.showSnackBar(
-                  context, null, "  Saving...");
+              GlobalFun.showSnackBar(context, null, "  Saving...");
               Api.saveMyItemInfo(context, widget._item).whenComplete(() {
                 GlobalFun.removeCurrentSnackBar(context);
               }).catchError((e) {
-                GlobalFun.showSnackBar(
-                    context, null, e.toString());
+                GlobalFun.showSnackBar(context, null, e.toString());
               });
             },
             context: context,
@@ -87,37 +88,45 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
     return Container(
         padding: EdgeInsets.all(10),
         child: ListView(children: [
-          GlobalFun.fbInputBox(
-              context:context, lableText:"商品名", value:widget._item.itemName?.toString() ?? "", serValue:(value) {
-            setState(() {
-              widget._item.itemName = value;
-            });
-          }, width: 0.9.sw),
-          GlobalFun.fbInputBox(
-              context:context, lableText:"商品価格", value:widget._item.itemPrice?.toString() ?? "",
-              serValue:(value) {
-            setState(() {
-              widget._item.itemPrice = value;
-            });
-          }, width: 0.9.sw),
-          GlobalFun.fbInputBox(
-              context:context, lableText:"商品説明", value:widget._item.itemDescr?.toString() ?? "",
-              serValue:  (value) {
-            setState(() {
-              widget._item.itemDescr = value;
-            });
-          }, width: 0.9.sw),
-          GlobalFun.fbInputBox(
-              context:context, lableText:"商品代表写真", value:widget._item.itemMainPicUrl?.toString() ?? "",
-              serValue:(value) {
-            setState(() {
-              widget._item.itemMainPicUrl = value;
-            });
-          },
+          FBInputBox(
+              lableText: "商品名",
+              value: widget._item.itemName?.toString() ?? "",
+              serValue: (value) {
+                setState(() {
+                  widget._item.itemName = value;
+                });
+              },
+              width: 0.9.sw),
+          FBInputBox(
+              lableText: "商品価格",
+              value: widget._item.itemPrice?.toString() ?? "",
+              serValue: (value) {
+                setState(() {
+                  widget._item.itemPrice = value;
+                });
+              },
+              width: 0.9.sw),
+          FBInputBox(
+              lableText: "商品説明",
+              value: widget._item.itemDescr?.toString() ?? "",
+              serValue: (value) {
+                setState(() {
+                  widget._item.itemDescr = value;
+                });
+              },
+              width: 0.9.sw),
+          FBInputBox(
+              lableText: "商品代表写真",
+              value: widget._item.itemMainPicUrl?.toString() ?? "",
+              serValue: (value) {
+                setState(() {
+                  widget._item.itemMainPicUrl = value;
+                });
+              },
               width: 0.9.sw,
-              valueWidget: Row(children: [
-                Flexible(child: new MBImage(url: widget._item.itemMainPicUrl))
-              ])),
+              valueWidget: Align(
+                  alignment: Alignment.center,
+                  child: MBImage(url: widget._item.itemMainPicUrl))),
         ]));
   }
 
@@ -145,18 +154,24 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
       padding: EdgeInsets.all(10),
       child: ListView(
         children: [
-          GlobalFun.fbInputTagBox(
-              context, "Display Tags", MyGlobal.tagInfos, widget._item.displayTags, (value) {
-            setState(() {
-              widget._item.displayTags = value;
-            });
-          }),
-          GlobalFun.fbInputTagBox(
-              context, "Function Tags", MyGlobal.tagInfos, widget._item.functionTags, (value) {
-            setState(() {
-              widget._item.functionTags = value;
-            });
-          }),
+          FBInputTagBox(
+              lableText: "Display Tags",
+              tags: MyGlobal.tagInfos,
+              selectedTags: widget._item.displayTags,
+              onSelected: (value) {
+                setState(() {
+                  widget._item.displayTags = value;
+                });
+              }),
+          FBInputTagBox(
+              lableText: "Function Tags",
+              tags: MyGlobal.tagInfos,
+              selectedTags: widget._item.functionTags,
+              onSelected: (value) {
+                setState(() {
+                  widget._item.functionTags = value;
+                });
+              }),
         ],
       ),
     );

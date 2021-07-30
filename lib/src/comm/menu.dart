@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbook_flutter/generated/l10n.dart';
 import 'package:mbook_flutter/src/comm/token/token.dart';
+import 'package:mbook_flutter/src/comm/widgets/menu_title.dart';
 import 'package:mbook_flutter/src/home/home.dart';
 import 'package:mbook_flutter/src/login/login.dart';
-import 'package:mbook_flutter/src/mystore/MyGlobal.dart';
-import 'package:mbook_flutter/src/mystore/my_store.dart';
-import 'package:mbook_flutter/src/comm/global.dart';
+import 'package:mbook_flutter/src/my_store/MyGlobal.dart';
+import 'package:mbook_flutter/src/my_store/my_store.dart';
 
 class MenuBar {
   static Drawer menu(BuildContext context, bool isLogin, bool notDispMystore, BuildContext _context, GlobalKey<ScaffoldState> _scaffoldKey, Function doReturn) {
@@ -35,13 +35,13 @@ class MenuBar {
             ),
           ),
           if (isLogin && !notDispMystore)
-            GlobalFun.customListTitle(context:context,icon:Icons.store, title:S.of(_context).menu_mystore_title,
+            MenuTitle(icon:Icons.store, title:S.of(_context).menu_mystore_title,
               doTop:   () => {gotoMyStore(_context)},isFirst:true),
           if (isLogin)
-            GlobalFun.customListTitle(context:context,icon:Icons.logout, title:S.of(_context).menu_logout_title,
-                   doTop:  () => {logout(_context)}, isBottom:true),
+            MenuTitle(icon:Icons.logout, title:S.of(_context).menu_logout_title,
+                   doTop:  () => {logout(context:_context)}, isBottom:true),
           if (!isLogin)
-            GlobalFun.customListTitle(context:context,icon:Icons.login, title:S.of(_context).menu_login_title,
+            MenuTitle(icon:Icons.login, title:S.of(_context).menu_login_title,
                 doTop: () => {login(_context, doReturn)}),
         ],
       ),
@@ -71,10 +71,13 @@ class MenuBar {
     });
   }
 
-  static logout(BuildContext _context) async {
+  static logout({required BuildContext context, bool? showLogin = false}) async {
     await TokenUtil.clearToken();
     Navigator.push(
-        _context, MaterialPageRoute(builder: (context) => HomePage()));
+        context, MaterialPageRoute(builder: (context) => HomePage()));
+    if (showLogin ?? false) {
+      login(context, (){});
+    }
     //Navigator.pushNamed(_context, G.ROUTES_HOME);
   }
 

@@ -5,7 +5,8 @@ import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ShopInfo.dart';
 import 'package:mbook_flutter/src/comm/widgets/Image.dart';
-import 'package:mbook_flutter/src/mystore/my_addition_page.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_input_box.dart';
+import 'package:mbook_flutter/src/my_store/my_addition_page.dart';
 
 class MyStoreInfoPage extends StatefulWidget {
   final ShopInfo? _shopInfo;
@@ -16,9 +17,6 @@ class MyStoreInfoPage extends StatefulWidget {
 }
 
 class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
-  // 响应空白处的焦点的Node
-  final GlobalKey<ScaffoldState> _baseInfoscaffoldKey =
-      new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -84,8 +82,7 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
         padding: EdgeInsets.all(10),
        // color: Color(0xFFEFEFF4),
         child: ListView(children: [
-          GlobalFun.fbInputBox(
-            context:context,
+          FBInputBox(
             lableText:"Store name",
             value:widget._shopInfo?.shopName,
             serValue:(value) {
@@ -94,8 +91,7 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
               });
             },
           ),
-          GlobalFun.fbInputBox(
-            context:context,
+          FBInputBox(
             lableText:"Tel",
             value:widget._shopInfo?.shopTel,
             serValue:(value) {
@@ -104,8 +100,7 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
               });
             },
           ),
-          GlobalFun.fbInputBox(
-            context:context,
+          FBInputBox(
             lableText:"Locate",
             value:widget._shopInfo?.shopAddr,
             serValue: (value) {
@@ -114,9 +109,8 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
               });
             },
           ),
-          GlobalFun.fbInputBox(
-            context:context,
-            lableText:"Currency symbol",
+          FBInputBox(
+            lableText:"Currency symbol(Front)",
             value:widget._shopInfo?.preCurrencyUnit,
             serValue:  (value) {
               setState(() {
@@ -124,7 +118,16 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
               });
             },
           ),
-          GlobalFun.fbInputBox(context:context, lableText:"Image", value:widget._shopInfo?.shopPicUrl,
+          FBInputBox(
+            lableText:"Currency symbol(Rear)",
+            value:widget._shopInfo?.tailCurrencyUnit,
+            serValue:  (value) {
+              setState(() {
+                widget._shopInfo?.tailCurrencyUnit = value;
+              });
+            },
+          ),
+          FBInputBox( lableText:"Image", value:widget._shopInfo?.shopPicUrl,
               serValue: (value) {
             setState(() {
               widget._shopInfo?.shopPicUrl = value;
