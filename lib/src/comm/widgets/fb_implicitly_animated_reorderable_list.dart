@@ -3,6 +3,9 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 import 'package:implicitly_animated_reorderable_list/transitions.dart';
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_footer.dart';
+
 typedef ActionFunction = void Function(int index);
 enum ActionsKind { delete, copy, paste }
 
@@ -11,12 +14,6 @@ class ActionsParam {
   ActionFunction? actFuction;
 
   ActionsParam({required this.kind, this.actFuction});
-}
-
-class FooterParam {
-  Text? title;
-  Icon? icon;
-  GestureTapCallback? onTap;
 }
 
 // typedef ReorderFinishedFunction<T extends Object> = void Function();
@@ -60,7 +57,8 @@ class _FBReorderableListState<T extends Object>
         child: ImplicitlyAnimatedReorderableList<T>(
           items: widget.items as List<T>,
           onReorderFinished: (item, rom, to, newItems) {
-              if (widget.onReorderFinished != null) widget.onReorderFinished!(item, rom, to, newItems);
+            if (widget.onReorderFinished != null)
+              widget.onReorderFinished!(item, rom, to, newItems);
           },
           areItemsTheSame: (oldItem, newItem) {
             return oldItem == newItem;
@@ -82,7 +80,7 @@ class _FBReorderableListState<T extends Object>
           },
           footer: widget.footerParam == null
               ? null
-              : buildFooter(context, widget.footerParam!),
+              : Footer(footerParam: widget.footerParam!),
         ),
       ),
     );
@@ -116,30 +114,30 @@ class _FBReorderableListState<T extends Object>
     return result.length == 0 ? null : result;
   }
 
-  Widget buildFooter(BuildContext context, FooterParam footerParam) {
-    return GestureDetector(
-        onTap: footerParam.onTap,
-        child: Card(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ListTile(
-                leading: footerParam.icon == null
-                    ? null
-                    : SizedBox(
-                        height: 36,
-                        width: 36,
-                        child: Center(
-                          child: footerParam.icon,
-                        ),
-                      ),
-                title: footerParam.title,
-              ),
-              const Divider(height: 0),
-            ],
-          ),
-        ));
-  }
+  // Widget buildFooter(BuildContext context, FooterParam footerParam) {
+  //   return GestureDetector(
+  //       onTap: footerParam.onTap,
+  //       child: Card(
+  //         child: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: <Widget>[
+  //             ListTile(
+  //               leading: footerParam.icon == null
+  //                   ? null
+  //                   : SizedBox(
+  //                       height: 36,
+  //                       width: 36,
+  //                       child: Center(
+  //                         child: footerParam.icon,
+  //                       ),
+  //                     ),
+  //               title: footerParam.title,
+  //             ),
+  //             const Divider(height: 0),
+  //           ],
+  //         ),
+  //       ));
+  // }
 
   static Widget getSlideActionDelete(
       BuildContext context, ActionFunction? onTap, int i) {
@@ -249,10 +247,13 @@ class _FBReorderableListState<T extends Object>
             child: title,
           ),
           if (_displayHandle == true)
-            Handle(
-              delay: const Duration(milliseconds: 100),
-              child: Icon(
-                Icons.list,
+            Positioned(
+              left: 1.sw - 25,
+              child: Handle(
+                delay: const Duration(milliseconds: 100),
+                child: Icon(
+                  Icons.list,
+                ),
               ),
             ),
         ],

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mbook_flutter/src/comm/api/api.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
+import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
+import 'package:mbook_flutter/src/comm/model/ItemDetailResultList.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_footer.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_implicitly_animated_reorderable_list.dart';
-import 'package:mbook_flutter/src/comm/widgets/fb_list_tile.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_table.dart';
 import 'my_menu_edit.dart';
 
 // ignore: must_be_immutable
@@ -35,6 +39,7 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
       key: _scaffoldKey,
       appBar: AppBarView.appbar(
           title: "Item List",
+          //titleIcon: Icons.menu,
           canReturn: true,
           canBesearch: true,
           context: context,
@@ -75,20 +80,33 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
         },
         child: FBReorderableList<ItemDetail>(
           items: _itemList,
+          needHandle: true,
           body: (ItemDetail item, int i) {
-            item.no = "$i";
-            return Container(
-                child: FBListTile.itemStyle(
-              context: context,
-              item: item,
-              doTop: (int? index) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MyMenuEditPage(item)));
-              },
-            ));
-
+            return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MyMenuEditPage(item)));
+                },
+                child: Container(
+                    padding:
+                        EdgeInsets.only(left: 5, right: 5, top: 2, bottom: 5),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                    child: FB3RowTable.itemTitle(
+                        context: context, itemDetail: item)));
+            //     FBListTile.itemStyle(
+            //   context: context,
+            //   item: item,
+            //   doTop: (int? index) {
+            //     Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) => MyMenuEditPage(item)));
+            //   },
+            // ));
           },
           actions: [
             ActionsParam(
@@ -100,6 +118,56 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
                   });
                 })
           ],
+          onReorderFinished: (item, rom, to, newItems) {
+            final ItemDetail item = _itemList.removeAt(rom!);
+            _itemList.insert(to, item);
+
+            GlobalFun.showSnackBar(context, null, "  Saving...");
+            Api.saveMyItemInfos(
+                        context, ItemDetailResultList(itemDetailLst: _itemList))
+                    .whenComplete(() {
+              GlobalFun.removeCurrentSnackBar(context);
+              // widget.tagInfos.clear();
+              //widget.tagInfos.addAll(_itemList);
+            })
+                //     .catchError((e) {
+                //   print(e.toString());
+                //   GlobalFun.showSnackBar(context, _scaffoldKey, e, e.toString());
+                // })
+                ;
+          },
+          footerParam: FooterParam()
+            ..title = Text("Add a item",
+                style: TextStyle(color: Theme.of(context).primaryColor))
+            ..icon = Icon(Icons.add, color: Theme.of(context).primaryColor)
+            ..onTap = () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MyMenuEditPage(ItemDetail.newItem())),
+              ).then(
+                (value) {
+                  GlobalFun.showSnackBar(context, null, "  Loading...");
+                  Api.getMyShopItemInfo(context).then(
+                    (result) {
+                      GlobalFun.removeCurrentSnackBar(context);
+                      setState(
+                        () {
+                          widget._allItemList = result[1];
+                          _itemList.clear();
+                          if (widget._allItemList != null)
+                            _itemList.addAll(widget._allItemList!);
+                        },
+                      );
+                    },
+                  ).catchError(
+                    (e) {
+                      GlobalFun.showSnackBar(context, e, e.toString());
+                    },
+                  );
+                },
+              );
+            },
         ),
         // FBListViewWidget<ItemDetail>(
         //
@@ -179,4 +247,6 @@ class _MyMenuInfoState extends State<MyMenuInfoPage> {
       ),
     );
   }
+
+  void openEditePage() {}
 }

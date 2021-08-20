@@ -3,12 +3,14 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mbook_flutter/src/comm/extension/extension.dart';
+import 'package:mbook_flutter/src/comm/extension/extension_text_align.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/tools/wh_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 part 'TextWidgetProperty.g.dart';
+
+const String unitPX = "px";
 
 @JsonSerializable()
 @CustomColorConverter()
@@ -27,8 +29,12 @@ class TextWidgetProperty {
 
   String textTextAlign = TextAlign.left.toShortString();
 
-  double borderWidth = 0;
+  double? borderWidth = 0;
   Color borderColor = const Color(0xFF000000);
+
+  // Color borderColorTop = const Color(0xFF000000);
+  // Color borderColorRight = const Color(0xFF000000);
+  // Color borderColorBottom = const Color(0xFF000000);
   double borderRadiusTopLeft = 0;
   double borderRadiusTopRight = 0;
   double borderRadiusBottomLeft = 0;
@@ -40,12 +46,18 @@ class TextWidgetProperty {
   double shadowBlurRadius = 0.0;
   double shadowSpreadRadius = 0.0;
 
-  double minWidth = 0;
-  String minWidthUnit = "px";
+  double? width;
+  WHOption? widthUnit = WHOption.px;
+  double? height;
+  WHOption? heightUnit = WHOption.px;
+  double? minWidth = 0;
+  WHOption? minWidthUnit = WHOption.px;
   double minHeight = 0;
-  String minHeightUnit = "px";
-  double maxWidth = 0;
-  double maxHeight = 0;
+  WHOption? minHeightUnit = WHOption.px;
+  WHOption? maxHeightUnit = WHOption.px;
+  double? maxWidth = 0;
+  WHOption? maxWidthUnit = WHOption.px;
+  double? maxHeight = 0;
 
   double marginLeft = 0;
   double marginTop = 0;
@@ -87,9 +99,9 @@ class TextWidgetProperty {
       this.shadowBlurRadius = 0.0,
       this.shadowSpreadRadius = 0.0,
       this.minWidth = 0,
-      this.minWidthUnit = "px",
+      this.minWidthUnit = WHOption.px,
       this.minHeight = 0,
-      this.minHeightUnit = "px",
+      this.minHeightUnit = WHOption.px,
       this.maxWidth = 0,
       this.maxHeight = 0,
       this.alignment = "-",
@@ -101,30 +113,79 @@ class TextWidgetProperty {
       this.backImg = "",
       this.spacingHWidth = 0,
       this.spacingVWidth = 0,
-      this.spacingColor = Colors.transparent});
+      this.spacingColor = Colors.transparent,
+      this.width,
+      this.widthUnit = WHOption.px,
+      this.height});
 
   String getJsonString() {
     return jsonEncode(this.toJson());
   }
 
   double? getRealMinWidth() {
-    return this.minWidth <= 0
+    return minWidth == null
         ? null
-        : enumFromString(WHOptin.values, this.minWidthUnit) == WHOptin.px
-            ? this.minWidth
-            : enumFromString(WHOptin.values, this.minWidthUnit) == WHOptin.sw
-                ? this.minWidth * 0.01 * 1.sw
-                : this.minWidth * 0.01 * 1.sh;
+        : (this.minWidth! <= 0
+            ? 0
+            : this.minWidthUnit == WHOption.px
+                ? this.minWidth
+                : this.minWidthUnit == WHOption.sw
+                    ? this.minWidth! * 0.01 * 1.sw
+                    : this.minWidth! * 0.01 * 1.sh);
   }
 
-  double? getRealMinHeight() {
-    return this.minHeight <= 0
+  double? getRealWidth() {
+    return this.width == null || this.width! <= 0
         ? null
-        : enumFromString(WHOptin.values, this.minHeightUnit) == WHOptin.px
+        : this.widthUnit == WHOption.px
+            ? this.width
+            : this.widthUnit == WHOption.sw
+                ? this.width! * 0.01 * 1.sw
+                : this.width! * 0.01 * 1.sh;
+  }
+
+  double? getRealHeight() {
+    return this.height == null || this.height! <= 0
+        ? null
+        : this.heightUnit == WHOption.px
+            ? this.height
+            : this.heightUnit == WHOption.sw
+                ? this.height! * 0.01 * 1.sw
+                : this.height! * 0.01 * 1.sh;
+  }
+
+  double getRealMinHeight() {
+    return this.minHeight <= 0
+        ? 0
+        : this.minHeightUnit == WHOption.px
             ? this.minHeight
-            : enumFromString(WHOptin.values, this.minHeightUnit) == WHOptin.sw
+            : this.minHeightUnit == WHOption.sw
                 ? this.minHeight * 0.01 * 1.sw
                 : this.minHeight * 0.01 * 1.sh;
+  }
+
+  double? getRealMaxWidth() {
+    return maxWidth == null
+        ? null
+        : (this.maxWidth! <= 0
+            ? double.infinity
+            : this.maxHeightUnit == WHOption.px
+                ? this.maxWidth
+                : this.maxHeightUnit == WHOption.sw
+                    ? this.maxWidth! * 0.01 * 1.sw
+                    : this.maxWidth! * 0.01 * 1.sh);
+  }
+
+  double? getRealMaxHeight() {
+    return this.maxHeight == null
+        ? null
+        : (this.maxHeight! <= 0
+            ? double.infinity
+            : this.maxHeightUnit == WHOption.px
+                ? this.maxHeight
+                : this.maxHeightUnit == WHOption.sw
+                    ? this.maxHeight! * 0.01 * 1.sw
+                    : this.maxHeight! * 0.01 * 1.sh);
   }
 
   factory TextWidgetProperty.fromJson(Map<String, dynamic> json) =>

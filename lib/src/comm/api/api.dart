@@ -7,6 +7,7 @@ import 'package:mbook_flutter/src/comm/device/device.dart';
 import 'package:mbook_flutter/src/comm/exceptions/NoResourceException.dart';
 import 'package:mbook_flutter/src/comm/menu.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
+import 'package:mbook_flutter/src/comm/model/ItemDetailResultList.dart';
 import 'package:mbook_flutter/src/comm/model/LoginResult.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTemp.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTempResultList.dart';
@@ -21,7 +22,7 @@ import 'package:mbook_flutter/src/comm/token/token.dart';
 
 class Api {
   static const int OK = 200;
-  static const String _BASE_API_URL = "https://ec0dc8d9cfb3.ngrok.io";
+  static const String _BASE_API_URL = "https://07320a9d6e69.ngrok.io";
   static const String _LOGIN_URL = _BASE_API_URL + "/v1/api/member/login";
   static const String _SIGNUP_MAIL_CNF_URL = _BASE_API_URL + "/v1/api/sigup/sigupMailCnf";
   static const String _SIGNUP_MAIL_CODE_CNF_URL = _BASE_API_URL + "/v1/api/sigup/sigupCodeCnf";
@@ -43,6 +44,9 @@ class Api {
       _BASE_API_URL + "/v1/api/manag/shopItemInfoRow";
   static const String _MY_DELETE_ITEM_URL =
       _BASE_API_URL + "/v1/api/manag/deleteShopItemRow";
+  static const String _MY_SAVE_ITEMS_URL =
+      _BASE_API_URL + "/v1/api/manag/save_shopItemInfo";
+
 
   static const String _MY_GET_TAG_URL = _BASE_API_URL +  "/v1/api/manag/get_tags";
   static const String _MY_SAVE_TAG_URL = _BASE_API_URL +  "/v1/api/manag/save_tags";
@@ -239,6 +243,15 @@ class Api {
   static Future<void> saveMyItemInfo(BuildContext _context, ItemDetail _itemDetail) async{
     List<dynamic>? result = await doPostNeedLoginApi(
         _context, _MY_SAVE_ITEM_BASE_INFO_URL, _itemDetail.getJsonString());
+    if (result![0] == 200) {
+      return;
+    }
+    throw Exception('${result[0]}${result[1]}');
+  }
+
+  static Future<void> saveMyItemInfos(BuildContext _context, ItemDetailResultList _itemDetails) async{
+    List<dynamic>? result = await doPostNeedLoginApi(
+        _context, _MY_SAVE_ITEMS_URL, _itemDetails.getJsonString());
     if (result![0] == 200) {
       return;
     }

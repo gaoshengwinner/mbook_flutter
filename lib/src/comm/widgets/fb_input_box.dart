@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_title.dart';
 
+import '../consts.dart';
+
 class FBInputBox extends StatelessWidget {
   final String? lableText;
   final String? value;
@@ -11,6 +13,7 @@ class FBInputBox extends StatelessWidget {
   final double? width;
   final Axis? axis;
   final String? hintTextValue;
+  final bool? dontDispEidt;
 
   FBInputBox(
       {this.lableText,
@@ -19,7 +22,7 @@ class FBInputBox extends StatelessWidget {
       this.valueWidget,
       this.width,
       this.axis,
-      this.hintTextValue});
+      this.hintTextValue, this.dontDispEidt});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +65,7 @@ class FBInputBox extends StatelessWidget {
                                 style: Theme.of(context).textTheme.bodyText2)
                         //)
                         : valueWidget),
-                if (valueWidget != null)
+                if (valueWidget != null && G.ifNull(dontDispEidt, false))
                   Align(
                     alignment: Alignment.centerRight,
                     child: IconButton(

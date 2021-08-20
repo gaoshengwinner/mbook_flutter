@@ -11,8 +11,8 @@ const Color groupSubtitle = Color(0xFF777777);
 
 class SettingsGroup extends StatelessWidget {
   const SettingsGroup(
-    this.items,
-    {
+      {required this.items,
+
        this.header,
       this.footer,
     }

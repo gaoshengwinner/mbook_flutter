@@ -13,7 +13,9 @@ ShopInfo _$ShopInfoFromJson(Map<String, dynamic> json) {
     shopTel: json['shopTel'] as String?,
     shopPicUrl: json['shopPicUrl'] as String?,
     additionInfo: json['additionInfo'] as String?,
-  );
+  )
+    ..preCurrencyUnit = json['preCurrencyUnit'] as String?
+    ..tailCurrencyUnit = json['tailCurrencyUnit'] as String?;
 }
 
 Map<String, dynamic> _$ShopInfoToJson(ShopInfo instance) => <String, dynamic>{
@@ -22,4 +24,6 @@ Map<String, dynamic> _$ShopInfoToJson(ShopInfo instance) => <String, dynamic>{
       'shopTel': instance.shopTel,
       'shopPicUrl': instance.shopPicUrl,
       'additionInfo': instance.additionInfo,
+      'preCurrencyUnit': instance.preCurrencyUnit,
+      'tailCurrencyUnit': instance.tailCurrencyUnit,
     };

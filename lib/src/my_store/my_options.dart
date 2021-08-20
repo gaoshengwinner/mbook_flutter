@@ -11,6 +11,7 @@ import 'package:mbook_flutter/src/comm/model/OptionTemp.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTempResultList.dart';
 import 'package:mbook_flutter/src/comm/tools/text_setting.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_option.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_footer.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_implicitly_animated_reorderable_list.dart';
 import 'package:collection/collection.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_input_box.dart';
@@ -44,16 +45,16 @@ class _MyOptionsPageState extends State<MyOptionsPage> {
     super.initState();
     scrollController = ScrollController();
   }
-
-  void onReorderFinished(List<OptionTemp> newItems) {
-    scrollController.jumpTo(scrollController.offset);
-    setState(() {
-      inReorder = false;
-      _optionTemps
-        ..clear()
-        ..addAll(newItems);
-    });
-  }
+  //
+  // void onReorderFinished(List<OptionTemp> newItems) {
+  //   scrollController.jumpTo(scrollController.offset);
+  //   setState(() {
+  //     inReorder = false;
+  //     _optionTemps
+  //       ..clear()
+  //       ..addAll(newItems);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

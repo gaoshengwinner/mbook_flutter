@@ -46,4 +46,7 @@ class G{
     return value == null ? nullValue : value;
   }
 
+  static E ifNullElse<T, E>(T? value,  E nullValue, E unNullValue){
+    return value == null ? nullValue : unNullValue;
+  }
 }

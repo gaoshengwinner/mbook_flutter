@@ -38,7 +38,7 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
       TabInfo(title: "Base info", widget: _baseInfo(context)),
       TabInfo(title: "Item options", widget: _optionsInfo(context)),
       TabInfo(title: "Item tags", widget: _tagInfo(context)),
-      TabInfo(title: "Item services", widget: _tagInfo(context)),
+      TabInfo(title: "Item services", widget: _optionsInfo(context)),
       TabInfo(title: "Addition info", widget: _addtionInfo(context)),
     ];
 
@@ -91,6 +91,15 @@ class _MyMenuEditState extends State<MyMenuEditPage> {
               serValue: (value) {
                 setState(() {
                   widget._item.itemName = value;
+                });
+              },
+              width: 0.9.sw),
+          FBInputBox(
+              lableText: "商品番号",
+              value: widget._item.itemNo?.toString() ?? "",
+              serValue: (value) {
+                setState(() {
+                  widget._item.itemNo = value;
                 });
               },
               width: 0.9.sw),

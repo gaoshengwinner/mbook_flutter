@@ -9,6 +9,7 @@ import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
 import 'package:mbook_flutter/src/comm/model/TagResultList.dart';
 import 'package:mbook_flutter/src/comm/tools/text_setting.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_text.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_footer.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_implicitly_animated_reorderable_list.dart';
 import 'package:collection/collection.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_input_box.dart';
@@ -46,16 +47,16 @@ class _MyTagsPageState extends State<MyTagsPage>
     }
     scrollController = ScrollController();
   }
-
-  void onReorderFinished(List<TagInfo> newItems) {
-    scrollController.jumpTo(scrollController.offset);
-    setState(() {
-      inReorder = false;
-      _tagInfos
-        ..clear()
-        ..addAll(newItems);
-    });
-  }
+  //
+  // void onReorderFinished(List<TagInfo> newItems) {
+  //   scrollController.jumpTo(scrollController.offset);
+  //   setState(() {
+  //     inReorder = false;
+  //     _tagInfos
+  //       ..clear()
+  //       ..addAll(newItems);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

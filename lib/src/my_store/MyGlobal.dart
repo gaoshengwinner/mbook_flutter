@@ -4,6 +4,7 @@ import 'package:mbook_flutter/src/comm/api/api.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ItemDetail.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTemp.dart';
+import 'package:mbook_flutter/src/comm/model/ServicesTemp.dart';
 import 'package:mbook_flutter/src/comm/model/ShopInfo.dart';
 import 'package:mbook_flutter/src/comm/model/TagInfo.dart';
 
@@ -11,6 +12,7 @@ class MyGlobal {
   static List<TagInfo>? tagInfos = [];
   static List<OptionTemp>? optionTempInfos = [];
   static List<ItemDetail>? itemDetails = [];
+  static List<ServicesTemp>? baseTemps = [];
   static ShopInfo? shopInfo = ShopInfo(shopTel: '', shopPicUrl: '', shopAddr: '', shopName: '', );
 
   static OptionTemp? getOptionTempById(int? id){

@@ -17,7 +17,6 @@ class MyStoreInfoPage extends StatefulWidget {
 }
 
 class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
-
   @override
   void initState() {
     super.initState();
@@ -27,7 +26,6 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
             ScrollDirection.forward);
       });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -41,18 +39,16 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
         length: tabInfos.length,
         child: Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          appBar: AppBarView.appbar(title:
-            "Store info",
-            canReturn:true,
+          appBar: AppBarView.appbar(
+            title: "Store info",
+            canReturn: true,
             canSave: true,
             onSave: () {
-              GlobalFun.showSnackBar(
-                  context, null, "  Saving...");
+              GlobalFun.showSnackBar(context, null, "  Saving...");
               Api.saveMyShopInfo(context, widget._shopInfo!).whenComplete(() {
                 GlobalFun.removeCurrentSnackBar(context);
               }).catchError((e) {
-                GlobalFun.showSnackBar(
-                    context, null, e.toString());
+                GlobalFun.showSnackBar(context, null, e.toString());
               });
             },
             context: context,
@@ -81,29 +77,29 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
   Widget _baseInfo(BuildContext context) {
     return Container(
         padding: EdgeInsets.all(10),
-       // color: Color(0xFFEFEFF4),
+        // color: Color(0xFFEFEFF4),
         child: ListView(children: [
           FBInputBox(
-            lableText:"Store name",
-            value:widget._shopInfo?.shopName,
-            serValue:(value) {
+            lableText: "Store name",
+            value: widget._shopInfo?.shopName,
+            serValue: (value) {
               setState(() {
                 widget._shopInfo?.shopName = value;
               });
             },
           ),
           FBInputBox(
-            lableText:"Tel",
-            value:widget._shopInfo?.shopTel,
-            serValue:(value) {
+            lableText: "Tel",
+            value: widget._shopInfo?.shopTel,
+            serValue: (value) {
               setState(() {
                 widget._shopInfo?.shopTel = value;
               });
             },
           ),
           FBInputBox(
-            lableText:"Locate",
-            value:widget._shopInfo?.shopAddr,
+            lableText: "Locate",
+            value: widget._shopInfo?.shopAddr,
             serValue: (value) {
               setState(() {
                 widget._shopInfo?.shopAddr = value;
@@ -111,29 +107,31 @@ class _MyStoreInfoPageState extends State<MyStoreInfoPage> {
             },
           ),
           FBInputBox(
-            lableText:"Currency symbol(Front)",
-            value:widget._shopInfo?.preCurrencyUnit,
-            serValue:  (value) {
+            lableText: "Currency symbol(Front)",
+            value: widget._shopInfo?.preCurrencyUnit,
+            serValue: (value) {
               setState(() {
                 widget._shopInfo?.preCurrencyUnit = value;
               });
             },
           ),
           FBInputBox(
-            lableText:"Currency symbol(Rear)",
-            value:widget._shopInfo?.tailCurrencyUnit,
-            serValue:  (value) {
+            lableText: "Currency symbol(Rear)",
+            value: widget._shopInfo?.tailCurrencyUnit,
+            serValue: (value) {
               setState(() {
                 widget._shopInfo?.tailCurrencyUnit = value;
               });
             },
           ),
-          FBInputBox( lableText:"Image", value:widget._shopInfo?.shopPicUrl,
+          FBInputBox(
+              lableText: "Image",
+              value: widget._shopInfo?.shopPicUrl,
               serValue: (value) {
-            setState(() {
-              widget._shopInfo?.shopPicUrl = value;
-            });
-          },
+                setState(() {
+                  widget._shopInfo?.shopPicUrl = value;
+                });
+              },
               valueWidget: Row(children: [
                 Flexible(child: new MBImage(url: widget._shopInfo?.shopPicUrl))
               ])),

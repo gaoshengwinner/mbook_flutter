@@ -21,13 +21,16 @@ ItemDetail _$ItemDetailFromJson(Map<String, dynamic> json) {
         ?.map((e) => TagInfo.fromJson(e as Map<String, dynamic>))
         .toList(),
     additionInfo: json['additionInfo'] as String?,
-  )..shopId = json['shopId'] as int?;
+  )
+    ..shopId = json['shopId'] as int?
+    ..itemNo = json['itemNo'] as String?;
 }
 
 Map<String, dynamic> _$ItemDetailToJson(ItemDetail instance) =>
     <String, dynamic>{
       'id': instance.id,
       'shopId': instance.shopId,
+      'itemNo': instance.itemNo,
       'itemPrice': instance.itemPrice,
       'itemName': instance.itemName,
       'itemDescr': instance.itemDescr,

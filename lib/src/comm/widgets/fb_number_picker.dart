@@ -10,7 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FBNumberPicker<T extends num> extends StatefulWidget {
   final String? title;
-  final T initialValue;
+  final T? initialValue;
   final T maxValue;
   final T minValue;
   final T step;
@@ -73,6 +73,8 @@ class _FBNumberPickerState<T extends num> extends State<FBNumberPicker> {
                               widget.minValue <= exValue &&
                               exValue <= widget.maxValue) {
                             widget.onValue(exValue);
+                          } else if (exValue == null) {
+                            widget.onValue(null);
                           }
                           //onChange(value);
                         });
@@ -114,7 +116,7 @@ class CustomNumberPicker extends StatefulWidget {
       this.shape,
       this.valueTextStyle,
       required this.onValue,
-      required this.initialValue,
+      this.initialValue,
       required this.maxValue,
       required this.minValue,
       this.step = 1,
@@ -122,7 +124,8 @@ class CustomNumberPicker extends StatefulWidget {
       this.customMinusButton,
       this.enable = true,
       this.bodyTap})
-      : assert(initialValue != null),
+      :
+        assert(initialValue != null),
         assert(initialValue.runtimeType != String),
         assert(maxValue.runtimeType == initialValue.runtimeType),
         assert(minValue.runtimeType == initialValue.runtimeType),

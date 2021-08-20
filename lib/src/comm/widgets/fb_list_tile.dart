@@ -59,8 +59,8 @@ class FBListTile extends StatelessWidget {
       ..leftFlex = 10
       ..midFlex = 70
       ..rightFlex = 20
-      ..leftWidget = (G.isNotNullOrEmpty(item.no)
-          ? AutoSizeText("No.${item.no}",
+      ..leftWidget = (G.isNotNullOrEmpty(item.itemNo)
+          ? AutoSizeText("No.${item.itemNo}",
               maxLines: 1, style: Theme.of(context).textTheme.bodyText1)
           : null)
       ..rightAlignment = Alignment.centerRight
@@ -94,17 +94,24 @@ class FBListTile extends StatelessWidget {
       ..midDoTop = doTop
       ..rightDoTop = doTop;
 
+    EdgeInsetsGeometry? padding = EdgeInsets.only(top: 0, bottom: 5, left: 2);
     return FBListTile(
-      headerInfo: headerInfo,
-      bodyInfo: bodyInfo,
-      doTop: doTop,
-    );
+        headerInfo: headerInfo,
+        bodyInfo: bodyInfo,
+        doTop: doTop,
+        padding: padding);
 
     // CrossAxisAlignment? crossAxisAlignment;
     // MainAxisAlignment? mainAxisAlignment;
   }
 
-  FBListTile({this.headerInfo, this.bodyInfo, this.bottomInfo, this.doTop, this.padding, this.index});
+  FBListTile(
+      {this.headerInfo,
+      this.bodyInfo,
+      this.bottomInfo,
+      this.doTop,
+      this.padding,
+      this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -113,8 +120,9 @@ class FBListTile extends StatelessWidget {
         if (doTop != null) doTop!(index);
       },
       child: Container(
+
           width: double.maxFinite,
-          // height: 100,
+          height: 100,
           // alignment: Alignment.topLeft,
           padding: padding,
           color: Colors.white,

@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
-import 'package:mbook_flutter/src/comm/extension/extension.dart';
+import 'package:mbook_flutter/src/comm/extension/extension_text_align.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 
-class WidgetBasePage {
-  static Widget build(
-      BuildContext context, TextWidgetProperty property, {Widget? child}) {
+class WidgetBaseWidget extends StatelessWidget {
+  final TextWidgetProperty property;
+  final Widget? child;
+
+  WidgetBaseWidget({required this.property, this.child});
+
+  Widget build(BuildContext context) {
+    // BuildContext context, TextWidgetProperty property, {Widget? child}) {
     return Container(
       alignment: FBAlignment.map()[property.backalignment],
-      color: property.backColor,
-      width: property.getRealMinWidth(),
-      height: property.getRealMinHeight(),
+      width: property.getRealWidth(),
+      height: property.getRealHeight(),
       child: Container(
         margin: EdgeInsets.only(
             left: property.marginLeft,
             right: property.marginRight,
             top: property.marginTop,
             bottom: property.marginBottom),
-        width: property.getRealMinWidth(),
-        height: property.getRealMinHeight(),
+        width: property.getRealWidth(),
+        height: property.getRealHeight(),
         //property.minHeight,
         alignment: FBAlignment.map()[property.alignment],
         padding: EdgeInsets.only(
@@ -29,10 +33,10 @@ class WidgetBasePage {
         //margin: EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: property.backColor,
-          border: property.borderWidth < 1
+          border: property.borderWidth == null || property.borderWidth == 0
               ? null
               : Border.all(
-                  color: property.borderColor, width: property.borderWidth),
+              color: property.borderColor, width: property.borderWidth!),
           boxShadow: [
             BoxShadow(
                 color:
@@ -51,13 +55,12 @@ class WidgetBasePage {
           // image: DecorationImage(
           //     image: NetworkImage("http://pic.qianye88.com/4kmeinv2989f765-5bdd-3cee-8482-574732cc2af2.jpg"), fit: BoxFit.fitWidth),
         ),
-        // constraints: BoxConstraints(
-        //   minHeight: property.minHeight,
-        //   minWidth: property.minWidth,
-        //   maxWidth: property.maxWidth < 10 ? double.infinity : property.maxWidth,
-        //   maxHeight:
-        //       property.maxHeight < 10 ? double.infinity : property.maxHeight,
-        // ),
+        constraints: BoxConstraints(
+          minHeight: property.getRealMinHeight(),
+          minWidth: property.getRealMinWidth() ?? 0.0,
+          maxWidth: property.getRealMaxWidth() ?? double.infinity,
+          maxHeight: property.getRealMaxHeight() ?? double.infinity,
+        ),
         child: child,
       ),
     );
@@ -96,18 +99,21 @@ class WidgetTextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     TextWidgetProperty _property = G.ifNull(property, new TextWidgetProperty());
     String _data = G.ifNull(data, "");
-    return WidgetBasePage.build(context, _property, child: Text(
-      _data,
-      softWrap: true,
-      textAlign: FBTextAlign.getByString(_property.textTextAlign),
-      style: TextStyle(
-        color: _property.textColor,
-        fontSize: _property.fontSize,
-        fontWeight: WidgetBasePage.getFontWeightByInt(_property.fontWeight),
-        fontStyle: _property.italic ? FontStyle.italic : null,
-        letterSpacing: _property.letterSpacing,
-      ),
-    ));
+    return WidgetBaseWidget(
+        property: _property,
+        child: Text(
+          _data,
+          softWrap: true,
+          textAlign: FBTextAlign.getByString(_property.textTextAlign),
+          style: TextStyle(
+            color: _property.textColor,
+            fontSize: _property.fontSize,
+            fontWeight:
+                WidgetBaseWidget.getFontWeightByInt(_property.fontWeight),
+            fontStyle: _property.italic ? FontStyle.italic : null,
+            letterSpacing: _property.letterSpacing,
+          ),
+        ));
   }
 }
 
@@ -121,6 +127,6 @@ class WidgetContainerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     TextWidgetProperty _property = G.ifNull(property, new TextWidgetProperty());
     Widget _widget = G.ifNull(child, Text(""));
-    return WidgetBasePage.build(context, _property, child: _widget);
+    return WidgetBaseWidget(property: _property, child: _widget);
   }
 }

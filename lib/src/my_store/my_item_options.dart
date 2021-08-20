@@ -9,6 +9,7 @@ import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/model/OptionGroupInfo.dart';
 import 'package:mbook_flutter/src/comm/model/OptionTemp.dart';
 import 'package:mbook_flutter/src/comm/tools/widget_option.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_footer.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_input_box.dart';
 import 'package:mbook_flutter/src/my_store/MyGlobal.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';

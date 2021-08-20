@@ -1,13 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/input_bottom.dart';
+import 'package:mbook_flutter/src/comm/widgets/fb_alert_dialog.dart';
 import 'package:mbook_flutter/src/comm/widgets/pop_route.dart';
 
 typedef ReturnConfirmFunction = bool Function();
 
+class PageTitleWeidgt extends StatelessWidget {
+  final String? title;
+  final IconData? icon;
+
+  PageTitleWeidgt({this.title, this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      //alignment: Alignment.center,
+      //width: 0.5.sw,
+      //color: Colors.red,
+      child: //Icon(icon),
+          Align(
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [if (icon != null) Icon(icon), Text(G.ifNull(title, ""))],
+        ),
+      ),
+    );
+  }
+}
+
 class AppBarView {
   static AppBar appbar(
       {String? title,
+      IconData? titleIcon,
       required bool canReturn,
       ReturnConfirmFunction? whenReturnNeedConfirm,
       bool canBesearch = false,
@@ -70,7 +97,10 @@ class AppBarView {
               height: 50,
               //width: 0.4.sw,
             )
-          : Text(title),
+          : PageTitleWeidgt(
+              title: title,
+              icon: titleIcon,
+            ),
       actions: [
         if (canBesearch)
           IconButton(
@@ -100,30 +130,11 @@ class AppBarView {
                     context: context,
                     barrierDismissible: true,
                     builder: (BuildContext context) {
-                      return AlertDialog(
-                        content: Text('Do you want to save changes?'),
-                        title: Center(
-                            child: Text(
-                          'Confirm saving',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold),
-                        )),
-                        actions: <Widget>[
-                          TextButton(
-                              onPressed: () {
-                                onSave();
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Save')),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text("Don't save")),
-                        ],
-                      );
+                      return
+                        FBAlertDialog(
+                          onSave:onSave,
+                          contentTitle:"Do you want to save changes?",
+                          title:"Confirm saving",);
                     });
                 //
 

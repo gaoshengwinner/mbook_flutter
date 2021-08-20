@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
-import 'package:mbook_flutter/src/comm/extension/extension.dart';
+import 'package:mbook_flutter/src/comm/extension/extension_text_align.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 import 'package:mbook_flutter/src/comm/tools/wh_picker.dart';
@@ -26,7 +26,7 @@ class OptionWidgetProperty {
         spacingHWidth: defalutspace,
         spacingVWidth: defalutspace,
         minWidth: 100,
-        minWidthUnit: enumToString(WHOptin.sw));
+        minWidthUnit: WHOption.sw);
     TextWidgetProperty titlePr = TextWidgetProperty(paddingLeft: defalutspace, fontWeight: 700);
     TextWidgetProperty buttonPr = TextWidgetProperty(
         alignment: FBAlignment.CENTER,
@@ -35,9 +35,12 @@ class OptionWidgetProperty {
         borderColor: Color.fromRGBO(224, 224, 224, 1),
         minHeight: 50,
         minWidth: 100,
-        minWidthUnit: enumToString(WHOptin.sw));
+        minWidthUnit: WHOption.sw);
     TextWidgetProperty buttonSelectPr = buttonPr.copy();
     buttonSelectPr.borderColor = G.appBaseColor[0];
+    // buttonSelectPr.borderColorTop = G.appBaseColor[0];
+    // buttonSelectPr.borderColorRight = G.appBaseColor[0];
+    // buttonSelectPr.borderColorBottom = G.appBaseColor[0];
     OptionWidgetProperty me = OptionWidgetProperty(framPr:framPr, titlePr:titlePr, buttonPr:buttonPr, buttonSelectPr:buttonSelectPr );
     return me;
   }

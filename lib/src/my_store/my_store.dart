@@ -7,6 +7,7 @@ import 'package:mbook_flutter/src/comm/widgets/menu_title.dart';
 import 'package:mbook_flutter/src/my_store/MyGlobal.dart';
 import 'package:mbook_flutter/src/my_store/my_menu_list.dart';
 import 'package:mbook_flutter/src/my_store/my_options.dart';
+import 'package:mbook_flutter/src/my_store/my_base_template.dart';
 import 'package:mbook_flutter/src/my_store/my_store_edit.dart';
 
 import 'my_tags.dart';
@@ -43,6 +44,7 @@ class _MyStorePageState extends State<MyStorePage> {
         key: _scaffoldKey,
         appBar: AppBarView.appbar(
             title: S.of(context).mystore_title,
+           //titleIcon: Icons.store,
             canReturn: true,
             context: context),
         body: SingleChildScrollView(
@@ -94,6 +96,16 @@ class _MyStorePageState extends State<MyStorePage> {
                           MaterialPageRoute(
                               builder: (context) =>
                                   MyOptionsPage(MyGlobal.optionTempInfos)));
+                    }),
+                MenuTitle(
+                    icon: MaterialCommunityIcons.room_service_outline,
+                    title: "Base templates",
+                    doTop: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  MyBaseTemplatePage()));
                     },
                     isBottom: true),
               ],
