@@ -163,7 +163,7 @@ class _TextSettingWidget extends State<TextSettingWidget>
               ],
               property!.shadowColor),
           value: Text(
-              "${property!.minHeight.toInt()}${getUnitTitle(property!.minHeightUnit)}"),
+              "${property!.minHeight?.toInt()}${getUnitTitle(property!.minHeightUnit)}"),
         ),
       ]),
       SettingsGroup(

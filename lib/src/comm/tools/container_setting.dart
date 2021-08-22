@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 import 'package:mbook_flutter/src/comm/tools/color_picker.dart';
 import 'package:mbook_flutter/src/comm/tools/group.dart';
@@ -510,7 +509,7 @@ class _ContainerSettingPageState extends State<ContainerSettingPage>
                   });
             },
             value: Text(
-                "${widget.property?.minHeight.toInt() ?? ""}${getUnitTitle(widget.property!.minHeightUnit)}"),
+                "${widget.property?.minHeight?.toInt() ?? ""}${getUnitTitle(widget.property!.minHeightUnit)}"),
           ),
           SettingsItem(
             icon: Icon(Icons.arrow_downward_sharp),

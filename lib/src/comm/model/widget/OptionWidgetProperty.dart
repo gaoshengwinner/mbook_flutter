@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
 import 'package:mbook_flutter/src/comm/extension/extension_text_align.dart';
-import 'package:mbook_flutter/src/comm/global.dart';
+import 'package:mbook_flutter/src/comm/model/base_json_converter.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 import 'package:mbook_flutter/src/comm/tools/wh_picker.dart';
 

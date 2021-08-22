@@ -56,7 +56,7 @@ class WidgetBaseWidget extends StatelessWidget {
           //     image: NetworkImage("http://pic.qianye88.com/4kmeinv2989f765-5bdd-3cee-8482-574732cc2af2.jpg"), fit: BoxFit.fitWidth),
         ),
         constraints: BoxConstraints(
-          minHeight: property.getRealMinHeight(),
+          minHeight: property.getRealMinHeight() ?? 0.0,
           minWidth: property.getRealMinWidth() ?? 0.0,
           maxWidth: property.getRealMaxWidth() ?? double.infinity,
           maxHeight: property.getRealMaxHeight() ?? double.infinity,

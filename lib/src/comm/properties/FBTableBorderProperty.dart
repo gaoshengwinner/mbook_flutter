@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/rendering.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mbook_flutter/src/comm/properties/FBBorderSideProperty.dart';
 

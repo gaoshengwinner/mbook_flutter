@@ -5,23 +5,19 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:mbook_flutter/src/comm/appbar.dart';
 import 'package:mbook_flutter/src/comm/consts.dart';
-import 'package:mbook_flutter/src/comm/extension/extension_color.dart';
 import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/FBTableTempProperty.dart';
 import 'package:mbook_flutter/src/comm/properties/FBBoxDecorationProperty.dart';
 import 'package:mbook_flutter/src/comm/sp_db_share/daos/BaseTemplateDao.dart';
-import 'package:mbook_flutter/src/comm/sp_db_share/daos/base/AppDatabase.dart';
 import 'package:mbook_flutter/src/comm/sp_db_share/daos/base/DBManager.dart';
 import 'package:mbook_flutter/src/comm/sp_db_share/entities/BaseTemplate.dart';
 import 'package:mbook_flutter/src/comm/tools/container_setting.dart';
-import 'package:mbook_flutter/src/comm/tools/text_setting.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_alert_dialog.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_editable_table.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_footer.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_implicitly_animated_reorderable_list.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_input_box.dart';
 import 'package:mbook_flutter/src/comm/widgets/fb_title.dart';
-import 'package:mbook_flutter/src/comm/widgets/menu_title.dart';
 
 typedef EditBaseTemplateSaveFunction = void Function(BaseTemplate);
 
@@ -56,7 +52,7 @@ class _MyBaseTemplatePageState extends State<MyBaseTemplatePage> {
     }
   }
 
-  _deleteAllData() async{
+  _deleteAllData() async {
     BaseTemplateDao dao = await BaseTemplateDao.ins();
     try {
       await dao.deleteAllData();
@@ -65,6 +61,7 @@ class _MyBaseTemplatePageState extends State<MyBaseTemplatePage> {
       throw e;
     }
   }
+
   //
   // _save(BaseTemplate o) async {
   //   BaseTemplateDao dao = await BaseTemplateDao.ins();
@@ -134,25 +131,22 @@ class _MyBaseTemplatePageState extends State<MyBaseTemplatePage> {
                   ActionsParam(
                       kind: ActionsKind.delete,
                       actFuction: (int index) {
-
                         showDialog(
                             context: context,
                             barrierDismissible: true,
                             builder: (BuildContext context) {
-                              return
-                                FBAlertDialog(
-                                  onSave:(){
-                                    setState(() {
-                                      _delete(_baseTemps[index]);
-                                      _baseTemps.removeAt(index);
-                                    });
-                                  },
-                                  contentTitle:"Do you want to delete this item?",
-                                  title:"Confirm delete",);
+                              return FBAlertDialog(
+                                onSave: () {
+                                  setState(() {
+                                    _delete(_baseTemps[index]);
+                                    _baseTemps.removeAt(index);
+                                  });
+                                },
+                                contentTitle:
+                                    "Do you want to delete this item?",
+                                title: "Confirm delete",
+                              );
                             });
-
-
-
                       })
                 ],
                 needHandle: true,
@@ -233,6 +227,7 @@ class _BaseTemplateEditPageState extends State<BaseTemplateEditPage>
   //ItemOptionList _itemOptionList = ItemOptionList.forTemp();
 
   late TabController _tabController;
+  bool isDesign = false;
 
   void initState() {
     super.initState();
@@ -327,48 +322,70 @@ class _BaseTemplateEditPageState extends State<BaseTemplateEditPage>
                                 });
                               }),
                           Divider(),
-                          FBTitle(lableText: "Design", rightWidget:
-                          IconButton(icon: Icon(AntDesign.profile), onPressed: ()  {
-
-                            showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (context) {
-                              return ContainerSettingPage(
-                                kinds: [SettingKind.size, SettingKind.backgroundColor, SettingKind.border, SettingKind.borderRadius],
-                                  property: _baseTemplates[i].property.outSide,
-                                  data: "",
-                                  onChange: (value) {
-                                    setState(() {
-                                      _baseTemplates[i].property.outSide = value;
+                          FBTitle(
+                            lableText: "Design",
+                            rightWidget: IconButton(
+                              icon: Icon(AntDesign.profile),
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (context) {
+                                      return ContainerSettingPage(
+                                          kinds: [
+                                            SettingKind.size,
+                                            SettingKind.backgroundColor,
+                                            SettingKind.border,
+                                            SettingKind.borderRadius
+                                          ],
+                                          property: _baseTemplates[i]
+                                              .property
+                                              .outSide,
+                                          data: "",
+                                          onChange: (value) {
+                                            setState(() {
+                                              _baseTemplates[i]
+                                                  .property
+                                                  .outSide = value;
+                                            });
+                                          });
                                     });
-                                  });
-                            });
 
-                            // GlobalFun.showBottomSheetForTextPrperty(
-                            //     context,
-                            //     ContainerSettingPage(
-                            //         property: _baseTemplates[i].property.outSide,
-                            //         data: "",
-                            //         onChange: (value) {
-                            //           setState(() {
-                            //             _baseTemplates[i].property.outSide = value;
-                            //           });
-                            //         }),
-                            //     null);
-                          },),),
-                          Container(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.all(1),
-                            width: double.maxFinite,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.white, width: 1),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(3)),
+                                // GlobalFun.showBottomSheetForTextPrperty(
+                                //     context,
+                                //     ContainerSettingPage(
+                                //         property: _baseTemplates[i].property.outSide,
+                                //         data: "",
+                                //         onChange: (value) {
+                                //           setState(() {
+                                //             _baseTemplates[i].property.outSide = value;
+                                //           });
+                                //         }),
+                                //     null);
+                              },
                             ),
-                            child: FBEditableTable(
-                                property: _baseTemplates[i].property),
+                          ),
+                          GestureDetector(
+                            onDoubleTap: () {
+                              setState(() {
+                                this.isDesign = !this.isDesign;
+                              });
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.all(1),
+                              width: double.maxFinite,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border:
+                                    Border.all(color: Colors.white, width: 1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(3)),
+                              ),
+                              child: FBEditableTable(
+                                  isDesign: isDesign,
+                                  property: _baseTemplates[i].property),
+                            ),
                           ),
                           Footer(
                               footerParam: FooterParam()
@@ -379,21 +396,9 @@ class _BaseTemplateEditPageState extends State<BaseTemplateEditPage>
                                     color: Theme.of(context).primaryColor)
                                 ..onTap = () {
                                   setState(() {
-                                    _baseTemplate
-                                        .property.outSide.borderWidth = 1;
-                                    // _baseTemplate.property.outSideProperty.
-                                    _baseTemplates[i]
-                                        .property
-                                        .rowSet!
-                                        .add(
-                                            RowSet(
-                                                property:
-                                                    FBBoxDecorationProperty(),
-                                                cellSet: [
-                                              CellSet(),
-                                              CellSet(),
-                                              CellSet()
-                                            ]));
+                                    _baseTemplates[i].property.addNewRow();
+
+                                    //_baseTemplates[i].property
                                   });
                                 }),
                           //

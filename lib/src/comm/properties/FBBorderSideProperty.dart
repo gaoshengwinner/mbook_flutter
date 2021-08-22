@@ -3,10 +3,11 @@
 
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mbook_flutter/src/comm/model/base_json_converter.dart';
 
-import 'FBColorProperty.dart';
 
 part 'FBBorderSideProperty.g.dart';
 
@@ -14,12 +15,13 @@ part 'FBBorderSideProperty.g.dart';
 // root flutter packages pub run build_runner build watch
 
 @JsonSerializable()
+@CustomColorNullSafeConverter()
 class FBBorderSideProperty {
-  FBColorProperty? colorProperty;
+  Color? color = Colors.white;
   double? width;
   BorderStyle? style;
 
-  FBBorderSideProperty({this.colorProperty, this.width, this.style});
+  FBBorderSideProperty({this.color, this.width, this.style});
 
   Map<String, dynamic> toJson() => _$FBBorderSidePropertyToJson(this);
 
@@ -31,13 +33,16 @@ class FBBorderSideProperty {
       _$FBBorderSidePropertyFromJson(json);
 
   BorderSide toBorderSide() {
-    return BorderSide(
-        color: colorProperty?.toColor() ?? const Color(0xFF000000),
-        width: width ?? 1.0,
-        style: style ?? BorderStyle.none);
+    return width == null || width == null
+        ? BorderSide.none
+        : BorderSide(
+            color: color ?? const Color(0xFF000000),
+            width: width!,
+            style: style ?? BorderStyle.solid);
   }
 
   String getJsonString() {
     return jsonEncode(this.toJson());
   }
 }
+

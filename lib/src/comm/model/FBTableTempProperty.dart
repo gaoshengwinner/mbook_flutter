@@ -1,7 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mbook_flutter/src/comm/extension/extension_color.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
 import 'package:mbook_flutter/src/comm/properties/FBBorderSideProperty.dart';
 import 'package:mbook_flutter/src/comm/properties/FBBoxDecorationProperty.dart';
@@ -21,11 +22,12 @@ class FBTableTempProperty {
   String? desc;
 
   TextWidgetProperty outSide;
-  FBTableProperty? property;
+  FBTableProperty? outSideTble;
 
   List<RowSet>? rowSet;
 
-  FBTableTempProperty({this.desc, required this.outSide, this.property, this.rowSet});
+  FBTableTempProperty(
+      {this.desc, required this.outSide, this.outSideTble, this.rowSet});
 
   factory FBTableTempProperty.fromJson(Map<String, dynamic> json) =>
       _$FBTableTempPropertyFromJson(json);
@@ -38,6 +40,24 @@ class FBTableTempProperty {
 
   String getJsonString() {
     return jsonEncode(this.toJson());
+  }
+
+  void addNewRow() {
+    if (rowSet == null) {
+      rowSet = [];
+    }
+    rowSet!.add(RowSet(property: FBBoxDecorationProperty(), cellSet: [
+      for (int i = 0; i < 3; i++)
+        CellSet(
+            property: FBTableCellProperty(
+                width: 33, verticalAlignment: TableCellVerticalAlignment.top),
+            fbWidget: [
+              FBWidget(
+                  type: FBWidegetType.text,
+                  property: TextWidgetProperty(backColor: i == 1 ? Colors.red : Colors.green),
+                  value: "1")
+            ]),
+    ]));
   }
 }
 
@@ -93,10 +113,10 @@ class RowSet {
 
 @JsonSerializable()
 class CellSet {
-  FBTableCellProperty? property;
-  List<FBWidget>? fbWidget;
+  FBTableCellProperty property;
+  List<FBWidget> fbWidget;
 
-  CellSet({this.property, this.fbWidget});
+  CellSet({required this.property, required this.fbWidget});
 
   factory CellSet.fromJson(Map<String, dynamic> json) =>
       _$CellSetFromJson(json);
@@ -110,11 +130,12 @@ class CellSet {
 
 @JsonSerializable()
 class FBWidget {
-  FBWidegetType? type = FBWidegetType.text;
+  FBWidegetType type = FBWidegetType.text;
+  TextWidgetProperty property;
 
   String? value = "TODO";
 
-  FBWidget({this.type, this.value});
+  FBWidget({required this.type, this.value, required this.property});
 
   factory FBWidget.fromJson(Map<String, dynamic> json) =>
       _$FBWidgetFromJson(json);

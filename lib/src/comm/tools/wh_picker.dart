@@ -2,7 +2,6 @@ import 'package:custom_radio_grouped_button/CustomButtons/ButtonTextStyle.dart';
 import 'package:custom_radio_grouped_button/CustomButtons/CustomRadioButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/model/ListHelper.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -85,7 +84,7 @@ class _WHPickerPageState extends State<WHPickerPage>
                   onPressed: () {
                     this.widget.onSelectedItemChanged(
                         _oldInitialItem.toDouble(),
-                        enumToString(_oldSelectedUtil),
+                        _oldSelectedUtil,
                         getUnitTitle(_oldSelectedUtil));
                     Navigator.pop(context);
                   },
@@ -128,7 +127,7 @@ class _WHPickerPageState extends State<WHPickerPage>
 
                     this.widget.onSelectedItemChanged(
                         _changeValue,
-                        enumToString(this.widget.selectedUtil),
+                        this.widget.selectedUtil,
                         getUnitTitle(this.widget.selectedUtil));
                   });
                 },
@@ -172,7 +171,7 @@ class _WHPickerPageState extends State<WHPickerPage>
                     _changeValue = value;
                     this.widget.onSelectedItemChanged(
                         value,
-                        enumToString(this.widget.selectedUtil),
+                        this.widget.selectedUtil,
                         this.widget.selectedUtil == WHOption.px
                             ? " px "
                             : this.widget.selectedUtil == WHOption.sw

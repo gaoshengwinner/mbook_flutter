@@ -1,7 +1,10 @@
 import 'package:floor/floor.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:mbook_flutter/src/comm/model/FBTableTempProperty.dart';
-import 'package:mbook_flutter/src/comm/model/OptionGroupInfo.dart';
 import 'package:mbook_flutter/src/comm/model/widget/TextWidgetProperty.dart';
+import 'package:mbook_flutter/src/comm/properties/FBBorderSideProperty.dart';
+import 'package:mbook_flutter/src/comm/properties/FBTableBorderProperty.dart';
+import 'package:mbook_flutter/src/comm/properties/FBTableProperty.dart';
 import 'package:mbook_flutter/src/comm/tools/wh_picker.dart';
 
 @entity
@@ -26,7 +29,14 @@ class BaseTemplate {
     return BaseTemplate()
       .._property = FBTableTempProperty(
           outSide: TextWidgetProperty(
-              minHeight: 50, width: 100, widthUnit: WHOption.sw));
+              minHeight: 50, width: 100, widthUnit: WHOption.sw),
+          outSideTble: FBTableProperty(
+            border: FBTableBorderProperty(
+                verticalInside:
+                    FBBorderSideProperty(width: 1, style: BorderStyle.solid),
+                horizontalInside:
+                    FBBorderSideProperty(width: 1, style: BorderStyle.solid)),
+          ));
   }
 
   @ignore

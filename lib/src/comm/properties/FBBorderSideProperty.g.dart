@@ -8,10 +8,8 @@ part of 'FBBorderSideProperty.dart';
 
 FBBorderSideProperty _$FBBorderSidePropertyFromJson(Map<String, dynamic> json) {
   return FBBorderSideProperty(
-    colorProperty: json['colorProperty'] == null
-        ? null
-        : FBColorProperty.fromJson(
-            json['colorProperty'] as Map<String, dynamic>),
+    color:
+        const CustomColorNullSafeConverter().fromJson(json['color'] as String),
     width: (json['width'] as num?)?.toDouble(),
     style: _$enumDecodeNullable(_$BorderStyleEnumMap, json['style']),
   );
@@ -20,7 +18,7 @@ FBBorderSideProperty _$FBBorderSidePropertyFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$FBBorderSidePropertyToJson(
         FBBorderSideProperty instance) =>
     <String, dynamic>{
-      'colorProperty': instance.colorProperty,
+      'color': const CustomColorNullSafeConverter().toJson(instance.color),
       'width': instance.width,
       'style': _$BorderStyleEnumMap[instance.style],
     };

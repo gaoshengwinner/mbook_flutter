@@ -11,9 +11,9 @@ FBTableTempProperty _$FBTableTempPropertyFromJson(Map<String, dynamic> json) {
     desc: json['desc'] as String?,
     outSide:
         TextWidgetProperty.fromJson(json['outSide'] as Map<String, dynamic>),
-    property: json['property'] == null
+    outSideTble: json['outSideTble'] == null
         ? null
-        : FBTableProperty.fromJson(json['property'] as Map<String, dynamic>),
+        : FBTableProperty.fromJson(json['outSideTble'] as Map<String, dynamic>),
     rowSet: (json['rowSet'] as List<dynamic>?)
         ?.map((e) => RowSet.fromJson(e as Map<String, dynamic>))
         .toList(),
@@ -25,7 +25,7 @@ Map<String, dynamic> _$FBTableTempPropertyToJson(
     <String, dynamic>{
       'desc': instance.desc,
       'outSide': instance.outSide,
-      'property': instance.property,
+      'outSideTble': instance.outSideTble,
       'rowSet': instance.rowSet,
     };
 
@@ -91,12 +91,10 @@ Map<String, dynamic> _$RowSetToJson(RowSet instance) => <String, dynamic>{
 
 CellSet _$CellSetFromJson(Map<String, dynamic> json) {
   return CellSet(
-    property: json['property'] == null
-        ? null
-        : FBTableCellProperty.fromJson(
-            json['property'] as Map<String, dynamic>),
-    fbWidget: (json['fbWidget'] as List<dynamic>?)
-        ?.map((e) => FBWidget.fromJson(e as Map<String, dynamic>))
+    property:
+        FBTableCellProperty.fromJson(json['property'] as Map<String, dynamic>),
+    fbWidget: (json['fbWidget'] as List<dynamic>)
+        .map((e) => FBWidget.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }
@@ -108,13 +106,16 @@ Map<String, dynamic> _$CellSetToJson(CellSet instance) => <String, dynamic>{
 
 FBWidget _$FBWidgetFromJson(Map<String, dynamic> json) {
   return FBWidget(
-    type: _$enumDecodeNullable(_$FBWidegetTypeEnumMap, json['type']),
+    type: _$enumDecode(_$FBWidegetTypeEnumMap, json['type']),
     value: json['value'] as String?,
+    property:
+        TextWidgetProperty.fromJson(json['property'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$FBWidgetToJson(FBWidget instance) => <String, dynamic>{
       'type': _$FBWidegetTypeEnumMap[instance.type],
+      'property': instance.property,
       'value': instance.value,
     };
 
@@ -142,17 +143,6 @@ K _$enumDecode<K, V>(
       return MapEntry(unknownValue, enumValues.values.first);
     },
   ).key;
-}
-
-K? _$enumDecodeNullable<K, V>(
-  Map<K, V> enumValues,
-  dynamic source, {
-  K? unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$FBWidegetTypeEnumMap = {

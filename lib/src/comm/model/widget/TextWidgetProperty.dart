@@ -4,13 +4,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mbook_flutter/src/comm/extension/extension_text_align.dart';
-import 'package:mbook_flutter/src/comm/global.dart';
 import 'package:mbook_flutter/src/comm/tools/wh_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-part 'TextWidgetProperty.g.dart';
+import '../base_json_converter.dart';
 
-const String unitPX = "px";
+part 'TextWidgetProperty.g.dart';
 
 @JsonSerializable()
 @CustomColorConverter()
@@ -52,7 +51,7 @@ class TextWidgetProperty {
   WHOption? heightUnit = WHOption.px;
   double? minWidth = 0;
   WHOption? minWidthUnit = WHOption.px;
-  double minHeight = 0;
+  double? minHeight = 0;
   WHOption? minHeightUnit = WHOption.px;
   WHOption? maxHeightUnit = WHOption.px;
   double? maxWidth = 0;
@@ -154,14 +153,14 @@ class TextWidgetProperty {
                 : this.height! * 0.01 * 1.sh;
   }
 
-  double getRealMinHeight() {
-    return this.minHeight <= 0
+  double? getRealMinHeight() {
+    return this.minHeight == null || this.minHeight! <= 0
         ? 0
         : this.minHeightUnit == WHOption.px
             ? this.minHeight
             : this.minHeightUnit == WHOption.sw
-                ? this.minHeight * 0.01 * 1.sw
-                : this.minHeight * 0.01 * 1.sh;
+                ? this.minHeight! * 0.01 * 1.sw
+                : this.minHeight! * 0.01 * 1.sh;
   }
 
   double? getRealMaxWidth() {
@@ -196,31 +195,4 @@ class TextWidgetProperty {
   }
 
   Map<String, dynamic> toJson() => _$TextWidgetPropertyToJson(this);
-}
-
-class CustomColorConverter implements JsonConverter<Color, String> {
-  const CustomColorConverter();
-
-  @override
-  Color fromJson(String json) {
-    if (json.isEmpty) {
-      return Colors.white;
-    }
-    List<String> values = json.split(";");
-    Map<String, String> map = Map();
-    for (String s in values) {
-      if ("" != s) {
-        List<String> sv = s.split("=");
-        map[sv[0]] = sv[1];
-      }
-    }
-
-    return Color.fromRGBO(int.parse(map["R"]!), int.parse(map["G"]!),
-        int.parse(map["B"]!), double.parse(map["O"]!));
-  }
-
-  @override
-  String toJson(Color json) {
-    return "R=${json.red};B=${json.blue};G=${json.green};O=${json.opacity};";
-  }
 }

@@ -38,7 +38,7 @@ TextWidgetProperty _$TextWidgetPropertyFromJson(Map<String, dynamic> json) {
     shadowSpreadRadius: (json['shadowSpreadRadius'] as num).toDouble(),
     minWidth: (json['minWidth'] as num?)?.toDouble(),
     minWidthUnit: _$enumDecodeNullable(_$WHOptionEnumMap, json['minWidthUnit']),
-    minHeight: (json['minHeight'] as num).toDouble(),
+    minHeight: (json['minHeight'] as num?)?.toDouble(),
     minHeightUnit:
         _$enumDecodeNullable(_$WHOptionEnumMap, json['minHeightUnit']),
     maxWidth: (json['maxWidth'] as num?)?.toDouble(),

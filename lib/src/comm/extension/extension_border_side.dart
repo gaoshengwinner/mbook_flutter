@@ -1,6 +1,5 @@
 import 'package:flutter/painting.dart';
 import 'package:mbook_flutter/src/comm/properties/FBBorderSideProperty.dart';
-import 'package:mbook_flutter/src/comm/properties/FBColorProperty.dart';
 
 class FBBorderSide extends BorderSide {
   FBBorderSide({Color? color, double? width, BorderStyle? style})
@@ -11,7 +10,7 @@ class FBBorderSide extends BorderSide {
 
   factory FBBorderSide.fromProperty({FBBorderSideProperty? property}) {
     return FBBorderSide(
-        color: property?.colorProperty?.toColor(),
+        color: property?.color,
         width: property?.width,
         style: property?.style);
   }
